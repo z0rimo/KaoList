@@ -3,19 +3,6 @@
 @import "font.scss";
 @import "table.scss";
 
-$item-color: $color-white;
-$header-background-color: $color-tradewind;
-$footer-background-color: $color-grotesque-green;
-$main-content-background-color: $color-green-cyan;
-
-$header-height: 40px;
-$footer-height: 150px;
-$searchbar-height: 50px;
-$searchbar-width: 630px;
-$searchbar-img-size: 33px;
-$searchbar-img-width: $searchbar-img-size;
-$searchbar-img-height: $searchbar-img-size;
-
 * {
     font-family: 'Roboto', sans-serif;
     font-style: normal;
