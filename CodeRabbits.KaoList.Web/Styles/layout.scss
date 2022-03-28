@@ -1,0 +1,111 @@
+﻿@import "site.scss";
+
+$header-background-color: $color-tradewind;
+$footer-background-color: $color-grotesque-green;
+$main-content-background-color: $color-green-cyan;
+
+$header-height: 40px;
+$footer-height: 150px;
+
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: $header-height;
+    background-color: $header-background-color;
+
+    * {
+        color: $color-white;
+    }
+
+    .container {
+        width: 56.25vw;
+        height: $header-height;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .left-side {
+            width: 270px;
+            height: inherit;
+            justify-content: space-between;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            width: 52px;
+            height: inherit;
+
+            img {
+                height: inherit;
+                width: inherit;
+            }
+        }
+
+        nav {
+            display: flex;
+            width: 160px;
+            height: inherit;
+            justify-content: space-between;
+
+            .nav-item {
+                height: 100%;
+                display: flex;
+                align-items: center;
+            }
+
+            .nav-item.active {
+                border-top: 4px solid transparent;
+                border-bottom: 4px solid $color-white;
+                font-weight: bold;
+            }
+        }
+
+        .navbar-nav {
+            width: 125px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        > div {
+            display: flex;
+            align-items: center;
+        }
+    }
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $footer-background-color;
+    height: $footer-height;
+
+    * {
+        color: $color-white;
+    }
+
+    .container {
+        width: 56.25vw;
+        padding-bottom: 51px;
+
+        .footer-link {
+            width: 188px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+
+            .link-item {
+                height: inherit;
+                padding-bottom: 6px;
+            }
+        }
+
+        .info {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+}

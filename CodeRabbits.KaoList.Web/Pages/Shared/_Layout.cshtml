@@ -1,50 +1,59 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - CodeRabbits.KaoList.Web</title>
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/css/layout.css" asp-append-version="true" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">CodeRabbits.KaoList.Web</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                    <partial name="_LoginPartial" />
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2022 - CodeRabbits.KaoList.Web - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            <div class="left-side">
+                <a class="nav-logo" asp-area="" asp-page="/">
+                    <img src="~/svg/logo.svg" alt="nav header-logo" />
+                </a>
+                <nav>
+                    <div class="nav-item active">
+                        <a asp-action="Index">홈</a>
+                    </div>
+                    <div class="nav-item">
+                        <a asp-action="Chart">차트</a>
+                    </div>
+                    <div class="nav-item">
+                        <a asp-controller="Community">커뮤니티</a>
+                    </div>
+                </nav>
+            </div>
+            <partial name="_LoginPartial" />
+        </div>
+    </header>
+    @RenderBody()
+    <footer>
+        <div class="container">
+            <ul class="footer-link">
+                <li class="link-item">
+                    <a asp-action="Terms">이용약관</a>
+                </li>
+                <li class="link-item">
+                    <a asp-action="Privacy">개인정보취급방침</a>
+                </li>
+            </ul>
+            <div class="info">
+                <p>&copy; 2022 KaoList based on TJ media, KY Karaoke</p>
+                <ul class="sns">
+                    <li class="sns-item">
+                        <a target="_blank" href="https://twitter.com/twitter" rel="noreferrer">
+                            <img src="~/svg/twitter.svg" alt="nav kaolist-twitter" />
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </footer>
-
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
