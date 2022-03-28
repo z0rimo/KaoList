@@ -1,0 +1,32 @@
+﻿@import "color.scss";
+
+.button-lg{
+    width:70px;
+    height:36px;
+}
+
+.button-md{
+    width:60px;
+    height:36px;
+}
+
+.button-sm{
+    width:39px;
+    height:24px;
+}
+
+.gray77-button{
+    background-color:$color-gray77;
+}
+
+.tradewind-button {
+    background-color: $color-tradewind;
+}
+
+.grotesque-green-button {
+    background-color: $color-grotesque-green
+}
+
+.gray90-button{
+    background-color:$color-gray90;
+}

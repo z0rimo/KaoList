@@ -1,0 +1,21 @@
+﻿$h1: 20px;
+$h2: 18px;
+
+$font-s1: 17px;
+$font-s2: 16px;
+$font-s3: 15px;
+$font-s4: 14px;
+$font-s5: 13px;
+$font-s6: 12px;
+
+h1 {
+    font-size: $h1;
+}
+
+h2 {
+    font-size: $h2;
+}
+
+p, label, a, li, ol, td, th, span, div, body, footer, header {
+    font-size: $font-s3
+}

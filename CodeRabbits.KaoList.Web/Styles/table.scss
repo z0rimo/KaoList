@@ -1,0 +1,44 @@
+﻿@import "color.scss";
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    padding-left: 32px;
+    text-align: center;
+
+    tr {
+        td, th{
+            &:first-child {
+                border-left: none;
+            }
+
+            &:last-child {
+                border-right: none;
+            }
+        }
+    }
+}
+
+.table-gray {
+    th {
+        background-color: $color-gray59;
+
+        &:nth-child(2n) {
+            background-color: $color-gray67;
+        }
+
+        &:nth-child(2n+1) {
+            background-color: $color-gray77;
+        }
+    }
+}
+
+.table-white {    
+    th, td {        
+        border: 1px solid $color-gray51;
+    }
+}
+
+.table-radius-4 {
+    border-radius: 4px 4px 0px 0px;
+}
