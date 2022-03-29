@@ -8,6 +8,7 @@ $color-gray67: #aaaaaa;
 $color-gray77: #C4C4C4;
 $color-gray90: #E5E5E5;
 $color-tradewind: #6BB9A4;
+$color-turkishorse: #B96B80;
 $color-grotesque-green: #58E28B;
 $color-green-cyan: #BEFAD7;
 
@@ -59,6 +60,11 @@ $color-green-cyan: #BEFAD7;
 .tradewind {
     color: $color-tradewind;
     fill: $color-tradewind;
+}
+
+.turkishrose {
+    color: $color-turkishorse;
+    fill: $color-turkishorse;
 }
 
 .grotesque-green {
