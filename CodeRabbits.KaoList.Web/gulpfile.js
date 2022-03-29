@@ -21,7 +21,7 @@ var paths = {
 };
 
 gulp.task('sass',
-  () => gulp.src('Styles/*.s[a|c]ss')
+  () => gulp.src('Styles/**/*.s[a|c]ss')
     .pipe(sass({
       sourceMap: false
     }))
