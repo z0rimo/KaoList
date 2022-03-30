@@ -109,3 +109,9 @@ footer {
         }
     }
 }
+
+.main-area {
+    min-height: calc(100vh - $header-height - $footer-height);
+    background-color: $color-green-cyan;
+    color: $color-gray20;
+}
