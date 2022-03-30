@@ -22,7 +22,9 @@ table {
 .table-gray {
     th {
         background-color: $color-gray59;
+    }
 
+    tr {
         &:nth-child(2n) {
             background-color: $color-gray67;
         }
