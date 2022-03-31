@@ -6,6 +6,8 @@ $main-content-background-color: $color-green-cyan;
 
 $header-height: 40px;
 $footer-height: 150px;
+$header-min-width: 1080px;
+$footer-min-width: 1080px;
 
 header {
     display: flex;
@@ -13,6 +15,7 @@ header {
     align-items: center;
     height: $header-height;
     background-color: $header-background-color;
+    min-width: $header-min-width;
 
     * {
         color: $color-white;
@@ -81,6 +84,7 @@ footer {
     align-items: center;
     background-color: $footer-background-color;
     height: $footer-height;
+    min-width: $footer-min-width;
 
     * {
         color: $color-white;
@@ -114,4 +118,6 @@ footer {
     min-height: calc(100vh - $header-height - $footer-height);
     background-color: $color-green-cyan;
     color: $color-gray20;
+    display: flex;
+    justify-content: center;
 }
