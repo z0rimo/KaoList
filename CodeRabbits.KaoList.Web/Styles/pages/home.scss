@@ -1,0 +1,84 @@
+﻿@import "../layout.scss";
+
+$chart-width: 500px;
+$chart-height: 40px;
+$main-chart-content-width: $header-min-width;
+$main-chart-content-height: 530px;
+
+.main-area {
+    .main-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: $main-chart-content-width;
+        margin-top: 65px;
+
+        .main-chart-content {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            background-color: $color-white;
+            margin: 0 auto;
+            width: inherit;
+            height: $main-chart-content-height;
+            box-shadow: 0px 1px 2px 0px $color-gray;
+            margin-top: 61px;
+            margin-bottom: 70px;
+
+            .chart-update {
+                width: $chart-width;
+                height: $chart-height;
+
+                th, td {
+                    &:nth-child(1) {
+                        width: 51.2%;
+                    }
+
+                    &:nth-child(2) {
+                        width: 25.2%;
+                    }
+
+                    &:nth-child(3), &:nth-child(4) {
+                        width: 11.8%;
+                    }
+                }
+            }
+
+            .chart-popular {
+                width: $chart-width;
+                height: $chart-height;
+
+                th, td {
+                    &:nth-child(1) {
+                        width: 7.5%;
+                    }
+
+                    &:nth-child(2) {
+                        width: 3.8%;
+                    }
+
+                    &:nth-child(3) {
+                        width: 47.7%;
+                    }
+
+                    &:nth-child(4) {
+                        width: 17.4%;
+                    }
+
+                    &:nth-child(5), &:nth-child(6) {
+                        width: 11.8%;
+                    }
+                }
+            }
+        }
+
+        .more-chart {
+            display: flex;
+            justify-content: right;
+            color: $color-gray20;
+            font-size: $font-s5;
+            font-weight: bold;
+        }
+    }
+}
