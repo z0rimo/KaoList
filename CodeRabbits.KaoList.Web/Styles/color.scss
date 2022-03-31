@@ -11,10 +11,16 @@ $color-tradewind: #6BB9A4;
 $color-turkishorse: #B96B80;
 $color-grotesque-green: #58E28B;
 $color-green-cyan: #BEFAD7;
+$color-mostly-white: #F8F8F8;
 
 .white {
     color: $color-white;
     fill: $color-white;
+}
+
+.mostly-white {
+    color: $color-mostly-white;
+    fill: $color-mostly-white;
 }
 
 .black {
