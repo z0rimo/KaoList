@@ -12,6 +12,7 @@ $color-turkishorse: #B96B80;
 $color-grotesque-green: #58E28B;
 $color-green-cyan: #BEFAD7;
 $color-mostly-white: #F8F8F8;
+$color-very-light-gray: #D9D9D9;
 
 .white {
     color: $color-white;
@@ -61,6 +62,11 @@ $color-mostly-white: #F8F8F8;
 .gray90 {
     color: $color-gray90;
     fill: $color-gray90;
+}
+
+.very-light-gray {
+    color: $color-very-light-gray;
+    fill: $color-very-light-gray;
 }
 
 .tradewind {
