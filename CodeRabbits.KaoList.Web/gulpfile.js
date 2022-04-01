@@ -52,9 +52,6 @@ gulp.task('watch', () => {
         () => gulp.watch("Scripts/**/*.[js|ts]", gulp.series(["min:script"])));
 
     gulp.watch("Styles/**/*.s[a|c]ss", gulp.series(["sass", "min:css"]));
-
-    getBundles(regex.css).forEach(
-        bundle => gulp.watch(bundle.inputFiles, gulp.series(["min:css"])));
 });
 
 const getBundles = regexPattern =>
