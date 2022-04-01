@@ -5,6 +5,12 @@ $chart-height: 40px;
 $main-chart-content-width: $header-min-width;
 $main-chart-content-height: 530px;
 
+$searchbar-height: 50px;
+$searchbar-width: 630px;
+$search-icon-width: 34px;
+$search-icon-height: 33px;
+$main-searchbar-input-padding-right: 14px;
+
 .main-area {
     .main-container {
         display: flex;
@@ -13,6 +19,26 @@ $main-chart-content-height: 530px;
         flex-direction: column;
         width: $main-chart-content-width;
         margin-top: 65px;
+
+        .main-searchbar {
+            align-items: center;
+            width: $searchbar-width;
+            margin-top: 17px;
+            box-shadow: 0px 1px 2px 0px $color-gray;
+
+            input {
+                width: $searchbar-width - $search-icon-width - $main-searchbar-input-padding-right;
+                font-size: 14px;
+                padding: 17px 14px 17px $main-searchbar-input-padding-right;
+            }
+
+            .search-icon {
+                background-color: $color-white;
+                width: $search-icon-width;
+                height: $search-icon-height;
+                background-image: url("/svg/searchIcon.svg");
+            }
+        }
 
         .main-chart-content {
             display: flex;
