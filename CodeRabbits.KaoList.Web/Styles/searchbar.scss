@@ -14,5 +14,7 @@
     .icon {
         border: 0;
         background-size: cover;
+        background-color: $color-white;
+        background-image: url('/svg/searchIcon.svg?fill=' + str-slice("#{$color-green-cyan}", 2));
     }
 }
