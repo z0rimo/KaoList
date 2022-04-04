@@ -17,15 +17,31 @@ namespace CodeRabbits.KaoList.Web.Controllers.Api
             "stroke"
         };
 
-        private string SvgPath { init; get; }
+        private readonly Uri _baseUri;
+
         public SvgController(IConfiguration configuration)
         {
-            SvgPath = configuration["SvgFilePath"];
+            var svgPath = configuration["SvgFilePath"] ?? throw new NullReferenceException("SvgFilePath not set.");
+            if (!Path.EndsInDirectorySeparator(svgPath))
+            {
+                svgPath += Path.DirectorySeparatorChar;
+            }
+            _baseUri = new Uri(Path.GetFullPath(svgPath));
         }
 
         public async Task<IActionResult> Index(string id)
         {
-            var path = $@"{SvgPath}\{id}";
+            if (!Uri.TryCreate(_baseUri, id, out Uri? svgPathUri))
+            {
+                return NotFound();
+            }
+
+            if (!_baseUri.IsBaseOf(svgPathUri))
+            {
+                return NotFound();
+            }
+
+            var path = svgPathUri.LocalPath;
             if (!System.IO.File.Exists(path))
             {
                 return NotFound();

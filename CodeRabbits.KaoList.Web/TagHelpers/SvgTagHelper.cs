@@ -8,12 +8,17 @@ namespace CodeRabbits.KaoList.Web.TagHelpers
     [HtmlTargetElement("svg", Attributes = nameof(Src))]
     public class SvgTagHelper : TagHelper
     {
-        private readonly IConfiguration _configuration;
+        private readonly Uri _baseUri;
         public string? Src { get; set; }
 
         public SvgTagHelper(IConfiguration configuration)
         {
-            _configuration = configuration;
+            var svgPath = configuration["SvgFilePath"] ?? throw new NullReferenceException("SvgFilePath not set.");
+            if (!Path.EndsInDirectorySeparator(svgPath))
+            {
+                svgPath += Path.DirectorySeparatorChar;
+            }
+            _baseUri = new Uri(Path.GetFullPath(svgPath));            
         }
 
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
@@ -24,9 +29,20 @@ namespace CodeRabbits.KaoList.Web.TagHelpers
                 return;
             }
 
-            var svgPath = _configuration["SvgFilePath"] ?? throw new NullReferenceException("SvgFilePath not set.");
-            var filePath = Src.Substring(1);
-            var path = $@"{svgPath}\{filePath}";
+            var filePath = Src[2..];
+            if (!Uri.TryCreate(_baseUri, filePath, out Uri? svgPathUri))
+            {
+                output.SuppressOutput();
+                return;
+            }
+
+            if (!_baseUri.IsBaseOf(svgPathUri))
+            {
+                output.SuppressOutput();
+                return;
+            }
+
+            var path = svgPathUri.LocalPath;
             if (!File.Exists(path))
             {
                 return;
