@@ -25,6 +25,10 @@
     height: 26px;
 }
 
+.mostly-white-button {
+    background-color: $color-mostly-white;
+}
+
 .very-light-gray-button {
     background-color: $color-very-light-gray;
 }
@@ -47,4 +51,8 @@
 
 .grotesque-green-button {
     background-color: $color-grotesque-green;
+}
+
+.button-radius-1 {
+    border-radius: 1px;
 }
