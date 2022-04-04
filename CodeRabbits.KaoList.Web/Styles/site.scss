@@ -30,14 +30,6 @@ p {
 
 a {
     text-decoration: none;
-
-    &:hover {
-        color: aqua;
-    }
-
-    &:focus {
-        background-color: bisque;
-    }
 }
 
 button {
