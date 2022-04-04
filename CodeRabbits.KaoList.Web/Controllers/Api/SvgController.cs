@@ -17,27 +17,27 @@ namespace CodeRabbits.KaoList.Web.Controllers.Api
             "stroke"
         };
 
-        private string _svgPath { init; get; }
+        private string SvgPath { init; get; }
         public SvgController(IConfiguration configuration)
         {
-            _svgPath = configuration["SvgFilePath"];
+            SvgPath = configuration["SvgFilePath"];
         }
 
         public async Task<IActionResult> Index(string id)
         {
-            var path = $@"{_svgPath}\{id}";
+            var path = $@"{SvgPath}\{id}";
             if (!System.IO.File.Exists(path))
             {
                 return NotFound();
             }
 
-            XDocument svg = XDocument.Load($@"{_svgPath}\{id}");
+            XDocument svg = XDocument.Load(path);
             XElement? svgElement = svg.Root;
             if (svgElement != null)
             {
                 foreach (var query in Request.Query)
                 {
-                    if (colorTagSet.Contains(query.Key) && (query.Value.SingleOrDefault() is not null ? Regex.IsMatch(query.Value.Single(), "[a-f|A-F|0-9]{1,8}") : false))
+                    if (colorTagSet.Contains(query.Key) && query.Value.SingleOrDefault() is not null && Regex.IsMatch(query.Value.Single(), "[a-f|A-F|0-9]{1,8}"))
                     {
                         svgElement.SetAttributeValue(query.Key, '#' + query.Value);
                     }
