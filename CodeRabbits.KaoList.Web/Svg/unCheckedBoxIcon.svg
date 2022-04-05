@@ -1,3 +1,3 @@
-<svg width="18" height="18" viewBox="0 0 18 18" fill="transparent" xmlns="http://www.w3.org/2000/svg">
-    <rect x="0.15" y="0.15" width="17.7" height="17.7" rx="1.85" stroke="#C4C4C4" stroke-width="0.3"/>
+<svg width="18" height="18" stroke-width="0.3" viewBox="0 0 18 18" fill="transparent" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0.15" y="0.15" width="17.7" height="17.7" rx="1.85" stroke="#C4C4C4"  fill="none"/>
 </svg>
