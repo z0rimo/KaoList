@@ -1,0 +1,29 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+
+<nav>
+    <ul class="left-side">
+        <a class="nav-logo" asp-area="" asp-page="/">
+            <svg src="~/logoHeader.svg" fill="#FFFFFF" />
+        </a>
+        <li class="nav-item active">
+            <a asp-area="" asp-page="/">홈</a>
+        </li>
+        <li class="nav-item dropdown">
+            <a asp-area="" asp-page="Chart" class="dropbutton">차트</a>
+            <div class="dropdown-content">
+                <a asp-area="" asp-page="/Chart/NewChart">신곡차트</a>
+                <a asp-area="" asp-page="/Chart/PopularChart">인기차트</a>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a asp-controller="Community" asp-action="Index">커뮤니티</a>
+        </li>
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <li class="nav-item">
+                <a asp-area="Chart" asp-page="/Bookmark">북마크</a>
+            </li>
+        }
+    </ul>
+</nav>
