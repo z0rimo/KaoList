@@ -40,3 +40,27 @@ button {
         text-decoration-line: underline;
     }
 }
+
+.pagenum {
+    margin: 0 auto;
+
+    .active {
+        pointer-events: none;
+        cursor: default;
+        color: $color-tradewind;
+    }
+
+    .arrow {
+        content: url(/Svg/leftPageIcon.svg);
+    }
+
+    .arrow.right-arrow {
+        transform: rotate(180deg);
+    }
+
+    .arrow.disable {
+        content: url(/Svg/leftPageIcon.svg?fill=969696);
+        pointer-events: none;
+        cursor: default;
+    }
+}
