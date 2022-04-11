@@ -1,0 +1,26 @@
+﻿@model ChartIndexTableWithQueryModel
+
+@{
+    var totalCount = Model.Items.Count();
+    var lastPageIndex = (totalCount - 1) / Model.Count;
+    Model.Index = Math.Max(1, Math.Min(lastPageIndex + 1, Model.Index));
+    var cursor = Model.Index - 1;
+    var digit = cursor / 10 * 10;
+    var pageCount = Math.Max(Math.Min(10, (totalCount - (digit * Model.Count) - 1) / Model.Count + 1), 0);
+    var items = (totalCount - cursor * Model.Count) >= 0
+        ? Model.Items.Skip(cursor * Model.Count).Take(Model.Count)
+        : Array.Empty<ChartItemModel>();
+}
+
+<div class="chart-main-area">
+    <partial name="_ChartTablePartial" model=@items />
+    <div class="chart-pagenum-area">
+        <a asp-route-index=@(Model.Index - 10) asp-route-query=@Model.Query class="arrow @(Model.Index - 10 <= 0 ? "disable" : "")"></a>
+        @foreach (var item in Enumerable.Range(digit, pageCount))
+        {
+            <a asp-route-index=@(item + 1) class="@((item + 1) == Model.Index ? "active" : "")"
+           asp-route-query=@Model.Query>@(item + 1)</a>
+        }
+        <a asp-route-index=@(Model.Index + 10) asp-route-query=@Model.Query class="arrow right-arrow @(((Model.Index - 1) / 10 * 10) + 10 > lastPageIndex ? "disable" : "")"></a>
+    </div>
+</div>

@@ -1,0 +1,15 @@
+﻿@page "{index?}"
+@model CodeRabbits.KaoList.Web.Pages.Chart.PopularChartModel
+@{
+    Layout = "_Layout";
+}
+
+<div class="flex">
+    <partial name="_ChartExplainPartial" model=Model.ChartExplain/>
+    <div class="popular-button">
+        <a class="gray77-button">d</a>
+        <a class="gray77-button">w</a>
+        <a class="gray77-button">m</a>
+        <a class="gray77-button">A</a>
+    </div>
+</div>

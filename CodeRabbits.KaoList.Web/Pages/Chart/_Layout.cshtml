@@ -1,0 +1,14 @@
+﻿@model IChartLayoutModel
+@{
+    Layout = "../Shared/_Layout";
+}
+
+@section Styles{
+<link rel="stylesheet" href="~/css/pages/chart.css" asp-append-version="true" />
+}
+<div class="main-area">
+    <div class="chart-area">
+        @RenderBody()
+        <partial name="_ChartIndexTableWithQuery" model=Model.Chart />
+    </div>
+</div>
