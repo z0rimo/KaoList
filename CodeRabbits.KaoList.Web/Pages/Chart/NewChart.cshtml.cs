@@ -4,10 +4,10 @@ namespace CodeRabbits.KaoList.Web.Pages.Chart
 {
     public class NewChartModel : ChartPage
     {
-        public ChartExplainModel? ChartExplain { get; set; } 
+        public ChartExplainModel? ChartExplain { get; set; }
         public NewChartModel(IConfiguration configuration) : base(configuration)
         {
-            PageName = "신곡차트";            
+            PageName = "신곡차트";
         }
 
         public override void OnGet(int? index)
@@ -21,7 +21,7 @@ namespace CodeRabbits.KaoList.Web.Pages.Chart
         }
 
         protected override IEnumerable<ChartItemModel> GetCharts(string? query)
-        {            
+        {
             var i = 1;
             return Enumerable.Repeat(_dummyItem, 201)
                              .Select(item => new ChartItemModel

@@ -1,6 +1,4 @@
 using CodeRabbits.KaoList.Web.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace CodeRabbits.KaoList.Web.Pages.Chart
 {
@@ -8,7 +6,7 @@ namespace CodeRabbits.KaoList.Web.Pages.Chart
     {
         public BookmarkModel(IConfiguration configuration) : base(configuration)
         {
-            PageName = "�ϸ�ũ";
+            PageName = "북마크";
         }
 
         protected override IEnumerable<ChartItemModel> GetCharts(string? query)

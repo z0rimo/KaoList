@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Razor.TagHelpers;
-using System.Text.Encodings.Web;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -18,7 +17,7 @@ namespace CodeRabbits.KaoList.Web.TagHelpers
             {
                 svgPath += Path.DirectorySeparatorChar;
             }
-            _baseUri = new Uri(Path.GetFullPath(svgPath));            
+            _baseUri = new Uri(Path.GetFullPath(svgPath));
         }
 
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
