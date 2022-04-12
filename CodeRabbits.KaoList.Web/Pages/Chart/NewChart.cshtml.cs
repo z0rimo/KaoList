@@ -1,9 +1,6 @@
 using CodeRabbits.KaoList.Web.Models;
-using CodeRabbits.KaoList.Web.Pages;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace CodeRabbits.KaoList.Web.Pages
+namespace CodeRabbits.KaoList.Web.Pages.Chart
 {
     public class NewChartModel : ChartPage
     {

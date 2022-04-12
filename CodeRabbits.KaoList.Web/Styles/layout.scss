@@ -1,13 +1,8 @@
-﻿@import "site.scss";
+﻿@import "_all.scss";
 
 $header-background-color: $color-tradewind;
 $footer-background-color: $color-grotesque-green;
 $main-content-background-color: $color-green-cyan;
-
-$header-height: 40px;
-$footer-height: 150px;
-$header-min-width: 1080px;
-$footer-min-width: 1080px;
 
 .dropdown {
     position: sticky;

@@ -10,7 +10,7 @@ namespace CodeRabbits.KaoList.Web.Pages.Chart
     {
         public PopularChartModel(IConfiguration configuration) : base(configuration)
         {
-            PageName = "ÀÎ±âÂ÷Æ®";
+            PageName = "ì¸ê¸°ì°¨íŠ¸";
         }
         public ChartExplainModel? ChartExplain { get; set; }
 

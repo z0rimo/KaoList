@@ -5,14 +5,19 @@
 }
 
 @section Styles{
-<link rel="stylesheet" href="/css/pages/home.css" asp-append-version="true" />
+<environment include="Development">
+    <link rel="stylesheet" href="/css/pages/home.css" asp-append-version="true" />
+</environment>
+<environment exclude="Development">
+    <link rel="stylesheet" href="/css/pages/home.min.css" />
+</environment>
 }
 
 <div class="main-area">
     <div class="main-container">
         <div class="main-group">
             <a class="logo" asp-area="" asp-page="/">
-                <svg src="~/logo.svg" fill="#FFFFFF"/>
+                <svg src="~/logo.svg" fill="#FFFFFF" />
             </a>
             <form class="searchbar main-searchbar" asp-controller="Song" asp-action="Index" method="get">
                 <input type="text" name="query" value="@ViewBag.query">
