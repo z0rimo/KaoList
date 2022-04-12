@@ -1,5 +1,4 @@
-﻿@import "../color.scss";
-@import "../font.scss";
+﻿@import "../layout.scss";
 
 $chart-index-active-color: $color-tradewind;
 
@@ -82,9 +81,6 @@ $chart-index-active-color: $color-tradewind;
         }
     }
 
-
-
-
     .chart-table {
         font-size: $h1;
 
@@ -120,10 +116,10 @@ $chart-index-active-color: $color-tradewind;
 
         td:nth-child(1) {
             p {
-                position: absolute; 
+                position: absolute;
                 left: 11px;
                 top: 45%;
-                margin:0;
+                margin: 0;
                 padding: 0;
             }
         }
@@ -139,7 +135,6 @@ $chart-index-active-color: $color-tradewind;
         padding-bottom: 76px;
         display: flex;
         justify-content: space-between;
-        margin: 0 auto;
 
         a {
             font-weight: 700;
@@ -147,25 +142,8 @@ $chart-index-active-color: $color-tradewind;
             color: black;
         }
 
-        .active {
-            color: $chart-index-active-color;
-            pointer-events: none;
-            cursor: default;
-        }
-
         .arrow {
             width: 10px;
-            content: url(/svg/leftPageIcon.svg);
-        }
-
-        .arrow.right-arrow {
-            transform: rotate(180deg);
-        }
-
-        .arrow.disable {
-            content: url(/svg/leftPageIcon.svg?fill=969696);
-            pointer-events: none;
-            cursor: default;
         }
     }
 }

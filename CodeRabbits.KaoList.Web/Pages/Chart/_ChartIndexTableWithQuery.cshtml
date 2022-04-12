@@ -14,7 +14,7 @@
 
 <div class="chart-main-area">
     <partial name="_ChartTablePartial" model=@items />
-    <div class="chart-pagenum-area">
+    <div class="chart-pagenum-area pagenum">
         <a asp-route-index=@(Model.Index - 10) asp-route-query=@Model.Query class="arrow @(Model.Index - 10 <= 0 ? "disable" : "")"></a>
         @foreach (var item in Enumerable.Range(digit, pageCount))
         {
