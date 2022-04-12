@@ -103,6 +103,12 @@ header {
                 margin-left: 25px;
                 display: flex;
                 align-items: center;
+
+                .logout-button {
+                    font-size: $font-s3;
+                    cursor: pointer;
+                    text-decoration-line: none;
+                }
             }
 
             .nav-item.active {

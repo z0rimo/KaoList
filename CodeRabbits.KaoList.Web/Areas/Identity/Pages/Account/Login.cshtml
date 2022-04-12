@@ -1,0 +1,91 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "로그인";
+}
+
+@section Styles {
+<link rel="stylesheet" href="~/css/pages/Identity/Account/login.css" asp-append-version="true" />
+}
+
+<div class="account-area">
+    <div class="account-container">
+        <section>
+            <form id="account" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="account-title">이메일 로그인</div>
+                <div class="form-input">
+                    <input asp-for="Input.Email" class="form-email-control" autocomplete="username" aria-required="true" placeholder="이메일 주소" />
+                </div>
+                <div class="form-input">
+                    <input asp-for="Input.Password" class="form-password-control" type="password" aria-required="true" placeholder="비밀번호" />
+                    <span class="password-blind-switch"></span>
+                </div>
+                <div>
+                    <div class="login-remain login-checkbox">
+                        <input class="form-check-input" type="checkbox" asp-for="Input.RememberMe" />
+                        <label class="remain-text" asp-for="Input.RememberMe"></label>
+                    </div>
+                </div>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+                <div class="login">
+                    <button id="login-submit" type="submit" class="login-button">
+                        <span class="login-button-text">로그인</span>
+                    </button>
+                </div>
+                <div>
+                    <ul class="find-container">
+                        <li>
+                            <a class="register-account" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">회원가입</a>
+                        </li>
+                        <span class="bar"></span>
+                        <li>
+                            <a class="email-confirmation" asp-page="./ResendEmailConfirmation">이메일 확인</a>
+                        </li>
+                        <span class="bar"></span>
+                        <li>
+                            <a class="find-password" asp-page="./ForgotPassword">비밀번호 찾기</a>
+                        </li>
+                    </ul>
+                </div>
+            </form>
+        </section>
+    </div>
+    <hr />
+    <div class="external-account-container">
+        <section>
+            <div class="account-title">소셜 로그인</div>
+            <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                <ul class="sns-login-container">
+                    @foreach (var provider in Model.ExternalLogins)
+                    {
+                        <li class="sns-login">
+                            <button type="submit" class="btn btn-primary @provider.Name.ToLower()-button-radius" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account"></button>
+                        </li>
+                    }
+                </ul>
+            </form>
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
+<script>
+    let elements = document.getElementsByClassName('password-blind-switch');
+     Array.from(elements).forEach(item => {
+
+        if (item instanceof HTMLElement) {
+            item.onclick = () => {
+                let result = item.classList.toggle("active");
+                let password = item.parentElement.querySelector(".form-password-control");
+                if (password instanceof HTMLInputElement) {
+                    password.type = result ? "text" : "password";
+                }
+            }
+        }
+    });
+</script>
+}
