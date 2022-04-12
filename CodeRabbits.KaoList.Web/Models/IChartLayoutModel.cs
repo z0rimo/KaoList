@@ -2,6 +2,6 @@
 {
     public interface IChartLayoutModel
     {
-        public ChartIndexTableWithQueryModel? Chart { get; }
+        public IndexTableWithQueryModel<ChartItemModel>? Chart { get; }
     }
 }

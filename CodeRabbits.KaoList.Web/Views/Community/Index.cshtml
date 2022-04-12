@@ -1,0 +1,23 @@
+﻿@using CodeRabbits.KaoList.Web.Models;
+@using System.ComponentModel;
+@model IndexTableWithQueryModel<CommunityItemModel>;
+
+@section Styles{
+<link rel="stylesheet" href="~/css/pages/community.css" asp-append-version="true" />
+}
+
+<div class="main-area">
+    <div class="container">
+        <div class="community-area">
+            <hr class="community-line" />
+            <div class="community-main">
+                <partial name="_CommunityFillterPartial" />
+                <partial name="_CommunityTablePartial" model=Model.Items />
+                <partial name="_CommunityButtonPartial" />
+                <partial name="_CommunityAdminButtonPartial" />
+            </div>
+            <partial name="_CommunityTableIndexPartial" />
+            <partial name="_CommunitySearchbarPartial" />
+        </div>
+    </div>
+</div>

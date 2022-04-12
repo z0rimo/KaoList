@@ -22,11 +22,11 @@ namespace CodeRabbits.KaoList.Web.Pages
         public int Index { get; set; }
         public int Count { get; set; }
         public string PageName { get; set; }
-        public ChartIndexTableWithQueryModel? Chart => new()
+        public IndexTableWithQueryModel<ChartItemModel>? Chart => new()
         {
             Index = Index,
             Items = GetCharts(Query),
-            Count = Count,
+            CountPerPage = Count,
         };
 
 

@@ -1,0 +1,29 @@
+﻿@model IEnumerable<CommunityItemModel>
+
+<table class="table-white table-radius-4 community-table">
+    <thead>
+        <tr>
+            <th></th>
+            <th>@Html.DisplayNameFor(item => item.Header)</th>
+            <th>@Html.DisplayNameFor(item => item.Title)</th>
+            <th>@Html.DisplayNameFor(item => item.Writer)</th>
+            <th>@Html.DisplayNameFor(item => item.Viewers)</th>
+            <th>@Html.DisplayNameFor(item => item.Recommend)</th>
+            <th>@Html.DisplayNameFor(item => item.Date)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model ?? Array.Empty<CommunityItemModel>())
+        {
+            <tr>
+                <td><input class="community-checkbox" type="checkbox" /></td>
+                <td>@item.Header</td>
+                <td>@item.Title</td>
+                <td>@item.Writer</td>
+                <td>@item.Viewers</td>
+                <td>@item.Recommend</td>
+                <td>@item.Date</td>
+            </tr>
+        }
+    </tbody>
+</table>
