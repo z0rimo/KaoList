@@ -1,6 +1,5 @@
-﻿namespace CodeRabbits.KaoList
+﻿namespace CodeRabbits.KaoList.Web;
+
+public class SharedResource
 {
-    public class SharedResource
-    {
-    }
 }

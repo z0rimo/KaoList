@@ -1,4 +1,4 @@
-using CodeRabbits.KaoList;
+using CodeRabbits.KaoList.Web;
 using CodeRabbits.KaoList.Web.Data;
 using CodeRabbits.KaoList.Web.Services;
 using Microsoft.AspNetCore.Identity;

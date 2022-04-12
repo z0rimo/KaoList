@@ -1,8 +1,10 @@
 ﻿@page
 @model LoginModel
 
+@inject IHtmlLocalizer<SharedResource> SharedLocalizer
+
 @{
-    ViewData["Title"] = "로그인";
+    ViewData["Title"] = SharedLocalizer["Login"];
 }
 
 @section Styles {
@@ -14,12 +16,12 @@
         <section>
             <form id="account" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="account-title">이메일 로그인</div>
+                <div class="account-title">@SharedLocalizer["Email login"]</div>
                 <div class="form-input">
-                    <input asp-for="Input.Email" class="form-email-control" autocomplete="username" aria-required="true" placeholder="이메일 주소" />
+                    <input asp-for="Input.Email" class="form-email-control" autocomplete="username" aria-required="true" placeholder="@SharedLocalizer["Email address"]" />
                 </div>
                 <div class="form-input">
-                    <input asp-for="Input.Password" class="form-password-control" type="password" aria-required="true" placeholder="비밀번호" />
+                    <input asp-for="Input.Password" class="form-password-control" type="password" aria-required="true" placeholder="@SharedLocalizer["Password"]" />
                     <span class="password-blind-switch"></span>
                 </div>
                 <div>
@@ -32,21 +34,21 @@
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
                 <div class="login">
                     <button id="login-submit" type="submit" class="login-button">
-                        <span class="login-button-text">로그인</span>
+                        <span class="login-button-text">@SharedLocalizer["Login"]</span>
                     </button>
                 </div>
                 <div>
                     <ul class="find-container">
                         <li>
-                            <a class="register-account" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">회원가입</a>
+                            <a class="register-account" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">@SharedLocalizer["Register"]</a>
                         </li>
                         <span class="bar"></span>
                         <li>
-                            <a class="email-confirmation" asp-page="./ResendEmailConfirmation">이메일 확인</a>
+                            <a class="email-confirmation" asp-page="./ResendEmailConfirmation">@SharedLocalizer["Confirm email"]</a>
                         </li>
                         <span class="bar"></span>
                         <li>
-                            <a class="find-password" asp-page="./ForgotPassword">비밀번호 찾기</a>
+                            <a class="find-password" asp-page="./ForgotPassword">@SharedLocalizer["Forgot password"]</a>
                         </li>
                     </ul>
                 </div>
@@ -56,7 +58,7 @@
     <hr />
     <div class="external-account-container">
         <section>
-            <div class="account-title">소셜 로그인</div>
+            <div class="account-title">@SharedLocalizer["External login"]</div>
             <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
                 <ul class="sns-login-container">
                     @foreach (var provider in Model.ExternalLogins)
