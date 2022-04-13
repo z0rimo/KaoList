@@ -20,6 +20,12 @@ hr {
     padding: 0;
 
     .account-title {
+        padding-top: 50px;
+        font-size: $font-s1;
+        font-weight: bold;
+    }
+
+    .social-account-title {
         padding-top: 25px;
         font-size: $font-s1;
         font-weight: bold;
