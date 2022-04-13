@@ -61,12 +61,12 @@
             <div class="social-account-title">@SharedLocalizer["External login"]</div>
             <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
                 <ul class="sns-login-container">
-                        @foreach (var provider in Model.ExternalLogins)
-                        {
+                    @foreach (var provider in Model.ExternalLogins)
+                    {
                         <li class="sns-login">
                             <button type="submit" class="btn btn-primary @provider.Name.ToLower()-button-radius" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account"></button>
                         </li>
-                        }
+                    }
                 </ul>
             </form>
         </section>
