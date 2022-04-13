@@ -13,7 +13,7 @@ public class BookmarkManager<TUser, TBookmark> : IDisposable where TUser : class
     /// </summary>
     protected virtual CancellationToken CancellationToken => CancellationToken.None;
 
-    public BookmarkManager(IBookmarkStore<TBookmark, TUser> store)
+    public BookmarkManager(IBookmarkStore<TUser, TBookmark> store)
     {
         Store = store ?? throw new ArgumentNullException(nameof(store));
     }
@@ -22,7 +22,7 @@ public class BookmarkManager<TUser, TBookmark> : IDisposable where TUser : class
     /// Gets or sets the persistence store the manager operates over.
     /// </summary>
     /// <value>The persistence store the manager operates over.</value>
-    protected internal IBookmarkStore<TBookmark, TUser> Store { get; set; }
+    protected internal IBookmarkStore<TUser, TBookmark> Store { get; set; }
 
 
     /// <summary>
@@ -42,85 +42,6 @@ public class BookmarkManager<TUser, TBookmark> : IDisposable where TUser : class
     }
 
     /// <summary>
-    /// Add the <paramref name="bookmark"/> in <see cref="IBookmarkStore">.
-    /// </summary>
-    /// <param name="bookmark">The bookmark to add.</param>
-    /// <returns>
-    /// The <see cref="Task"/> that represents the asynchronous operation, containing the <see cref="BookmarkResult"/>
-    /// of the operation.
-    /// </returns>
-    public virtual Task<BookmarkResult> AddBookmark(TBookmark? bookmark)
-    {
-        ThrowIfDisposed();
-        if (bookmark == null)
-        {
-            throw new ArgumentNullException(nameof(bookmark));
-        }
-
-        return AddBookmarks(new TBookmark[] { bookmark });
-    }
-
-    /// <summary>
-    /// Adds the <paramref name="bookmarks"/> in <see cref="IBookmarkStore">.
-    /// </summary>
-    /// <param name="bookmarks">The bookmarks to add.</param>
-    /// <returns>
-    /// The <see cref="Task"/> that represents the asynchronous operation, containing the <see cref="BookmarkResult"/>
-    /// of the operation.
-    /// </returns>
-    public virtual async Task<BookmarkResult> AddBookmarks(IEnumerable<TBookmark> bookmarks)
-    {
-        ThrowIfDisposed();
-        if (bookmarks == null)
-        {
-            throw new ArgumentNullException(nameof(bookmarks));
-        }
-
-        return await Store.AddBookmarks(bookmarks, CancellationToken).ConfigureAwait(false);
-    }
-
-
-    /// <summary>
-    /// Remove the <paramref name="bookmark"/> in <see cref="IBookmarkStore">.
-    /// </summary>
-    /// <param name="bookmark">The bookmark to remove.</param>
-    /// <returns>
-    /// The <see cref="Task"/> that represents the asynchronous operation, containing the <see cref="BookmarkResult"/>
-    /// of the operation.
-    /// </returns>
-    public virtual Task<BookmarkResult> RemoveBookmark(TBookmark? bookmark)
-    {
-        ThrowIfDisposed();
-        if (bookmark == null)
-        {
-            throw new ArgumentNullException(nameof(bookmark));
-        }
-
-        return AddBookmarks(new TBookmark[] { bookmark });
-    }
-
-
-    /// <summary>
-    /// Remove the <paramref name="bookmark"/> in <see cref="IBookmarkStore">.
-    /// </summary>
-    /// <param name="bookmark">The bookmarks to remove.</param>
-    /// <returns>
-    /// The <see cref="Task"/> that represents the asynchronous operation, containing the <see cref="BookmarkResult"/>
-    /// of the operation.
-    /// </returns>
-    public virtual async Task<BookmarkResult> RemovesBookmark(IEnumerable<TBookmark>? bookmarks)
-    {
-        ThrowIfDisposed();
-        if (bookmarks == null)
-        {
-            throw new ArgumentNullException(nameof(bookmarks));
-        }
-
-        return await Store.RemoveBookmarks(bookmarks, CancellationToken).ConfigureAwait(false);
-    }
-
-
-    /// <summary>
     /// Returns a list of bookmarks from the bookmark store who have the specified <paramref name="user"/>.
     /// </summary>
     /// <param name="user">The user to look for.</param>
@@ -128,7 +49,7 @@ public class BookmarkManager<TUser, TBookmark> : IDisposable where TUser : class
     /// A <see cref="Task{TResult}"/> that represents the result of the asynchronous query, a list of <typeparamref name="TBookmark"/>s who
     /// have the specified user.
     /// </returns>
-    public virtual Task<IList<TBookmark>> GetBookmarksForUserAsync(TUser? user)
+    public virtual Task<IList<TBookmark>> GetBookmarksAsync(TUser? user)
     {
         ThrowIfDisposed();
         if (user == null)
@@ -136,7 +57,7 @@ public class BookmarkManager<TUser, TBookmark> : IDisposable where TUser : class
             throw new ArgumentNullException(nameof(user));
         }
 
-        return Store.GetBookmarksAsync(user, CancellationToken);
+        return Store.GetBookmarksAsync(user, CancellationToken); ;
     }
 
     protected virtual void Dispose(bool disposing)

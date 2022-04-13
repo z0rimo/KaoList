@@ -6,10 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CodeRabbits.KaoList.Bookmark;
 
-public class BookmarkStore<TUser, TBookmark, TContext> : IBookmarkStore<TUser, TBookmark>
+public class BookmarkStore<TUser, TBookmark> : IBookmarkStore<TUser, TBookmark>
     where TUser : IdentityUser<string>, new()
     where TBookmark : UserBookmark<string, int>, new()
-    where TContext : DbContext
 {
     private bool _disposed;
 
@@ -18,7 +17,7 @@ public class BookmarkStore<TUser, TBookmark, TContext> : IBookmarkStore<TUser, T
     /// </summary>
     /// <param name="context">The context used to access the store.</param>
     /// <param name="describer">The <see cref="BookmarkErrorDescriber"/> used to describe store errors.</param>
-    public BookmarkStore(TContext context, BookmarkErrorDescriber? describer = null)
+    public BookmarkStore(DbContext context, BookmarkErrorDescriber? describer = null)
     {
         ErrorDescriber = describer ?? new BookmarkErrorDescriber();
         Context = context ?? throw new ArgumentNullException(nameof(context));
@@ -32,7 +31,7 @@ public class BookmarkStore<TUser, TBookmark, TContext> : IBookmarkStore<TUser, T
     /// <summary>
     /// Gets the database context for this store.
     /// </summary>
-    public virtual TContext Context { get; private set; }
+    public virtual DbContext Context { get; private set; }
 
     private DbSet<TBookmark> Bookmarks { get { return Context.Set<TBookmark>(); } }
 

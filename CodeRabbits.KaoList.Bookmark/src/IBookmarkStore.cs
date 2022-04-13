@@ -13,5 +13,5 @@ public interface IBookmarkStore<TUser, TBookmark> : IDisposable where TUser : cl
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>
     /// A <see cref="Task{TResult}"/> that represents the result of the asynchronous query, a list of <see cref="TBookmark"/>s.
-    Task<IList<TBookmark>> GetBookmarksAsync(TUser user, CancellationToken cancellationToken);
+    Task<IList<TBookmark>> GetBookmarksAsync(TUser? user, CancellationToken cancellationToken);
 }
