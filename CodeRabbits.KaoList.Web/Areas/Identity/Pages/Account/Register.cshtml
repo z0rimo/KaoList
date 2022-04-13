@@ -1,0 +1,83 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "회원가입";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/pages/Identity/Account/register.css" asp-append-version="true" />
+}
+
+<div class="register-agreement-area">
+    <div class="register-container">
+        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="register-title">회원가입</div>
+                <div class="form-input">
+                    <input asp-for="Input.Email" class="form-email-control" autocomplete="username" aria-required="true" placeholder="이메일 주소" />
+                </div>
+                <div class="form-input">
+                    <input asp-for="Input.Password" class="form-password-control" autocomplete="new-password" type="password" aria-required="true" placeholder="비밀번호" />
+                    <span class="password-blind-switch"></span>
+                </div>
+                <div class="form-input">
+                    <input asp-for="Input.ConfirmPassword" class="form-password-control" autocomplete="new-password" type="password" aria-required="true" placeholder="비밀번호 확인" />
+                    <span class="password-blind-switch"></span>
+                </div>
+                <div class="form-input">
+                    <input asp-for="Input.NickName" class="form-email-control" aria-required="true" placeholder="닉네임" />
+                </div>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                <span asp-validation-for="Input.NickName" class="text-danger"></span>
+        </form> 
+    </div>
+    <div class="agreement-container>">
+        <section>
+            <div class="agreement-allcheck">
+                <label>
+                    <input type="checkbox" />
+                    <span class="text">약관 전체 동의</span>
+                </label>
+            </div>
+            <div class="agreement-terms">
+                <div class="">필수 동의 항목</div>
+                <div class="agreement-container">
+                    <div class="terms-content">
+                        <label>
+                            <input type="checkbox" />
+                            <span class="text">이용약관</span>
+                        </label>
+                    </div>
+                    <div class="terms-content">
+                        <label>
+                            <input type="checkbox" />
+                            <span class="text">개인정보 수집동의서</span>
+                            <a target="_blank" href="" rel="noreferrer">
+                                <svg src="~/rightPageIcon.svg" fill="#AAAAAA"></svg>
+                            </a>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="agreement-terms">
+                <div class="">선택 동의 항목</div>
+                <div class="agreement-container">
+                    <div class="terms-content">
+                        <label>
+                            <input type="checkbox" />
+                            <span class="text">이벤트 등 프로모션 알림 메일 및 푸시 알림 수신</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="nextbutton">
+        <button type="button" class="" disabled>동의 및 가입</button>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
