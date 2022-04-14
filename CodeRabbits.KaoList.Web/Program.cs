@@ -3,7 +3,9 @@ using CodeRabbits.KaoList.Web.Data;
 using CodeRabbits.KaoList.Web.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -81,6 +83,20 @@ app.UseRequestLocalization(new RequestLocalizationOptions
 });
 
 app.UseStaticFiles();
+
+if (app.Environment.IsDevelopment())
+{
+    var fileProvider = new PhysicalFileProvider(Path.GetFullPath("./Scripts"));
+    var provider = new FileExtensionContentTypeProvider();
+    provider.Mappings[".ts"] = "application/typescripts";
+
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = fileProvider,
+        RequestPath = "/Scripts",
+        ContentTypeProvider = provider
+    });
+}
 
 app.UseRouting();
 
