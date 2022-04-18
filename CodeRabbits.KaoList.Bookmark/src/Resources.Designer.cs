@@ -70,6 +70,15 @@ namespace CodeRabbits.KaoList.Bookmark {
         }
         
         /// <summary>
+        ///   Tkey of IdentityUser&lt;TKey&gt; and TUserKey of UserBoomark&lt;TUserKey, TSongKey&gt; do not type match.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string NotMatchUserKeyType {
+            get {
+                return ResourceManager.GetString("NotMatchUserKeyType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   AddEntityFrameworkStores can only be called with a user that derives from UserBoomark&lt;TUserKey, TSongKey&gt;.과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string NotUserBookmak {

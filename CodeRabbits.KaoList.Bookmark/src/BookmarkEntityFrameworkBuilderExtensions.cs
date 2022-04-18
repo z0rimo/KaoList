@@ -28,18 +28,22 @@ namespace CodeRabbits.KaoList.Bookmark
                 throw new InvalidOperationException(Resources.NotIdentityUser);
             }
 
-            var bookmarkType = FindGenericBaseType(bookmakrType, typeof(UserBookmark<,>));
-            if (bookmarkType == null)
+            var bookmarkBaseType = FindGenericBaseType(bookmakrType, typeof(UserBookmark<,>));
+            if (bookmarkBaseType == null)
             {
-                throw new InvalidOperationException(Resources.NotIdentityUser);
+                throw new InvalidOperationException(Resources.NotUserBookmak);
             }
 
-            var userKeyType = bookmarkType.GenericTypeArguments[0];
-            var songKeyType = bookmarkType.GenericTypeArguments[1];
+            var userKeyType = bookmarkBaseType.GenericTypeArguments[0]; 
+            if (userKeyType != bookmarkBaseType.GenericTypeArguments[0])
+            {
+                throw new InvalidOperationException(Resources.NotMatchUserKeyType);
+            }
+
+            var songKeyType = bookmarkBaseType.GenericTypeArguments[1];
             Type bookmarkStoreType = typeof(BookmarkStore<,,,,>).MakeGenericType(
                 userType, bookmakrType, contextType, userKeyType, songKeyType);
 
-            services.TryAddScoped(contextType);
             services.TryAddScoped(typeof(IBookmarkStore<,>).MakeGenericType(userType, bookmakrType), bookmarkStoreType);
         }
 

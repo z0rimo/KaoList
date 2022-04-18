@@ -119,11 +119,15 @@
   </resheader>
   <data name="NotIdentityUser" xml:space="preserve">
     <value>AddEntityFrameworkStores can only be called with a user that derives from IdentityUser&lt;TKey&gt;.</value>
-    <comment>error when the user does not derive from IdentityUser</comment>
+    <comment>Error when the user does not derive from IdentityUser</comment>
+  </data>
+  <data name="NotMatchUserKeyType" xml:space="preserve">
+    <value>Tkey of IdentityUser&lt;TKey&gt; and TUserKey of UserBoomark&lt;TUserKey, TSongKey&gt; do not type match.</value>
+    <comment>Error when the user does not match from TUserKey of User Bookmark and TKey of UserStore</comment>
   </data>
   <data name="NotUserBookmak" xml:space="preserve">
     <value>AddEntityFrameworkStores can only be called with a user that derives from UserBoomark&lt;TUserKey, TSongKey&gt;.</value>
-    <comment>error when the user does not derive from UserBookmark</comment>
+    <comment>Error when the user does not derive from UserBookmark</comment>
   </data>
   <data name="StoreNotIQueryableBookmarkStore" xml:space="preserve">
     <value>Store does not implement IBookmarkStore&lt;TUser, TBookmark&gt;.</value>
