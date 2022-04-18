@@ -14,147 +14,126 @@ hr {
     color: #ececec;
 }
 
-.account-area {
-    width: $account-area-width;
-    margin: 0 auto;
-    padding: 0;
 
-    .account-title {
-        padding-top: 50px;
-        font-size: $font-s1;
-        font-weight: bold;
-    }
+.account-title {
+    font-size: $font-s1;
+    font-weight: bold;
+}
 
-    .social-account-title {
-        padding-top: 25px;
-        font-size: $font-s1;
-        font-weight: bold;
-    }
+.social-account-title {
+    padding-top: 25px;
+    font-size: $font-s1;
+    font-weight: bold;
+}
 
-    .form-input {
-        padding-top: 20px;
+.form-input {
+    padding-top: 20px;
+    width: 404px;
+    border-bottom: 1px solid $color-gray77;
+
+    .form-email-control {
+        border: none;
+        outline: none;
+        color: $color-gray67;
         width: 404px;
-        border-bottom: 1px solid $color-gray77;
+        padding: 10px 0px;
+        font-size: $font-s3;
+    }
 
-        .form-email-control {
-            border: none;
-            outline: none;
-            color: $color-gray67;
-            width: 404px;
-            padding: 10px 0px;
-            font-size: $font-s3;
-        }
+    .form-password-control {
+        border: none;
+        outline: none;
+        color: $color-gray67;
+        width: 404px - $password-blind-switch-width - 11px;
+        padding: 10px 0px;
+        font-size: $font-s3;
+    }
 
-        .form-password-control {
-            border: none;
-            outline: none;
-            color: $color-gray67;
-            width: 404px - $password-blind-switch-width - 11px;
-            padding: 10px 0px;
-            font-size: $font-s3;
-        }
+    .password-blind-switch {
+        content: url("/svg/eye.svg?fill=C4C4C4");
+        width: $password-blind-switch-width;
+        cursor: pointer;
+    }
 
-        .password-blind-switch {
-            content: url("/svg/eye.svg?fill=C4C4C4");
-            width: $password-blind-switch-width;
-            height: $password-blind-switch-heignt;
-            cursor: pointer;
-        }
+    .password-blind-switch.active {
+        content: url("/svg/eyeSlash.svg?fill=C4C4C4");
+        width: $password-blind-switch-width;
+        cursor: pointer;
+    }
+}
 
-        .password-blind-switch.active {
-            content: url("/svg/eyeSlash.svg?fill=C4C4C4");
-            width: $password-blind-switch-width;
-            height: $password-blind-switch-heignt;
-            cursor: pointer;
+.login-remain {
+    display: flex;
+    align-items: center;
+    margin-top: 12px;
+
+    .login-checkbox {
+        color: $color-gray77;
+        cursor: pointer;
+    }
+
+    .form-check-input {
+        appearance: none;
+        content: url("/svg/checkCircleIcon.svg?fill=C4C4C4");
+        width: 19px;
+        cursor: pointer;
+        margin: 0;
+        margin-right: 7px;
+        padding: 0;
+
+        &:checked {
+            content: url("/Svg/checkCircleIcon.svg?fill=58E28B");
         }
     }
 
-    .login-remain {
-        display: flex;
-        align-items: center;
-        margin-top: 12px;
+    .remain-text {
+        color: $color-gray77;
+        cursor: pointer;
+    }
+}
 
-        .login-checkbox {
-            color: $color-gray77;
-            cursor: pointer;
-        }
+.login {
+    margin-top: 30px;
 
-        .form-check-input {
-            appearance: none;
-            content: url("/svg/checkCircleIcon.svg?fill=C4C4C4");
-            width: 19px;
-            height: 19px;
-            cursor: pointer;
-            margin: 0;
-            margin-right: 7px;
-            padding: 0;
-
-            &:checked {
-                content: url("/Svg/checkCircleIcon.svg?fill=58E28B");
-            }
-        }
-
-        .remain-text {
-            color: $color-gray77;
-            cursor: pointer;
+    .login-button {
+        border: solid 1px $color-tradewind;
+        background-color: $color-grotesque-green;
+       
+        &:hover {
+            text-decoration-line: none;
         }
     }
+}
 
-    .login {
-        margin-top: 30px;
+.find-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+    margin-bottom: 17px;
 
-        .login-button {
-            display: block;
-            width: 100%;
-            padding: 16px 0;
-            border-radius: 6px;
-            border: solid 1px $color-tradewind;
-            background-color: $color-grotesque-green;
-            box-sizing: border-box;
-            cursor: pointer;
-
-            .login-button-text {
-                color: $color-white;
-                font-size: $h2;
-                font-weight: bold;
-            }
-
-            &:hover {
-                text-decoration-line: none;
-            }
-        }
+    .bar {
+        display: inline-block;
+        width: 1px;
+        height: 15px;
+        margin: 3px 10px 0 10px;
+        background-color: $color-very-light-gray;
     }
+}
 
-    .find-container {
-        display: flex;
-        justify-content: center;
-        margin-top: 15px;
-        margin-bottom: 17px;
+.sns-login-container {
+    display: flex;
 
-        .bar {
-            display: inline-block;
-            width: 1px;
-            height: 15px;
-            margin: 3px 10px 0 10px;
-            background-color: $color-very-light-gray;
+    .sns-login {
+        margin-top: 10px;
+        margin-right: 5px;
+
+        .google-button-radius {
         }
-    }
 
-    .sns-login-container {
-        display: flex;
+        .kakao-button-radius {
+        }
 
-        .sns-login {
-            margin-top: 10px;
-            margin-right: 5px;
-
-            .google-button-radius {
-            }
-
-            .kakao-button-radius {
-            }
-
-            .naver-button-radius {
-            }
+        .naver-button-radius {
         }
     }
 }

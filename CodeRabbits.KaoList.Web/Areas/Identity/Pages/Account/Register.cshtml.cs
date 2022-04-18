@@ -76,7 +76,6 @@ namespace CodeRabbits.KaoList.Web.Areas.Identity.Pages.Account
             /// </summary>
             [Required]
             [EmailAddress]
-            [Display(Name = "이메일 주소")]
             public string Email { get; set; }
 
             /// <summary>
@@ -86,7 +85,7 @@ namespace CodeRabbits.KaoList.Web.Areas.Identity.Pages.Account
             [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "패스워드")]
+            [Display(Name = nameof(Password))]
             public string Password { get; set; }
 
             /// <summary>
@@ -94,13 +93,24 @@ namespace CodeRabbits.KaoList.Web.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [DataType(DataType.Password)]
-            [Display(Name = "패스워드 확인")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Display(Name = nameof(ConfirmPassword))]
+            [Compare(nameof(Password), ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
-            [Required]
-            [Display(Name = "닉네임")]
+            [Required(ErrorMessage = "The {0} field is required.")]
+            [Display(Name = nameof(NickName))]
             public string NickName { get; set; }
+
+            [RequiredAccept]
+            [Display(Name = nameof(TermsOfService))]
+            public bool TermsOfService { get; set; }
+
+            [RequiredAccept]
+            [Display(Name = nameof(PrivacyPolicy))]
+            public bool PrivacyPolicy { get; set; }
+
+            [Display(Name = nameof(AdReceived))]
+            public bool AdReceived { get; set; }
         }
 
 
@@ -114,6 +124,16 @@ namespace CodeRabbits.KaoList.Web.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            if (!Input.TermsOfService)
+            {
+                ModelState.AddModelError("Input.TermsOfService", string.Format("{0} is required.", nameof(Input.TermsOfService)));
+            }
+
+            if (!Input.PrivacyPolicy)
+            {
+                ModelState.AddModelError("Input.PrivacyPolicy", string.Format("{0} is required.", nameof(Input.PrivacyPolicy)));
+            }
+
             if (ModelState.IsValid)
             {
                 var user = CreateUser();

@@ -1,17 +1,16 @@
 ﻿@page
 @model LoginModel
-
 @inject IHtmlLocalizer<SharedResource> SharedLocalizer
-
 @{
     ViewData["Title"] = SharedLocalizer["Login"];
 }
-
-@section Styles {
-<link rel="stylesheet" href="~/css/pages/Identity/Account/login.css" asp-append-version="true" />
-}
-
-<div class="account-area">
+<environment include="Development">
+    <link rel="stylesheet" href="~/css/pages/Identity/Account/login.css" asp-append-version="true" />
+</environment>
+<environment exclude="Development">
+    <link rel="stylesheet" href="~/css/pages/Identity/Account/login.min.css" />
+</environment>
+<div class="identity-contents-area">
     <div class="account-container">
         <section>
             <form id="account" method="post">
@@ -33,8 +32,8 @@
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
                 <div class="login">
-                    <button id="login-submit" type="submit" class="login-button">
-                        <span class="login-button-text">@SharedLocalizer["Login"]</span>
+                    <button id="login-submit" type="submit" class="identity-button login-button">
+                        <span class="identity-button-text">@SharedLocalizer["Login"]</span>
                     </button>
                 </div>
                 <div>
@@ -72,22 +71,7 @@
         </section>
     </div>
 </div>
-
 @section Scripts {
 <partial name="_ValidationScriptsPartial" />
-<script>
-    let elements = document.getElementsByClassName('password-blind-switch');
-     Array.from(elements).forEach(item => {
-
-        if (item instanceof HTMLElement) {
-            item.onclick = () => {
-                let result = item.classList.toggle("active");
-                let password = item.parentElement.querySelector(".form-password-control");
-                if (password instanceof HTMLInputElement) {
-                    password.type = result ? "text" : "password";
-                }
-            }
-        }
-    });
-</script>
+<script src="~/js/password-blind.js" asp-append-version="true"></script>
 }

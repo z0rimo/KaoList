@@ -1,8 +1,9 @@
-﻿<ul class="footer-link">
+﻿@inject IHtmlLocalizer<SharedResource> SharedLocalizer
+<ul class="footer-link">
     <li class="link-item">
-        <a asp-area="" asp-page="/Terms">이용약관</a>
+        <a asp-area="" asp-page="/Terms">@SharedLocalizer["TermsOfService"]</a>
     </li>
     <li class="link-item">
-        <a asp-area="" asp-page="/Privacy">개인정보취급방침</a>
+        <a asp-area="" asp-page="/Privacy">@SharedLocalizer["PrivacyPolicy"]</a>
     </li>
 </ul>
