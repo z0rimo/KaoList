@@ -1,5 +1,7 @@
+using CodeRabbits.KaoList.Bookmark;
+using CodeRabbits.KaoList.Data;
 using CodeRabbits.KaoList.Web;
-using CodeRabbits.KaoList.Web.Data;
+using CodeRabbits.KaoList.Web.Datas;
 using CodeRabbits.KaoList.Web.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
@@ -14,13 +16,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder.Services.AddDbContext<KaoListDbContext>(options =>
+builder.Services.AddDbContext<KaoListContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
-       .AddEntityFrameworkStores<KaoListDbContext>()
+       .AddEntityFrameworkStores<KaoListContext>()
        .AddDefaultTokenProviders();
 
 builder.Services.ConfigureApplicationCookie(options =>
@@ -51,6 +53,9 @@ builder.Services.AddRazorPages()
                 });
 
 builder.Services.AddScoped<IEmailSender, EmailSender>();
+
+builder.Services.AddScoped<DbContext>();
+builder.Services.AddBookmark<IdentityUser<string>, Bookmark>();
 
 var app = builder.Build();
 
