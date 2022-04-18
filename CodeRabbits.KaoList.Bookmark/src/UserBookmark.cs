@@ -3,6 +3,8 @@
 
 namespace CodeRabbits.KaoList.Bookmark
 {
+    public class UserBookmark : UserBookmark<string, int> { }
+
     public class UserBookmark<TUserKey, TSongKey> where TUserKey : IEquatable<TUserKey>
         where TSongKey : IEquatable<TSongKey>
     {

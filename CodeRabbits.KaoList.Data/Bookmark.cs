@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CodeRabbits.KaoList.Data;
 
-public class Bookmark : UserBookmark<string, int>
+public class Bookmark : UserBookmark
 {
     public override sealed int SongId { get; set; } = default!;
 

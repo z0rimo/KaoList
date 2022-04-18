@@ -22,8 +22,8 @@ builder.Services.AddDbContext<KaoListContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
-       .AddEntityFrameworkStores<KaoListContext>()
-       .AddDefaultTokenProviders();
+                .AddEntityFrameworkStores<KaoListContext>()
+                .AddDefaultTokenProviders();
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -54,8 +54,8 @@ builder.Services.AddRazorPages()
 
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 
-builder.Services.AddScoped<DbContext>();
-builder.Services.AddBookmark<IdentityUser<string>, Bookmark>();
+builder.Services.AddBookmark<KaoListUser, Bookmark>()
+                .AddEntityFrameworkStores<KaoListContext>();
 
 var app = builder.Build();
 

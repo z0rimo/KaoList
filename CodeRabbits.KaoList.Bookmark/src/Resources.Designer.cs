@@ -61,6 +61,24 @@ namespace CodeRabbits.KaoList.Bookmark {
         }
         
         /// <summary>
+        ///   AddEntityFrameworkStores can only be called with a user that derives from IdentityUser&lt;TKey&gt;.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string NotIdentityUser {
+            get {
+                return ResourceManager.GetString("NotIdentityUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   AddEntityFrameworkStores can only be called with a user that derives from UserBoomark&lt;TUserKey, TSongKey&gt;.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string NotUserBookmak {
+            get {
+                return ResourceManager.GetString("NotUserBookmak", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Store does not implement IBookmarkStore&lt;TUser, TBookmark&gt;.과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string StoreNotIQueryableBookmarkStore {

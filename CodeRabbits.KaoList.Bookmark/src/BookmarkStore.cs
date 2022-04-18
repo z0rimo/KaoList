@@ -2,13 +2,30 @@
 // This code is licensed under MIT license (see LICENSE.txt for details).
 
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CodeRabbits.KaoList.Bookmark;
 
-public class BookmarkStore<TUser, TBookmark> : IBookmarkStore<TUser, TBookmark>
-    where TUser : IdentityUser<string>, new()
-    where TBookmark : UserBookmark<string, int>, new()
+public class BookmarkStore<TUser, TBookmark> : BookmarkStore<
+    TUser,
+    TBookmark,
+    DbContext,
+    string,
+    int>
+    where TUser : IdentityUser, new()
+    where TBookmark : UserBookmark, new()
+{
+    public BookmarkStore(DbContext context, BookmarkErrorDescriber? describer = null) : base(context, describer) { }
+}
+
+
+public class BookmarkStore<TUser, TBookmark, TContext, TUserKey, TSongKey> : IBookmarkStore<TUser, TBookmark>
+    where TUser : IdentityUser<TUserKey>, new()
+    where TBookmark : UserBookmark<TUserKey, TSongKey>, new()
+    where TContext : DbContext
+    where TUserKey : IEquatable<TUserKey>
+    where TSongKey : IEquatable<TSongKey>
 {
     private bool _disposed;
 
@@ -17,7 +34,7 @@ public class BookmarkStore<TUser, TBookmark> : IBookmarkStore<TUser, TBookmark>
     /// </summary>
     /// <param name="context">The context used to access the store.</param>
     /// <param name="describer">The <see cref="BookmarkErrorDescriber"/> used to describe store errors.</param>
-    public BookmarkStore(DbContext context, BookmarkErrorDescriber? describer = null)
+    public BookmarkStore(TContext context, BookmarkErrorDescriber? describer = null)
     {
         ErrorDescriber = describer ?? new BookmarkErrorDescriber();
         Context = context ?? throw new ArgumentNullException(nameof(context));
@@ -36,7 +53,7 @@ public class BookmarkStore<TUser, TBookmark> : IBookmarkStore<TUser, TBookmark>
     private DbSet<TBookmark> Bookmarks { get { return Context.Set<TBookmark>(); } }
 
 
-    public virtual async Task<IList<TBookmark>> GetBookmarksAsync(TUser user, CancellationToken cancellationToken)
+    public virtual async Task<IList<TBookmark>> GetBookmarksAsync(TUser? user, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ThrowIfDisposed();
