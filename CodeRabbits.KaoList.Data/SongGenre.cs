@@ -6,5 +6,5 @@ public class SongGenre
     public int? SongGenreId { get; set; }
 
     public virtual Song? Song { get; set; }
-    public virtual Genre? Genre { get; set; }    
+    public virtual Genre? Genre { get; set; }
 }

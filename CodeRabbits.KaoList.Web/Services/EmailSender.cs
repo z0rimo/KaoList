@@ -1,7 +1,5 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Net.Mail;
-using System.Text.RegularExpressions;
 
 namespace CodeRabbits.KaoList.Web.Services;
 public class EmailSender : IEmailSender

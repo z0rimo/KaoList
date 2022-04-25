@@ -6,7 +6,7 @@ namespace CodeRabbits.KaoList.Web.Datas;
 
 public class KaoListContext : KaoListDataContext
 {
-    public KaoListContext(DbContextOptions options) 
+    public KaoListContext(DbContextOptions options)
         : base(options)
     {
     }
@@ -25,5 +25,5 @@ public class KaoListContext : KaoListDataContext
                 options => options.EnableRetryOnFailure()
             );
         }
-    }    
+    }
 }

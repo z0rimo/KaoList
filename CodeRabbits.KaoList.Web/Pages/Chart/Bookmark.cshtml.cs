@@ -8,10 +8,10 @@ namespace CodeRabbits.KaoList.Web.Pages.Chart
     public class BookmarkModel : ChartPage
     {
         public BookmarkModel(IConfiguration configuration,
-            BookmarkManager<IdentityUser, Data.Bookmark> bookmarkManager,
-            UserManager<IdentityUser> userManager) : base(configuration)
+            BookmarkManager<KaoListUser, Data.Bookmark> bookmarkManager,
+            UserManager<KaoListUser> userManager) : base(configuration)
         {
-            PageName = "북마크";            
+            PageName = "북마크";
         }
 
         protected override IEnumerable<ChartItemModel> GetCharts(string? query)

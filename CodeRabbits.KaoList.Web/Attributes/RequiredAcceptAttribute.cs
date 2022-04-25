@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Localization;
-using Microsoft.Extensions.Localization;
+﻿using Microsoft.Extensions.Localization;
 using System.ComponentModel.DataAnnotations;
 
 namespace CodeRabbits.KaoList.Web

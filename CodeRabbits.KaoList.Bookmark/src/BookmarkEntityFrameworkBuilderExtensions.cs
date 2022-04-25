@@ -1,13 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CodeRabbits.KaoList.Bookmark
 {
@@ -34,7 +28,7 @@ namespace CodeRabbits.KaoList.Bookmark
                 throw new InvalidOperationException(Resources.NotUserBookmak);
             }
 
-            var userKeyType = bookmarkBaseType.GenericTypeArguments[0]; 
+            var userKeyType = bookmarkBaseType.GenericTypeArguments[0];
             if (userKeyType != bookmarkBaseType.GenericTypeArguments[0])
             {
                 throw new InvalidOperationException(Resources.NotMatchUserKeyType);

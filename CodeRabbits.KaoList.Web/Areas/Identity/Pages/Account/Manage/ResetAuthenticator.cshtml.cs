@@ -2,66 +2,63 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
-using System.Threading.Tasks;
+using CodeRabbits.KaoList.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
 
-namespace CodeRabbits.KaoList.Web.Areas.Identity.Pages.Account.Manage
+namespace CodeRabbits.KaoList.Web.Areas.Identity.Pages.Account.Manage;
+
+public class ResetAuthenticatorModel : PageModel
 {
-    public class ResetAuthenticatorModel : PageModel
+    private readonly UserManager<KaoListUser> _userManager;
+    private readonly SignInManager<KaoListUser> _signInManager;
+    private readonly ILogger<ResetAuthenticatorModel> _logger;
+
+    public ResetAuthenticatorModel(
+        UserManager<KaoListUser> userManager,
+        SignInManager<KaoListUser> signInManager,
+        ILogger<ResetAuthenticatorModel> logger)
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly ILogger<ResetAuthenticatorModel> _logger;
+        _userManager = userManager;
+        _signInManager = signInManager;
+        _logger = logger;
+    }
 
-        public ResetAuthenticatorModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
-            ILogger<ResetAuthenticatorModel> logger)
+    /// <summary>
+    ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
+    ///     directly from your code. This API may change or be removed in future releases.
+    /// </summary>
+    [TempData]
+    public string StatusMessage { get; set; }
+
+    public async Task<IActionResult> OnGet()
+    {
+        var user = await _userManager.GetUserAsync(User);
+        if (user == null)
         {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _logger = logger;
+            return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
         }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
-        [TempData]
-        public string StatusMessage { get; set; }
+        return Page();
+    }
 
-        public async Task<IActionResult> OnGet()
+    public async Task<IActionResult> OnPostAsync()
+    {
+        var user = await _userManager.GetUserAsync(User);
+        if (user == null)
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
-
-            return Page();
+            return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
         }
 
-        public async Task<IActionResult> OnPostAsync()
-        {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
+        await _userManager.SetTwoFactorEnabledAsync(user, false);
+        await _userManager.ResetAuthenticatorKeyAsync(user);
+        var userId = await _userManager.GetUserIdAsync(user);
+        _logger.LogInformation("User with ID '{UserId}' has reset their authentication app key.", user.Id);
 
-            await _userManager.SetTwoFactorEnabledAsync(user, false);
-            await _userManager.ResetAuthenticatorKeyAsync(user);
-            var userId = await _userManager.GetUserIdAsync(user);
-            _logger.LogInformation("User with ID '{UserId}' has reset their authentication app key.", user.Id);
+        await _signInManager.RefreshSignInAsync(user);
+        StatusMessage = "Your authenticator app key has been reset, you will need to configure your authenticator app using the new key.";
 
-            await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your authenticator app key has been reset, you will need to configure your authenticator app using the new key.";
-
-            return RedirectToPage("./EnableAuthenticator");
-        }
+        return RedirectToPage("./EnableAuthenticator");
     }
 }

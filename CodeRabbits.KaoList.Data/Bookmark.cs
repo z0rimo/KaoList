@@ -1,5 +1,4 @@
 ﻿using CodeRabbits.KaoList.Bookmark;
-using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
 namespace CodeRabbits.KaoList.Data;

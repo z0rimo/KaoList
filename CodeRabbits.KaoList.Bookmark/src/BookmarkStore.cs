@@ -2,7 +2,6 @@
 // This code is licensed under MIT license (see LICENSE.txt for details).
 
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CodeRabbits.KaoList.Bookmark;
