@@ -1,6 +1,6 @@
-﻿@import "layout.scss";
+﻿@import "../../../_all.scss";
 
-$container-height: 720px;
+$container-height: 750px;
 $register-agreement-area-width: 404px;
 $password-blind-switch-width: 22px;
 $password-blind-switch-heignt: 19px;
@@ -26,6 +26,7 @@ input[type='checkbox'] {
 .register-title {
     font-size: $font-s1;
     font-weight: bold;
+    padding-bottom: 20px;
 }
 
 .form-input {
