@@ -127,13 +127,17 @@ hr {
         margin-top: 10px;
         margin-right: 5px;
 
-        .google-button-radius {
+        .google-button {
         }
 
-        .kakao-button-radius {
+        .kakao-button {
+            background-color: #fae100;
+            background-image: url("/svg/kakaoIcon.svg");
+            width: 30px;
+            height: 30px;
         }
 
-        .naver-button-radius {
+        .naver-button {
         }
     }
 }

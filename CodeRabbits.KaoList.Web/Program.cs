@@ -30,7 +30,13 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LogoutPath = "/Identity/Account/Logout";
 });
 
-builder.Services.AddAuthentication();
+builder.Services.AddAuthentication()
+                .AddKakao(options =>
+                {
+                    var kakaoSection = builder.Configuration.GetSection("ExternalLogins:Kakao");
+                    options.ClientId = kakaoSection["ClientId"];
+                    options.ClientSecret = kakaoSection["ClientSecret"];
+                });
 
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 

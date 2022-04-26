@@ -8,9 +8,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeRabbits.KaoList.Web", "
 		{E27BB9A3-CFFD-44B1-A633-AE1DC2D71044} = {E27BB9A3-CFFD-44B1-A633-AE1DC2D71044}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeRabbits.KaoList.Data", "CodeRabbits.KaoList.Data\CodeRabbits.KaoList.Data.csproj", "{E27BB9A3-CFFD-44B1-A633-AE1DC2D71044}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeRabbits.KaoList.Data", "CodeRabbits.KaoList.Data\CodeRabbits.KaoList.Data.csproj", "{E27BB9A3-CFFD-44B1-A633-AE1DC2D71044}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeRabbits.KaoList.Bookmark", "CodeRabbits.KaoList.Bookmark\src\CodeRabbits.KaoList.Bookmark.csproj", "{CA686F94-009B-4968-A121-6597D241B7F9}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeRabbits.Kakao", "CodeRabbits.Kakao\CodeRabbits.Kakao.csproj", "{4196A4AB-83BF-43A1-892D-C12CEAD77C3F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,6 +32,10 @@ Global
 		{CA686F94-009B-4968-A121-6597D241B7F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA686F94-009B-4968-A121-6597D241B7F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CA686F94-009B-4968-A121-6597D241B7F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4196A4AB-83BF-43A1-892D-C12CEAD77C3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4196A4AB-83BF-43A1-892D-C12CEAD77C3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4196A4AB-83BF-43A1-892D-C12CEAD77C3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4196A4AB-83BF-43A1-892D-C12CEAD77C3F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
