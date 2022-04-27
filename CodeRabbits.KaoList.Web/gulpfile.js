@@ -5,7 +5,7 @@ var gulp = require('gulp'),
     sass = require('gulp-sass')(require('sass')),
     uglify = require('gulp-uglify'),
     del = require('del'),
-    minifyCSS = require('gulp-minify-css'),
+    cleanCSS = require('gulp-clean-css'),
     autoprefixer = require('gulp-autoprefixer'),
     rename = require('gulp-rename'),
     bundleconfig = require('./bundleconfig.json');
@@ -33,7 +33,7 @@ gulp.task('min:script', () => gulp.src(["wwwroot/js/!(*.min).js"], { base: '.' }
 );
 
 gulp.task('min:css', () => gulp.src("wwwroot/css/**/!(*.min).css", { base: '.' })
-    .pipe(minifyCSS())
+    .pipe(cleanCSS())
     .pipe(rename({        
         suffix: '.min',
     }))
