@@ -1,4 +1,6 @@
-﻿@import "../_all.scss";
+﻿@import '../variables/_color.scss';
+@import '../variables/_font.scss';
+@import '../variables/_dimen.scss';
 
 $chart-width: 500px;
 $chart-height: 40px;

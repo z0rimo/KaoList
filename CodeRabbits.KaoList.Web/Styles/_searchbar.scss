@@ -1,5 +1,6 @@
-﻿@import "color.scss";
-@import "font.scss";
+﻿@import "variables/_color.scss";
+
+$searchbar-default-icon-url: '/svg/searchIcon.svg?fill=' + str-slice("#{$color-green-cyan}", 2);
 
 .searchbar {
     display: flex;
@@ -15,6 +16,6 @@
         border: 0;
         background-size: cover;
         background-color: $color-white;
-        background-image: url('/svg/searchIcon.svg?fill=' + str-slice("#{$color-green-cyan}", 2));
+        background-image: url($searchbar-default-icon-url);
     }
 }

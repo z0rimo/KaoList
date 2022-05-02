@@ -1,21 +1,25 @@
-﻿@import "../../../_all.scss";
+﻿@import "../../../variables/_color.scss";
+@import "../../../variables/_font.scss";
 
 $container-height: 750px;
 $register-agreement-area-width: 404px;
 $password-blind-switch-width: 22px;
 $password-blind-switch-heignt: 19px;
 
+$uncheck-circle-icon-url: '/svg/checkCircleIcon.svg?fill=' + str-slice("#{$color-gray77}",2);
+$check-circle-icon-url: '/svg/checkCircleIcon.svg?fill=' + str-slice("#{$color-gray77}",2);
+
 input[type='checkbox'] {
     appearance: none;
     cursor: pointer;
     width: 19px;
     height: 19px;
-    background-image: url('/svg/checkCircleIcon.svg?fill=' + str-slice("#{$color-gray77}",2));
+    background-image: url($uncheck-circle-icon-url);
     margin: 0;
     padding: 0;
 
     &:checked {
-        background-image: url('/svg/checkCircleIcon.svg?fill=' + str-slice("#{$color-grotesque-green}",2));
+        background-image: url($check-circle-icon-url);
     }
 }
 
@@ -145,7 +149,7 @@ input[type='checkbox'] {
 
         &:disabled {
             border: solid 1px $color-gray77;
-            background-color: $color-gray90; 
+            background-color: $color-gray90;
             cursor: initial;
         }
     }
