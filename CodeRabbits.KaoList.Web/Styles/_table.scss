@@ -52,55 +52,6 @@ table {
     border-radius: 4px 4px 0px 0px;
 }
 
-
-.chart-table {
-    font-size: $h1;
-
-    th {
-        height: 36px;
-        font-weight: bold;
-        font-size: inherit;
-    }
-
-    td {
-        height: 120px;
-        font-size: inherit;
-    }
-
-    th, td {
-
-        &:nth-child(1) {
-            width: 16%;
-        }
-
-        &:nth-child(2) {
-            width: 57%;
-        }
-
-        &:nth-child(3), &:nth-child(4) {
-            width: 9%
-        }
-
-        &:nth-child(5) {
-            width: 8%;
-        }
-    }
-
-    td:nth-child(1) {
-        p {
-            position: absolute;
-            left: 11px;
-            top: 45%;
-            margin: 0;
-            padding: 0;
-        }
-    }
-
-    td:nth-child(2) {
-        text-align: left;
-    }
-}
-
 .chart-pagenum-area {
     width: 440px;
     padding-top: 46px;
