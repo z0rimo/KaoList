@@ -57,12 +57,6 @@ button {
     .arrow.right-arrow {
         transform: rotate(180deg);
     }
-
-    .arrow.disable {
-        content: url(/Svg/leftPageIcon.svg?fill=969696);
-        pointer-events: none;
-        cursor: default;
-    }
 }
 
 .chart-table {

@@ -15,12 +15,22 @@
 <div class="chart-main-area">
     <partial name="_ChartTablePartial" model=@items />
     <div class="chart-pagenum-area pagenum">
-        <a asp-route-index=@(Model.Index - 10) asp-route-query=@Model.Query class="arrow @(Model.Index - 10 <= 0 ? "disable" : "")"></a>
+        @{
+            if (Model.Index - 10 > 0) 
+            { 
+                <a asp-route-index=@(Model.Index - 10) asp-route-query=@Model.Query class="arrow"></a> 
+            }
+        }
         @foreach (var item in Enumerable.Range(digit, pageCount))
         {
             <a asp-route-index=@(item + 1) class="@((item + 1) == Model.Index ? "active" : "")"
            asp-route-query=@Model.Query>@(item + 1)</a>
         }
-        <a asp-route-index=@(Model.Index + 10) asp-route-query=@Model.Query class="arrow right-arrow @(((Model.Index - 1) / 10 * 10) + 10 > lastPageIndex ? "disable" : "")"></a>
+        @{
+            if (((Model.Index-1) / 10 *10) + 10 <= lastPageIndex) 
+            { 
+                <a asp-route-index=@(Model.Index + 10) asp-route-query=@Model.Query class="arrow right-arrow"></a>
+            }
+        }
     </div>
 </div>

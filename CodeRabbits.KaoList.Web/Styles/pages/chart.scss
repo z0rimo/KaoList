@@ -82,3 +82,21 @@ $chart-index-active-color: $color-tradewind;
         }
     }
 }
+
+.chart-pagenum-area {
+    min-width: 85px;
+    padding-top: 46px;
+    padding-bottom: 76px;
+    text-align: center;
+    word-spacing: 25px;
+
+    a {
+        font-weight: 700;
+        font-size: $h2;
+        color: black;
+    }
+
+    .arrow {
+        width: 10px;
+    }
+}
