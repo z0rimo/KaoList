@@ -16,8 +16,4 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="5.0.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\CodeRabbits.KaoList.Bookmark\src\CodeRabbits.KaoList.Bookmark.csproj" />
-  </ItemGroup>
-
 </Project>

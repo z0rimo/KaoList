@@ -7,9 +7,7 @@ namespace CodeRabbits.KaoList.Web.Pages.Chart
 {
     public class BookmarkModel : ChartPage
     {
-        public BookmarkModel(IConfiguration configuration,
-            BookmarkManager<KaoListUser, Data.Bookmark> bookmarkManager,
-            UserManager<KaoListUser> userManager) : base(configuration)
+        public BookmarkModel(IConfiguration configuration) : base(configuration)
         {
             PageName = "북마크";
         }

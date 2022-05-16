@@ -27,7 +27,7 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\CodeRabbits.Kakao\CodeRabbits.Kakao.csproj" />
 	  <ProjectReference Include="..\CodeRabbits.KaoList.Bookmark\src\CodeRabbits.KaoList.Bookmark.csproj" />
-	  <ProjectReference Include="..\CodeRabbits.KaoList.Data\CodeRabbits.KaoList.Data.csproj" />
+	  <ProjectReference Include="..\CodeRabbits.KaoList.Data\src\CodeRabbits.KaoList.Data.csproj" />
 	</ItemGroup>
 
 </Project>

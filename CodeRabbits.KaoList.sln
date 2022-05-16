@@ -4,15 +4,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.0.32126.317
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeRabbits.KaoList.Web", "CodeRabbits.KaoList.Web\CodeRabbits.KaoList.Web.csproj", "{3566B9A2-E560-4BB3-9CB6-FFE509FF7746}"
-	ProjectSection(ProjectDependencies) = postProject
-		{E27BB9A3-CFFD-44B1-A633-AE1DC2D71044} = {E27BB9A3-CFFD-44B1-A633-AE1DC2D71044}
-	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeRabbits.KaoList.Data", "CodeRabbits.KaoList.Data\CodeRabbits.KaoList.Data.csproj", "{E27BB9A3-CFFD-44B1-A633-AE1DC2D71044}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeRabbits.KaoList.Bookmark", "CodeRabbits.KaoList.Bookmark\src\CodeRabbits.KaoList.Bookmark.csproj", "{CA686F94-009B-4968-A121-6597D241B7F9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeRabbits.Kakao", "CodeRabbits.Kakao\CodeRabbits.Kakao.csproj", "{4196A4AB-83BF-43A1-892D-C12CEAD77C3F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeRabbits.KaoList.Data", "CodeRabbits.KaoList.Data\src\CodeRabbits.KaoList.Data.csproj", "{9CFE1BB0-765B-4022-922A-11C0C2F48B4E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeRabbits.KaoList.Data.Test", "CodeRabbits.KaoList.Data\test\CodeRabbits.KaoList.Data.Test.csproj", "{080BAE36-67F8-4281-9425-8A381B5AB374}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,10 +23,6 @@ Global
 		{3566B9A2-E560-4BB3-9CB6-FFE509FF7746}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3566B9A2-E560-4BB3-9CB6-FFE509FF7746}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3566B9A2-E560-4BB3-9CB6-FFE509FF7746}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E27BB9A3-CFFD-44B1-A633-AE1DC2D71044}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E27BB9A3-CFFD-44B1-A633-AE1DC2D71044}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E27BB9A3-CFFD-44B1-A633-AE1DC2D71044}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E27BB9A3-CFFD-44B1-A633-AE1DC2D71044}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CA686F94-009B-4968-A121-6597D241B7F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CA686F94-009B-4968-A121-6597D241B7F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA686F94-009B-4968-A121-6597D241B7F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -36,6 +31,14 @@ Global
 		{4196A4AB-83BF-43A1-892D-C12CEAD77C3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4196A4AB-83BF-43A1-892D-C12CEAD77C3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4196A4AB-83BF-43A1-892D-C12CEAD77C3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CFE1BB0-765B-4022-922A-11C0C2F48B4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CFE1BB0-765B-4022-922A-11C0C2F48B4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CFE1BB0-765B-4022-922A-11C0C2F48B4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CFE1BB0-765B-4022-922A-11C0C2F48B4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{080BAE36-67F8-4281-9425-8A381B5AB374}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{080BAE36-67F8-4281-9425-8A381B5AB374}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{080BAE36-67F8-4281-9425-8A381B5AB374}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{080BAE36-67F8-4281-9425-8A381B5AB374}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
