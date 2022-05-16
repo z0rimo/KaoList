@@ -59,9 +59,6 @@ builder.Services.AddRazorPages()
 
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 
-builder.Services.AddBookmark<KaoListUser, Bookmark>()
-                .AddEntityFrameworkStores<KaoListContext>();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
