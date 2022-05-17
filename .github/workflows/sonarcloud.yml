@@ -52,8 +52,9 @@ jobs:
             /d:sonar.cs.opencover.reportsPaths=**/coverage.opencover.xml
           dotnet build
           dotnet test `
-            --collect:"XPlat Code Coverage" `
+            --collect:"XPlat Code Coverage" `          # Test Result directory
             --logger "trx;LogFileName=unittests.trx" `  # Use standard trx format for logger output
             --no-build `
-            --no-restore
+            --no-restore `
+            --DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover # Special open cover data collector
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
