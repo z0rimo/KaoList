@@ -42,13 +42,12 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |          
-          dotnet tool install -g dotnet-reportgenerator-globaltool
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"code-rabbits-team_CodeRabbits.KaoList" /o:"code-rabbits-team" `
             /d:sonar.login="${{ secrets.SONAR_TOKEN }}" `
             /d:sonar.host.url="https://sonarcloud.io" `
             /d:sonar.cs.vstest.reportsPaths=TestResults/*.trx `
             /d:sonar.cs.opencover.reportsPaths=TestResults/*/coverage.opencover.xml `
-            /d:sonar.coverage.exclusions="**Test*.cs" `
+            /d:sonar.coverage.exclusions="**Test*.cs"
           dotnet build
           dotnet test `
             --collect:"XPlat Code Coverage" `
