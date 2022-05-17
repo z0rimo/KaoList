@@ -55,5 +55,5 @@ jobs:
             --collect:"XPlat Code Coverage" `
             --logger "trx;LogFileName=unittests.trx" `  # Use standard trx format for logger output
             --no-build `
-            --no-restore `
+            --no-restore
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
