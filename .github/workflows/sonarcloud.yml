@@ -41,10 +41,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
-        run: |
-          dotnet tool install -g dotnet-reportgenerator-globaltool
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"code-rabbits-team_CodeRabbits.KaoList" /o:"code-rabbits-team" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet test --collect:"XPlat Code Coverage"
-          reportgenerator -reports:"**\coverage.cobertura.xml" -targetdir:"coveragereport" -reporttypes:Html
+        run: |          
+          dotnet tool install --global dotnet-sonarscanner
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"code-rabbits-team_CodeRabbits.KaoList" /o:"code-rabbits-team" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"                    
           dotnet build
+          dotnet test --collect:"XPlat Code Coverage"
+          reportgenerator "-reports:*\TestResults\*\coverage.cobertura.xml" "-targetdir:sonarqubecoverage" "-reporttypes:SonarQube"
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
