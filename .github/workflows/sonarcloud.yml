@@ -49,6 +49,11 @@ jobs:
             /d:sonar.cs.vstest.reportsPaths=**/TestResults/*.trx `
             /d:sonar.cs.opencover.reportsPaths=**/TestResults/*/coverage.opencover.xml `
             /d:sonar.coverage.exclusions="**Test*.cs"
-          dotnet test --collect:"XPlat Code Coverage" --logger "trx;LogFileName=unittests.trx" --DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
           dotnet build
+          dotnet test `
+            --collect:"XPlat Code Coverage" `
+            --logger "trx;LogFileName=unittests.trx" `
+            --no-build `
+            --no-restore `
+            -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=opencover
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
