@@ -1,7 +1,4 @@
-using CodeRabbits.KaoList.Bookmark;
-using CodeRabbits.KaoList.Data;
 using CodeRabbits.KaoList.Web.Models;
-using Microsoft.AspNetCore.Identity;
 
 namespace CodeRabbits.KaoList.Web.Pages.Chart
 {

@@ -1,7 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using Xunit;
 
 namespace CodeRabbits.KaoList.Data.Test
@@ -27,32 +23,6 @@ namespace CodeRabbits.KaoList.Data.Test
             Assert.Equal(i18n.ConcurrencyStamp, concurrencyStamp);
             Assert.Equal(i18n.Name, name);
             Assert.Equal(i18n.NormalizedName, normalizedName);
-        }
-
-        [Fact]
-        public void AttributeValidationTest()
-        {
-            var I18nType = typeof(I18n);
-
-            var indexAttribute = (IndexAttribute)I18nType.GetCustomAttributes(typeof(IndexAttribute), false).Single();
-            Assert.Equal<string>(new string[] { nameof(I18n.NormalizedName) }, indexAttribute.PropertyNames);
-            Assert.True(indexAttribute.IsUnique);
-
-            Assert.Single(I18nType.GetProperty(nameof(I18n.ConcurrencyStamp))!.GetCustomAttributes(typeof(RequiredAttribute), false));
-            Assert.Single(I18nType.GetProperty(nameof(I18n.ConcurrencyStamp))!.GetCustomAttributes(typeof(ConcurrencyCheckAttribute), false));
-
-            Assert.Single(I18nType.GetProperty(nameof(I18n.Name))!.GetCustomAttributes(typeof(KeyAttribute), false));
-            MaxLengthAttribute nameMaxLengthAttribute = (MaxLengthAttribute)I18nType.GetProperty(nameof(I18n.Name))
-                !.GetCustomAttributes(typeof(MaxLengthAttribute), false)
-                .Single();
-            Assert.Equal(50, nameMaxLengthAttribute.Length);
-
-            Assert.Single(I18nType.GetProperty(nameof(I18n.NormalizedName))!.GetCustomAttributes(typeof(RequiredAttribute), false));
-            var normalizedNameMaxLengthAttribute = (MaxLengthAttribute)I18nType.GetProperty(nameof(I18n.NormalizedName))
-                !.GetCustomAttributes(typeof(MaxLengthAttribute), false)
-                .Single();
-            Assert.Equal(50, normalizedNameMaxLengthAttribute.Length);
-
         }
     }
 }

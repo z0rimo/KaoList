@@ -1,5 +1,4 @@
 using System;
-using System.ComponentModel.DataAnnotations;
 using Xunit;
 
 namespace CodeRabbits.KaoList.Data.Test
@@ -25,15 +24,6 @@ namespace CodeRabbits.KaoList.Data.Test
             Assert.Equal(appLog.Id, id);
             Assert.Equal(appLog.CreateTime, creatTime);
             Assert.Equal(appLog.Log, log);
-        }
-
-        [Fact]
-        public void AttributeValidationTest()
-        {
-            var appLogType = typeof(AppLog);
-            Assert.Single(appLogType.GetProperty(nameof(AppLog.Id))!.GetCustomAttributes(typeof(KeyAttribute), false));
-            Assert.Single(appLogType.GetProperty(nameof(AppLog.CreateTime))!.GetCustomAttributes(typeof(RequiredAttribute), false));
-            Assert.Single(appLogType.GetProperty(nameof(AppLog.Log))!.GetCustomAttributes(typeof(RequiredAttribute), false));
         }
     }
 }

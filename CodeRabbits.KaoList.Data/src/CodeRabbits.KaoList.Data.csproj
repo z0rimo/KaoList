@@ -16,4 +16,8 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="5.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\CodeRabbits.KaoList.Identity\CodeRabbits.KaoList.Identity.csproj" />
+  </ItemGroup>
+
 </Project>

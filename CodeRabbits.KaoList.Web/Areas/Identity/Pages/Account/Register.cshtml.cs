@@ -2,7 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using CodeRabbits.KaoList.Data;
+using CodeRabbits.KaoList.Identity;
 using CodeRabbits.KaoList.Web.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;

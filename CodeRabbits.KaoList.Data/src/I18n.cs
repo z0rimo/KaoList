@@ -10,7 +10,7 @@ public class I18n
     /// Language name
     /// </summary>
     [Key]
-    [MaxLength(50)]    
+    [MaxLength(50)]
     public string? Name { get; set; }
 
     /// <summary>
@@ -24,6 +24,6 @@ public class I18n
     /// A random value that must change whenever a user is persisted to the store
     /// </summary>
     [Required]
-    [ConcurrencyCheck]   
+    [ConcurrencyCheck]
     public string? ConcurrencyStamp { get; set; }
 }

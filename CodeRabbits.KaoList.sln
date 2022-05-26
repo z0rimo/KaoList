@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeRabbits.KaoList.Data", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeRabbits.KaoList.Data.Test", "CodeRabbits.KaoList.Data\test\CodeRabbits.KaoList.Data.Test.csproj", "{080BAE36-67F8-4281-9425-8A381B5AB374}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeRabbits.KaoList.Identity", "CodeRabbits.KaoList.Identity\CodeRabbits.KaoList.Identity.csproj", "{0B967A7F-D54C-46CC-BA24-90B63ECD7CDC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{080BAE36-67F8-4281-9425-8A381B5AB374}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{080BAE36-67F8-4281-9425-8A381B5AB374}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{080BAE36-67F8-4281-9425-8A381B5AB374}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B967A7F-D54C-46CC-BA24-90B63ECD7CDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B967A7F-D54C-46CC-BA24-90B63ECD7CDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B967A7F-D54C-46CC-BA24-90B63ECD7CDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B967A7F-D54C-46CC-BA24-90B63ECD7CDC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
