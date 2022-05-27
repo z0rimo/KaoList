@@ -27,5 +27,8 @@ public class SignInAttempt
     /// </summary>
     public DateTime? CreateTime { get; set; } = DateTime.UtcNow;
 
+    /// <summary>
+    /// The attempted login was successful.
+    /// </summary>
     public bool? Successed { get; set; }
 }

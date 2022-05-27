@@ -67,7 +67,7 @@ public class KaoListDataContext<TUser> : IdentityDbContext<TUser, IdentityRole, 
             b.Property(p => p.NormalizedName).HasColumnType("nvarchar(50)").IsRequired().IsUnicode(false);
             b.Property(p => p.ConcurrencyStamp).IsConcurrencyToken().HasColumnType("nvarchar(max)").IsRequired();
 
-            b.HasMany<KaoListUser>().WithOne().HasForeignKey(u => u.DefaultLanguage).IsRequired();
+            b.HasMany<TUser>().WithOne().HasForeignKey(u => u.DefaultLanguage).IsRequired();
         });
     }
 
@@ -76,7 +76,7 @@ public class KaoListDataContext<TUser> : IdentityDbContext<TUser, IdentityRole, 
     {
         IPAddressConverter converter = new();
 
-        builder.Entity<IdentityRole<TKey>>(b =>
+        builder.Entity<IdentityRole>(b =>
         {
             b.ToTable("KaoListRoles");
         });
@@ -106,7 +106,7 @@ public class KaoListDataContext<TUser> : IdentityDbContext<TUser, IdentityRole, 
             b.ToTable("KaoListUserTokens");
         });
 
-        builder.Entity<KaoListUser<TKey>>(b =>
+        builder.Entity<TUser>(b =>
         {
             b.HasIndex(u => u.NickName).HasDatabaseName("UserNickNameIndex");
             b.ToTable("KaoListUsers");
@@ -155,6 +155,9 @@ public class KaoListDataContext<TUser> : IdentityDbContext<TUser, IdentityRole, 
             b.HasKey(dr => dr.Id);
             b.ToTable("KaoListUserDeleteReasons");
 
+            b.Property(sa => sa.Id)
+             .ValueGeneratedOnAdd()
+             .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
             b.Property(u => u.CreateTime).IsRequired();
         });
 
@@ -195,5 +198,6 @@ public class KaoListDataContext<TUser> : IdentityDbContext<TUser, IdentityRole, 
     {
         base.OnModelCreating(builder);
         CommonEntitiesBuild(builder);
+        IdentityEntitiesBuild<string>(builder);
     }
 }

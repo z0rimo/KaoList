@@ -6,9 +6,9 @@
 public class KaoListUserDeleteReason
 {
     /// <summary>
-    /// A color value expressed in 32 bits.
+    /// Unique id of the reason for deletion.
     /// </summary>
-    public string? Id { get; set; }
+    public int? Id { get; set; }
 
     /// <summary>
     /// The last modified date of the nickname.
