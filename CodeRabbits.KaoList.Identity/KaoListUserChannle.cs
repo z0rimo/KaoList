@@ -3,7 +3,7 @@
 /// <summary>
 /// KaoListUserChannle on other sites owned by the user
 /// </summary>
-public class KaoListUserChannle
+public class KaoListUserChannel
 {
     /// <summary>
     /// The name of the provider that provides the channel to users.

@@ -19,7 +19,7 @@ public class KaoListDataContext<TUser> : IdentityDbContext<TUser, IdentityRole, 
     public virtual DbSet<AppLog> AppLogs { get; set; } = default!;
     public virtual DbSet<I18n> I18ns { get; set; } = default!;
     public virtual DbSet<KaoListUserBlind> UserBlinds { get; set; } = default!;
-    public virtual DbSet<KaoListUserChannle> UserChannles { get; set; } = default!;
+    public virtual DbSet<KaoListUserChannel> UserChannels { get; set; } = default!;
     public virtual DbSet<KaoListUserColor> UserColors { get; set; } = default!;
     public virtual DbSet<KaoListUserDeleteReason> UserDeleteReason { get; set; } = default!;
     public virtual DbSet<KaoListUserFollower> UserFollower { get; set; } = default!;
@@ -117,7 +117,7 @@ public class KaoListDataContext<TUser> : IdentityDbContext<TUser, IdentityRole, 
 
             b.HasMany<KaoListUserBlind>().WithOne().HasForeignKey(ub => ub.BlinedUserId).IsRequired();
             b.HasMany<KaoListUserBlind>().WithOne().HasForeignKey(ub => ub.UserId).IsRequired();
-            b.HasMany<KaoListUserChannle>().WithOne().HasForeignKey(uc => uc.UserId).IsRequired();
+            b.HasMany<KaoListUserChannel>().WithOne().HasForeignKey(uc => uc.UserId).IsRequired();
             b.HasMany<KaoListUserColor>().WithOne().HasForeignKey(uc => uc.UserId).IsRequired();
             b.HasMany<KaoListUserFollower>().WithOne().HasForeignKey(uf => uf.FollwerUserId).IsRequired();
             b.HasMany<KaoListUserFollower>().WithOne().HasForeignKey(uf => uf.FollowUserId).IsRequired();
@@ -133,7 +133,7 @@ public class KaoListDataContext<TUser> : IdentityDbContext<TUser, IdentityRole, 
         });
 
 
-        builder.Entity<KaoListUserChannle>(b =>
+        builder.Entity<KaoListUserChannel>(b =>
         {
             b.HasKey(uc => new { uc.ChannelProvider, uc.ProviderKey });
             b.ToTable("KaoListUserChannles");

@@ -21,7 +21,7 @@ namespace CodeRabbits.KaoList.Data.Test
             Assert.NotNull(GetPropertyOrNull(kaoListDataContextType, typeof(DbSet<AppLog>)));
             Assert.NotNull(GetPropertyOrNull(kaoListDataContextType, typeof(DbSet<I18n>)));
             Assert.NotNull(GetPropertyOrNull(kaoListDataContextType, typeof(DbSet<KaoListUser>)));
-            Assert.NotNull(GetPropertyOrNull(kaoListDataContextType, typeof(DbSet<KaoListUserChannle>)));
+            Assert.NotNull(GetPropertyOrNull(kaoListDataContextType, typeof(DbSet<KaoListUserChannel>)));
             Assert.NotNull(GetPropertyOrNull(kaoListDataContextType, typeof(DbSet<KaoListUserColor>)));
             Assert.NotNull(GetPropertyOrNull(kaoListDataContextType, typeof(DbSet<KaoListUserDeleteReason>)));
             Assert.NotNull(GetPropertyOrNull(kaoListDataContextType, typeof(DbSet<KaoListUserFollower>)));
