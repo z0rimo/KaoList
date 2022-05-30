@@ -17,12 +17,12 @@ namespace CodeRabbits.KaoList.Data.Test
             var appLog = new AppLog
             {
                 Id = id,
-                CreateTime = creatTime,
+                Created = creatTime,
                 Log = log
             };
 
             Assert.Equal(appLog.Id, id);
-            Assert.Equal(appLog.CreateTime, creatTime);
+            Assert.Equal(appLog.Created, creatTime);
             Assert.Equal(appLog.Log, log);
         }
     }

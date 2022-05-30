@@ -1,4 +1,5 @@
 ﻿using CodeRabbits.KaoList.Identity;
+using CodeRabbits.KaoList.Song;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -18,13 +19,29 @@ public class KaoListDataContext<TUser> : IdentityDbContext<TUser, IdentityRole, 
 {
     public virtual DbSet<AppLog> AppLogs { get; set; } = default!;
     public virtual DbSet<I18n> I18ns { get; set; } = default!;
+    public virtual DbSet<Classfication> Classfications { get; set; } = default!;
+    public virtual DbSet<ClassficationLocalized> ClassficationLocalizeds { get; set; } = default!;
+    public virtual DbSet<Instrumental> Instrumental { get; set; } = default!;
+    public virtual DbSet<InstrumentalBlind> InstrumentalBlinds { get; set; } = default!;
+    public virtual DbSet<InstrumentalClassification> InstrumentalClassifications { get; set; } = default!;
+    public virtual DbSet<InstrumentalFollower> InstrumentalFollowers { get; set; } = default!;
+    public virtual DbSet<InstrumentalLocalized> InstrumentalLocalizeds { get; set; } = default!;
     public virtual DbSet<KaoListUserBlind> UserBlinds { get; set; } = default!;
     public virtual DbSet<KaoListUserChannel> UserChannels { get; set; } = default!;
     public virtual DbSet<KaoListUserColor> UserColors { get; set; } = default!;
     public virtual DbSet<KaoListUserDeleteReason> UserDeleteReason { get; set; } = default!;
     public virtual DbSet<KaoListUserFollower> UserFollower { get; set; } = default!;
+    public virtual DbSet<KaoListUserLanguage> UserLanguage { get; set; } = default!;
     public virtual DbSet<KaoListUserLocalized> UserLocalized { get; set; } = default!;
+    public virtual DbSet<Lyric> Lyrics { get; set; } = default!;
+    public virtual DbSet<PopularSing> PopularSings { get; set; } = default!;
     public virtual DbSet<SignInAttempt> SignInAttempts { get; set; } = default!;
+    public virtual DbSet<Sing> Sings { get; set; } = default!;
+    public virtual DbSet<SingUser> SingUsers { get; set; } = default!;
+    public virtual DbSet<SongSearchLog> SongSearchLogs { get; set; } = default!;
+    public virtual DbSet<SoundPlayLog> SoundPlayLogs { get; set; } = default!;
+    public virtual DbSet<Sound> Sounds { get; set; } = default!;
+    public virtual DbSet<TitleSing> TitleSings { get; set; } = default!;
 
     public KaoListDataContext(DbContextOptions options) : base(options) { }
 
@@ -38,43 +55,13 @@ public class KaoListDataContext<TUser> : IdentityDbContext<TUser, IdentityRole, 
         private static IPAddress? BytesToIpAddress(byte[]? bytes) => bytes is not null ? new IPAddress(bytes) : null;
     }
 
-    public static void CommonEntitiesBuild(ModelBuilder builder)
+    private static void IdentityEntitiesBuild<TKey>(ModelBuilder builder) where TKey : IEquatable<TKey>
     {
-        builder.Entity<AppLog>(b =>
-        {
-            b.Property(p => p.Id)
-             .ValueGeneratedOnAdd()
-             .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            b.Property(p => p.CreateTime)
-             .HasColumnType("datetime2")
-             .HasDefaultValueSql("(GETUTCDATE())")
-             .IsRequired();
-
-            b.Property(p => p.Log)
-             .HasColumnType("nvarchar(max)")
-             .IsRequired();
-
-            b.HasKey(p => p.Id);
-        });
-
         builder.Entity<I18n>(b =>
         {
-            b.HasKey(p => p.Name);
-            b.HasIndex(p => p.NormalizedName).IsUnique();
-
-            b.Property(p => p.Name).HasColumnType("nvarchar(50)").IsUnicode(false);
-            b.Property(p => p.NormalizedName).HasColumnType("nvarchar(50)").IsRequired().IsUnicode(false);
-            b.Property(p => p.ConcurrencyStamp).IsConcurrencyToken().HasColumnType("nvarchar(max)").IsRequired();
-
-            b.HasMany<TUser>().WithOne().HasForeignKey(u => u.DefaultLanguage).IsRequired();
+            b.HasMany<KaoListUserLocalized>().WithOne().HasForeignKey(ul => ul.i18nName).IsRequired();
+            b.HasMany<KaoListUserLanguage>().WithOne().HasForeignKey(u => u.I18nName).IsRequired();
         });
-    }
-
-
-    public static void IdentityEntitiesBuild<TKey>(ModelBuilder builder) where TKey : IEquatable<TKey>
-    {
-        IPAddressConverter converter = new();
 
         builder.Entity<IdentityRole>(b =>
         {
@@ -112,15 +99,19 @@ public class KaoListDataContext<TUser> : IdentityDbContext<TUser, IdentityRole, 
             b.ToTable("KaoListUsers");
 
             b.Property(u => u.NickName).HasMaxLength(256);
-            b.Property(u => u.CreateTime).HasDefaultValueSql("(GETUTCDATE())").IsRequired();
-            b.Property(u => u.DefaultLanguage).HasMaxLength(50);
+            b.Property(u => u.Created).IsRequired();
 
             b.HasMany<KaoListUserBlind>().WithOne().HasForeignKey(ub => ub.BlinedUserId).IsRequired();
-            b.HasMany<KaoListUserBlind>().WithOne().HasForeignKey(ub => ub.UserId).IsRequired();
+            // Since OnDelete action is performed in the preceding BlinedUserId,
+            // The following UserId does not perform any action.
+            b.HasMany<KaoListUserBlind>().WithOne().HasForeignKey(ub => ub.UserId).OnDelete(DeleteBehavior.NoAction).IsRequired();
             b.HasMany<KaoListUserChannel>().WithOne().HasForeignKey(uc => uc.UserId).IsRequired();
             b.HasMany<KaoListUserColor>().WithOne().HasForeignKey(uc => uc.UserId).IsRequired();
-            b.HasMany<KaoListUserFollower>().WithOne().HasForeignKey(uf => uf.FollwerUserId).IsRequired();
             b.HasMany<KaoListUserFollower>().WithOne().HasForeignKey(uf => uf.FollowUserId).IsRequired();
+            // Since OnDelete action is performed in the preceding FollowUserId,
+            // The following FollwerUserId does not perform any action.
+            b.HasMany<KaoListUserFollower>().WithOne().HasForeignKey(uf => uf.FollwerUserId).OnDelete(DeleteBehavior.NoAction).IsRequired();
+            b.HasMany<KaoListUserLanguage>().WithOne().HasForeignKey(ul => ul.UserId).IsRequired();
             b.HasMany<KaoListUserLocalized>().WithOne().HasForeignKey(ul => ul.UserId).IsRequired();
             b.HasMany<SignInAttempt>().WithOne().HasForeignKey(sa => sa.UserId).IsRequired();
         });
@@ -128,6 +119,7 @@ public class KaoListDataContext<TUser> : IdentityDbContext<TUser, IdentityRole, 
         builder.Entity<KaoListUserBlind>(b =>
         {
             b.HasKey(u => new { u.UserId, u.BlinedUserId });
+            b.ToTable("KaoListUserBlinds");
 
             b.Property(u => u.CreateTime).IsRequired();
         });
@@ -169,6 +161,13 @@ public class KaoListDataContext<TUser> : IdentityDbContext<TUser, IdentityRole, 
             b.Property(u => u.CreateTime).IsRequired();
         });
 
+        builder.Entity<KaoListUserLanguage>(b =>
+        {
+            b.ToTable("KaoListUserLanguages")
+            ;
+            b.HasKey(ul => new { ul.I18nName, ul.UserId });
+        });
+
 
         builder.Entity<KaoListUserLocalized>(b =>
         {
@@ -187,17 +186,17 @@ public class KaoListDataContext<TUser> : IdentityDbContext<TUser, IdentityRole, 
             b.Property(sa => sa.Id)
              .ValueGeneratedOnAdd()
              .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-            b.Property(sa => sa.IpAddress).HasConversion(converter);
+            b.Property(sa => sa.IpAddress).HasConversion<IPAddressConverter>();
             b.Property(sa => sa.CreateTime).IsRequired();
             b.Property(sa => sa.Successed).IsRequired();
         });
     }
 
-
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-        CommonEntitiesBuild(builder);
+        builder.KaoListEntitiesBuild();
+        builder.SongEntitiesBuild<KaoListUser>();
         IdentityEntitiesBuild<string>(builder);
     }
 }

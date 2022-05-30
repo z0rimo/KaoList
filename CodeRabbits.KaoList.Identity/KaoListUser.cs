@@ -27,10 +27,5 @@ public class KaoListUser<TKey> : IdentityUser<TKey> where TKey : IEquatable<TKey
     /// <summary>
     /// Datetime the user was created.
     /// </summary>
-    public DateTime? CreateTime { get; set; }
-
-    /// <summary>
-    /// Default Language to be displayed to users
-    /// </summary>
-    public string? DefaultLanguage { get; set; }
+    public DateTime? Created { get; set; } = DateTime.UtcNow;
 }
