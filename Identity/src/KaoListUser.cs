@@ -2,12 +2,8 @@
 
 namespace CodeRabbits.KaoList.Identity;
 
-public class KaoListUser : KaoListUser<string>
-{
-}
-
 /// <inheritdoc />
-public class KaoListUser<TKey> : IdentityUser<TKey> where TKey : IEquatable<TKey>
+public class KaoListUser : IdentityUser
 {
     /// <summary>
     /// User's nickname

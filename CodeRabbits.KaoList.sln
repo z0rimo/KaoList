@@ -11,13 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeRabbits.KaoList.Data", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeRabbits.KaoList.Data.Test", "CodeRabbits.KaoList.Data\test\CodeRabbits.KaoList.Data.Test.csproj", "{080BAE36-67F8-4281-9425-8A381B5AB374}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeRabbits.KaoList.Identity", "CodeRabbits.KaoList.Identity\CodeRabbits.KaoList.Identity.csproj", "{0B967A7F-D54C-46CC-BA24-90B63ECD7CDC}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeRabbits.KaoList.Song", "Song\src\CodeRabbits.KaoList.Song.csproj", "{709BC06B-18D8-4A33-BFA9-62C5EF0B77F7}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeRabbits.KaoList", "Core\src\CodeRabbits.KaoList.csproj", "{E07C8B79-4567-4E5F-A897-E3B3F1FE5C5F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeRabbits.KaoList.Web", "Web\CodeRabbits.KaoList.Web.csproj", "{62769237-42FA-4AA0-B47F-7BB4AA4F25B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeRabbits.KaoList.Identity", "Identity\src\CodeRabbits.KaoList.Identity.csproj", "{9AA5AC0A-5078-4268-9782-002A0F0E91A6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeRabbits.KaoList.Web", "Web\src\CodeRabbits.KaoList.Web.csproj", "{C9E61757-7590-434B-86F2-26D291FB832C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +41,6 @@ Global
 		{080BAE36-67F8-4281-9425-8A381B5AB374}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{080BAE36-67F8-4281-9425-8A381B5AB374}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{080BAE36-67F8-4281-9425-8A381B5AB374}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0B967A7F-D54C-46CC-BA24-90B63ECD7CDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0B967A7F-D54C-46CC-BA24-90B63ECD7CDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0B967A7F-D54C-46CC-BA24-90B63ECD7CDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0B967A7F-D54C-46CC-BA24-90B63ECD7CDC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{709BC06B-18D8-4A33-BFA9-62C5EF0B77F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{709BC06B-18D8-4A33-BFA9-62C5EF0B77F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{709BC06B-18D8-4A33-BFA9-62C5EF0B77F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -53,10 +49,14 @@ Global
 		{E07C8B79-4567-4E5F-A897-E3B3F1FE5C5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E07C8B79-4567-4E5F-A897-E3B3F1FE5C5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E07C8B79-4567-4E5F-A897-E3B3F1FE5C5F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{62769237-42FA-4AA0-B47F-7BB4AA4F25B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{62769237-42FA-4AA0-B47F-7BB4AA4F25B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{62769237-42FA-4AA0-B47F-7BB4AA4F25B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{62769237-42FA-4AA0-B47F-7BB4AA4F25B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AA5AC0A-5078-4268-9782-002A0F0E91A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AA5AC0A-5078-4268-9782-002A0F0E91A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AA5AC0A-5078-4268-9782-002A0F0E91A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AA5AC0A-5078-4268-9782-002A0F0E91A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9E61757-7590-434B-86F2-26D291FB832C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9E61757-7590-434B-86F2-26D291FB832C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9E61757-7590-434B-86F2-26D291FB832C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9E61757-7590-434B-86F2-26D291FB832C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
