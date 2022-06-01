@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32126.317
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeRabbits.KaoList.Web", "CodeRabbits.KaoList.Web\CodeRabbits.KaoList.Web.csproj", "{3566B9A2-E560-4BB3-9CB6-FFE509FF7746}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeRabbits.KaoList.Bookmark", "CodeRabbits.KaoList.Bookmark\src\CodeRabbits.KaoList.Bookmark.csproj", "{CA686F94-009B-4968-A121-6597D241B7F9}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeRabbits.Kakao", "CodeRabbits.Kakao\CodeRabbits.Kakao.csproj", "{4196A4AB-83BF-43A1-892D-C12CEAD77C3F}"
@@ -19,16 +17,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeRabbits.KaoList.Song", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeRabbits.KaoList", "Core\src\CodeRabbits.KaoList.csproj", "{E07C8B79-4567-4E5F-A897-E3B3F1FE5C5F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeRabbits.KaoList.Web", "Web\CodeRabbits.KaoList.Web.csproj", "{62769237-42FA-4AA0-B47F-7BB4AA4F25B1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{3566B9A2-E560-4BB3-9CB6-FFE509FF7746}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3566B9A2-E560-4BB3-9CB6-FFE509FF7746}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3566B9A2-E560-4BB3-9CB6-FFE509FF7746}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3566B9A2-E560-4BB3-9CB6-FFE509FF7746}.Release|Any CPU.Build.0 = Release|Any CPU
 		{CA686F94-009B-4968-A121-6597D241B7F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{CA686F94-009B-4968-A121-6597D241B7F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CA686F94-009B-4968-A121-6597D241B7F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -57,6 +53,10 @@ Global
 		{E07C8B79-4567-4E5F-A897-E3B3F1FE5C5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E07C8B79-4567-4E5F-A897-E3B3F1FE5C5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E07C8B79-4567-4E5F-A897-E3B3F1FE5C5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62769237-42FA-4AA0-B47F-7BB4AA4F25B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62769237-42FA-4AA0-B47F-7BB4AA4F25B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62769237-42FA-4AA0-B47F-7BB4AA4F25B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62769237-42FA-4AA0-B47F-7BB4AA4F25B1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
