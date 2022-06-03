@@ -15,8 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\CodeRabbits.KaoList.Identity\CodeRabbits.KaoList.Identity.csproj" />
     <ProjectReference Include="..\..\Core\src\CodeRabbits.KaoList.csproj" />
+    <ProjectReference Include="..\..\Identity\src\CodeRabbits.KaoList.Identity.csproj" />
     <ProjectReference Include="..\..\Song\src\CodeRabbits.KaoList.Song.csproj" />
   </ItemGroup>
 
