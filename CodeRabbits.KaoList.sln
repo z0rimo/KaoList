@@ -19,6 +19,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeRabbits.KaoList.Identit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeRabbits.KaoList.Web", "Web\src\CodeRabbits.KaoList.Web.csproj", "{C9E61757-7590-434B-86F2-26D291FB832C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeRabbits.Naver", "CodeRabbits.Naver\CodeRabbits.Naver.csproj", "{B4C5D5C1-03BA-47AD-B200-C0D5F831A177}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
