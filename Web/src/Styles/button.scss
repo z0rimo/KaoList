@@ -1,0 +1,37 @@
+﻿@import 'variables/_color.scss';
+
+.white-button {
+    background-color: $color-white;
+}
+
+.gray-button {
+    background-color: $color-gray77;
+    color: $color-gray33;
+}
+
+.grotesque-green-button {
+    background-color: $color-grotesque-green;
+    color: $color-white;
+}
+
+.tradewind-button {
+    background: $color-tradewind;
+    color: $color-white;
+}
+
+.slightly-desaturated-pink-button {
+    background-color: $color-slightly-desaturated-pink;
+    color: $color-white;
+}
+
+.button-radius3 {
+    border-radius: 3px;
+}
+
+.button-radius4 {
+    border-radius: 4px;
+}
+
+.button-radius10 {
+    border-radius: 10px;
+}
