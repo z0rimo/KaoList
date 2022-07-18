@@ -95,7 +95,7 @@ public static class ModelBuilderExtension
         builder.Entity<KaoListUserChannel>(b =>
         {
             b.HasKey(uc => new { uc.ChannelProvider, uc.ProviderKey });
-            b.ToTable("KaoListUserChannles");
+            b.ToTable("KaoListUserChannels");
 
             b.Property(uc => uc.ChannelProvider).HasMaxLength(256);
             b.Property(uc => uc.ProviderKey).HasMaxLength(256);

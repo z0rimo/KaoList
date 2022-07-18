@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeRabbits.KaoList.Playlis
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeRabbits.KaoList.Playlist.Test", "Playlist\test\CodeRabbits.KaoList.Playlist.Test.csproj", "{C11BD42B-A369-48CB-896B-EC46C997108C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeRabbits.KaoList.Board", "Board\src\CodeRabbits.KaoList.Board.csproj", "{608D7F3C-BE9F-44C1-83B3-B0A39517BF89}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{C11BD42B-A369-48CB-896B-EC46C997108C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C11BD42B-A369-48CB-896B-EC46C997108C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C11BD42B-A369-48CB-896B-EC46C997108C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{608D7F3C-BE9F-44C1-83B3-B0A39517BF89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{608D7F3C-BE9F-44C1-83B3-B0A39517BF89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{608D7F3C-BE9F-44C1-83B3-B0A39517BF89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{608D7F3C-BE9F-44C1-83B3-B0A39517BF89}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

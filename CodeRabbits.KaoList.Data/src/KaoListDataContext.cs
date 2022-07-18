@@ -1,4 +1,5 @@
-﻿using CodeRabbits.KaoList.Identity;
+﻿using CodeRabbits.KaoList.Board;
+using CodeRabbits.KaoList.Identity;
 using CodeRabbits.KaoList.Song;
 using Duende.IdentityServer.EntityFramework.Options;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
@@ -27,13 +28,6 @@ public partial class KaoListDataContext<TUser> : ApiAuthorizationDbContext<TUser
     public virtual DbSet<InstrumentalClassification> InstrumentalClassifications { get; set; } = default!;
     public virtual DbSet<InstrumentalFollower> InstrumentalFollowers { get; set; } = default!;
     public virtual DbSet<InstrumentalLocalized> InstrumentalLocalizeds { get; set; } = default!;
-    public virtual DbSet<KaoListUserBlind> UserBlinds { get; set; } = default!;
-    public virtual DbSet<KaoListUserChannel> UserChannels { get; set; } = default!;
-    public virtual DbSet<KaoListUserColor> UserColors { get; set; } = default!;
-    public virtual DbSet<KaoListUserDeleteReason> UserDeleteReason { get; set; } = default!;
-    public virtual DbSet<KaoListUserFollower> UserFollower { get; set; } = default!;
-    public virtual DbSet<KaoListUserLanguage> UserLanguage { get; set; } = default!;
-    public virtual DbSet<KaoListUserLocalized> UserLocalized { get; set; } = default!;
     public virtual DbSet<Lyric> Lyrics { get; set; } = default!;
     public virtual DbSet<PopularSing> PopularSings { get; set; } = default!;
     public virtual DbSet<SignInAttempt> SignInAttempts { get; set; } = default!;
@@ -53,6 +47,7 @@ public partial class KaoListDataContext<TUser> : ApiAuthorizationDbContext<TUser
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+        builder.BoardEntitiesBuild<KaoListUser>();
         builder.KaoListEntitiesBuild();
         builder.SongEntitiesBuild<KaoListUser>();
         builder.KaoListPlaylistEntityBuilder<KaoListUser>();
