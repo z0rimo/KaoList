@@ -14,4 +14,4 @@ interface Resources {
 
 export type I18nResourcesKeyType = keyof Resources;
 
-export default interface II18nResources extends ResourceLanguage, Resources { };
+export default interface II18nResources extends ResourceLanguage, Resources { }

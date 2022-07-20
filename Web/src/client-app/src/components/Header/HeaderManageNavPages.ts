@@ -35,7 +35,7 @@ export default class HeaderManageNavPages {
     }
 
     public static PageNavClass(location: Location, page: string): string | undefined {
-        var activePage = HeaderManageNavPages.getPageNameByLocationHelper(location);
+        let activePage = HeaderManageNavPages.getPageNameByLocationHelper(location);
         return activePage === page.toLocaleLowerCase() ? "active" : undefined;
     }
 
