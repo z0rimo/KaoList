@@ -20,6 +20,11 @@ public class Instrumental
     /// </summary>
     public string? SoundId { get; set; }
 
+    ///<summary>
+    /// The composer of the instrumental
+    ///<summary>
+    public string? Composer { get; set; }
+
     /// <summary>
     /// The time the instrumental was created.
     /// </summary>

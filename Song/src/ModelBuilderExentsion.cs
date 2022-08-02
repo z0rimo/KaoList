@@ -35,6 +35,7 @@ public static class ModelBuilderExentsion
 
             b.Property(i => i.Title).HasColumnType("nvarchar(256)").IsRequired();
             b.Property(l => l.Created).IsRequired();
+            b.Property(i => i.Composer).HasColumnType("nvarchar(256)");
 
             b.HasMany<InstrumentalBlind>().WithOne().HasForeignKey(ib => ib.InstrumentalId).IsRequired();
             b.HasMany<InstrumentalClassification>().WithOne().HasForeignKey(ic => ic.InstrumentalId).IsRequired();
