@@ -16,9 +16,9 @@ public class Karaoke
     public virtual string? No { get; set; }
 
     /// <summary>
-    /// This is the sing id that the song no means.
+    /// This is the Instrumental id that the song no means.
     /// </summary>
-    public virtual string? SingId { get; set; }
+    public virtual string? InstrumentalId { get; set; }
 
     /// <summary>
     /// The name to be displayed.

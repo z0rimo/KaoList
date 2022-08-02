@@ -40,6 +40,7 @@ public static class ModelBuilderExentsion
             b.HasMany<InstrumentalClassification>().WithOne().HasForeignKey(ic => ic.InstrumentalId).IsRequired();
             b.HasMany<InstrumentalFollower>().WithOne().HasForeignKey(f => f.InstrumentalId).IsRequired();
             b.HasMany<InstrumentalLocalized>().WithOne().HasForeignKey(il => il.InstrumentalId).IsRequired();
+            b.HasMany<Karaoke>().WithOne().HasForeignKey(k => k.InstrumentalId).IsRequired();
             b.HasMany<Lyric>().WithOne().HasForeignKey(l => l.InstrumentalId).IsRequired();
             b.HasMany<Sing>().WithOne().HasForeignKey(s => s.InstrumentalId).IsRequired();
             // When Instrumental is deleted, the Sing is deleted, and when the Sing is deleted, the TitleSing is deleted.
@@ -115,7 +116,6 @@ public static class ModelBuilderExentsion
 
             b.Property(s => s.Created).IsRequired();
 
-            b.HasMany<Karaoke>().WithOne().HasForeignKey(ib => ib.SingId).IsRequired();
             b.HasMany<SingBlind>().WithOne().HasForeignKey(ib => ib.SingId).IsRequired();
             b.HasMany<SingFollower>().WithOne().HasForeignKey(ib => ib.SingId).IsRequired();
             b.HasMany<SingUser>().WithOne().HasForeignKey(ib => ib.SingId).IsRequired();
