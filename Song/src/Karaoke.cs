@@ -26,6 +26,11 @@ public class Karaoke
     public virtual string? DisplayName { get; set; }
 
     /// <summary>
+    /// The created is added date for karaoke
+    /// </summary>
+    public virtual DateTime? Created { get; set; }
+
+    /// <summary>
     /// A random value that must change whenever a karaoke is persisted to the store.
     /// </summary>
     public virtual string? ConcurrencyStamp { get; set; } = Guid.NewGuid().ToString();

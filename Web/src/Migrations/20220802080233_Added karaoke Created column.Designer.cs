@@ -4,6 +4,7 @@ using CodeRabbits.KaoList.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CodeRabbits.KaoList.Web.Migrations
 {
     [DbContext(typeof(KaoListDbContext))]
-    partial class KaoListDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220802080233_Added karaoke Created column")]
+    partial class AddedkaraokeCreatedcolumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
