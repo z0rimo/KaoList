@@ -1,0 +1,1 @@
+export { ReactComponent as default } from './naverIcon.svg';
