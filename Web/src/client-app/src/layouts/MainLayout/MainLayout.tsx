@@ -7,7 +7,7 @@ function MainLayout(props: React.HTMLAttributes<HTMLDivElement>) {
     const { children, ...rest } = props;
 
     return (
-        <div id='main-layout' className='summer' {...rest}>
+        <div id="main-layout" {...rest}>
             <Header />
             {children}
             <Footer />
