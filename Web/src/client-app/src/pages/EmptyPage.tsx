@@ -2,7 +2,7 @@ import React from "react";
 import MainLayout from "../layouts/MainLayout";
 import Page from "./Page";
 
-function HomePage() {
+function EmptyPage() {
     return (
         <MainLayout>
             <Page />
@@ -10,4 +10,4 @@ function HomePage() {
     )
 }
 
-export default React.memo(HomePage);
+export default React.memo(EmptyPage);

@@ -1,10 +1,9 @@
 import './App.scss';
-import MainLayout from './layouts/MainLayout/MainLayout';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import './i18n';
-import Page from './pages/Page';
 import { Login, LoginActions, Logout, LogoutActions } from './components/identity';
+import EmptyPage from './pages/EmptyPage';
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href') ?? undefined;
 
@@ -16,19 +15,16 @@ function logoutAction(name: string) {
   return (<Logout action={name}></Logout>);
 }
 
-
-
 function App() {
   return (
     <BrowserRouter basename={baseUrl}>
-      <MainLayout>
         <Routes>
           <Route path='/' element={<HomePage />} />
           <Route path='/chart' >
-            <Route path="discover" element={<Page />} />
-            <Route path="like" element={<Page />} />
+            <Route path="discover" element={<EmptyPage />} />
+            <Route path="like" element={<EmptyPage />} />
           </Route>
-          <Route path='/community' element={<Page />} />
+          <Route path='/community' element={<EmptyPage />} />
           <Route path={window.authPaths.Login} element={loginAction(LoginActions.Login)} />
           <Route path={window.authPaths.LoginFailed} element={loginAction(LoginActions.LoginFailed)} />
           <Route path={window.authPaths.LoginCallback} element={loginAction(LoginActions.LoginCallback)} />
@@ -38,9 +34,7 @@ function App() {
           <Route path={window.authPaths.LogOutCallback} element={logoutAction(LogoutActions.LogoutCallback)} />
           <Route path={window.authPaths.LoggedOut} element={logoutAction(LogoutActions.LoggedOut)} />
         </Routes>
-      </MainLayout>
     </BrowserRouter>
-
   );
 }
 
