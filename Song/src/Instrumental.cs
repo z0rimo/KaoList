@@ -14,6 +14,11 @@ public class Instrumental
     /// The title of the instrumental.
     /// </summary>
     public string? Title { get; set; }
+    
+    /// <summary>
+    /// This is a Title with accents, uppercase and lowercase letters, katakana, width, and variations removed.    
+    /// </summary>
+    public string? NormalizedTitle { get; set; }
 
     /// <summary>
     /// The sound id of the instrumental.

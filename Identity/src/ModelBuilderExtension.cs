@@ -2,12 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CodeRabbits.KaoList.Identity;
 
@@ -26,7 +21,7 @@ public static class ModelBuilderExtension
     {
         builder.Entity<I18n>(b =>
         {
-            b.HasMany<KaoListUserLocalized>().WithOne().HasForeignKey(ul => ul.i18nName).IsRequired();
+            b.HasMany<KaoListUserLocalized>().WithOne().HasForeignKey(ul => ul.I18nName).IsRequired();
             b.HasMany<KaoListUserLanguage>().WithOne().HasForeignKey(u => u.I18nName).IsRequired();
         });
 
@@ -62,10 +57,16 @@ public static class ModelBuilderExtension
 
         builder.Entity<TUser>(b =>
         {
-            b.HasIndex(u => u.NickName).HasDatabaseName("UserNickNameIndex");
+            b.HasIndex(u => u.NormalizedNickName)
+             .HasDatabaseName("KaoListUserNormalizedNickNameIndex");
             b.ToTable("KaoListUsers");
 
-            b.Property(u => u.NickName).HasMaxLength(256);
+            b.Property(u => u.NickName)
+             .HasMaxLength(256)
+             .UseCollation("Latin1_General_100_CS_AS_KS_WS_SC_UTF8");
+            b.Property(u => u.NormalizedNickName)
+             .HasMaxLength(256)
+             .UseCollation("Latin1_General_100_CI_AI_SC_UTF8");
             b.Property(u => u.Created).IsRequired();
 
             b.HasMany<KaoListUserBlind>().WithOne().HasForeignKey(ub => ub.BlinedUserId).IsRequired();
@@ -137,7 +138,7 @@ public static class ModelBuilderExtension
 
         builder.Entity<KaoListUserLocalized>(b =>
         {
-            b.HasKey(ul => new { ul.i18nName, ul.UserId });
+            b.HasKey(ul => new { ul.I18nName, ul.UserId });
             b.ToTable("KaoListUserLocalizeds");
             b.Property(ul => ul.ConcurrencyStamp).IsConcurrencyToken();
 

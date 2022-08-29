@@ -19,4 +19,9 @@ public class PostChartItem
     /// Title of each item in the chart.
     /// </summary>
     public virtual string? Title { get; set; }
+
+    /// <summary>
+    /// Gets or sets the normalized title for item of post chart.
+    /// </summary>
+    public virtual string? NormalizedTitle { get; set; }
 }

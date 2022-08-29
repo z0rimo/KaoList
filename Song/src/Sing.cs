@@ -8,7 +8,7 @@ public class Sing
     /// <summary>
     /// A unique id for the sing.
     /// </summary>
-    public virtual string? Id { get; set; }
+    public virtual string? Id { get; set; } = Guid.NewGuid().ToString();
 
     /// <summary>
     /// This is the instrumental id of the sing.

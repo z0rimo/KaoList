@@ -34,4 +34,9 @@ public class CommentReport
     /// Content with the reason for reporting the comment.
     /// </summary>
     public virtual string? Content { get; set; }
+
+    /// <summary>
+    /// Gets or sets the normalized content for this report of comment.
+    /// </summary>
+    public virtual string? NormalizedContent { get; set; }
 }

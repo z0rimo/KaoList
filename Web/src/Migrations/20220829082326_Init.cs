@@ -16,7 +16,7 @@ namespace CodeRabbits.KaoList.Web.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Log = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Log = table.Column<string>(type: "nvarchar(max)", nullable: false, collation: "Latin1_General_100_CS_AS_KS_WS_SC_UTF8")
                 },
                 constraints: table =>
                 {
@@ -29,6 +29,7 @@ namespace CodeRabbits.KaoList.Web.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     DisplayName = table.Column<string>(type: "nvarchar(256)", nullable: true),
+                    NormalizedDisplayName = table.Column<string>(type: "nvarchar(256)", nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -60,8 +61,8 @@ namespace CodeRabbits.KaoList.Web.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    DisplayName = table.Column<string>(type: "nvarchar(256)", nullable: false),
-                    NomalizedDisplayName = table.Column<string>(type: "nvarchar(256)", nullable: false),
+                    DisplayName = table.Column<string>(type: "nvarchar(256)", nullable: false, collation: "Latin1_General_100_CS_AS_KS_WS_SC_UTF8"),
+                    NormalizedDisplayName = table.Column<string>(type: "nvarchar(256)", nullable: false, collation: "Latin1_General_100_CI_AI_SC_UTF8"),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -143,7 +144,8 @@ namespace CodeRabbits.KaoList.Web.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    NickName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
+                    NickName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true, collation: "Latin1_General_100_CS_AS_KS_WS_SC_UTF8"),
+                    NormalizedNickName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true, collation: "Latin1_General_100_CI_AI_SC_UTF8"),
                     NickNameEditedDatetime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ProfileIcon = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -210,8 +212,8 @@ namespace CodeRabbits.KaoList.Web.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(256)", nullable: true),
-                    NormalizedName = table.Column<string>(type: "nvarchar(256)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(256)", nullable: true, collation: "Latin1_General_100_CS_AS_KS_WS_SC_UTF8"),
+                    NormalizedName = table.Column<string>(type: "nvarchar(256)", nullable: true, collation: "Latin1_General_100_CI_AI_SC_UTF8"),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -226,7 +228,8 @@ namespace CodeRabbits.KaoList.Web.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(256)", nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(256)", nullable: true, collation: "Latin1_General_100_CS_AS_KS_WS_SC_UTF8"),
+                    NormalizedTitle = table.Column<string>(type: "nvarchar(256)", nullable: true, collation: "Latin1_General_100_CI_AI_SC_UTF8"),
                     Contents = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RemoveRequestTime = table.Column<int>(type: "int", nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -268,7 +271,8 @@ namespace CodeRabbits.KaoList.Web.Migrations
                 {
                     ClassficationId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     I18nName = table.Column<string>(type: "nvarchar(50)", nullable: false),
-                    DisplayName = table.Column<string>(type: "nvarchar(256)", nullable: true),
+                    DisplayName = table.Column<string>(type: "nvarchar(256)", nullable: true, collation: "Latin1_General_100_CS_AS_KS_WS_SC_UTF8"),
+                    NormalizedDisplayName = table.Column<string>(type: "nvarchar(256)", nullable: true, collation: "Latin1_General_100_CI_AI_SC_UTF8"),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -294,7 +298,8 @@ namespace CodeRabbits.KaoList.Web.Migrations
                 {
                     HeadId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     I18nName = table.Column<string>(type: "nvarchar(50)", nullable: false),
-                    Displayname = table.Column<string>(type: "nvarchar(256)", nullable: false),
+                    Displayname = table.Column<string>(type: "nvarchar(256)", nullable: false, collation: "Latin1_General_100_CS_AS_KS_WS_SC_UTF8"),
+                    NormalizedDisplayName = table.Column<string>(type: "nvarchar(256)", nullable: false, collation: "Latin1_General_100_CI_AI_SC_UTF8"),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -336,11 +341,31 @@ namespace CodeRabbits.KaoList.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "InstrumentalBlinds",
+                columns: table => new
+                {
+                    InstrumentalId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_InstrumentalBlinds", x => new { x.InstrumentalId, x.UserId });
+                    table.ForeignKey(
+                        name: "FK_InstrumentalBlinds_KaoListUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "KaoListUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "KaoListPlaylist",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(256)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(256)", nullable: false, collation: "Latin1_General_100_CS_AS_KS_WS_SC_UTF8"),
+                    NormalizedName = table.Column<string>(type: "nvarchar(256)", nullable: false, collation: "Latin1_General_100_CI_AI_SC_UTF8"),
                     PrivacyStatus = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -498,17 +523,17 @@ namespace CodeRabbits.KaoList.Web.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    i18nName = table.Column<string>(type: "nvarchar(50)", nullable: false),
+                    I18nName = table.Column<string>(type: "nvarchar(50)", nullable: false),
                     NickName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     EditedDatetime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_KaoListUserLocalizeds", x => new { x.i18nName, x.UserId });
+                    table.PrimaryKey("PK_KaoListUserLocalizeds", x => new { x.I18nName, x.UserId });
                     table.ForeignKey(
-                        name: "FK_KaoListUserLocalizeds_I18ns_i18nName",
-                        column: x => x.i18nName,
+                        name: "FK_KaoListUserLocalizeds_I18ns_I18nName",
+                        column: x => x.I18nName,
                         principalTable: "I18ns",
                         principalColumn: "Name",
                         onDelete: ReferentialAction.Cascade);
@@ -633,7 +658,8 @@ namespace CodeRabbits.KaoList.Web.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     PostId = table.Column<int>(type: "int", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(256)", nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(256)", nullable: true, collation: "Latin1_General_100_CS_AS_KS_WS_SC_UTF8"),
+                    NormalizedTitle = table.Column<string>(type: "nvarchar(256)", nullable: true, collation: "Latin1_General_100_CI_AI_SC_UTF8"),
                     Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
@@ -654,7 +680,8 @@ namespace CodeRabbits.KaoList.Web.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     PostId = table.Column<int>(type: "int", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(256)", nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(256)", nullable: true, collation: "Latin1_General_100_CS_AS_KS_WS_SC_UTF8"),
+                    NormalizedTitle = table.Column<string>(type: "nvarchar(256)", nullable: true, collation: "Latin1_General_100_CI_AI_SC_UTF8"),
                     VoteNumber = table.Column<byte>(type: "tinyint", nullable: false),
                     EndDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     VoteRole = table.Column<string>(type: "nvarchar(450)", nullable: false)
@@ -685,7 +712,8 @@ namespace CodeRabbits.KaoList.Web.Migrations
                     PostId = table.Column<int>(type: "int", nullable: false),
                     CommentParent = table.Column<int>(type: "int", nullable: true),
                     CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true, collation: "Latin1_General_100_CS_AS_KS_WS_SC_UTF8"),
+                    NormalizedComment = table.Column<string>(type: "nvarchar(max)", nullable: true, collation: "Latin1_General_100_CI_AI_SC_UTF8"),
                     RemoveRequestTime = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Blinded = table.Column<bool>(type: "bit", nullable: false)
@@ -793,7 +821,8 @@ namespace CodeRabbits.KaoList.Web.Migrations
                     CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     IdentityToken = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true, collation: "Latin1_General_100_CS_AS_KS_WS_SC_UTF8"),
+                    NormalizedContent = table.Column<string>(type: "nvarchar(max)", nullable: true, collation: "Latin1_General_100_CI_AI_SC_UTF8")
                 },
                 constraints: table =>
                 {
@@ -868,9 +897,11 @@ namespace CodeRabbits.KaoList.Web.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(256)", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(256)", nullable: false, collation: "Latin1_General_100_CS_AS_KS_WS_SC_UTF8"),
+                    NormalizedTitle = table.Column<string>(type: "nvarchar(256)", nullable: false, collation: "Latin1_General_100_CI_AI_SC_UTF8"),
                     SoundId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Composer = table.Column<string>(type: "nvarchar(256)", nullable: true),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -916,7 +947,8 @@ namespace CodeRabbits.KaoList.Web.Migrations
                 {
                     I18nName = table.Column<string>(type: "nvarchar(50)", nullable: false),
                     PlaylistId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(256)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(256)", nullable: false, collation: "Latin1_General_100_CS_AS_KS_WS_SC_UTF8"),
+                    NormalizedName = table.Column<string>(type: "nvarchar(256)", nullable: false, collation: "Latin1_General_100_CI_AI_SC_UTF8"),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -1023,7 +1055,8 @@ namespace CodeRabbits.KaoList.Web.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     PostChartId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(256)", nullable: true)
+                    Title = table.Column<string>(type: "nvarchar(256)", nullable: true, collation: "Latin1_General_100_CS_AS_KS_WS_SC_UTF8"),
+                    NormalizedTitle = table.Column<string>(type: "nvarchar(256)", nullable: true, collation: "Latin1_General_100_CI_AI_SC_UTF8")
                 },
                 constraints: table =>
                 {
@@ -1065,7 +1098,8 @@ namespace CodeRabbits.KaoList.Web.Migrations
                     CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     IdentityToken = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true, collation: "Latin1_General_100_CS_AS_KS_WS_SC_UTF8"),
+                    NormalizedContent = table.Column<string>(type: "nvarchar(max)", nullable: true, collation: "Latin1_General_100_CI_AI_SC_UTF8")
                 },
                 constraints: table =>
                 {
@@ -1090,7 +1124,8 @@ namespace CodeRabbits.KaoList.Web.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     PostCommentId = table.Column<int>(type: "int", nullable: false),
-                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Comment = table.Column<string>(type: "nvarchar(max)", nullable: true, collation: "Latin1_General_100_CS_AS_KS_WS_SC_UTF8"),
+                    NormalizedComment = table.Column<string>(type: "nvarchar(max)", nullable: true, collation: "Latin1_General_100_CI_AI_SC_UTF8"),
                     CreateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -1124,31 +1159,6 @@ namespace CodeRabbits.KaoList.Web.Migrations
                         name: "FK_PostCommentUsers_PostComments_PostCommantId",
                         column: x => x.PostCommantId,
                         principalTable: "PostComments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "InstrumentalBlinds",
-                columns: table => new
-                {
-                    InstrumentalId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Created = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_InstrumentalBlinds", x => new { x.InstrumentalId, x.UserId });
-                    table.ForeignKey(
-                        name: "FK_InstrumentalBlinds_Instrumentals_InstrumentalId",
-                        column: x => x.InstrumentalId,
-                        principalTable: "Instrumentals",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_InstrumentalBlinds_KaoListUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "KaoListUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -1208,7 +1218,8 @@ namespace CodeRabbits.KaoList.Web.Migrations
                 {
                     InstrumentalId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     I18nName = table.Column<string>(type: "nvarchar(50)", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(256)", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(256)", nullable: false, collation: "Latin1_General_100_CS_AS_KS_WS_SC_UTF8"),
+                    NormalizedTitle = table.Column<string>(type: "nvarchar(256)", nullable: false, collation: "Latin1_General_100_CI_AI_SC_UTF8"),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -1236,7 +1247,8 @@ namespace CodeRabbits.KaoList.Web.Migrations
                     Sequence = table.Column<int>(type: "int", nullable: false),
                     Offset = table.Column<TimeSpan>(type: "time", nullable: false),
                     Duration = table.Column<TimeSpan>(type: "time", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true, collation: "Latin1_General_100_CS_AS_KS_WS_SC_UTF8"),
+                    NormalizedContent = table.Column<string>(type: "nvarchar(max)", nullable: true, collation: "Latin1_General_100_CI_AI_SC_UTF8")
                 },
                 constraints: table =>
                 {
@@ -1255,19 +1267,13 @@ namespace CodeRabbits.KaoList.Web.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     InstrumentalId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Language = table.Column<string>(type: "nvarchar(50)", nullable: false),
+                    Language = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SoundId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Sings", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Sings_I18ns_Language",
-                        column: x => x.Language,
-                        principalTable: "I18ns",
-                        principalColumn: "Name",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Sings_Instrumentals_InstrumentalId",
                         column: x => x.InstrumentalId,
@@ -1334,7 +1340,7 @@ namespace CodeRabbits.KaoList.Web.Migrations
                     Provider = table.Column<string>(type: "nvarchar(256)", nullable: false),
                     No = table.Column<string>(type: "nvarchar(50)", nullable: false),
                     SingId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    DisplayName = table.Column<string>(type: "nvarchar(256)", nullable: true),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -1472,9 +1478,9 @@ namespace CodeRabbits.KaoList.Web.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "ClassficationLocalizedNameIndex",
+                name: "ClassficationLocalizedNormalizedDisplayNameIndex",
                 table: "ClassficationLocalizeds",
-                column: "DisplayName");
+                column: "NormalizedDisplayName");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ClassficationLocalizeds_ClassficationId",
@@ -1508,9 +1514,9 @@ namespace CodeRabbits.KaoList.Web.Migrations
                 column: "Expiration");
 
             migrationBuilder.CreateIndex(
-                name: "HeadLocalizedDisplayNameIndex",
+                name: "HeadLocalizedNormalizedDisplayNameIndex",
                 table: "HeadLocalizeds",
-                column: "Displayname");
+                column: "NormalizedDisplayName");
 
             migrationBuilder.CreateIndex(
                 name: "IX_HeadLocalizeds_I18nName",
@@ -1518,14 +1524,9 @@ namespace CodeRabbits.KaoList.Web.Migrations
                 column: "I18nName");
 
             migrationBuilder.CreateIndex(
-                name: "HeadDisplayNameIndex",
+                name: "HeadNormalizedDisplayNameIndex",
                 table: "Heads",
-                column: "DisplayName");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Heads_NomalizedDisplayName",
-                table: "Heads",
-                column: "NomalizedDisplayName",
+                column: "NormalizedDisplayName",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -1550,9 +1551,9 @@ namespace CodeRabbits.KaoList.Web.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "InstrumentalLocalizedTitleIndex",
+                name: "InstrumentalLocalizedNormalizedTitleIndex",
                 table: "InstrumentalLocalizeds",
-                column: "Title");
+                column: "NormalizedTitle");
 
             migrationBuilder.CreateIndex(
                 name: "IX_InstrumentalLocalizeds_I18nName",
@@ -1560,9 +1561,9 @@ namespace CodeRabbits.KaoList.Web.Migrations
                 column: "I18nName");
 
             migrationBuilder.CreateIndex(
-                name: "InstrumentalTitleIndex",
+                name: "InstrumentalNormalizedTitleIndex",
                 table: "Instrumentals",
-                column: "Title");
+                column: "NormalizedTitle");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Instrumentals_SoundId",
@@ -1585,9 +1586,21 @@ namespace CodeRabbits.KaoList.Web.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "KaoListPlaylistNormalizedNameIndex",
+                table: "KaoListPlaylist",
+                column: "NormalizedName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_KaoListPlaylistLocalized_I18nName",
                 table: "KaoListPlaylistLocalized",
                 column: "I18nName");
+
+            migrationBuilder.CreateIndex(
+                name: "KaoListPlaylistLocalizedNormalizedNameIndex",
+                table: "KaoListPlaylistLocalized",
+                column: "NormalizedName",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_KaoListPlaylistPlayLog_PlaylistId",
@@ -1686,6 +1699,11 @@ namespace CodeRabbits.KaoList.Web.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
+                name: "KaoListUserNormalizedNickNameIndex",
+                table: "KaoListUsers",
+                column: "NormalizedNickName");
+
+            migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
                 table: "KaoListUsers",
                 column: "NormalizedUserName",
@@ -1693,19 +1711,9 @@ namespace CodeRabbits.KaoList.Web.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "UserNickNameIndex",
-                table: "KaoListUsers",
-                column: "NickName");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Karaokes_SingId",
                 table: "Karaokes",
                 column: "SingId");
-
-            migrationBuilder.CreateIndex(
-                name: "KaraokeNameIndex",
-                table: "Karaokes",
-                column: "DisplayName");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Keys_Use",
@@ -1726,6 +1734,11 @@ namespace CodeRabbits.KaoList.Web.Migrations
                 name: "IX_OriginalPosts_PostId",
                 table: "OriginalPosts",
                 column: "PostId");
+
+            migrationBuilder.CreateIndex(
+                name: "OriginalPostNormalizedTitleIndex",
+                table: "OriginalPosts",
+                column: "NormalizedTitle");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PersistedGrants_ConsumedTime",
@@ -1758,9 +1771,9 @@ namespace CodeRabbits.KaoList.Web.Migrations
                 column: "PostChartId");
 
             migrationBuilder.CreateIndex(
-                name: "PostChartItemTitleIndex",
+                name: "PostChartItemNormalizedTitleIndex",
                 table: "PostChartItems",
-                column: "Title");
+                column: "NormalizedTitle");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PostCharts_PostId",
@@ -1773,12 +1786,12 @@ namespace CodeRabbits.KaoList.Web.Migrations
                 column: "VoteRole");
 
             migrationBuilder.CreateIndex(
-                name: "PostChartTitleIndex",
+                name: "PostChartNormalizedTitleIndex",
                 table: "PostCharts",
-                column: "Title");
+                column: "NormalizedTitle");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PostChartVoteRoles_NormalizedName",
+                name: "PostChartVoteRoleNormalizedNameIndex",
                 table: "PostChartVoteRoles",
                 column: "NormalizedName",
                 unique: true,
@@ -1840,6 +1853,11 @@ namespace CodeRabbits.KaoList.Web.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "PostNormalizedTitleIndex",
+                table: "Posts",
+                column: "NormalizedTitle");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_PostUnlikes_PostId",
                 table: "PostUnlikes",
                 column: "PostId");
@@ -1873,11 +1891,6 @@ namespace CodeRabbits.KaoList.Web.Migrations
                 name: "IX_Sings_InstrumentalId",
                 table: "Sings",
                 column: "InstrumentalId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Sings_Language",
-                table: "Sings",
-                column: "Language");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Sings_SoundId",
@@ -2081,6 +2094,9 @@ namespace CodeRabbits.KaoList.Web.Migrations
                 name: "KaoListPlaylistShareRole");
 
             migrationBuilder.DropTable(
+                name: "I18ns");
+
+            migrationBuilder.DropTable(
                 name: "KaoListRoles");
 
             migrationBuilder.DropTable(
@@ -2109,9 +2125,6 @@ namespace CodeRabbits.KaoList.Web.Migrations
 
             migrationBuilder.DropTable(
                 name: "Posts");
-
-            migrationBuilder.DropTable(
-                name: "I18ns");
 
             migrationBuilder.DropTable(
                 name: "Instrumentals");

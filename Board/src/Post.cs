@@ -21,6 +21,11 @@ public class Post
     public virtual string? Title { get; set; }
 
     /// <summary>
+    /// Gets or sets the normalized title for this post.
+    /// </summary>
+    public virtual string? NormalizedTitle { get; set; }
+
+    /// <summary>
     /// Contents of the post.
     /// </summary>
     public virtual string? Contents { get; set; }

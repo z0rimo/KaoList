@@ -21,6 +21,11 @@ public class PostChart
     public virtual string? Title { get; set; }
 
     /// <summary>
+    /// Gets or sets the normalized title for this chart of post.
+    /// </summary>
+    public virtual string? NormalizedTitle { get; internal set; }
+
+    /// <summary>
     /// Number of items to choose from in the chart.
     /// </summary>
     public virtual byte? VoteNumber { get; set; }

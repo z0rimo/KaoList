@@ -30,25 +30,34 @@ public static class ModelBuilderExtension
         });
 
         builder.Entity<CommentReport>(b =>
-        {
+        {            
             b.HasKey(cr => cr.Id);
             b.ToTable("CommentReports");
 
             b.Property(p => p.CreateTime).IsRequired();
             b.Property(p => p.UserId).HasColumnType("nvarchar(450)");
             b.Property(p => p.IdentityToken).HasColumnType("nvarchar(450)");
+            b.Property(p => p.Content).UseCollation("Latin1_General_100_CS_AS_KS_WS_SC_UTF8");
+            b.Property(p => p.NormalizedContent).UseCollation("Latin1_General_100_CI_AI_SC_UTF8");
         });
 
         builder.Entity<Head>(b =>
-        {
-            b.HasIndex(h => h.DisplayName).HasDatabaseName("HeadDisplayNameIndex");
-            b.HasIndex(h => h.NomalizedDisplayName).IsUnique();
+        {            
+            b.HasIndex(h => h.NormalizedDisplayName)
+             .HasDatabaseName("HeadNormalizedDisplayNameIndex")
+             .IsUnique();
             b.HasKey(h => h.Id);
             b.ToTable("Heads");
             b.Property(p => p.ConcurrencyStamp).IsConcurrencyToken();
 
-            b.Property(p => p.DisplayName).HasColumnType("nvarchar(256)").IsRequired();
-            b.Property(p => p.NomalizedDisplayName).HasColumnType("nvarchar(256)").IsRequired();
+            b.Property(p => p.DisplayName)
+             .HasColumnType("nvarchar(256)")    
+             .UseCollation("Latin1_General_100_CS_AS_KS_WS_SC_UTF8")
+             .IsRequired();
+            b.Property(p => p.NormalizedDisplayName)
+             .HasColumnType("nvarchar(256)")
+             .UseCollation("Latin1_General_100_CI_AI_SC_UTF8")
+             .IsRequired();
 
             b.HasMany<HeadLocalized>().WithOne().HasForeignKey(hl => hl.HeadId).IsRequired();
             b.HasMany<PostHead>().WithOne().HasForeignKey(ph => ph.HeadId).IsRequired();
@@ -56,22 +65,37 @@ public static class ModelBuilderExtension
 
         builder.Entity<HeadLocalized>(b =>
         {
-            b.HasIndex(hl => hl.Displayname).HasDatabaseName("HeadLocalizedDisplayNameIndex");
+            b.HasIndex(hl => hl.NormalizedDisplayName)
+             .HasDatabaseName("HeadLocalizedNormalizedDisplayNameIndex");
             b.HasKey(hl => new { hl.HeadId, hl.I18nName });
             b.ToTable("HeadLocalizeds");
             b.Property(p => p.ConcurrencyStamp).IsConcurrencyToken();
 
             b.Property(p => p.I18nName).HasColumnType("nvarchar(50)").IsRequired();
-            b.Property(p => p.Displayname).HasColumnType("nvarchar(256)").IsRequired();
+            b.Property(p => p.Displayname)
+             .HasColumnType("nvarchar(256)")
+             .UseCollation("Latin1_General_100_CS_AS_KS_WS_SC_UTF8")
+             .IsRequired();
+            b.Property(p => p.NormalizedDisplayName)
+             .HasColumnType("nvarchar(256)")
+             .UseCollation("Latin1_General_100_CI_AI_SC_UTF8")
+             .IsRequired();
         });
 
         builder.Entity<OriginalPost>(b =>
         {
+            b.HasIndex(pc => pc.NormalizedTitle)
+             .HasDatabaseName("OriginalPostNormalizedTitleIndex");
             b.HasKey(op => op.Id);
             b.ToTable("OriginalPosts");
 
             b.Property(p => p.PostId).IsRequired();
-            b.Property(p => p.Title).HasColumnType("nvarchar(256)");
+            b.Property(p => p.Title)
+             .HasColumnType("nvarchar(256)")
+             .UseCollation("Latin1_General_100_CS_AS_KS_WS_SC_UTF8");
+            b.Property(p => p.NormalizedTitle)
+             .HasColumnType("nvarchar(256)")
+             .UseCollation("Latin1_General_100_CI_AI_SC_UTF8");
             b.Property(p => p.CreateTime).IsRequired();
         });
 
@@ -82,20 +106,29 @@ public static class ModelBuilderExtension
 
             b.Property(p => p.PostCommentId).IsRequired();
             b.Property(p => p.CreateTime).IsRequired();
+            b.Property(p => p.Comment)
+             .UseCollation("Latin1_General_100_CS_AS_KS_WS_SC_UTF8");
+            b.Property(p => p.NormalizedComment)
+             .UseCollation("Latin1_General_100_CI_AI_SC_UTF8");
         });
 
         builder.Entity<Post>(b =>
         {
+            b.HasIndex(pc => pc.NormalizedTitle).HasDatabaseName("PostNormalizedTitleIndex");
             b.HasKey(po => po.Id);
             b.ToTable("Posts");
             b.Property(p => p.ConcurrencyStamp).IsConcurrencyToken();
 
             b.Property(p => p.Id)
-            .ValueGeneratedOnAdd()
-            .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+             .ValueGeneratedOnAdd()
+             .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
             b.Property(p => p.CreateTime).IsRequired();
-            b.Property(p => p.Title).HasColumnType("nvarchar(256)");
-            b.Property(p => p.RemoveRequestTime);
+            b.Property(p => p.Title)
+             .HasColumnType("nvarchar(256)")
+             .UseCollation("Latin1_General_100_CS_AS_KS_WS_SC_UTF8");
+            b.Property(p => p.NormalizedTitle)
+             .HasColumnType("nvarchar(256)")
+             .UseCollation("Latin1_General_100_CI_AI_SC_UTF8");
             b.Property(p => p.Blinded).IsRequired();
 
             b.HasMany<OriginalPost>().WithOne().HasForeignKey(cr => cr.PostId).IsRequired();
@@ -111,12 +144,17 @@ public static class ModelBuilderExtension
 
         builder.Entity<PostChart>(b =>
         {
-            b.HasIndex(pc => pc.Title).HasDatabaseName("PostChartTitleIndex");
+            b.HasIndex(pc => pc.NormalizedTitle).HasDatabaseName("PostChartNormalizedTitleIndex");
             b.HasKey(pc => pc.Id);
             b.ToTable("PostCharts");
 
             b.Property(p => p.PostId).IsRequired();
-            b.Property(p => p.Title).HasColumnType("nvarchar(256)");
+            b.Property(p => p.Title)
+             .HasColumnType("nvarchar(256)")
+             .UseCollation("Latin1_General_100_CS_AS_KS_WS_SC_UTF8");
+            b.Property(p => p.NormalizedTitle)
+             .HasColumnType("nvarchar(256)")
+             .UseCollation("Latin1_General_100_CI_AI_SC_UTF8");
             b.Property(p => p.VoteNumber).IsRequired();
             b.Property(p => p.EndDateTime).IsRequired();
             b.Property(p => p.VoteRole).HasColumnType("nvarchar(450)").IsRequired();
@@ -127,12 +165,18 @@ public static class ModelBuilderExtension
 
         builder.Entity<PostChartItem>(b =>
         {
-            b.HasIndex(pci => pci.Title).HasDatabaseName("PostChartItemTitleIndex");
+            b.HasIndex(pci => pci.NormalizedTitle)
+             .HasDatabaseName("PostChartItemNormalizedTitleIndex");
             b.HasKey(pci => pci.Id);
             b.ToTable("PostChartItems");
 
             b.Property(p => p.PostChartId).HasColumnType("nvarchar(450)").IsRequired();
-            b.Property(p => p.Title).HasColumnType("nvarchar(256)");
+            b.Property(p => p.Title)
+             .HasColumnType("nvarchar(256)")
+             .UseCollation("Latin1_General_100_CS_AS_KS_WS_SC_UTF8");
+            b.Property(p => p.NormalizedTitle)
+             .HasColumnType("nvarchar(256)")
+             .UseCollation("Latin1_General_100_CI_AI_SC_UTF8");
         });
 
         builder.Entity<PostChartVote>(b =>
@@ -147,13 +191,20 @@ public static class ModelBuilderExtension
 
         builder.Entity<PostChartVoteRole>(b =>
         {
-            b.HasIndex(pcvr => pcvr.NormalizedName).IsUnique();
+            b.HasIndex(pcvr => pcvr.NormalizedName)
+             .HasDatabaseName("PostChartVoteRoleNormalizedNameIndex")
+             .IsUnique();
             b.HasKey(pcvr => pcvr.Id);
             b.ToTable("PostChartVoteRoles");
             b.Property(p => p.ConcurrencyStamp).IsConcurrencyToken();
 
-            b.Property(p => p.Name).HasColumnType("nvarchar(256)");
-            b.Property(p => p.NormalizedName).HasColumnType("nvarchar(256)");
+            b.Property(p => p.Name)
+             .HasColumnType("nvarchar(256)")
+             .UseCollation("Latin1_General_100_CS_AS_KS_WS_SC_UTF8");
+            b.Property(p => p.NormalizedName)
+             .HasColumnType("nvarchar(256)")
+             .UseCollation("Latin1_General_100_CI_AI_SC_UTF8");
+
             b.HasMany<PostChart>().WithOne().HasForeignKey(pc => pc.VoteRole).IsRequired();
         });
 
@@ -166,9 +217,11 @@ public static class ModelBuilderExtension
             b.Property(p => p.Id)
              .ValueGeneratedOnAdd()
              .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-            b.Property(p => p.PostId).IsRequired();
-            b.Property(p => p.CreateTime).IsRequired();
             b.Property(p => p.Blinded).IsRequired();
+            b.Property(p => p.PostId).IsRequired();
+            b.Property(p => p.Comment).UseCollation("Latin1_General_100_CS_AS_KS_WS_SC_UTF8");
+            b.Property(p => p.CreateTime).IsRequired();
+            b.Property(p => p.NormalizedComment).UseCollation("Latin1_General_100_CI_AI_SC_UTF8");
 
             b.HasMany<CommentReport>().WithOne().HasForeignKey(cr => cr.CommentId).IsRequired();
             b.HasMany<OriginalPostComment>().WithOne().HasForeignKey(opc => opc.PostCommentId).IsRequired();
@@ -222,6 +275,9 @@ public static class ModelBuilderExtension
             b.Property(p => p.CreateTime).IsRequired();
             b.Property(p => p.UserId).HasColumnType("nvarchar(450)");
             b.Property(p => p.IdentityToken).HasColumnType("nvarchar(450)");
+
+            b.Property(p => p.Content).UseCollation("Latin1_General_100_CS_AS_KS_WS_SC_UTF8");
+            b.Property(p => p.NormalizedContent).UseCollation("Latin1_General_100_CI_AI_SC_UTF8");
         });
 
         builder.Entity<PostUnlike>(b =>

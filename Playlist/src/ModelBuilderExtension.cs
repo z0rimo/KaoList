@@ -23,11 +23,21 @@ public static class ModelBuilderExtension
 
         builder.Entity<KaoListPlaylist>(b =>
         {
+            b.HasIndex(p => p.NormalizedName)
+             .HasDatabaseName("KaoListPlaylistNormalizedNameIndex")
+             .IsUnique();
             b.HasKey(p => p.Id);
             b.ToTable("KaoListPlaylist");
             b.Property(p => p.ConcurrencyStamp).IsConcurrencyToken();
 
-            b.Property(p => p.Name).HasColumnType("nvarchar(256)").IsRequired();
+            b.Property(p => p.Name)
+             .HasColumnType("nvarchar(256)")
+             .UseCollation("Latin1_General_100_CS_AS_KS_WS_SC_UTF8")
+             .IsRequired();
+            b.Property(p => p.NormalizedName)
+             .HasColumnType("nvarchar(256)")
+             .UseCollation("Latin1_General_100_CI_AI_SC_UTF8")
+             .IsRequired();
             b.Property(p => p.PrivacyStatus).HasColumnType("nvarchar(450)").IsRequired();
 
             b.HasMany<KaoListPlaylistLocalized>().WithOne().HasForeignKey(p => p.PlaylistId).IsRequired();
@@ -47,11 +57,21 @@ public static class ModelBuilderExtension
 
         builder.Entity<KaoListPlaylistLocalized>(b =>
         {
+            b.HasIndex(p => p.NormalizedName)
+             .HasDatabaseName("KaoListPlaylistLocalizedNormalizedNameIndex")
+             .IsUnique();
             b.HasKey(p => new { p.PlaylistId, p.I18nName });
             b.ToTable("KaoListPlaylistLocalized");
             b.Property(p => p.ConcurrencyStamp).IsConcurrencyToken();
 
-            b.Property(p => p.Name).HasColumnType("nvarchar(256)").IsRequired();
+            b.Property(p => p.Name)
+             .HasColumnType("nvarchar(256)")
+             .UseCollation("Latin1_General_100_CS_AS_KS_WS_SC_UTF8")
+             .IsRequired();
+            b.Property(p => p.NormalizedName)
+             .HasColumnType("nvarchar(256)")
+             .UseCollation("Latin1_General_100_CI_AI_SC_UTF8")
+             .IsRequired();
         });
 
         builder.Entity<KaoListPlaylistPlayLog>(b =>

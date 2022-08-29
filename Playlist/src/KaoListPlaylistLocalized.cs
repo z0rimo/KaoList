@@ -19,6 +19,11 @@ public class KaoListPlaylistLocalized
     public string? Name { get; set; }
 
     /// <summary>
+    /// Gets or sets the normalized name for this localized playlist.
+    /// </summary>
+    public string? NormalizedName { get; set; }
+
+    /// <summary>
     /// Id to identify each playlist
     /// </summary>
     public string? PlaylistId { get; set; }

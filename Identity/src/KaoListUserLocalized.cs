@@ -13,7 +13,7 @@ public class KaoListUserLocalized
     /// <summary>
     /// The localization code name.
     /// </summary>
-    public string? i18nName { get; set; }
+    public string? I18nName { get; set; }
 
     /// <summary>
     /// User's localized nickname.

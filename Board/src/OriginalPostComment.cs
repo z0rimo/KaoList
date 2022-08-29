@@ -21,6 +21,11 @@ public class OriginalPostComment
     public virtual string? Comment { get; set; }
 
     /// <summary>
+    /// Gets or sets the normalized commnet for this comment of post.
+    /// </summary>
+    public virtual string? NormalizedComment { get; set; }
+
+    /// <summary>
     /// The time the original comment was posted before the comment was edited.
     /// </summary>
     public virtual DateTime? CreateTime { get; set; }

@@ -31,6 +31,11 @@ public class PostComment
     public virtual string? Comment { get; set; }
 
     /// <summary>
+    /// Gets or sets the normalized commnet for this comment of post.
+    /// </summary>
+    public virtual string? NormalizedComment { get; set; }
+
+    /// <summary>
     /// The time the comment was requested to be deleted.
     /// </summary>
     public virtual DateTime? RemoveRequestTime { get; set; }

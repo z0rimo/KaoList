@@ -36,7 +36,8 @@ namespace CodeRabbits.KaoList.Web.Migrations
 
                     b.Property<string>("Log")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Latin1_General_100_CS_AS_KS_WS_SC_UTF8");
 
                     b.HasKey("Id");
 
@@ -53,7 +54,8 @@ namespace CodeRabbits.KaoList.Web.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Latin1_General_100_CS_AS_KS_WS_SC_UTF8");
 
                     b.Property<DateTime?>("CreateTime")
                         .IsRequired()
@@ -61,6 +63,10 @@ namespace CodeRabbits.KaoList.Web.Migrations
 
                     b.Property<string>("IdentityToken")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("NormalizedContent")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Latin1_General_100_CI_AI_SC_UTF8");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -85,19 +91,19 @@ namespace CodeRabbits.KaoList.Web.Migrations
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(256)")
+                        .UseCollation("Latin1_General_100_CS_AS_KS_WS_SC_UTF8");
 
-                    b.Property<string>("NomalizedDisplayName")
+                    b.Property<string>("NormalizedDisplayName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(256)")
+                        .UseCollation("Latin1_General_100_CI_AI_SC_UTF8");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DisplayName")
-                        .HasDatabaseName("HeadDisplayNameIndex");
-
-                    b.HasIndex("NomalizedDisplayName")
-                        .IsUnique();
+                    b.HasIndex("NormalizedDisplayName")
+                        .IsUnique()
+                        .HasDatabaseName("HeadNormalizedDisplayNameIndex");
 
                     b.ToTable("Heads", (string)null);
                 });
@@ -116,14 +122,20 @@ namespace CodeRabbits.KaoList.Web.Migrations
 
                     b.Property<string>("Displayname")
                         .IsRequired()
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(256)")
+                        .UseCollation("Latin1_General_100_CS_AS_KS_WS_SC_UTF8");
+
+                    b.Property<string>("NormalizedDisplayName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(256)")
+                        .UseCollation("Latin1_General_100_CI_AI_SC_UTF8");
 
                     b.HasKey("HeadId", "I18nName");
 
-                    b.HasIndex("Displayname")
-                        .HasDatabaseName("HeadLocalizedDisplayNameIndex");
-
                     b.HasIndex("I18nName");
+
+                    b.HasIndex("NormalizedDisplayName")
+                        .HasDatabaseName("HeadLocalizedNormalizedDisplayNameIndex");
 
                     b.ToTable("HeadLocalizeds", (string)null);
                 });
@@ -140,14 +152,22 @@ namespace CodeRabbits.KaoList.Web.Migrations
                         .IsRequired()
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("NormalizedTitle")
+                        .HasColumnType("nvarchar(256)")
+                        .UseCollation("Latin1_General_100_CI_AI_SC_UTF8");
+
                     b.Property<int?>("PostId")
                         .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(256)")
+                        .UseCollation("Latin1_General_100_CS_AS_KS_WS_SC_UTF8");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("NormalizedTitle")
+                        .HasDatabaseName("OriginalPostNormalizedTitleIndex");
 
                     b.HasIndex("PostId");
 
@@ -160,11 +180,16 @@ namespace CodeRabbits.KaoList.Web.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Comment")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Latin1_General_100_CS_AS_KS_WS_SC_UTF8");
 
                     b.Property<DateTime?>("CreateTime")
                         .IsRequired()
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("NormalizedComment")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Latin1_General_100_CI_AI_SC_UTF8");
 
                     b.Property<int?>("PostCommentId")
                         .IsRequired()
@@ -200,13 +225,21 @@ namespace CodeRabbits.KaoList.Web.Migrations
                         .IsRequired()
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("NormalizedTitle")
+                        .HasColumnType("nvarchar(256)")
+                        .UseCollation("Latin1_General_100_CI_AI_SC_UTF8");
+
                     b.Property<int?>("RemoveRequestTime")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(256)")
+                        .UseCollation("Latin1_General_100_CS_AS_KS_WS_SC_UTF8");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("NormalizedTitle")
+                        .HasDatabaseName("PostNormalizedTitleIndex");
 
                     b.ToTable("Posts", (string)null);
                 });
@@ -220,12 +253,17 @@ namespace CodeRabbits.KaoList.Web.Migrations
                         .IsRequired()
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("NormalizedTitle")
+                        .HasColumnType("nvarchar(256)")
+                        .UseCollation("Latin1_General_100_CI_AI_SC_UTF8");
+
                     b.Property<int?>("PostId")
                         .IsRequired()
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(256)")
+                        .UseCollation("Latin1_General_100_CS_AS_KS_WS_SC_UTF8");
 
                     b.Property<byte?>("VoteNumber")
                         .IsRequired()
@@ -237,10 +275,10 @@ namespace CodeRabbits.KaoList.Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PostId");
+                    b.HasIndex("NormalizedTitle")
+                        .HasDatabaseName("PostChartNormalizedTitleIndex");
 
-                    b.HasIndex("Title")
-                        .HasDatabaseName("PostChartTitleIndex");
+                    b.HasIndex("PostId");
 
                     b.HasIndex("VoteRole");
 
@@ -252,19 +290,24 @@ namespace CodeRabbits.KaoList.Web.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("NormalizedTitle")
+                        .HasColumnType("nvarchar(256)")
+                        .UseCollation("Latin1_General_100_CI_AI_SC_UTF8");
+
                     b.Property<string>("PostChartId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Title")
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(256)")
+                        .UseCollation("Latin1_General_100_CS_AS_KS_WS_SC_UTF8");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PostChartId");
+                    b.HasIndex("NormalizedTitle")
+                        .HasDatabaseName("PostChartItemNormalizedTitleIndex");
 
-                    b.HasIndex("Title")
-                        .HasDatabaseName("PostChartItemTitleIndex");
+                    b.HasIndex("PostChartId");
 
                     b.ToTable("PostChartItems", (string)null);
                 });
@@ -303,15 +346,18 @@ namespace CodeRabbits.KaoList.Web.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(256)")
+                        .UseCollation("Latin1_General_100_CS_AS_KS_WS_SC_UTF8");
 
                     b.Property<string>("NormalizedName")
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(256)")
+                        .UseCollation("Latin1_General_100_CI_AI_SC_UTF8");
 
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
+                        .HasDatabaseName("PostChartVoteRoleNormalizedNameIndex")
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("PostChartVoteRoles", (string)null);
@@ -330,7 +376,8 @@ namespace CodeRabbits.KaoList.Web.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Comment")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Latin1_General_100_CS_AS_KS_WS_SC_UTF8");
 
                     b.Property<int?>("CommentParent")
                         .HasColumnType("int");
@@ -342,6 +389,10 @@ namespace CodeRabbits.KaoList.Web.Migrations
                     b.Property<DateTime?>("CreateTime")
                         .IsRequired()
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("NormalizedComment")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Latin1_General_100_CI_AI_SC_UTF8");
 
                     b.Property<int?>("PostId")
                         .IsRequired()
@@ -454,7 +505,8 @@ namespace CodeRabbits.KaoList.Web.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Latin1_General_100_CS_AS_KS_WS_SC_UTF8");
 
                     b.Property<DateTime?>("CreateTime")
                         .IsRequired()
@@ -462,6 +514,10 @@ namespace CodeRabbits.KaoList.Web.Migrations
 
                     b.Property<string>("IdentityToken")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("NormalizedContent")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Latin1_General_100_CI_AI_SC_UTF8");
 
                     b.Property<int?>("PostId")
                         .IsRequired()
@@ -535,6 +591,9 @@ namespace CodeRabbits.KaoList.Web.Migrations
                     b.Property<string>("DisplayName")
                         .HasColumnType("nvarchar(256)");
 
+                    b.Property<string>("NormalizedDisplayName")
+                        .HasColumnType("nvarchar(256)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("DisplayName")
@@ -556,14 +615,19 @@ namespace CodeRabbits.KaoList.Web.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DisplayName")
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(256)")
+                        .UseCollation("Latin1_General_100_CS_AS_KS_WS_SC_UTF8");
+
+                    b.Property<string>("NormalizedDisplayName")
+                        .HasColumnType("nvarchar(256)")
+                        .UseCollation("Latin1_General_100_CI_AI_SC_UTF8");
 
                     b.HasKey("I18nName", "ClassficationId");
 
                     b.HasIndex("ClassficationId");
 
-                    b.HasIndex("DisplayName")
-                        .HasDatabaseName("ClassficationLocalizedNameIndex");
+                    b.HasIndex("NormalizedDisplayName")
+                        .HasDatabaseName("ClassficationLocalizedNormalizedDisplayNameIndex");
 
                     b.ToTable("ClassficationLocalizeds", (string)null);
                 });
@@ -621,7 +685,8 @@ namespace CodeRabbits.KaoList.Web.Migrations
 
                     b.Property<string>("NickName")
                         .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(256)")
+                        .UseCollation("Latin1_General_100_CS_AS_KS_WS_SC_UTF8");
 
                     b.Property<DateTime?>("NickNameEditedDatetime")
                         .HasColumnType("datetime2");
@@ -629,6 +694,11 @@ namespace CodeRabbits.KaoList.Web.Migrations
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedNickName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)")
+                        .UseCollation("Latin1_General_100_CI_AI_SC_UTF8");
 
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
@@ -658,11 +728,11 @@ namespace CodeRabbits.KaoList.Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("NickName")
-                        .HasDatabaseName("UserNickNameIndex");
-
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedNickName")
+                        .HasDatabaseName("KaoListUserNormalizedNickNameIndex");
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
@@ -787,7 +857,7 @@ namespace CodeRabbits.KaoList.Web.Migrations
 
             modelBuilder.Entity("CodeRabbits.KaoList.Identity.KaoListUserLocalized", b =>
                 {
-                    b.Property<string>("i18nName")
+                    b.Property<string>("I18nName")
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("UserId")
@@ -804,7 +874,7 @@ namespace CodeRabbits.KaoList.Web.Migrations
                     b.Property<string>("NickName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("i18nName", "UserId");
+                    b.HasKey("I18nName", "UserId");
 
                     b.HasIndex("UserId");
 
@@ -852,7 +922,13 @@ namespace CodeRabbits.KaoList.Web.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(256)")
+                        .UseCollation("Latin1_General_100_CS_AS_KS_WS_SC_UTF8");
+
+                    b.Property<string>("NormalizedName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(256)")
+                        .UseCollation("Latin1_General_100_CI_AI_SC_UTF8");
 
                     b.Property<string>("PrivacyStatus")
                         .IsRequired()
@@ -863,6 +939,10 @@ namespace CodeRabbits.KaoList.Web.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("KaoListPlaylistNormalizedNameIndex");
 
                     b.HasIndex("PrivacyStatus");
 
@@ -885,11 +965,21 @@ namespace CodeRabbits.KaoList.Web.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(256)")
+                        .UseCollation("Latin1_General_100_CS_AS_KS_WS_SC_UTF8");
+
+                    b.Property<string>("NormalizedName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(256)")
+                        .UseCollation("Latin1_General_100_CI_AI_SC_UTF8");
 
                     b.HasKey("PlaylistId", "I18nName");
 
                     b.HasIndex("I18nName");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("KaoListPlaylistLocalizedNormalizedNameIndex");
 
                     b.ToTable("KaoListPlaylistLocalized", (string)null);
                 });
@@ -1058,19 +1148,25 @@ namespace CodeRabbits.KaoList.Web.Migrations
                     b.Property<DateTime?>("Created")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("NormalizedTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(256)")
+                        .UseCollation("Latin1_General_100_CI_AI_SC_UTF8");
+
                     b.Property<string>("SoundId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(256)")
+                        .UseCollation("Latin1_General_100_CS_AS_KS_WS_SC_UTF8");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SoundId");
+                    b.HasIndex("NormalizedTitle")
+                        .HasDatabaseName("InstrumentalNormalizedTitleIndex");
 
-                    b.HasIndex("Title")
-                        .HasDatabaseName("InstrumentalTitleIndex");
+                    b.HasIndex("SoundId");
 
                     b.ToTable("Instrumentals", (string)null);
                 });
@@ -1140,16 +1236,22 @@ namespace CodeRabbits.KaoList.Web.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("NormalizedTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(256)")
+                        .UseCollation("Latin1_General_100_CI_AI_SC_UTF8");
+
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("nvarchar(256)")
+                        .UseCollation("Latin1_General_100_CS_AS_KS_WS_SC_UTF8");
 
                     b.HasKey("InstrumentalId", "I18nName");
 
                     b.HasIndex("I18nName");
 
-                    b.HasIndex("Title")
-                        .HasDatabaseName("InstrumentalLocalizedTitleIndex");
+                    b.HasIndex("NormalizedTitle")
+                        .HasDatabaseName("InstrumentalLocalizedNormalizedTitleIndex");
 
                     b.ToTable("InstrumentalLocalizeds", (string)null);
                 });
@@ -1169,19 +1271,13 @@ namespace CodeRabbits.KaoList.Web.Migrations
                     b.Property<DateTime?>("Created")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("DisplayName")
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("InstrumentalId")
+                    b.Property<string>("SingId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Provider", "No");
 
-                    b.HasIndex("DisplayName")
-                        .HasDatabaseName("KaraokeNameIndex");
-
-                    b.HasIndex("InstrumentalId");
+                    b.HasIndex("SingId");
 
                     b.ToTable("Karaokes", (string)null);
                 });
@@ -1195,11 +1291,16 @@ namespace CodeRabbits.KaoList.Web.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Content")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Latin1_General_100_CS_AS_KS_WS_SC_UTF8");
 
                     b.Property<TimeSpan?>("Duration")
                         .IsRequired()
                         .HasColumnType("time");
+
+                    b.Property<string>("NormalizedContent")
+                        .HasColumnType("nvarchar(max)")
+                        .UseCollation("Latin1_General_100_CI_AI_SC_UTF8");
 
                     b.Property<TimeSpan?>("Offset")
                         .IsRequired()
@@ -1245,8 +1346,7 @@ namespace CodeRabbits.KaoList.Web.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Language")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SoundId")
                         .HasColumnType("nvarchar(450)");
@@ -1254,8 +1354,6 @@ namespace CodeRabbits.KaoList.Web.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("InstrumentalId");
-
-                    b.HasIndex("Language");
 
                     b.HasIndex("SoundId");
 
@@ -1987,15 +2085,15 @@ namespace CodeRabbits.KaoList.Web.Migrations
 
             modelBuilder.Entity("CodeRabbits.KaoList.Identity.KaoListUserLocalized", b =>
                 {
-                    b.HasOne("CodeRabbits.KaoList.Identity.KaoListUser", null)
+                    b.HasOne("CodeRabbits.KaoList.I18n", null)
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("I18nName")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CodeRabbits.KaoList.I18n", null)
+                    b.HasOne("CodeRabbits.KaoList.Identity.KaoListUser", null)
                         .WithMany()
-                        .HasForeignKey("i18nName")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -2115,12 +2213,6 @@ namespace CodeRabbits.KaoList.Web.Migrations
 
             modelBuilder.Entity("CodeRabbits.KaoList.Song.InstrumentalBlind", b =>
                 {
-                    b.HasOne("CodeRabbits.KaoList.Song.Instrumental", null)
-                        .WithMany()
-                        .HasForeignKey("InstrumentalId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("CodeRabbits.KaoList.Identity.KaoListUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -2175,9 +2267,9 @@ namespace CodeRabbits.KaoList.Web.Migrations
 
             modelBuilder.Entity("CodeRabbits.KaoList.Song.Karaoke", b =>
                 {
-                    b.HasOne("CodeRabbits.KaoList.Song.Instrumental", null)
+                    b.HasOne("CodeRabbits.KaoList.Song.Sing", null)
                         .WithMany()
-                        .HasForeignKey("InstrumentalId")
+                        .HasForeignKey("SingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -2205,12 +2297,6 @@ namespace CodeRabbits.KaoList.Web.Migrations
                     b.HasOne("CodeRabbits.KaoList.Song.Instrumental", null)
                         .WithMany()
                         .HasForeignKey("InstrumentalId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CodeRabbits.KaoList.I18n", null)
-                        .WithMany()
-                        .HasForeignKey("Language")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

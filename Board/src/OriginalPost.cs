@@ -21,6 +21,11 @@ public class OriginalPost
     public virtual string? Title { get; set; }
 
     /// <summary>
+    /// Gets or sets the normalized title for this original post.
+    /// </summary>
+    public virtual string? NormalizedTitle { get; set; }
+
+    /// <summary>
     /// Content before the post was edited.
     /// </summary>
     public virtual string? Content { get; set; }

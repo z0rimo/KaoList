@@ -23,24 +23,30 @@ public static class ModelBuilderExentsion
         builder.Entity<I18n>(b =>
         {
             b.HasMany<InstrumentalLocalized>().WithOne().HasForeignKey(il => il.I18nName).IsRequired();
-            b.HasMany<Sing>().WithOne().HasForeignKey(il => il.Language).IsRequired();
         });
 
         builder.Entity<Instrumental>(b =>
         {
             b.HasKey(l => l.Id);
-            b.HasIndex(l => l.Title).HasDatabaseName("InstrumentalTitleIndex");
+            b.HasIndex(l => l.NormalizedTitle).HasDatabaseName("InstrumentalNormalizedTitleIndex");
             b.ToTable("Instrumentals");
             b.Property(l => l.ConcurrencyStamp).IsConcurrencyToken();
 
-            b.Property(i => i.Title).HasColumnType("nvarchar(256)").IsRequired();
+            b.Property(i => i.Title)
+             .HasColumnType("nvarchar(256)")
+             .IsRequired()
+             .UseCollation("Latin1_General_100_CS_AS_KS_WS_SC_UTF8");
+
+            b.Property(i => i.NormalizedTitle)
+             .HasColumnType("nvarchar(256)")
+             .IsRequired()
+             .UseCollation("Latin1_General_100_CI_AI_SC_UTF8");
+
             b.Property(i => i.Composer).HasColumnType("nvarchar(256)");
 
-            b.HasMany<InstrumentalBlind>().WithOne().HasForeignKey(ib => ib.InstrumentalId).IsRequired();
             b.HasMany<InstrumentalClassification>().WithOne().HasForeignKey(ic => ic.InstrumentalId).IsRequired();
             b.HasMany<InstrumentalFollower>().WithOne().HasForeignKey(f => f.InstrumentalId).IsRequired();
             b.HasMany<InstrumentalLocalized>().WithOne().HasForeignKey(il => il.InstrumentalId).IsRequired();
-            b.HasMany<Karaoke>().WithOne().HasForeignKey(k => k.InstrumentalId).IsRequired();
             b.HasMany<Lyric>().WithOne().HasForeignKey(l => l.InstrumentalId).IsRequired();
             b.HasMany<Sing>().WithOne().HasForeignKey(s => s.InstrumentalId).IsRequired();
             // When Instrumental is deleted, the Sing is deleted, and when the Sing is deleted, the TitleSing is deleted.
@@ -73,23 +79,30 @@ public static class ModelBuilderExentsion
         builder.Entity<InstrumentalLocalized>(b =>
         {
             b.HasKey(il => new { il.InstrumentalId, il.I18nName });
-            b.HasIndex(il => il.Title).HasDatabaseName("InstrumentalLocalizedTitleIndex"); ;
+            b.HasIndex(il => il.NormalizedTitle).HasDatabaseName("InstrumentalLocalizedNormalizedTitleIndex"); ;
             b.ToTable("InstrumentalLocalizeds");
             b.Property(f => f.ConcurrencyStamp).IsConcurrencyToken();
 
-            b.Property(il => il.Title).HasColumnType("nvarchar(256)").IsRequired();
+            b.Property(il => il.Title)
+             .HasColumnType("nvarchar(256)")
+             .IsRequired()
+             .UseCollation("Latin1_General_100_CS_AS_KS_WS_SC_UTF8");
+
+            b.Property(il => il.NormalizedTitle)
+             .HasColumnType("nvarchar(256)")
+             .IsRequired()
+             .UseCollation("Latin1_General_100_CI_AI_SC_UTF8");
+
         });
 
         builder.Entity<Karaoke>(b =>
         {
             b.HasKey(k => new { k.Provider, k.No });
-            b.HasIndex(k => k.DisplayName).HasDatabaseName("KaraokeNameIndex");
             b.ToTable("Karaokes");
             b.Property(f => f.ConcurrencyStamp).IsConcurrencyToken();
 
             b.Property(k => k.Provider).HasColumnType("nvarchar(256)");
             b.Property(k => k.No).HasColumnType("nvarchar(50)");
-            b.Property(k => k.DisplayName).HasColumnType("nvarchar(256)");
         });
 
         builder.Entity<Lyric>(b =>
@@ -99,6 +112,12 @@ public static class ModelBuilderExentsion
 
             b.Property(l => l.Offset).IsRequired();
             b.Property(l => l.Duration).IsRequired();
+
+            b.Property(il => il.Content)
+             .UseCollation("Latin1_General_100_CS_AS_KS_WS_SC_UTF8");
+
+            b.Property(il => il.NormalizedContent)
+             .UseCollation("Latin1_General_100_CI_AI_SC_UTF8");
         });
 
         builder.Entity<PopularSing>(b =>
@@ -116,10 +135,11 @@ public static class ModelBuilderExentsion
 
             b.Property(s => s.Created).IsRequired();
 
+            b.HasMany<Karaoke>().WithOne().HasForeignKey(k => k.SingId).IsRequired();
+            b.HasMany<PopularSing>().WithOne().HasForeignKey(ib => ib.SingId).IsRequired();
             b.HasMany<SingBlind>().WithOne().HasForeignKey(ib => ib.SingId).IsRequired();
             b.HasMany<SingFollower>().WithOne().HasForeignKey(ib => ib.SingId).IsRequired();
             b.HasMany<SingUser>().WithOne().HasForeignKey(ib => ib.SingId).IsRequired();
-            b.HasMany<PopularSing>().WithOne().HasForeignKey(ib => ib.SingId).IsRequired();
             b.HasMany<TitleSing>().WithOne().HasForeignKey(ib => ib.SingId).IsRequired();
         });
 

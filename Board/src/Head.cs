@@ -16,9 +16,9 @@ public class Head
     public virtual string? DisplayName { get; set; }
 
     /// <summary>
-    /// Normalized head.
+    /// The fully nomalized display name of the head.
     /// </summary>
-    public virtual string? NomalizedDisplayName { get; set; }
+    public virtual string? NormalizedDisplayName { get; set; }
 
     /// <summary>
     /// A random value that must change whenever a user is persisted to the store.

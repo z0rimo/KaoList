@@ -37,6 +37,7 @@ public partial class KaoListDataContext<TUser> : ApiAuthorizationDbContext<TUser
     public virtual DbSet<SoundPlayLog> SoundPlayLogs { get; set; } = default!;
     public virtual DbSet<Sound> Sounds { get; set; } = default!;
     public virtual DbSet<TitleSing> TitleSings { get; set; } = default!;
+    public virtual DbSet<Karaoke> Karaokes { get; set; } = default!;
 
     public KaoListDataContext(DbContextOptions options, IOptions<OperationalStoreOptions> operationalStoreOptions)
     : base(options, operationalStoreOptions)

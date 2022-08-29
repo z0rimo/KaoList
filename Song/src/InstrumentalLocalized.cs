@@ -21,6 +21,11 @@ public class InstrumentalLocalized
     public virtual string? Title { get; set; }
 
     /// <summary>
+    /// The localized title of the song.
+    /// </summary>   
+    public virtual string? NormalizedTitle { get; set; }
+
+    /// <summary>
     /// A random value that must change whenever a song localized is persisted to the store.
     /// </summary>
     public virtual string? ConcurrencyStamp { get; set; } = Guid.NewGuid().ToString();

@@ -29,4 +29,9 @@ public class Lyric
     /// It is the content of the lyrics corresponding to the time.
     /// </summary>
     public string? Content { get; set; }
+
+    /// <summary>
+    /// Normalized Lyrics Content.
+    /// </summary>
+    public string? NormalizedContent { get; set; }
 }

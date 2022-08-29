@@ -35,4 +35,9 @@ public class PostReport
     /// Contain the reason for report.
     /// </summary>
     public virtual string? Content { get; set; }
+
+    /// <summary>
+    /// Gets or sets the normalized content for this report of post.
+    /// </summary>
+    public virtual string? NormalizedContent { get; set; }
 }

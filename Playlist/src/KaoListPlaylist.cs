@@ -19,6 +19,11 @@ public class KaoListPlaylist
     public string? Name { get; set; }
 
     /// <summary>
+    /// Gets or sets the normalized name for this playlist.
+    /// </summary>
+    public string? NormalizedName { get; set; }
+
+    /// <summary>
     /// The status of whether the playlist is visible
     /// </summary>
     public string? PrivacyStatus { get; set; }

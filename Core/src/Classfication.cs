@@ -16,6 +16,11 @@ public class Classfication
     public virtual string? DisplayName { get; set; }
 
     /// <summary>
+    /// Gets or sets the normalized display name for classfication.
+    /// </summary>
+    public virtual string? NormalizedDisplayName { get; set; }
+
+    /// <summary>
     /// A random value that must change whenever a classfication is persisted to the store.
     /// </summary>
     public virtual string? ConcurrencyStamp { get; set; } = Guid.NewGuid().ToString();
