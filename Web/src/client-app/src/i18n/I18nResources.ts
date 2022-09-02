@@ -5,7 +5,8 @@ interface Resources {
         'Home': string;
         'Chart': string;
         'Community': string;
-        'SignIn': string;
+        'Sign In': string;
+        'Sign Out': string;
         'Liked Chart': string;
         'Discover Chart': string;
     }

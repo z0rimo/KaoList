@@ -10,7 +10,19 @@
     --header-acitve-border-color: var(--color-white);
     --header-acitve-border-width: 3px;
     --header-acitve-border: var(--header-acitve-border-width) solid var(--header-acitve-border-color);
-    --header-logo-color: var(--color-white);
+
+    --sign-in-width: 60px;
+    --sign-in-height: 28px;
+    --sign-in-font-color: var(--color-slightly-desaturated-cyan);
+    --sign-in-font-size: 15px;
+    --sign-in-background-color: var(--color-white);
+    --sign-in-border-radius: 5px;
+    --sign-in-hover-background-color: var(--color-gray79);
+    --sign-in-hover-border-color: var(--color-gray56);
+    --sign-in-hover-font-color: var(--color-white);
+
+    --sign-out-font-color: var(--color-slightly-desaturated-cyan);
+    --sign-out-font-size: 13px;
 
     --footer-background-color: var(--color-soft-lime);
     --footer-height: 40px;
@@ -107,9 +119,35 @@
             display: flex;
             justify-content: space-between;
             width: 230px;
+        }
 
-            .link {
-                fill: var(--header-logo-color);
+        .sign-in {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: var(--sign-in-width);
+            height: var(--sign-in-height);
+            font-size: var(--sign-in-font-size);
+            font-weight: bold;
+            border: none;
+            color: var(--sign-in-font-color);
+            border-radius: var(--sign-in-border-radius);
+            cursor: pointer;
+
+            &:hover {
+                background-color: var(--sign-in-hover-background-color);
+                color: var(--sign-in-hover-font-color);
+                border: 1px solid var(--sign-in-hover-border-color);
+            }
+        }
+
+        .sign-out {
+            color: var(--sign-out-font-color);
+            font-size: var(--sign-out-font-size);
+            cursor: pointer;
+
+            &:hover {
+                text-decoration: underline;
             }
         }
     }

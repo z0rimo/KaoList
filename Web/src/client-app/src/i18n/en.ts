@@ -5,7 +5,8 @@ const lang: II18nResources = {
         "Home": "Home",
         "Chart": "Chart",
         "Community": "Community",
-        "SignIn": "SignIn",
+        "Sign In": "Sign In",
+        "Sign Out": "Sign Out",
         "Discover Chart": 'Discover Chart',
         "Liked Chart": 'Liked Chart'
     }
