@@ -11,10 +11,10 @@
     <h3>Registered Logins</h3>
     <table class="table">
         <caption>External Login</caption>
-        <thead></thead>
         <tbody>
             @foreach (var login in Model.CurrentLogins)
             {
+                <th></th>
                 <tr>
                     <td id="@($"login-provider-{login.LoginProvider}")">@login.ProviderDisplayName</td>
                     <td>
