@@ -2,7 +2,7 @@ import React, { Suspense } from "react"
 
 const TextItalicIcon = React.lazy(() => import('./TextItalicIcon'));
 
-function LazyTextItalicIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+function LazyTextItalicIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="11"
             height="15"

@@ -2,7 +2,7 @@ import React, { Suspense } from "react"
 
 const TableIcon = React.lazy(() => import('./TableIcon'));
 
-function LazyTableIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+function LazyTableIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="17"
             height="15"

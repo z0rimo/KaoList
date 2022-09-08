@@ -2,7 +2,7 @@ import React, { Suspense } from "react"
 
 const CircleFilledMinus = React.lazy(() => import('./CircleFilledMinusIcon'));
 
-function LazyCircleFilledMinusIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+function LazyCircleFilledMinusIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="15"
             height="15"

@@ -2,7 +2,7 @@ import React, { Suspense } from "react"
 
 const NaverIcon = React.lazy(() => import('./NaverIcon'));
 
-function LazyNaverIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+function LazyNaverIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="30"
             height="30"

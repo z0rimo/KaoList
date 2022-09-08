@@ -2,7 +2,7 @@ import React, { Suspense } from "react"
 
 const SquareUserIcon = React.lazy(() => import('./SquareUserIcon'));
 
-function LazySquareUserIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+function LazySquareUserIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="230"
             height="230"

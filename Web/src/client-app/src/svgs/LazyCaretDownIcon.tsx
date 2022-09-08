@@ -2,7 +2,7 @@ import React, { Suspense } from "react"
 
 const CaretDownIcon = React.lazy(() => import('./CaretDownIcon'));
 
-function LazyCaretDownIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+function LazyCaretDownIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="10"
             height="6"

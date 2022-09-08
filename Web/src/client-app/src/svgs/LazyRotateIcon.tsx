@@ -2,7 +2,7 @@ import React, { Suspense } from "react"
 
 const Rotate = React.lazy(() => import('./RotateIcon'));
 
-function LazyRotateIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+function LazyRotateIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="15"
             height="15"

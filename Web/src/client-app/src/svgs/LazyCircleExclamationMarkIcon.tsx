@@ -2,7 +2,7 @@ import React, { Suspense } from "react"
 
 const CircleExclamationMarkIcon = React.lazy(() => import('./CircleExclamationMarkIcon'));
 
-function LazyCircleExclamationMarkIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+function LazyCircleExclamationMarkIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="7"
             height="7"

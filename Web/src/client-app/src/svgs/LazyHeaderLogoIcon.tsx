@@ -2,7 +2,7 @@ import React, { Suspense } from "react"
 
 const HeaderLogo = React.lazy(() => import('./HeaderLogoIcon'));
 
-function LazyHeaderLogoIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+function LazyHeaderLogoIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="52"
             height="30"

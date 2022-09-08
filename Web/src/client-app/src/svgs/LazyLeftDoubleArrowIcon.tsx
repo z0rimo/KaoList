@@ -2,7 +2,7 @@ import React, { Suspense } from "react"
 
 const LeftDoubleArrowIcon = React.lazy(() => import('./LeftDoubleArrowIcon'));
 
-function LazyLeftDoubleArrowIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+function LazyLeftDoubleArrowIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="9"
             height="11"

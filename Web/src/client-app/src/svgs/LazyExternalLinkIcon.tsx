@@ -2,7 +2,7 @@ import React, { Suspense } from "react"
 
 const ExternalLink = React.lazy(() => import('./ExternalLinkIcon'));
 
-function LazyExternalLinkIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+function LazyExternalLinkIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="15"
             height="15"

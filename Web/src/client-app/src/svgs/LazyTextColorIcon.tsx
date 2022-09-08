@@ -2,7 +2,7 @@ import React, { Suspense } from "react"
 
 const TextColorIcon = React.lazy(() => import('./TextColorIcon'));
 
-function LazyTextColorIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+function LazyTextColorIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="15"
             height="15"

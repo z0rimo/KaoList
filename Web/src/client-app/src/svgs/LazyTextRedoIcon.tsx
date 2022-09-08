@@ -2,7 +2,7 @@ import React, { Suspense } from "react"
 
 const TextRedoIcon = React.lazy(() => import('./TextRedoIcon'));
 
-function LazyTextRedoIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+function LazyTextRedoIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="15"
             height="15"

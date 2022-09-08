@@ -2,7 +2,7 @@ import React, { Suspense } from "react"
 
 const YouTube = React.lazy(() => import('./YouTubeIcon'));
 
-function LazyYouTubeIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+function LazyYouTubeIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="18"
             height="13"

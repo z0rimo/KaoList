@@ -2,7 +2,7 @@ import React, { Suspense } from "react"
 
 const TextOutdentIcon = React.lazy(() => import('./TextOutdentIcon'));
 
-function LazyTextOutdentIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+function LazyTextOutdentIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="15"
             height="15"

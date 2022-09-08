@@ -2,7 +2,7 @@ import React, { Suspense } from "react"
 
 const OverlappingRectIcon = React.lazy(() => import('./OverlappingRectIcon'));
 
-function LazyOverlappingRectIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+function LazyOverlappingRectIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="11"
             height="11"

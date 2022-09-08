@@ -2,7 +2,7 @@ import React, { Suspense } from "react"
 
 const TextSizeIcon = React.lazy(() => import('./TextSizeIcon'));
 
-function LazyTextSizeIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+function LazyTextSizeIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="13"
             height="15"

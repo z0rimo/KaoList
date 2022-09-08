@@ -2,7 +2,7 @@ import React, { Suspense } from "react"
 
 const VoiceIcon = React.lazy(() => import('./VoiceIcon'));
 
-function LazyVoiceIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+function LazyVoiceIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="11"
             height="15"

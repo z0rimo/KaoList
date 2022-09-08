@@ -2,7 +2,7 @@ import React, { Suspense } from "react"
 
 const MicIcon = React.lazy(() => import('./MicIcon'));
 
-function LazyMicIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+function LazyMicIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="10"
             height="14"

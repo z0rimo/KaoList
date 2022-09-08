@@ -2,7 +2,7 @@ import React, { Suspense } from "react"
 
 const Instargram = React.lazy(() => import('./InstargramIcon'));
 
-function LazyInstargramIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+function LazyInstargramIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="13"
             height="13"

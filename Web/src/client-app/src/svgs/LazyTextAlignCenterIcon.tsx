@@ -2,7 +2,7 @@ import React, { Suspense } from "react"
 
 const TextAlignCenterIcon = React.lazy(() => import('./TextAlignCenterIcon'));
 
-function LazyTextAlignCenterIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+function LazyTextAlignCenterIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="15"
             height="15"

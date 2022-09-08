@@ -2,7 +2,7 @@ import React, { Suspense } from "react"
 
 const Spotify = React.lazy(() => import('./SpotifyIcon'));
 
-function LazySpotifyIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+function LazySpotifyIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="13"
             height="13"

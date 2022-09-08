@@ -2,7 +2,7 @@ import React, { Suspense } from "react"
 
 const CheckedIcon = React.lazy(() => import('./CheckedIcon'));
 
-function LazyCheckedIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+function LazyCheckedIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="18"
             height="18"

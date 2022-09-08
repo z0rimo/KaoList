@@ -2,7 +2,7 @@ import React, { Suspense } from "react"
 
 const GoogleIcon = React.lazy(() => import('./GoogleIcon'));
 
-function LazyGoogleIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+function LazyGoogleIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="30"
             height="30"

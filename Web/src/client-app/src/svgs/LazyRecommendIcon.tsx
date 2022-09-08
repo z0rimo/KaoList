@@ -2,7 +2,7 @@ import React, { Suspense } from "react"
 
 const RecommendIcon = React.lazy(() => import('./RecommendIcon'));
 
-function LazyRecommendIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+function LazyRecommendIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="56"
             height="56"

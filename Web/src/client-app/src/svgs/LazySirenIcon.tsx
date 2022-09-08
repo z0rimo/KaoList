@@ -2,7 +2,7 @@ import React, { Suspense } from "react"
 
 const SirenIcon = React.lazy(() => import('./SirenIcon'));
 
-function LazySirenIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+function LazySirenIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="15"
             height="15"

@@ -2,7 +2,7 @@ import React, { Suspense } from "react"
 
 const ChartIcon = React.lazy(() => import('./ChartIcon'));
 
-function LazyChartIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+function LazyChartIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="17"
             height="15"

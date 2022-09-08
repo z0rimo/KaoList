@@ -2,7 +2,7 @@ import React, { Suspense } from "react"
 
 const TextUnderLineIcon = React.lazy(() => import('./TextUnderLineIcon'));
 
-function LazyTextUnderLineIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+function LazyTextUnderLineIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="13"
             height="15"

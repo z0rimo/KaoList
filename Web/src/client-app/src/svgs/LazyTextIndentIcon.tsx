@@ -2,7 +2,7 @@ import React, { Suspense } from "react"
 
 const TextIndentIcon = React.lazy(() => import('./TextIndentIcon'));
 
-function LazyTextIndentIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+function LazyTextIndentIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="15"
             height="15"

@@ -2,7 +2,7 @@ import React, { Suspense } from "react"
 
 const CircleProfile = React.lazy(() => import('./CircleProfileIcon'));
 
-function LazyCircleProfileIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+function LazyCircleProfileIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="120"
             height="120"

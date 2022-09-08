@@ -2,7 +2,7 @@ import React, { Suspense } from "react"
 
 const TextAlignFullIcon = React.lazy(() => import('./TextAlignFullIcon'));
 
-function LazyTextAlignFullIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+function LazyTextAlignFullIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="15"
             height="15"

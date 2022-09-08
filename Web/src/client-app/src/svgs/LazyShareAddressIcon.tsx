@@ -2,7 +2,7 @@ import React, { Suspense } from "react"
 
 const ShareAddressIcon = React.lazy(() => import('./ShareAddressIcon'));
 
-function LazyShareAddressIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+function LazyShareAddressIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="9"
             height="11"

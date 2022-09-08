@@ -2,7 +2,7 @@ import React, { Suspense } from "react"
 
 const FileUploadIcon = React.lazy(() => import('./FileUploadIcon'));
 
-function LazyFileUploadIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+function LazyFileUploadIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="17"
             height="15"

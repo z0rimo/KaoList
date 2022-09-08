@@ -2,7 +2,7 @@ import React, { Suspense } from "react"
 
 const Twitch = React.lazy(() => import('./TwitchIcon'));
 
-function LazyTwitchIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+function LazyTwitchIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="13"
             height="13"
