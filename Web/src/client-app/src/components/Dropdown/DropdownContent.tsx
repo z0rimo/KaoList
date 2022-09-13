@@ -5,7 +5,6 @@ type DropdownContentProps = {
   children: React.ReactElement;
 };
 
-
 function DropdownContent(props: DropdownContentProps): React.ReactElement | null {
   const childElement = React.Children.only(props.children);
 

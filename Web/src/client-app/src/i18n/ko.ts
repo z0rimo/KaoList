@@ -8,7 +8,23 @@ const lang: Required<II18nResources> = {
         "Sign In": "로그인",
         "Sign Out": "로그아웃",
         "Discover Chart": '신곡 차트',
-        "Liked Chart": '인기 차트'
+        "Liked Chart": '인기 차트',
+        "Playlist": '플레이리스트'
+    },
+    "PlaylistTitle": {
+        "Playlist": "플레이리스트"
+    },
+    "PlaylistEdit": {
+        "Add playlist": "플레이리스트 추가",
+        "Remove playlist": "플레이리스트 제거"
+    },
+    "Playlist": {
+        "List": {
+            "Share": "공유"
+        },
+        "Song": {
+            "Thumbnail of {0}": "{0}의 썸네일"
+        }
     }
 }
 

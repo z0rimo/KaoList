@@ -9,6 +9,22 @@ interface Resources {
         'Sign Out': string;
         'Liked Chart': string;
         'Discover Chart': string;
+        'Playlist': string;
+    },
+    "PlaylistTitle": {
+        "Playlist": string;
+    },
+    "PlaylistEdit": {
+        "Add playlist": string;
+        "Remove playlist": string;
+    },
+    "Playlist": {
+        "List": {
+            "Share": string;
+        },
+        "Song": {
+            "Thumbnail of {0}": string;
+        }
     }
 }
 

@@ -6,11 +6,14 @@ import { I18nResourcesKeyType } from "../../i18n/I18nResources";
 import RoutePath from "../../RoutePath";
 import ChartDropDown from "./ChartDropDown";
 import HeaderManageNavPages from "./HeaderManageNavPages";
+import { Profile } from "oidc-client";
+import authService from "../../api-authorization/AuthorizeService";
 
 function HeaderNav() {
     const { t } = useTranslation<I18nResourcesKeyType>('Header');
     const location = useLocation();
     const navigate = useNavigate();
+    const [user, setUser] = React.useState<Profile | null>(null);
 
     const handleClick = React.useCallback((evt: MouseEvent, path: string) => {
         navigate(path);
@@ -24,6 +27,24 @@ function HeaderNav() {
         handleClick(evt, RoutePath['community']);
     }, [handleClick]);
 
+    const handlePlaylistClick = React.useCallback<MouseEventHandler>((evt: MouseEvent) => {
+        handleClick(evt, RoutePath['playlist']);
+    }, [handleClick]);
+
+    React.useEffect(() => {
+        let isCancelled = false;
+        const fetchUserAsync = async () => {
+            if (!isCancelled) {
+                setUser(await authService.getUser());
+            }
+        };
+        
+        fetchUserAsync();
+ 
+        return () => {
+            isCancelled = true;
+        }
+    }, []);
 
     return (
         <nav className="nav">
@@ -31,10 +52,16 @@ function HeaderNav() {
                 <li className={ClassNameHelper.concat(HeaderManageNavPages.HomeNavClass(location), 'link')}
                     onClick={handleHomeClick}>{t('Home')}</li>
                 <li className={HeaderManageNavPages.ChartNavClass(location)}>
-                    <ChartDropDown />                    
+                    <ChartDropDown />
                 </li>
                 <li className={ClassNameHelper.concat(HeaderManageNavPages.CommunityNavClass(location), 'link')}
-                    onClick={handleCommunityClick}>{t('Community')}</li>
+                    onClick={handleCommunityClick}>{t('Community')}
+                </li>
+                {user &&
+                    <li className={ClassNameHelper.concat(HeaderManageNavPages.PlaylistNavClass(location), 'link')}
+                        onClick={handlePlaylistClick}>{t('Playlist')}
+                    </li>
+                }
             </ul>
         </nav>
     )

@@ -1,0 +1,203 @@
+.playlist-area {
+    --playlist-margin-top: 58px;
+
+    --title-width: 15%;
+    --title-padding: 3.2% 0px 2.3% 0px;
+    --title-font-size: 20px;
+    --title-margin-left: 2.3%;
+    --title-list-icon-color: var(--color-gray20);
+    --title-text-color: var(--color-black);
+
+    --edit-height: 50px;
+    --edit-margin-right: 15px;
+    --edit-text-margin-right: 8px;
+    --edit-text-margin-left: 8px;
+    --edit-text-font-size: 15px;
+    --edit-plus-icon-color: var(--color-slightly-desaturated-cyan);
+    --edit-minus-icon-color: var(--color-slightly-desaturated-pink);
+
+    --list-active-backgrounde-color: var(--color-light-grayish-blue);
+    --list-border-color: var(--color-gray82);
+    --list-border: 1px solid var(--list-border-color);
+    --list-border-top: var(--list-border);
+    --list-border-bottom: var(--list-border);
+    --list-button-border: 1px solid var(--color-slightly-desaturated-cyan);
+    --list-button-border-radius: 5px;
+    --list-button-text-color: var(--color-slightly-desaturated-cyan);
+    --list-button-text-font-size: 12px;
+    --list-button-background-color: var(--color-white);
+    --list-play-icon-color: var(--color-slightly-desaturated-cyan);
+    --list-circle-minus-icon-color: var(--color-slightly-desaturated-pink);
+    --list-caret-down-icon-margin-left: 3px;
+    --list-icon-margin-right: 6px;
+    --list-circle-minus-icon-margin-right: var(--list-icon-margin-right);
+    --list-p-margin-right: var(--list-icon-margin-right);
+    --list-play-icon-margin-right: var(--list-icon-margin-right);
+    --list-share-role-button-width: 13px;
+    --list-share-role-button-height: 13px;
+
+    --list-content-padding: 9px 15px 9px 15px;
+    --list-content-left-width: 30%;
+    --list-content-right-width: 30%;
+
+    --song-item-height: 130px;
+    --song-item-font-size: 18px;
+    --song-item-bars-box-width: 2.5%;
+    --song-item-bars-icon-color: var(--color-gray20);
+    --song-item-img-box-width: 11.5%;
+    --song-item-img-width: 100px;
+    --song-item-img-height: 100px;
+    --song-item-content-text-height: 40%;
+    --song-item-border-bottom: 1px solid var(--color-gray95);
+
+    margin-top: var(--playlist-margin-top);
+
+    .btn {
+        padding: 0;
+        line-height: 0;
+        display: flex;
+        align-items: center;
+    }
+
+    .title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        text-decoration: none;
+
+        font-size: var(--title-font-size);
+        color: var(--title-text-color);
+        width: var(--title-width);
+        padding: var(--title-padding);
+        margin-left: var(--title-margin-left);
+
+        .title-list-icon {
+            fill: var(--title-list-icon-color);
+        }
+    }
+
+    .list {
+        border-bottom: var(--list-border-bottom);
+
+        &:first-child {
+            border-top: var(--list-border-top);
+        }
+
+        .list-content {
+            align-items: center;
+            display: flex;
+            justify-content: space-between;
+            padding: var(--list-content-padding);
+
+            .left {
+                width: var(--list-content-left-width);
+                display: flex;
+                align-items: center;
+
+                p {
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    margin-right: var(--list-p-margin-right);
+                }
+
+                .share-role-button {
+                    display: flex;
+                    width: var(--list-share-role-button-width);
+                    height: var(--list-share-role-button-height);
+                }
+
+                .caret-down-icon {
+                    margin-left: var(--list-caret-down-icon-margin-left);
+                }
+            }
+
+            .right {
+                display: flex;
+                width: var(--list-content-right-width);
+                justify-content: space-between;
+                align-items: center;
+
+                .list-button {
+                    border: var(--list-button-border);
+                    border-radius: var(--list-button-border-radius);
+                    color: var(--list-button-text-color);
+                    font-size: var(--list-button-text-font-size);
+                    background-color: var(--list-button-background-color);
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .active {
+            background-color: var(--list-active-backgrounde-color);
+            border: none;
+        }
+
+        .play-icon {
+            fill: var(--list-play-icon-color);
+            margin-right: var(--list-play-icon-margin-right);
+        }
+
+        .circle-minus-icon {
+            margin-right: var(--list-circle-minus-icon-margin-right);
+            fill: var(--list-circle-minus-icon-color);
+        }
+    }
+
+    .song-item {
+        display: flex;
+        align-items: center;
+        height: var(--song-item-height);
+        font-size: var(--song-item-font-size);
+        border-bottom: var(--song-item-border-bottom);
+
+        .bars-icon {
+            width: var(--song-item-bars-box-width);
+            display: flex;
+            justify-content: center;
+            fill: var(--song-item-bars-icon-color);
+        }
+
+        .img-box {
+            width: var(--song-item-img-box-width);
+
+            img {
+                height: var(--song-item-img-height);
+                width: var(--song-item-img-width);
+            }
+        }
+
+        .content-text {
+            height: var(--song-item-content-text-height);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+    }
+
+    .edit {
+        display: flex;
+        height: var(--edit-height);
+        margin-right: var(--edit-margin-right);
+        justify-content: right;
+
+        .edit-text {
+            display: flex;
+
+            p {
+                margin-right: var(--edit-text-margin-right);
+                margin-left: var(--edit-text-margin-left);
+                font-size: var(--edit-text-font-size);
+            }
+
+            .plus-icon {
+                fill: var(--edit-plus-icon-color);
+            }
+
+            .minus-icon {
+                fill: var(--edit-minus-icon-color);
+            }
+        }
+    }
+}

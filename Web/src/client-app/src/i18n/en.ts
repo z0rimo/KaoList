@@ -8,7 +8,23 @@ const lang: II18nResources = {
         "Sign In": "Sign In",
         "Sign Out": "Sign Out",
         "Discover Chart": 'Discover Chart',
-        "Liked Chart": 'Liked Chart'
+        "Liked Chart": 'Liked Chart',
+        "Playlist": "Playlist"
+    },
+    "PlaylistTitle": {
+        "Playlist": "Playlist"
+    },
+    "PlaylistEdit": {
+        "Add playlist": "Add playlist",
+        "Remove playlist": "Remove playlist"
+    },
+    "Playlist": {
+        "List": {
+            "Share": "Share"
+        },
+        "Song": {
+            "Thumbnail of {0}": "Thumbnail of {0}"
+        }
     }
 }
 

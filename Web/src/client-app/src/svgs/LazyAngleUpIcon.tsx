@@ -1,8 +1,8 @@
 import React, { Suspense } from "react"
 
-const VectorUpIcon = React.lazy(() => import('./VectorUpIcon'));
+const AngleUpIcon = React.lazy(() => import('./AngleUpIcon'));
 
-function LazyVectorUpIcon(props: React.SVGAttributes<SVGSVGElement>) {
+function LazyAngleUpIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="12"
             height="8"
@@ -10,9 +10,9 @@ function LazyVectorUpIcon(props: React.SVGAttributes<SVGSVGElement>) {
             xmlns="http://www.w3.org/2000/svg"
             {...props}
         />)}>
-            <VectorUpIcon {...props} />
+            <AngleUpIcon {...props} />
         </Suspense>
     )
 }
 
-export default React.memo(LazyVectorUpIcon);
+export default React.memo(LazyAngleUpIcon);
