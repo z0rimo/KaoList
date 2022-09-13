@@ -72,6 +72,12 @@ charset = utf-8-bom
 [*.{ts,tsx,js,jsx}]
 indent_size = 4
 
+[*.{css,scss,sass}]
+indent_size = 4
+
+[*.html]
+indent_size = 2
+
 [*.{cs,vb}]
 # CA1018: Mark attributes with AttributeUsageAttribute
 dotnet_diagnostic.CA1018.severity = warning
