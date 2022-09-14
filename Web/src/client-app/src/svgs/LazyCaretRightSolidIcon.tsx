@@ -2,7 +2,7 @@ import React, { Suspense } from "react"
 
 const CaretRightSolidIcon = React.lazy(() => import('./CaretRightSolidIcon'));
 
-function LazyCaretRightSolidIcon(props: React.HTMLAttributes<SVGSVGElement>) {
+function LazyCaretRightSolidIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="10"
             height="11"
