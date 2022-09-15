@@ -6,14 +6,14 @@ import { I18nResourcesKeyType } from "../../i18n/I18nResources";
 import RoutePath from "../../RoutePath";
 import ChartDropDown from "./ChartDropDown";
 import HeaderManageNavPages from "./HeaderManageNavPages";
-import { Profile } from "oidc-client";
-import authService from "../../api-authorization/AuthorizeService";
+import IdentityContext from "../../contexts/IdentityContext";
 
 function HeaderNav() {
+    const { user } = React.useContext(IdentityContext);
+
     const { t } = useTranslation<I18nResourcesKeyType>('Header');
     const location = useLocation();
     const navigate = useNavigate();
-    const [user, setUser] = React.useState<Profile | null>(null);
 
     const handleClick = React.useCallback((evt: MouseEvent, path: string) => {
         navigate(path);
@@ -30,21 +30,6 @@ function HeaderNav() {
     const handlePlaylistClick = React.useCallback<MouseEventHandler>((evt: MouseEvent) => {
         handleClick(evt, RoutePath['playlist']);
     }, [handleClick]);
-
-    React.useEffect(() => {
-        let isCancelled = false;
-        const fetchUserAsync = async () => {
-            if (!isCancelled) {
-                setUser(await authService.getUser());
-            }
-        };
-        
-        fetchUserAsync();
- 
-        return () => {
-            isCancelled = true;
-        }
-    }, []);
 
     return (
         <nav className="nav">

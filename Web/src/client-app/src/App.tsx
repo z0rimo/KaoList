@@ -6,39 +6,59 @@ import { Login, LoginActions, Logout, LogoutActions } from './components/identit
 import PlaylistPage from './pages/PlaylistPage';
 import EmptyPage from './pages/EmptyPage';
 import RoutePath from './RoutePath';
+import IdentityContext, { useIdentityContext } from './contexts/IdentityContext';
+import React from 'react';
+import authService from './api-authorization/AuthorizeService';
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href') ?? undefined;
 
 function loginAction(name: string) {
-  return (<Login action={name}></Login>);
+    return (<Login action={name}></Login>);
 }
 
 function logoutAction(name: string) {
-  return (<Logout action={name}></Logout>);
+    return (<Logout action={name}></Logout>);
 }
 
 function App() {
-  return (
-    <BrowserRouter basename={baseUrl}>
-      <Routes>
-        <Route path='/' element={<HomePage />} />
-        <Route path='/chart' >
-          <Route path="discover" element={<EmptyPage />} />
-          <Route path="like" element={<EmptyPage />} />
-        </Route>
-        <Route path='/community' element={<EmptyPage />} />
-        <Route path={RoutePath['playlist']} element={<PlaylistPage />} />
-        <Route path={window.authPaths.Login} element={loginAction(LoginActions.Login)} />
-        <Route path={window.authPaths.LoginFailed} element={loginAction(LoginActions.LoginFailed)} />
-        <Route path={window.authPaths.LoginCallback} element={loginAction(LoginActions.LoginCallback)} />
-        <Route path={window.authPaths.Profile} element={loginAction(LoginActions.Profile)} />
-        <Route path={window.authPaths.Register} element={loginAction(LoginActions.Register)} />
-        <Route path={window.authPaths.LogOut} element={logoutAction(LogoutActions.Logout)} />
-        <Route path={window.authPaths.LogOutCallback} element={logoutAction(LogoutActions.LogoutCallback)} />
-        <Route path={window.authPaths.LoggedOut} element={logoutAction(LogoutActions.LoggedOut)} />
-      </Routes>
-    </BrowserRouter>
-  );
+    const identityContext = useIdentityContext();
+
+    React.useEffect(() => {
+        let cancelToken = false;
+        authService.getUser()
+            .then(user => {
+                if (cancelToken) {
+                    return;
+                }
+
+                identityContext.setUser(user);
+            })
+            .catch(console.error);
+    }, []);
+
+    return (
+        <IdentityContext.Provider value={identityContext}>
+            <BrowserRouter basename={baseUrl}>
+                <Routes>
+                    <Route path='/' element={<HomePage />} />
+                    <Route path='/chart' >
+                        <Route path="discover" element={<EmptyPage />} />
+                        <Route path="like" element={<EmptyPage />} />
+                    </Route>
+                    <Route path='/community' element={<EmptyPage />} />
+                    <Route path={RoutePath['playlist']} element={<PlaylistPage />} />
+                    <Route path={window.authPaths.Login} element={loginAction(LoginActions.Login)} />
+                    <Route path={window.authPaths.LoginFailed} element={loginAction(LoginActions.LoginFailed)} />
+                    <Route path={window.authPaths.LoginCallback} element={loginAction(LoginActions.LoginCallback)} />
+                    <Route path={window.authPaths.Profile} element={loginAction(LoginActions.Profile)} />
+                    <Route path={window.authPaths.Register} element={loginAction(LoginActions.Register)} />
+                    <Route path={window.authPaths.LogOut} element={logoutAction(LogoutActions.Logout)} />
+                    <Route path={window.authPaths.LogOutCallback} element={logoutAction(LogoutActions.LogoutCallback)} />
+                    <Route path={window.authPaths.LoggedOut} element={logoutAction(LogoutActions.LoggedOut)} />
+                </Routes>
+            </BrowserRouter>
+        </IdentityContext.Provider>
+    );
 }
 
 export default App;

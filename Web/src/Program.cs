@@ -1,8 +1,7 @@
 using CodeRabbits.KaoList.Identity;
 using CodeRabbits.KaoList.Web.Data;
+using CodeRabbits.KaoList.Web.Identitys;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +13,8 @@ builder.Services.AddDbContext<KaoListDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<KaoListUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<KaoListDbContext>();
+    .AddEntityFrameworkStores<KaoListDbContext>()
+    .AddClaimsPrincipalFactory<KaoListUserClaimsPrincipalFactory<KaoListUser>>();
 
 builder.Services.AddIdentityServer()
     .AddApiAuthorization<KaoListUser, KaoListDbContext>();
