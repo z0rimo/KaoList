@@ -6,7 +6,7 @@ export interface IIdentityContext {
     setUser: (user: Profile | null) => void;
 }
 
-export function useIdentityContext() {
+export function useIdentityContextBlock() {
     const [user, setUser] = React.useState<Profile | null>(null);
 
     return React.useMemo<IIdentityContext>(() => ({
@@ -19,5 +19,9 @@ const IdentityContext = React.createContext<IIdentityContext>({
     user: null,
     setUser: () => { },
 });
+
+export function useIdentityContext() {
+    return React.useContext(IdentityContext);
+}
 
 export default IdentityContext;

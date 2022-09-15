@@ -6,10 +6,10 @@ import { I18nResourcesKeyType } from "../../i18n/I18nResources";
 import RoutePath from "../../RoutePath";
 import ChartDropDown from "./ChartDropDown";
 import HeaderManageNavPages from "./HeaderManageNavPages";
-import IdentityContext from "../../contexts/IdentityContext";
+import { useIdentityContext } from "../../contexts/IdentityContext";
 
 function HeaderNav() {
-    const { user } = React.useContext(IdentityContext);
+    const { user } = useIdentityContext();
 
     const { t } = useTranslation<I18nResourcesKeyType>('Header');
     const location = useLocation();

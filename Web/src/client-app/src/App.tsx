@@ -6,7 +6,7 @@ import { Login, LoginActions, Logout, LogoutActions } from './components/identit
 import PlaylistPage from './pages/PlaylistPage';
 import EmptyPage from './pages/EmptyPage';
 import RoutePath from './RoutePath';
-import IdentityContext, { useIdentityContext } from './contexts/IdentityContext';
+import IdentityContext, { useIdentityContextBlock } from './contexts/IdentityContext';
 import React from 'react';
 import authService from './api-authorization/AuthorizeService';
 
@@ -21,7 +21,7 @@ function logoutAction(name: string) {
 }
 
 function App() {
-    const identityContext = useIdentityContext();
+    const identityContext = useIdentityContextBlock();
 
     React.useEffect(() => {
         let cancelToken = false;
