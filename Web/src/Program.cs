@@ -1,5 +1,8 @@
+// Licensed to the CodeRabbits under one or more agreements.
+// The CodeRabbits licenses this file to you under the MIT license.
+
+using CodeRabbits.KaoList.Data;
 using CodeRabbits.KaoList.Identity;
-using CodeRabbits.KaoList.Web.Data;
 using CodeRabbits.KaoList.Web.Identitys;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
@@ -8,16 +11,22 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<KaoListDbContext>(options =>
-    options.UseSqlServer(connectionString));
+builder.Services.AddDbContext<KaoListDataContext>(options =>
+    options.UseSqlServer(connectionString, b =>
+    {
+        b.MigrationsAssembly("CodeRabbits.KaoList.Web");
+
+        b.EnableRetryOnFailure();
+    }));
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<KaoListUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<KaoListDbContext>()
+    .AddEntityFrameworkStores<KaoListDataContext>()
     .AddClaimsPrincipalFactory<KaoListUserClaimsPrincipalFactory<KaoListUser>>();
 
 builder.Services.AddIdentityServer()
-    .AddApiAuthorization<KaoListUser, KaoListDbContext>();
+    .AddApiAuthorization<KaoListUser, KaoListDataContext>();
 
 builder.Services.AddAuthentication()
     .AddIdentityServerJwt();
