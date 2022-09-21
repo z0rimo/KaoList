@@ -23,13 +23,14 @@ function logoutAction(name: string) {
 function App() {
     const identityContext = useIdentityContextBlock();
     const updateUserIdentity = React.useCallback(() => {
-        authService.getUser().then(user => {
-            if (user === identityContext.user) {
-                return;
-            }
+        authService.getUser()
+            .then(user => {
+                if (user === identityContext.user) {
+                    return;
+                }
 
-            identityContext.setUser(user)
-        }).catch(console.error)
+                identityContext.setUser(user)
+            }).catch(console.error)
     }, [identityContext]);
 
     React.useEffect(() => {
@@ -40,7 +41,7 @@ function App() {
 
             updateUserIdentity();
         })();
-    }, [])
+    }, [updateUserIdentity])
 
     React.useEffect(() => {
         let id = authService.subscribe(updateUserIdentity);
