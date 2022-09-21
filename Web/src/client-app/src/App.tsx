@@ -22,19 +22,32 @@ function logoutAction(name: string) {
 
 function App() {
     const identityContext = useIdentityContextBlock();
+    const updateUserIdentity = React.useCallback(() => {
+        authService.getUser().then(user => {
+            if (user === identityContext.user) {
+                return;
+            }
+
+            identityContext.setUser(user)
+        }).catch(console.error)
+    }, [identityContext]);
 
     React.useEffect(() => {
-        let cancelToken = false;
-        authService.getUser()
-            .then(user => {
-                if (cancelToken) {
-                    return;
-                }
+        (async () => {
+            if (!await authService.isAuthenticated()) {
+                return;
+            }
 
-                identityContext.setUser(user);
-            })
-            .catch(console.error);
-    }, []);
+            updateUserIdentity();
+        })();
+    }, [])
+
+    React.useEffect(() => {
+        let id = authService.subscribe(updateUserIdentity);
+        return () => {
+            authService.unsubscribe(id);
+        }
+    }, [updateUserIdentity]);
 
     return (
         <IdentityContext.Provider value={identityContext}>

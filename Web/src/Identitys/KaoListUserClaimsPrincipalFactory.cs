@@ -8,21 +8,26 @@ using Microsoft.Extensions.Options;
 
 namespace CodeRabbits.KaoList.Web.Identitys
 {
-    public class KaoListUserClaimsPrincipalFactory<T> : UserClaimsPrincipalFactory<T> where T : KaoListUser
+    public class KaoListUserClaimsPrincipalFactory<TUser> : UserClaimsPrincipalFactory<TUser> where TUser : KaoListUser
     {
-        public KaoListUserClaimsPrincipalFactory(UserManager<T> userManager, IOptions<IdentityOptions> optionsAccessor) : base(userManager, optionsAccessor)
+        public KaoListUserClaimsPrincipalFactory(UserManager<TUser> userManager, IOptions<IdentityOptions> optionsAccessor) : base(userManager, optionsAccessor)
         {
         }
 
-        public override async Task<ClaimsPrincipal> CreateAsync(T user)
+        /// <summary>
+        /// Generate the claims for a user.
+        /// </summary>
+        /// <param name="user">The user to create a <see cref="ClaimsIdentity"/> from.</param>
+        /// <returns>The <see cref="Task"/> that represents the asynchronous creation operation, containing the created <see cref="ClaimsIdentity"/>.</returns>
+        protected override async Task<ClaimsIdentity> GenerateClaimsAsync(TUser user)
         {
-            var claimsPrincipal = await base.CreateAsync(user);
+            var id = await base.GenerateClaimsAsync(user);
             if (user.NickName is not null)
             {
-                claimsPrincipal.AddIdentity(new ClaimsIdentity(new[] { new Claim("nickname", user.NickName) }));
+                id.AddClaim(new Claim("nickname", user.NickName));
             }
 
-            return claimsPrincipal;
+            return id;
         }
     }
 }
