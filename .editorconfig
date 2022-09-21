@@ -71,6 +71,7 @@ charset = utf-8-bom
 
 [*.{ts,tsx,js,jsx}]
 indent_size = 4
+insert_final_newline = false
 
 [*.{css,scss,sass}]
 indent_size = 4
