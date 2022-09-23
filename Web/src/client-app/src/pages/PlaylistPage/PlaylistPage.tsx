@@ -1,7 +1,7 @@
 import React from "react";
 import PlaylistEdit from "../../components/PlaylistEdit";
 import PlaylistTitle from "../../components/PlaylistTitle";
-import Page from "../Page";
+import MainSection from "../../components/MainSection";
 import IPlaylist from "../../models/IPlaylist";
 import PlaylistSharedRole from "../../PlaylistSharedRole";
 import MainLayout from "../../layouts/MainLayout";
@@ -32,7 +32,7 @@ function PlaylistPage() {
 
     return (
         <MainLayout>
-            <Page>
+            <MainSection>
                 <div className="playlist-area content-box-white">
                     <PlaylistTitle />
                     <div>
@@ -40,7 +40,7 @@ function PlaylistPage() {
                     </div>
                     <PlaylistEdit />
                 </div>
-            </Page>
+            </MainSection>
         </MainLayout>
     );
 }

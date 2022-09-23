@@ -1,11 +1,11 @@
 import React from "react";
 import MainLayout from "../layouts/MainLayout";
-import Page from "./Page";
+import MainSection from "../components/MainSection";
 
 function EmptyPage() {
     return (
         <MainLayout>
-            <Page />
+            <MainSection />
         </MainLayout>
     )
 }

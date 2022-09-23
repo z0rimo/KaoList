@@ -1,4 +1,5 @@
 import './App.scss';
+import './api/kaolistApi.ts';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import './i18n';

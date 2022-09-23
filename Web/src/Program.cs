@@ -1,6 +1,7 @@
 // Licensed to the CodeRabbits under one or more agreements.
 // The CodeRabbits licenses this file to you under the MIT license.
 
+using System.Text.Json.Serialization;
 using CodeRabbits.KaoList.Data;
 using CodeRabbits.KaoList.Identity;
 using CodeRabbits.KaoList.Web.Identitys;
@@ -31,7 +32,11 @@ builder.Services.AddIdentityServer()
 builder.Services.AddAuthentication()
     .AddIdentityServerJwt();
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+    });
 builder.Services.AddRazorPages();
 
 var app = builder.Build();
