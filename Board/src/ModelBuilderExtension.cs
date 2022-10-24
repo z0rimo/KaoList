@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace CodeRabbits.KaoList.Board;
@@ -129,7 +129,7 @@ public static class ModelBuilderExtension
             b.Property(p => p.NormalizedTitle)
              .HasColumnType("nvarchar(256)")
              .UseCollation("Latin1_General_100_CI_AI_SC_UTF8");
-            b.Property(p => p.Blinded).IsRequired();
+            b.Property(p => p.Blinded).HasDefaultValue(false).IsRequired();
 
             b.HasMany<OriginalPost>().WithOne().HasForeignKey(cr => cr.PostId).IsRequired();
             b.HasMany<PostChart>().WithOne().HasForeignKey(pc => pc.PostId).IsRequired();

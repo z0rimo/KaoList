@@ -4,6 +4,7 @@ using CodeRabbits.KaoList.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CodeRabbits.KaoList.Web.Migrations
 {
     [DbContext(typeof(KaoListDataContext))]
-    partial class KaoListDataContextModelSnapshot : ModelSnapshot
+    [Migration("20221021020710_Changed the post's blend attribute to default value false")]
+    partial class Changedthepostsblendattributetodefaultvaluefalse
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
