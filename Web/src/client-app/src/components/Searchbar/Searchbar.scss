@@ -1,0 +1,54 @@
+.searchbar {
+    --searchbar-width: 630px;
+    --searchbar-height: 50px;
+    --searchbar-font-color: var(--color-gray20);
+    --searchbar-margin-top: 20px;
+    --searchbar-box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
+    --searchbar-background-color: var(--color-white);
+
+    --input-width: 579px;
+    --input-height: 50px;
+    --input-font-size: 15px;
+    --input-padding: 4px 0px 4px 12px;
+    --input-margin: 0;
+
+    --search-button-width: 51px;
+    --search-button-padding: 0;
+    --search-button-margin: 0;
+
+    --search-icon-color: var(--color-slightly-desaturated-cyan);
+
+    display: flex;
+    width: var(--searchbar-width);
+    height: var(--searchbar-height);
+    box-shadow: var(--searchbar-box-shadow);
+    color: var(--searchbar-font-color);
+    margin: 0 auto;
+    margin-top: var(--searchbar-margin-top);
+    background-color: var(--searchbar-background-color);
+
+    .input {
+        width: var(--input-width);
+        height: var(--input-height);
+        background-color: transparent;
+        font-size: var(--input-font-size);
+        padding: var(--input-padding);
+        margin: var(--input-margin);
+        border: none;
+    }
+
+    .search-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: var(--search-button-width);
+        background-color: transparent;
+        padding: var(--search-button-padding);
+        margin: var(--search-button-margin);
+        border: none;
+    }
+
+    .search-icon {
+        fill: var(--search-icon-color);
+    }
+}

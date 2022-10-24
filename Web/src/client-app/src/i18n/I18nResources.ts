@@ -25,6 +25,9 @@ interface Resources {
         "Song": {
             "Thumbnail of {0}": string;
         }
+    },
+    "Searchbar": {
+        "Search Song": string;
     }
 }
 

@@ -62,6 +62,7 @@ function App() {
                     </Route>
                     <Route path='/community' element={<EmptyPage />} />
                     <Route path={RoutePath['playlist']} element={<PlaylistPage />} />
+                    <Route path={RoutePath['search']} element={<EmptyPage />} /> 
                     <Route path={window.authPaths.Login} element={loginAction(LoginActions.Login)} />
                     <Route path={window.authPaths.LoginFailed} element={loginAction(LoginActions.LoginFailed)} />
                     <Route path={window.authPaths.LoginCallback} element={loginAction(LoginActions.LoginCallback)} />

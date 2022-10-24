@@ -25,6 +25,9 @@ const lang: Required<II18nResources> = {
         "Song": {
             "Thumbnail of {0}": "{0}의 썸네일"
         }
+    },
+    "Searchbar": {
+        "Search Song": "곡 검색"
     }
 }
 

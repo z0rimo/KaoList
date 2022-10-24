@@ -32,4 +32,8 @@ export default class StringHelper {
 
         return StringHelper.template(strings, ...keys)(...values);
     }
+
+    static isWhiteSpace(str: string){
+        return /^\s*$/.test(str);
+    }
 }

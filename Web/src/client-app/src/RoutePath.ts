@@ -3,7 +3,8 @@ const RoutePath = Object.freeze({
     discoverChart: '/chart/discover',
     likedChart: '/chart/like',
     community: '/community',
-    playlist: '/playlist'
+    playlist: '/playlist',
+    search: '/search'
 })
 
 

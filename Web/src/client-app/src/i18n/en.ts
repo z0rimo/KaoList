@@ -25,6 +25,9 @@ const lang: II18nResources = {
         "Song": {
             "Thumbnail of {0}": "Thumbnail of {0}"
         }
+    },
+    "Searchbar": {
+        "Search Song": "Serach Song"
     }
 }
 
