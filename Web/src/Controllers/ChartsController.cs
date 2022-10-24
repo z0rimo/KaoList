@@ -4,6 +4,7 @@
 using CodeRabbits.KaoList.Data;
 using CodeRabbits.KaoList.Identity;
 using CodeRabbits.KaoList.Song;
+using CodeRabbits.KaoList.Web.Migrations;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -32,9 +33,9 @@ namespace CodeRabbits.KaoList.Web.Controllers
             var userManager = scopre.ServiceProvider.GetRequiredService<UserManager<KaoListUser>>();
 
             ChartSnippet? snippet = null;
+            var inst = context.Instrumental.Where(inst => inst.Id == sing.InstrumentalId).First();
             if (includeSnippet)
             {
-                var inst = context.Instrumental.Where(inst => inst.Id == sing.InstrumentalId).First();
                 var singgers = await Task.WhenAll(context.SingUsers.Where(us => us.SingId == sing.Id)
                     .ToArray()
                     .Select(async s => new ChartUser
@@ -61,7 +62,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
 
             return new ChartItem
             {
-                ETag = Guid.NewGuid().ToString(),
+                ETag = inst.ConcurrencyStamp!,
                 Id = sing.Id!,
                 Snippet = snippet
             };
@@ -82,7 +83,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
                 sings = sings.Where(item => item.Created < endDate);
             }
 
-            sings = sings.Take(maxResults);
+            sings = sings.OrderBy(item => item.Id).Take(maxResults);
 
             var isSnippet = parts.Contains("snippet");
             var items = await Task.WhenAll(sings.ToArray().Select(async item => await SingToChartItemAsync(item, isSnippet)));
@@ -116,14 +117,14 @@ namespace CodeRabbits.KaoList.Web.Controllers
         public Dictionary<string, ChartKaraokeItem>? Karaoke { get; set; }
     }
 
-    public class ChartItem
+    public record ChartItem
     {
         public string Id { get; set; } = default!;
         public string ETag { get; set; } = default!;
         public ChartSnippet? Snippet { get; set; } = default!;
     }
 
-    public class ChartResponse
+    public record ChartResponse
     {
         public string ETag { get; set; } = default!;
         public IEnumerable<ChartItem> Items { get; set; } = default!;

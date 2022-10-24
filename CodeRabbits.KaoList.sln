@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeRabbits.KaoList.Playlis
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeRabbits.KaoList.Board", "Board\src\CodeRabbits.KaoList.Board.csproj", "{608D7F3C-BE9F-44C1-83B3-B0A39517BF89}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeRabbits.KaoList.Web.Test", "Web\test\CodeRabbits.KaoList.Web.Test.csproj", "{9F784D01-ACAA-4074-B43C-89763DC7ACD1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{608D7F3C-BE9F-44C1-83B3-B0A39517BF89}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{608D7F3C-BE9F-44C1-83B3-B0A39517BF89}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{608D7F3C-BE9F-44C1-83B3-B0A39517BF89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F784D01-ACAA-4074-B43C-89763DC7ACD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F784D01-ACAA-4074-B43C-89763DC7ACD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F784D01-ACAA-4074-B43C-89763DC7ACD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F784D01-ACAA-4074-B43C-89763DC7ACD1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,6 +8,8 @@ using CodeRabbits.KaoList.Web.Identitys;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -68,3 +70,5 @@ app.MapRazorPages();
 app.MapFallbackToFile("index.html"); ;
 
 app.Run();
+
+public partial class Program { }
