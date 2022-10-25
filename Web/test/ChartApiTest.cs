@@ -40,7 +40,7 @@ public class ChartApiTest
 
                     db.Database.EnsureCreated();
 
-                    Utilities.InitializeDbForTests(db);
+                    Utilities.ReinitializeDbForTests(db);
                 });
             });
     }

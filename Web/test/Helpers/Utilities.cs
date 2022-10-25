@@ -25,7 +25,10 @@ namespace CodeRabbits.KaoList.Web.Test
 
         public static void ReinitializeDbForTests(KaoListDataContext db)
         {
+            db.Instrumental.RemoveRange(db.Instrumental);
             db.Users.RemoveRange(db.Users);
+            db.Sings.RemoveRange(db.Sings);
+            db.SingUsers.RemoveRange(db.SingUsers);
             InitializeDbForTests(db);
         }
 
