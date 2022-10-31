@@ -3,11 +3,8 @@
 
 using System.Net.Http.Json;
 using System.Text.Json;
-using CodeRabbits.KaoList.Data;
 using CodeRabbits.KaoList.Web.Controllers;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace CodeRabbits.KaoList.Web.Test;
 
@@ -20,28 +17,7 @@ public class ChartApiTest
         _application = new WebApplicationFactory<Program>()
             .WithWebHostBuilder(builder =>
             {
-                builder.ConfigureServices(services =>
-                {
-                    var descriptor = services.Single(
-                        d => d.ServiceType == typeof(DbContextOptions<KaoListDataContext>));
-
-                    services.Remove(descriptor);
-
-                    services.AddDbContext<KaoListDataContext>(options =>
-                    {
-                        options.UseInMemoryDatabase("InMemoryDbForTesting");
-                    });
-
-                    var sp = services.BuildServiceProvider();
-
-                    using var scope = sp.CreateScope();
-                    var scopedServices = scope.ServiceProvider;
-                    var db = scopedServices.GetRequiredService<KaoListDataContext>();
-
-                    db.Database.EnsureCreated();
-
-                    Utilities.ReinitializeDbForTests(db);
-                });
+                builder.ConfigureTestServices();
             });
     }
 
