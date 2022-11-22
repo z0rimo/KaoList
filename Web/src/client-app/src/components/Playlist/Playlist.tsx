@@ -12,7 +12,7 @@ import LazyLinkSimpleIcon from "../../svgs/LazyLinkSimpleIcon";
 import LazyLockKeyholeIcon from "../../svgs/LazyLockKeyholeIcon";
 import NotImplementedError from "../../errors/NotImplementedError";
 import LazyAngleUpIcon from "../../svgs/LazyAngleUpIcon";
-import LazyCaretDownIcon from "../../svgs/LazyCaretDownIcon";
+import LazyCaretDownSolidIcon from "../../svgs/LazyCaretDownSolidIcon";
 
 const shareIconObject = {
     [PlaylistSharedRole.unlisted]: React.memo(() => <LazyLinkSimpleIcon width="13" height="9" className="share-role-button" />),
@@ -45,7 +45,7 @@ const SharedRoleButton = React.memo((props: React.ButtonHTMLAttributes<HTMLButto
     return (
         <button className="btn" {...props}>
             <ShareIcon sharedRole={props.sharedRole} />
-            <LazyCaretDownIcon className="caret-down-icon" width="6" height="4" />
+            <LazyCaretDownSolidIcon className="caret-down-icon" width="6" height="4" />
         </button>
     )
 });
@@ -118,7 +118,7 @@ function Playlist(props: IPlaylist) {
                     <p>{props.title}</p>
                     <PlayButton onClick={handlePlayButtonClick} />
                     <SharedRoleButton onClick={handleSharedRoleButtonClick} />
-                </li>                
+                </li>
                 <li className="right">
                     <p>{props.viewCount} | {props.sharedCount} | {props.createdTime.toLocaleString(navigator.language, dateOptions)}</p>
                     <SharedAddressButton />

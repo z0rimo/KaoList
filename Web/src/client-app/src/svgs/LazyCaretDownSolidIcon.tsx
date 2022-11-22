@@ -1,8 +1,8 @@
 import React, { Suspense } from "react"
 
-const CaretDownIcon = React.lazy(() => import('./CaretDownIcon'));
+const CaretDownSolidIcon = React.lazy(() => import('./CaretDownSolidIcon'));
 
-function LazyCaretDownIcon(props: React.SVGAttributes<SVGSVGElement>) {
+function LazyCaretDownSolidIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="10"
             height="6"
@@ -10,9 +10,9 @@ function LazyCaretDownIcon(props: React.SVGAttributes<SVGSVGElement>) {
             xmlns="http://www.w3.org/2000/svg"
             {...props}
         />)}>
-            <CaretDownIcon {...props} />
+            <CaretDownSolidIcon {...props} />
         </Suspense>
     )
 }
 
-export default React.memo(LazyCaretDownIcon);
+export default React.memo(LazyCaretDownSolidIcon);
