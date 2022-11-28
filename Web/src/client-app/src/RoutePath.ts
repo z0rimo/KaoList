@@ -4,7 +4,7 @@ const RoutePath = Object.freeze({
     likedChart: '/chart/like',
     community: '/community',
     playlist: '/playlist',
-    search: '/search'
+    search: '/song/search'
 })
 
 
