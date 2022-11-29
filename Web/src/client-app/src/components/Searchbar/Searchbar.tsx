@@ -40,7 +40,7 @@ function Searchbar() {
                 name="q"
                 value={q}
                 onChange={handleChange}
-                placeholder={t('Search Song')}
+                placeholder={t('Search Song') ?? undefined}
                 autoComplete="on"
             />
             <SearchButton />
