@@ -10,7 +10,7 @@ export interface IRenderTableProps<T> extends Omit<
     Table: React.ComponentType<
         React.DetailedHTMLProps<React.TableHTMLAttributes<HTMLTableElement>, HTMLTableElement>
     >;
-    renderer: (item: T, index: number, array: T[]) => JSX.Element;
+    renderer: (item: T, index: number, array: T[]) => JSX.Element | null;
     keySelector: (item: T) => React.Key;
 };
 
@@ -20,9 +20,16 @@ function RenderTable<T>(props: IRenderTableProps<T>) {
         <Table {...rest}>
             {thead}
             <tbody>
-                {items.map((item, index, array) => React.cloneElement(
-                    renderer(item, index, array), { key: keySelector(item) })
-                )}
+                {items.map((item, index, array) => {
+                    const el = renderer(item, index, array);
+                    if (el === null) {
+                        return null;
+                    }
+
+                    return React.cloneElement(
+                        el, { key: keySelector(item) }
+                    );
+                })}
             </tbody>
         </Table>
     )

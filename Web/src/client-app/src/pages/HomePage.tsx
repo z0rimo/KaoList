@@ -15,7 +15,7 @@ const DiscoverCharItem = React.memo((props: IDiscoverChartItem) => {
     )
 });
 
-const discoverCharItemRender: Parameters<typeof DiscoverChart>[0]['renderer'] = (item) => {
+const discoverCharItemRender = (item: IDiscoverChartItem) => {
     return <DiscoverCharItem {...item} />
 }
 
