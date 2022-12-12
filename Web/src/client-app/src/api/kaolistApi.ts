@@ -45,8 +45,8 @@ export interface IChartResponse {
     items: IChartItem[];
 }
 
-type QueryType<T extends object = { [key: string]: string | number }> = {
-    [P in keyof T]?: T[P] extends (string | number | undefined) ? T[P] : string | number;
+type QueryType<T extends object = { [key: string]: string | number | string[] | number[] }> = {
+    [P in keyof T]?: T[P] extends (string | number | string[] | number[] | undefined) ? T[P] : string | number | string[] | number[];
 };
 
 interface IKaolistChartsApi {
@@ -76,29 +76,19 @@ class KaoListApi implements IKaolistApi {
         this._charts = {
             list: (option?: IKaolistChartsListApiOption) => {
                 const queryBuild = (options?: IKaolistChartsListApiOption): QueryType<IKaolistChartsListApiOption> | undefined => {
-                    if (Object.keys(options ?? {}).length === 0) {
+                    if (options === undefined || Object.keys(options).length === 0) {
                         return;
                     }
 
-                    let q: QueryType<IKaolistChartsListApiOption> = {}
-                    if (option?.part) {
-                        q.part = option.part.join(",");
+                    const { startDate, endDate, ...rest } = options;
+                    let q: QueryType<IKaolistChartsListApiOption> = { ...rest };
+
+                    if (startDate) {
+                        q.startDate = startDate.toISOString();
                     }
 
-                    if (option?.type) {
-                        q.type = option.type;
-                    }
-
-                    if (option?.startDate) {
-                        q.startDate = option.startDate.toISOString();
-                    }
-
-                    if (option?.endDate) {
-                        q.endDate = option.endDate.toISOString();
-                    }
-
-                    if (option?.maxResults) {
-                        q.maxResults = option.maxResults;
+                    if (endDate) {
+                        q.endDate = endDate.toISOString();
                     }
 
                     return q;
@@ -112,11 +102,18 @@ class KaoListApi implements IKaolistApi {
     protected static buildQuery(query: QueryType) {
         let q = "";
         Object.keys(query).forEach(key => {
-            if (query[key] === undefined) {
+            const v = query[key];
+            if (v === undefined) {
                 return;
             }
 
-            q += `${key}=${query[key]}&`
+            if (v instanceof Array) {
+                for (const el of v) {
+                    q += `${key}=${el}&`
+                }
+            } else {
+                q += `${key}=${v}&`
+            }
         });
         return q.slice(0, -1);
     }
