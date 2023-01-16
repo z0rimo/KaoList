@@ -6,6 +6,7 @@ using CodeRabbits.KaoList.Data;
 using CodeRabbits.KaoList.Identity;
 using CodeRabbits.KaoList.Web.Identitys;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 
@@ -23,15 +24,21 @@ builder.Services.AddDbContext<KaoListDataContext>(options =>
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<KaoListUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddIdentityCore<KaoListUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddSignInManager()
     .AddEntityFrameworkStores<KaoListDataContext>()
     .AddClaimsPrincipalFactory<KaoListUserClaimsPrincipalFactory<KaoListUser>>();
 
 builder.Services.AddIdentityServer()
     .AddApiAuthorization<KaoListUser, KaoListDataContext>();
 
-builder.Services.AddAuthentication()
-    .AddIdentityServerJwt();
+builder.Services.AddAuthentication(o =>
+    {
+        o.DefaultScheme = IdentityConstants.ApplicationScheme;
+        o.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+    })
+    .AddIdentityServerJwt()
+    .AddIdentityCookies();
 
 builder.Services.AddControllersWithViews()
     .AddJsonOptions(options =>
