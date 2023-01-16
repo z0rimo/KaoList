@@ -36,6 +36,7 @@ function DiscoverChart(props: DiscoverChartProps) {
                 })
             }))
         })();
+        // eslint-disable-next-line
     }, []);
 
     return (
