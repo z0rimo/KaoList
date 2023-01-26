@@ -14,6 +14,9 @@ const context = [
     "/_framework",
     "/api",
     "/ts",
+    "/signin-google",
+    "/signin-kakao",
+    "/signin-naver",
 ];
 
 module.exports = function (app) {

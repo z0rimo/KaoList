@@ -2,19 +2,26 @@
 // The CodeRabbits licenses this file to you under the MIT license.
 
 using System.Text.Json.Serialization;
+using CodeRabbits.AspNetCore.Authentication.Naver;
+using CodeRabbits.AspNetCore.Authentication.Kakao;
 using CodeRabbits.KaoList.Data;
 using CodeRabbits.KaoList.Identity;
+using CodeRabbits.KaoList.Web;
 using CodeRabbits.KaoList.Web.Identitys;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
+using CodeRabbits.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
+var services = builder.Services;
+var configuration = builder.Configuration;
+
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<KaoListDataContext>(options =>
+services.AddDbContext<KaoListDataContext>(options =>
     options.UseSqlServer(connectionString, b =>
     {
         b.MigrationsAssembly("CodeRabbits.KaoList.Web");
@@ -24,7 +31,13 @@ builder.Services.AddDbContext<KaoListDataContext>(options =>
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddIdentityCore<KaoListUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<KaoListUser>();
+builder.Services.AddIdentityCore<KaoListUser>(options =>
+    {
+        options.Stores.MaxLengthForKeys = 128;
+
+        options.SignIn.RequireConfirmedAccount = true;
+    })
     .AddSignInManager()
     .AddEntityFrameworkStores<KaoListDataContext>()
     .AddClaimsPrincipalFactory<KaoListUserClaimsPrincipalFactory<KaoListUser>>();
@@ -37,8 +50,26 @@ builder.Services.AddAuthentication(o =>
         o.DefaultScheme = IdentityConstants.ApplicationScheme;
         o.DefaultSignInScheme = IdentityConstants.ExternalScheme;
     })
-    .AddIdentityServerJwt()
-    .AddIdentityCookies();
+    .AddGoogle(go =>
+    {
+        go.ClientId = configuration.GetRequiredValue<string>(AuthenticationKey.GoogleClientId);
+        go.ClientSecret = configuration.GetRequiredValue<string>(AuthenticationKey.GoogleClientSecret);
+    })
+    .AddKakao(ko =>
+    {
+        ko.ClientId = configuration.GetRequiredValue<string>(AuthenticationKey.KakaoClientId);
+        ko.ClientSecret = configuration.GetRequiredValue<string>(AuthenticationKey.KakaoClientSecret);
+
+        ko.ClaimActions.MapJsonThirdKey("nickname", "properties", "kakao_account", "nickname");
+    })
+    .AddNaver(no =>
+    {
+        no.ClientId = configuration.GetRequiredValue<string>(AuthenticationKey.NaverClientId);
+        no.ClientSecret = configuration.GetRequiredValue<string>(AuthenticationKey.NaverClientClientSecret);
+
+        no.ClaimActions.MapJsonSubKey("nickname", "response", "nickname");
+    })
+    .AddIdentityServerJwt();
 
 builder.Services.AddControllersWithViews()
     .AddJsonOptions(options =>
