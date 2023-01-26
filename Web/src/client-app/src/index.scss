@@ -1,3 +1,25 @@
+@use "sass:map";
+
+$font-sizes: (
+  1: 25px,
+  2: 20px,
+  3: 18px,
+  4: 17px,
+  5: 16px,
+  6: 15px,
+  7: 14px,
+  8: 13px,
+  9: 11px,
+  10: 9px
+);
+
+$h1-font-size: 72px;
+$h2-font-size: 60px;
+$h3-font-size: 56px;
+$h4-font-size: 40px;
+$h5-font-size: 36px;
+$h6-font-size: 32px;
+
 * {
   box-sizing: border-box;
 }
@@ -150,4 +172,68 @@ p {
 
 .bottom-right-box-shadow {
   box-shadow: 0px 1.6px 3.6px rgba(0, 0, 0, 0.13), 0px 0.3px 0.9px rgba(0, 0, 0, 0.11);
+}
+
+.h1 {
+  font-size: $h1-font-size;
+}
+
+.h2 {
+  font-size: $h2-font-size;
+}
+
+.h3 {
+  font-size: $h3-font-size;
+}
+
+.h4 {
+  font-size: $h4-font-size;
+}
+
+.h5 {
+  font-size: $h5-font-size;
+}
+
+.h6 {
+  font-size: $h6-font-size;
+}
+
+.fs-1 {
+  font-size: map.get($font-sizes, 1); 
+}
+
+.fs-2 {
+  font-size: map.get($font-sizes, 2);
+}
+
+.fs-3 {
+  font-size: map.get($font-sizes, 3);
+}
+
+.fs-4 {
+  font-size: map.get($font-sizes, 4);
+}
+
+.fs-5 {
+  font-size: map.get($font-sizes, 5);
+}
+
+.fs-6 {
+  font-size: map.get($font-sizes, 6);
+}
+
+.fs-7 {
+  font-size: map.get($font-sizes, 7);
+}
+
+.fs-8 {
+  font-size: map.get($font-sizes, 8);
+}
+
+.fs-9 {
+  font-size: map.get($font-sizes, 9);
+}
+
+.fs-10 {
+  font-size: map.get($font-sizes, 10);
 }
