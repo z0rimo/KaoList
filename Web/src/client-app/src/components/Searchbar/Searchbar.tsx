@@ -1,7 +1,4 @@
-import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
-import RoutePath from "../../RoutePath";
+import React from "react";
 import StringHelper from "../../StringHelper";
 import LazySearchIcon from "../../svgs/LazySearchIcon";
 import './Searchbar.scss';
@@ -14,33 +11,32 @@ const SearchButton = React.memo((props: React.ButtonHTMLAttributes<HTMLButtonEle
     )
 });
 
-function Searchbar() {
-    const { t } = useTranslation("Searchbar");
-    const [q, setQ] = useState<string>('');
-    const navigate = useNavigate();
+interface SearchbarProps {
+    value: string;
+    placeholder?: string;
+    onChange?: React.ChangeEventHandler<HTMLInputElement>;
+    onSubmit?: React.FormEventHandler<HTMLFormElement>;
+}
 
+function Searchbar(props: SearchbarProps) {
+    const { value, onSubmit } = props;
     const handleSubmit = React.useCallback<React.FormEventHandler<HTMLFormElement>>(evt => {
         evt.preventDefault();
-
-        if (StringHelper.isWhiteSpace(q)) {
+        if (StringHelper.isWhiteSpace(value)) {
             return;
         }
 
-        navigate(`${RoutePath['search']}?q=${q}`);
-    }, [q])
-
-    const handleChange = React.useCallback<React.ChangeEventHandler<HTMLInputElement>>(evt => {
-        setQ(evt.target.value);
-    }, []);
+        onSubmit && onSubmit(evt);
+    }, [value, onSubmit]);
 
     return (
         <form className="searchbar" onSubmit={handleSubmit}>
             <input className="input"
                 type="text"
                 name="q"
-                value={q}
-                onChange={handleChange}
-                placeholder={t('Search Song') ?? undefined}
+                value={props.value}
+                onChange={props.onChange}
+                placeholder={props.placeholder}
                 autoComplete="on"
             />
             <SearchButton />
