@@ -20,6 +20,9 @@ $h4-font-size: 40px;
 $h5-font-size: 36px;
 $h6-font-size: 32px;
 
+$rounded-0: 0 !important;
+$rounded-circle: 50% !important;
+
 * {
   box-sizing: border-box;
 }
@@ -79,6 +82,7 @@ code {
   --color-strong-blue: #006FC9;
   --color-strong-lime: #03C75A;
   --color-strong-orange: #D69E35;
+  --color-very-dark-blue: #212529;
   --color-very-dark-desaturated-blue: #2B3550;
   --color-very-dark-grayish-blue: #5F6368;
   --color-very-dark-grayish-orange: #605E5C;
@@ -119,10 +123,18 @@ p {
 }
 
 .btn {
+  --btn-background-color: transparent;
+  --btn-border-color: transparent;
+  --btn-color: var(--color-very-dark-blue);
+
+  --btn-hover-background-color: var(--color-gray79);
+  --btn-hover-border-color: var(--color-gray33);
+  --btn-hover-color: var(--color-white);
+
   display: inline-block;
   font-weight: 400;
   line-height: 1.5;
-  color: #212529;
+  color: var(--btn-color);
   text-align: center;
   text-decoration: none;
   vertical-align: middle;
@@ -130,12 +142,37 @@ p {
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;
-  background-color: transparent;
-  border: 1px solid transparent;
+  background-color: var(--btn-background-color);
+  border: 1px solid var(--btn-border-color);
   padding: 0.375rem 0.75rem;
   font-size: 1rem;
   border-radius: 0.25rem;
-  transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+  transition: color .15s ease-in-out,
+    background-color .15s ease-in-out,
+    border-color .15s ease-in-out,
+    box-shadow .15s ease-in-out;
+
+  &:hover {
+    background-color: var(--btn-hover-background-color);
+    border: 1px solid var(--btn-hover-border-color);
+    color: var(--btn-hover-color);
+  }
+}
+
+.btn-primary {
+  --btn-background-color: var(--color-white);
+  --btn-color: var(--color-gray20);
+  --btn-border: 1px solid var(--color-gray67);
+}
+
+.btn-secondary {
+  --btn-background-color: var(--color-slightly-desaturated-cyan);
+  --btn-color: var(--color-white);
+  --btn-border: 1px solid var(--color-light-grayish-blue);
+}
+
+.rounded-circle {
+  border-radius: $rounded-circle;
 }
 
 .table-white-border-gray {
