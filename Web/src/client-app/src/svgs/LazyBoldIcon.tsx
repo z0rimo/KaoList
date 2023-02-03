@@ -1,8 +1,8 @@
 import React, { Suspense } from "react"
 
-const TextBoldIcon = React.lazy(() => import('./TextBoldIcon'));
+const BoldIcon = React.lazy(() => import('./BoldIcon'));
 
-function LazyTextBoldIcon(props: React.SVGAttributes<SVGSVGElement>) {
+function LazyBoldIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="12"
             height="14"
@@ -10,9 +10,9 @@ function LazyTextBoldIcon(props: React.SVGAttributes<SVGSVGElement>) {
             xmlns="http://www.w3.org/2000/svg"
             {...props}
         />)}>
-            <TextBoldIcon {...props} />
+            <BoldIcon {...props} />
         </Suspense>
     )
 }
 
-export default React.memo(LazyTextBoldIcon);
+export default React.memo(LazyBoldIcon);
