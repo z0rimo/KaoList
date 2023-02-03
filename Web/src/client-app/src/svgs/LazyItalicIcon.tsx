@@ -1,8 +1,8 @@
 import React, { Suspense } from "react"
 
-const TextItalicIcon = React.lazy(() => import('./TextItalicIcon'));
+const ItalicIcon = React.lazy(() => import('./ItalicIcon'));
 
-function LazyTextItalicIcon(props: React.SVGAttributes<SVGSVGElement>) {
+function LazyItalicIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="11"
             height="15"
@@ -10,9 +10,9 @@ function LazyTextItalicIcon(props: React.SVGAttributes<SVGSVGElement>) {
             xmlns="http://www.w3.org/2000/svg"
             {...props}
         />)}>
-            <TextItalicIcon {...props} />
+            <ItalicIcon {...props} />
         </Suspense>
     )
 }
 
-export default React.memo(LazyTextItalicIcon);
+export default React.memo(LazyItalicIcon);
