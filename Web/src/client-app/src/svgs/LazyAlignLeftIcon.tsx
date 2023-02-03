@@ -1,8 +1,8 @@
 import React, { Suspense } from "react"
 
-const TextAlignLeftIcon = React.lazy(() => import('./TextAlignLeftIcon'));
+const AlignLeftIcon = React.lazy(() => import('./AlignLeftIcon'));
 
-function LazyTextAlignLeftIcon(props: React.SVGAttributes<SVGSVGElement>) {
+function LazyAlignLeftIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="15"
             height="15"
@@ -10,9 +10,9 @@ function LazyTextAlignLeftIcon(props: React.SVGAttributes<SVGSVGElement>) {
             xmlns="http://www.w3.org/2000/svg"
             {...props}
         />)}>
-            <TextAlignLeftIcon {...props} />
+            <AlignLeftIcon {...props} />
         </Suspense>
     )
 }
 
-export default React.memo(LazyTextAlignLeftIcon);
+export default React.memo(LazyAlignLeftIcon);
