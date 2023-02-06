@@ -1,0 +1,19 @@
+[
+  {
+    "outputFileName": "client-app/public/css/*.min.css",
+    "inputFiles": [
+      "client-app/css/*.css"
+    ]
+  },
+  {
+    "outputFileName": "client-app/public/js/*.min.js",
+    "inputFiles": [
+      "client-app/js/*.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    },
+    "sourceMap": false
+  }
+]
