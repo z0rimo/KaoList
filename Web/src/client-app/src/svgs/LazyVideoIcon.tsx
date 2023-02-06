@@ -1,8 +1,8 @@
 import React, { Suspense } from "react"
 
-const ViedoIcon = React.lazy(() => import('./ViedoIcon'));
+const VideoIcon = React.lazy(() => import('./VideoIcon'));
 
-function LazyViedoIcon(props: React.SVGAttributes<SVGSVGElement>) {
+function LazyVideoIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="21"
             height="15"
@@ -10,9 +10,9 @@ function LazyViedoIcon(props: React.SVGAttributes<SVGSVGElement>) {
             xmlns="http://www.w3.org/2000/svg"
             {...props}
         />)}>
-            <ViedoIcon {...props} />
+            <VideoIcon {...props} />
         </Suspense>
     )
 }
 
-export default React.memo(LazyViedoIcon);
+export default React.memo(LazyVideoIcon);
