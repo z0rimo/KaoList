@@ -1,8 +1,8 @@
 import React, { Suspense } from "react"
 
-const TextBackColorIcon = React.lazy(() => import('./TextBackColorIcon'));
+const FillDripIcon = React.lazy(() => import('./FillDripIcon'));
 
-function LazyTextBackColorIcon(props: React.SVGAttributes<SVGSVGElement>) {
+function LazyFillDripIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="15"
             height="15"
@@ -10,9 +10,9 @@ function LazyTextBackColorIcon(props: React.SVGAttributes<SVGSVGElement>) {
             xmlns="http://www.w3.org/2000/svg"
             {...props}
         />)}>
-            <TextBackColorIcon {...props} />
+            <FillDripIcon {...props} />
         </Suspense>
     )
 }
 
-export default React.memo(LazyTextBackColorIcon);
+export default React.memo(LazyFillDripIcon);
