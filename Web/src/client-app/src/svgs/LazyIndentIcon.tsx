@@ -1,8 +1,8 @@
 import React, { Suspense } from "react"
 
-const TextIndentIcon = React.lazy(() => import('./TextIndentIcon'));
+const IndentIcon = React.lazy(() => import('./IndentIcon'));
 
-function LazyTextIndentIcon(props: React.SVGAttributes<SVGSVGElement>) {
+function LazyIndentIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="15"
             height="15"
@@ -10,9 +10,9 @@ function LazyTextIndentIcon(props: React.SVGAttributes<SVGSVGElement>) {
             xmlns="http://www.w3.org/2000/svg"
             {...props}
         />)}>
-            <TextIndentIcon {...props} />
+            <IndentIcon {...props} />
         </Suspense>
     )
 }
 
-export default React.memo(LazyTextIndentIcon);
+export default React.memo(LazyIndentIcon);
