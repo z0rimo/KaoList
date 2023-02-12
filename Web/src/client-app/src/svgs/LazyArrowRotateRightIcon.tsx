@@ -1,8 +1,8 @@
 import React, { Suspense } from "react"
 
-const TextRedoIcon = React.lazy(() => import('./TextRedoIcon'));
+const ArrowRotateRightIcon = React.lazy(() => import('./ArrowRotateRightIcon'));
 
-function LazyTextRedoIcon(props: React.SVGAttributes<SVGSVGElement>) {
+function LazyArrowRotateRightIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="15"
             height="15"
@@ -10,9 +10,9 @@ function LazyTextRedoIcon(props: React.SVGAttributes<SVGSVGElement>) {
             xmlns="http://www.w3.org/2000/svg"
             {...props}
         />)}>
-            <TextRedoIcon {...props} />
+            <ArrowRotateRightIcon {...props} />
         </Suspense>
     )
 }
 
-export default React.memo(LazyTextRedoIcon);
+export default React.memo(LazyArrowRotateRightIcon);
