@@ -1,8 +1,8 @@
 import React, { Suspense } from "react"
 
-const TextAlignCenterIcon = React.lazy(() => import('./TextAlignCenterIcon'));
+const AlignCenterIcon = React.lazy(() => import('./AlignCenterIcon'));
 
-function LazyTextAlignCenterIcon(props: React.SVGAttributes<SVGSVGElement>) {
+function LazyAlignCenterIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="15"
             height="15"
@@ -10,9 +10,9 @@ function LazyTextAlignCenterIcon(props: React.SVGAttributes<SVGSVGElement>) {
             xmlns="http://www.w3.org/2000/svg"
             {...props}
         />)}>
-            <TextAlignCenterIcon {...props} />
+            <AlignCenterIcon {...props} />
         </Suspense>
     )
 }
 
-export default React.memo(LazyTextAlignCenterIcon);
+export default React.memo(LazyAlignCenterIcon);
