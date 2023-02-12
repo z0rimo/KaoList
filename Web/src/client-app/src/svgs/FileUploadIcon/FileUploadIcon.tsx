@@ -1,1 +1,0 @@
-export { ReactComponent as default } from './fileUploadIcon.svg';
