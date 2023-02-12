@@ -1,8 +1,8 @@
 import React, { Suspense } from "react"
 
-const ChartIcon = React.lazy(() => import('./ChartIcon'));
+const ChartColumnIcon = React.lazy(() => import('./ChartColumnIcon'));
 
-function LazyChartIcon(props: React.SVGAttributes<SVGSVGElement>) {
+function LazyChartColumnIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="17"
             height="15"
@@ -10,9 +10,9 @@ function LazyChartIcon(props: React.SVGAttributes<SVGSVGElement>) {
             xmlns="http://www.w3.org/2000/svg"
             {...props}
         />)}>
-            <ChartIcon {...props} />
+            <ChartColumnIcon {...props} />
         </Suspense>
     )
 }
 
-export default React.memo(LazyChartIcon);
+export default React.memo(LazyChartColumnIcon);
