@@ -1,8 +1,8 @@
 import React, { Suspense } from "react"
 
-const TableIcon = React.lazy(() => import('./TableIcon'));
+const TableCellIcon = React.lazy(() => import('./TableCellIcon'));
 
-function LazyTableIcon(props: React.SVGAttributes<SVGSVGElement>) {
+function LazyTableCellIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="17"
             height="15"
@@ -10,9 +10,9 @@ function LazyTableIcon(props: React.SVGAttributes<SVGSVGElement>) {
             xmlns="http://www.w3.org/2000/svg"
             {...props}
         />)}>
-            <TableIcon {...props} />
+            <TableCellIcon {...props} />
         </Suspense>
     )
 }
 
-export default React.memo(LazyTableIcon);
+export default React.memo(LazyTableCellIcon);
