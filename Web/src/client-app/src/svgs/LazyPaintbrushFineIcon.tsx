@@ -1,8 +1,8 @@
 import React, { Suspense } from "react"
 
-const TextColorIcon = React.lazy(() => import('./TextColorIcon'));
+const PaintbrushFineIcon = React.lazy(() => import('./PaintbrushFineIcon'));
 
-function LazyTextColorIcon(props: React.SVGAttributes<SVGSVGElement>) {
+function LazyPaintbrushFineIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="15"
             height="15"
@@ -10,9 +10,9 @@ function LazyTextColorIcon(props: React.SVGAttributes<SVGSVGElement>) {
             xmlns="http://www.w3.org/2000/svg"
             {...props}
         />)}>
-            <TextColorIcon {...props} />
+            <PaintbrushFineIcon {...props} />
         </Suspense>
     )
 }
 
-export default React.memo(LazyTextColorIcon);
+export default React.memo(LazyPaintbrushFineIcon);
