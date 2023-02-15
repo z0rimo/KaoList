@@ -1,8 +1,8 @@
 import React, { Suspense } from "react"
 
-const TextMiddleLineIcon = React.lazy(() => import('./TextMiddleLineIcon'));
+const StrikethroughIcon = React.lazy(() => import('./StrikethroughIcon'));
 
-function LazyTextMiddleLineIcon(props: React.SVGAttributes<SVGSVGElement>) {
+function LazyStrikethroughIcon(props: React.SVGAttributes<SVGSVGElement>) {
     return (
         <Suspense fallback={(<svg width="15"
             height="15"
@@ -10,9 +10,9 @@ function LazyTextMiddleLineIcon(props: React.SVGAttributes<SVGSVGElement>) {
             xmlns="http://www.w3.org/2000/svg"
             {...props}
         />)}>
-            <TextMiddleLineIcon {...props} />
+            <StrikethroughIcon {...props} />
         </Suspense>
     )
 }
 
-export default React.memo(LazyTextMiddleLineIcon);
+export default React.memo(LazyStrikethroughIcon);
