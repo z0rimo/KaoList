@@ -1,10 +1,12 @@
-﻿@import "variables/_color";
+@import "variables/_color";
 @import "variables/_font";
+
+@import "variables/_color.scss";
 
 table {
     border-collapse: collapse;
-    background-color: @color-white;
-    color: @color-gray20;
+    background-color: $color-white;
+    color: $color-gray20;
 
     tr {
         td, th {
@@ -19,6 +21,6 @@ table {
     }
 
     &:hover {
-        background-color: @color-light-grayish-blue;
+        background-color: $color-light-grayish-blue;
     }
 }

@@ -17,6 +17,7 @@
   <ItemGroup>
     <PackageReference Include="CodeRabbits.AspNetCore.Authentication.Kakao" Version="0.0.4" />
     <PackageReference Include="CodeRabbits.AspNetCore.Authentication.Naver" Version="0.0.4" />
+    <PackageReference Include="CodeRabbits.AspNetCore.Razor.TagHelpers" Version="0.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="7.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="7.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.0" />
@@ -62,6 +63,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Sr.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Svgs\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using CodeRabbits.Extensions.DependencyInjection;
+using CodeRabbits.AspNetCore.Razor.TagHelpers;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -77,6 +78,10 @@ builder.Services.AddControllersWithViews()
         options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
     });
 builder.Services.AddRazorPages();
+builder.Services.Configure<SvgTagHelperOption>(o =>
+{
+    o.BasePath = "./Svgs";
+});
 
 var app = builder.Build();
 

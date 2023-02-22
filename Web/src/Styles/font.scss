@@ -1,0 +1,102 @@
+@use "sass:map";
+@import "variables/_font.scss";
+
+.h1 {
+    font-size: $h1-font-size;
+}
+
+.h2 {
+    font-size: $h2-font-size;
+}
+
+.h3 {
+    font-size: $h3-font-size;
+}
+
+.h4 {
+    font-size: $h4-font-size;
+}
+
+.h5 {
+    font-size: $h5-font-size;
+}
+
+.h6 {
+    font-size: $h6-font-size;
+}
+
+.fs-1 {
+    font-size: map.get($font-sizes, 1);
+}
+
+.fs-2 {
+    font-size: map.get($font-sizes, 2);
+}
+
+.fs-3 {
+    font-size: map.get($font-sizes, 3);
+}
+
+.fs-4 {
+    font-size: map.get($font-sizes, 4);
+}
+
+.fs-5 {
+    font-size: map.get($font-sizes, 5);
+}
+
+.fs-6 {
+    font-size: map.get($font-sizes, 6);
+}
+
+.fs-7 {
+    font-size: map.get($font-sizes, 7);
+}
+
+.fs-8 {
+    font-size: map.get($font-sizes, 8);
+}
+
+.fs-9 {
+    font-size: map.get($font-sizes, 9);
+}
+
+.fs-10 {
+    font-size: map.get($font-sizes, 10);
+}
+
+.fs-11 {
+    font-size: map.get($font-sizes, 11);
+}
+
+.fs-12 {
+    font-size: map.get($font-sizes, 12);
+}
+
+.fw-lighter {
+    font-weight: $font-weight-lighter;
+}
+
+.fw-light {
+    font-weight: $font-weight-light;
+}
+
+.fw-normal {
+    font-weight: $font-weight-normal;
+}
+
+.fw-medium {
+    font-weight: $font-weight-medium;
+}
+
+.fw-semibold {
+    font-weight: $font-weight-semibold;
+}
+
+.fw-bold {
+    font-weight: $font-weight-bold;
+}
+
+.fw-bolder {
+    font-weight: $font-weight-bolder;
+}
