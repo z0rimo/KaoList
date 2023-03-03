@@ -7,8 +7,7 @@ using CodeRabbits.KaoList.Identity;
 using CodeRabbits.KaoList.Web.Identitys;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
-
-
+using Microsoft.Extensions.FileProviders;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -47,6 +46,14 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseMigrationsEndPoint();
+    app.UseDefaultFiles();
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = new PhysicalFileProvider(
+           Path.Combine(builder.Environment.ContentRootPath, "scripts")),
+        RequestPath = "/ts"
+    });
+
 }
 else
 {
@@ -56,6 +63,7 @@ else
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
 app.UseRouting();
 
 app.UseAuthentication();

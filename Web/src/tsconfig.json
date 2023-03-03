@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "noImplicitAny": true,
+    "noEmitOnError": true,
+    "removeComments": true,
+    "sourceRoot": "/ts",
+    "sourceMap": true,
+    "target": "es5",
+    "outDir": "client-app/public/js"
+  },
+  "compileOnSave": true,
+  "include": [
+    "scripts/**/*"
+  ]
+}
