@@ -1,8 +1,14 @@
 ﻿@page
 @model ConfirmEmailModel
 @{
-    ViewData["Title"] = "Confirm email";
+    ViewData["Title"] = SR.Registeraion_Successful;
 }
-
-<h1>@ViewData["Title"]</h1>
-<partial name="_StatusMessage" model="Model.StatusMessage" />
+<p class="fs-4 fw-semibold title">@ViewData["Title"]</p>
+<div class="identity-container">
+    <partial name="_StatusMessage" model="Model.StatusMessage" />
+    <div class="button-wrapper">
+        <a asp-page="./Login" role="button" class="btn btn-primary gray-theme fw-bold">
+            @SR.Go_to_Login
+        </a>
+    </div>
+</div>

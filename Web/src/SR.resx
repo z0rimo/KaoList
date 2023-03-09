@@ -117,7 +117,82 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="A password reset email has been sent to your email &quot;{0}&quot;." xml:space="preserve">
+    <value>귀하의 이메일 "{0}"으로 비밀번호 재설정 메일이 발송되었습니다.</value>
+  </data>
+  <data name="Agree to all terms" xml:space="preserve">
+    <value>약관 전체 동의</value>
+  </data>
+  <data name="Agree to receive events and other notifications" xml:space="preserve">
+    <value>이벤트 등 알림 메일 수신 동의</value>
+  </data>
+  <data name="An email has been sent to your email '{0}' with the link you need to register." xml:space="preserve">
+    <value>귀하의 이메일 '{0}'에 등록에 필요한 링크가 포함된 이메일이 발송되었습니다.</value>
+  </data>
+  <data name="CapsLock is enabled." xml:space="preserve">
+    <value>CapsLock이 켜져있습니다.</value>
+  </data>
+  <data name="Confirm Email" xml:space="preserve">
+    <value>이메일 확인</value>
+  </data>
+  <data name="Confirm Password" xml:space="preserve">
+    <value>비밀번호 확인</value>
+  </data>
+  <data name="Email Address" xml:space="preserve">
+    <value>이메일 주소</value>
+  </data>
+  <data name="Forgot Password" xml:space="preserve">
+    <value>비밀번호 찾기</value>
+  </data>
+  <data name="Go to Login" xml:space="preserve">
+    <value>로그인 페이지로</value>
+  </data>
   <data name="InvalidValueName" xml:space="preserve">
     <value>Value '{0}' not found in configuration.</value>
+  </data>
+  <data name="KaoList" xml:space="preserve">
+    <value>카오리스트</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>로그인</value>
+  </data>
+  <data name="Logout" xml:space="preserve">
+    <value>로그아웃</value>
+  </data>
+  <data name="Nickname" xml:space="preserve">
+    <value>닉네임</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>비밀번호</value>
+  </data>
+  <data name="Password reset email sent" xml:space="preserve">
+    <value>비밀번호 재설정 이메일 전송 완료</value>
+  </data>
+  <data name="Please check your email and complete the registration process." xml:space="preserve">
+    <value>이메일을 확인해 회원가입 과정을 마쳐주세요.</value>
+  </data>
+  <data name="Privacy Policy" xml:space="preserve">
+    <value>개인정보이용방침</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>회원가입</value>
+  </data>
+  <data name="Register confirmation" xml:space="preserve">
+    <value>회원가입 확인</value>
+  </data>
+  <data name="Registeraion Successful" xml:space="preserve">
+    <value>등록 성공</value>
+  </data>
+  <data name="Remember Me" xml:space="preserve">
+    <value>로그인 상태 유지</value>
+  </data>
+  <data name="Send Email" xml:space="preserve">
+    <value>이메일 전송</value>
+  </data>
+  <data name="Social Login" xml:space="preserve">
+    <value>소셜 로그인</value>
+  </data>
+  <data name="Terms of Service" xml:space="preserve">
+    <value>이용약관</value>
   </data>
 </root>

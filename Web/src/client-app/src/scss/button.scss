@@ -1,0 +1,41 @@
+@import 'variables/_color.scss';
+@import 'variables/_text.scss';
+
+.white-button {
+    background-color: $color-white;
+}
+
+.gray-button {
+    background-color: $color-gray77;
+    color: $color-gray33;
+}
+
+.slightly-desaturated-pink-button {
+    background-color: $color-slightly-desaturated-pink;
+    color: $color-white;
+}
+
+.btn.gray-theme {
+    --btn-gray-theme-width: 404px;
+    --btn-gray-theme-font-size: #{map-get($font-sizes, 4)};
+    --btn-gray-theme-margin-top: 30px;
+    --btn-gray-theme-padding: 14px 0;
+    width: var(--btn-gray-theme-width);
+    font-size: var(--btn-gray-theme-font-size);
+    margin-top: var(--btn-gray-theme-margin-top);
+    padding: var(--btn-gray-theme-padding);
+    line-height: normal;
+}
+
+.btn-primary.gray-theme {
+    --btn-color: var(--color-white);
+    --btn-hover-background-color: var(--color-moderate-cyan-lime-green);
+    border: none;
+    background-color: var(--color-soft-lime);
+    color: var(--btn-color);
+
+    &:hover {
+        background-color: var(--btn-hover-background-color);
+        border: none;
+    }
+}

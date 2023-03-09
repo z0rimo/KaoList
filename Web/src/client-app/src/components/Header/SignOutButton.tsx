@@ -1,20 +1,22 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useLocation, } from "react-router-dom";
+import { queryParameterNames } from "../identity";
 
-function SignOutButton() {
+const logoutState = { local: true };
+
+function SignOut() {
     const { t } = useTranslation('Header');
-    const navigate = useNavigate();
-
-    const handleSignOutClick = React.useCallback(() => {
-        navigate(window.authPaths.LogOut + '?returnUrl=/', {
-            state: {local: true}
-        });
-    }, [navigate]);
+    const location = useLocation();
+    const to = React.useMemo(() => {
+        return `${window.authPaths.LogOut}?${queryParameterNames.ReturnUrl}=${window.location.origin}${location.pathname}`
+    }, [location.pathname])
 
     return (
-        <a className="sign-out" onClick={handleSignOutClick}>{t('Sign Out')}</a>
+        <NavLink className="sign-out fs-8" replace to={to} state={logoutState}>
+            {t("Sign Out")}
+        </NavLink>
     )
 }
 
-export default React.memo(SignOutButton)
+export default React.memo(SignOut)

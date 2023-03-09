@@ -23,7 +23,7 @@ $color-light-orange69: #FFC963;
 $color-light-red: #FF6378;
 $color-moderate-blue: #3257C6;
 $color-moderate-cyan: #4FC3CB;
-$color-moderate-cyan-lime-green: #38C76D;
+$color-moderate-cyan-lime-green: #53D382;
 $color-moderate-red: #C04432;
 $color-mostly-desaturated-dark-blue: #505A78;
 $color-mostly-desaturated-dark-cyan: #709B90;
@@ -46,43 +46,7 @@ $color-very-soft-cyan: #89E2E8;
 $color-vivid-red: #E7223D;
 $color-white: #FFFFFF;
 
-$font-sizes: (
-  1: 25px,
-  2: 22px,
-  3: 20px,
-  4: 18px,
-  5: 17px,
-  6: 16px,
-  7: 15px,
-  8: 14px,
-  9: 13px,
-  10: 11px,
-  11: 9px,
-  12: 6px
-);
-
-$h1-font-size: 72px;
-$h2-font-size: 60px;
-$h3-font-size: 56px;
-$h4-font-size: 40px;
-$h5-font-size: 36px;
-$h6-font-size: 32px;
-
-$rounded-0: 0 !important;
-$rounded-circle: 50% !important;
-
-$border-radius-sm: .25rem;
-$border-radius-lg: .5rem;
-
 $text-primary: $color-gray20;
 $text-primary-emphasis: $color-very-dark-grayish-blue;
 $text-secondary: $color-white;
 $text-info: $color-very-dark-grayish-orange;
-
-$font-weight-lighter: lighter;
-$font-weight-light: 300;
-$font-weight-normal: 400;
-$font-weight-medium: 500;
-$font-weight-semibold: 600;
-$font-weight-bold: 700;
-$font-weight-bolder: bolder;

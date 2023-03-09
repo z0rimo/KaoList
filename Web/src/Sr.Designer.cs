@@ -61,11 +61,236 @@ namespace CodeRabbits.KaoList.Web {
         }
         
         /// <summary>
+        ///   귀하의 이메일 &quot;{0}&quot;으로 비밀번호 재설정 메일이 발송되었습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string A_password_reset_email_has_been_sent_to_your_email___0___ {
+            get {
+                return ResourceManager.GetString("A password reset email has been sent to your email \"{0}\".", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   약관 전체 동의과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Agree_to_all_terms {
+            get {
+                return ResourceManager.GetString("Agree to all terms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   이벤트 등 알림 메일 수신 동의과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Agree_to_receive_events_and_other_notifications {
+            get {
+                return ResourceManager.GetString("Agree to receive events and other notifications", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   귀하의 이메일 &apos;{0}&apos;에 등록에 필요한 링크가 포함된 이메일이 발송되었습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string An_email_has_been_sent_to_your_email___0___with_the_link_you_need_to_register_ {
+            get {
+                return ResourceManager.GetString("An email has been sent to your email \'{0}\' with the link you need to register.", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   CapsLock이 켜져있습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string CapsLock_is_enabled_ {
+            get {
+                return ResourceManager.GetString("CapsLock is enabled.", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   이메일 확인과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Confirm_Email {
+            get {
+                return ResourceManager.GetString("Confirm Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   비밀번호 확인과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Confirm_Password {
+            get {
+                return ResourceManager.GetString("Confirm Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   이메일 주소과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Email_Address {
+            get {
+                return ResourceManager.GetString("Email Address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   비밀번호 찾기과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Forgot_Password {
+            get {
+                return ResourceManager.GetString("Forgot Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   로그인 페이지로과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Go_to_Login {
+            get {
+                return ResourceManager.GetString("Go to Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Value &apos;{0}&apos; not found in configuration.과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string InvalidValueName {
             get {
                 return ResourceManager.GetString("InvalidValueName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   카오리스트과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string KaoList {
+            get {
+                return ResourceManager.GetString("KaoList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   로그인과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Login {
+            get {
+                return ResourceManager.GetString("Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   로그아웃과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Logout {
+            get {
+                return ResourceManager.GetString("Logout", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   닉네임과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Nickname {
+            get {
+                return ResourceManager.GetString("Nickname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   비밀번호과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Password {
+            get {
+                return ResourceManager.GetString("Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   비밀번호 재설정 이메일 전송 완료과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Password_reset_email_sent {
+            get {
+                return ResourceManager.GetString("Password reset email sent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   이메일을 확인해 회원가입 과정을 마쳐주세요.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Please_check_your_email_and_complete_the_registration_process_ {
+            get {
+                return ResourceManager.GetString("Please check your email and complete the registration process.", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   개인정보이용방침과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Privacy_Policy {
+            get {
+                return ResourceManager.GetString("Privacy Policy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   회원가입과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Register {
+            get {
+                return ResourceManager.GetString("Register", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   회원가입 확인과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Register_confirmation {
+            get {
+                return ResourceManager.GetString("Register confirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   등록 성공과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Registeraion_Successful {
+            get {
+                return ResourceManager.GetString("Registeraion Successful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   로그인 상태 유지과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Remember_Me {
+            get {
+                return ResourceManager.GetString("Remember Me", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   이메일 전송과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Send_Email {
+            get {
+                return ResourceManager.GetString("Send Email", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   소셜 로그인과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Social_Login {
+            get {
+                return ResourceManager.GetString("Social Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   이용약관과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Terms_of_Service {
+            get {
+                return ResourceManager.GetString("Terms of Service", resourceCulture);
             }
         }
     }

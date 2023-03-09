@@ -2,12 +2,12 @@
 @using Microsoft.AspNetCore.Mvc.ViewEngines
 @inject IWebHostEnvironment Environment
 @inject ICompositeViewEngine Engine
-
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>KaoList : @ViewData["Title"]</title>
+    <link rel="icon" href="/favicon.ico" type="image/svg" />
+    <title>@SR.KaoList : @ViewData["Title"]</title>
     <environment include="Development">
         <link rel="stylesheet" href="~/css/pages/Identity/Account/layout.css" asp-append-version="true" />
     </environment>
@@ -18,8 +18,8 @@
 <body>
     <div class="identity-region">
         <div class="container">
-            <div class="identity-box">
-                <a class="logo-wrapper" asp-area="" asp-page="/Index">
+            <div role="main" class="identity-box">
+                <a class="logo-wrapper" href="/">
                     <svg src="-/logo.svg" class="logo" />
                 </a>
                 @RenderBody()
@@ -27,13 +27,13 @@
             <footer>
                 <div class="customer-menu">
                     <p class="termsofservice">
-                        <a asp-page="">
-                            이용약관
+                        <a href="/customer/terms">
+                            @SR.Terms_of_Service
                         </a>
                     </p>
                     <p class="privacy">
-                        <a asp-page="">
-                            개인정보이용방침
+                        <a href="/customer/policy">
+                            @SR.Privacy_Policy
                         </a>
                     </p>
                 </div>

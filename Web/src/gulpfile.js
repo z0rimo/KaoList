@@ -16,23 +16,14 @@ const regex = {
     sass: /\.s[a|c]ss$/
 };
 
-var paths = {
-    scripts: ["Scripts/**/*.js", "Scripts/**/*.ts", "Scripts/**/*.map"],
-};
-
-gulp.task('sass', () => gulp.src('Styles/**/*.s[a|c]ss')
+gulp.task('sass', () => gulp.src('client-app/src/scss/**/*.s[a|c]ss')
     .pipe(sass({
         sourceMap: false
     }))
     .pipe(gulp.dest('client-app/public/css/'))
 );
 
-gulp.task('min:script', () => gulp.src(["client-app/public/js/!(*.min).js"], { base: '.' })
-    .pipe(uglify())
-    .pipe(gulp.dest('.'))
-);
-
-gulp.task('min:css', () => gulp.src("client-app/public/css/**/!(*.min).css", { base: '.' })
+gulp.task('min:css', () => gulp.src("client-app/src/css/**/!(*.min).css", { base: '.' })
     .pipe(minifyCSS())
     .pipe(rename({
         suffix: '.min',
@@ -44,24 +35,16 @@ gulp.task('min:css', () => gulp.src("client-app/public/css/**/!(*.min).css", { b
 gulp.task('min', gulp.series(['sass', 'min:css']));
 
 gulp.task('clean', () =>
-    del([...bundleconfig.map(bundle => bundle.outputFileName), "client-app/public/js", "client-app/public/css"])
+    del([...bundleconfig.map(bundle => bundle.outputFileName), "client-app/src/css"])
 );
 
 gulp.task('watch', () => {
-    getBundles(regex.js).forEach(
-        () => gulp.watch("Scripts/**/*.[js|ts]", gulp.series(["min:script"])));
-
     gulp.watch("Styles/**/*.s[a|c]ss", gulp.series(["sass", "min:css"]));
 });
 
 const getBundles = regexPattern =>
     bundleconfig.filter(bundle =>
-        regexPattern.test(bundle.outputFileName)
+        regexPattern.test(bundle.outputFileNamez)
     );
 
-gulp.task("script", () =>
-    gulp.src(paths.scripts)
-        .pipe(gulp.dest("client-app/public/js"))
-);
-
-gulp.task('default', gulp.series(['script', 'min']));
+gulp.task('default', gulp.series(['min']));

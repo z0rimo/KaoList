@@ -37,13 +37,21 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="Styles\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="Styles\**" />
+    <EmbeddedResource Remove="Styles\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="Styles\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="JsonThirdKeyClaimAction.cs~RF1fabd326.TMP" />
+    <None Remove="Scripts\agreeement-check.ts" />
+    <None Remove="Scripts\button-link-navigation.ts" />
+    <None Remove="Scripts\detect-capslock.ts" />
+    <None Remove="Scripts\password-blind.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -67,6 +75,10 @@
 
   <ItemGroup>
     <Folder Include="Svgs\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="Scripts\detect-capslock.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

@@ -1,0 +1,267 @@
+
+@use "sass:map";
+@import '../../../../index.scss';
+@import '../../../border.scss';
+@import '../../../button.scss';
+@import '../../../color.scss';
+@import '../../../table.scss';
+@import '../../../text.scss';
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p,
+blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em,
+img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i,
+center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption,
+tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption,
+footer, header, hgroup, main, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font: inherit;
+    font-size: 100%;
+    vertical-align: baseline;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    background-color: transparent;
+}
+
+ul {
+    list-style-type: none;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    --text-secondary: #aaa;
+    --main-layout-background-color: var(--color-gray95);
+    --main-layout-color: #{$text-primary};
+    --main-layout-font-size: map-get($font-sizes, 6);
+    --main-layout-width: 100%;
+    --main-layout-height: 100%;
+    --hr-border-color: var(--color-gray77);
+    --hr-margin-bottom: 20px;
+    --customer-menu-margin-top: 4px;
+    --customer-menu-p-text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25);
+    --between-customer-menu-ps-margin-left: 6px;
+    --identity-box-min-width: 450px;
+    --identity-box-min-height: 570px;
+    --identity-box-background-color: var(--color-white);
+    --identity-box-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.25);
+    --identity-padding: 36px 23px;
+    --logo-wrapper-margin-bottom: 36px;
+    --logo-width: 162px;
+    --logo-height: 32px;
+    --logo-fill: var(--color-soft-lime);
+    --title-margin-bottom: 18px;
+    --form-input-wrapper-width: 404px;
+    --capslock-color: var(--color-slightly-desaturated-cyan);
+    --between-form-input-wrappers-margin-top: 20px;
+    --form-input-text-border-color: var(--color-gray77);
+    --form-input-text-color: var(--text-secondary);
+    --form-input-text-width: 404px;
+    --form-input-text-padding: 10px 0;
+    --form-input-text-hover-border-color: var(--color-slightly-desaturated-cyan);
+    --input-validation-error-border-color: var(--color-vivid-red);
+    --text-danger-color: var(--color-vivid-red);
+    --check-box-margin-top: 16px;
+    --between-form-label-input-p-margin-left: 6px;
+    --form-check-input-width: 20px;
+    --form-check-input-height: 20px;
+    --external-account-button-background-color: var(--color-white);
+    --external-account-button-border-color: var(--color-gray82);
+    --external-account-button-border-radius: #{$border-radius-sm};
+    --external-account-button-width: 30px;
+    --external-account-button-height: 30px;
+    --between-external-account-buttons-margin-left: 6px;
+    --vertical-line-before-color: var(--color-gray85);
+    --vertical-line-before-font-size: 1.1em;
+    --vertical-line-before-font-weight: #{$font-weight-light};
+    --vertical-line-before-line-height: .9em;
+    --vertical-line-before-margin: 0 0.5em;
+    background-color: var(--main-layout-background-color);
+    color: var(--main-layout-color);
+    font-size: var(--main-layout-font-size);
+    width: var(--main-layout-width);
+    height: var(--main-layout-height);
+
+    .identity-region {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+
+        a {
+            color: var(--main-layout-default-color);
+            text-decoration: none;
+        }
+
+        hr {
+            border: 0.25px solid var(--hr-border-color);
+            margin-bottom: var(--hr-margin-bottom);
+        }
+
+        .container {
+
+            footer {
+                width: inherit;
+
+                .customer-menu {
+                    display: flex;
+                    margin-top: var(--customer-menu-margin-top);
+
+                    p {
+                        text-shadow: var(--customer-menu-p-text-shadow);
+                    }
+
+                    p + p {
+                        margin-left: var(--between-customer-menu-ps-margin-left);
+                    }
+                }
+            }
+
+            .identity-box {
+                min-width: var(--identity-box-min-width);
+                min-height: var(--identity-box-min-height);
+                background-color: var(--identity-box-background-color);
+                box-shadow: var(--identity-box-box-shadow);
+                padding: var(--identity-padding);
+
+                .logo-wrapper {
+                    display: flex;
+                    justify-content: center;
+                    margin-bottom: var(--logo-wrapper-margin-bottom);
+
+                    .logo {
+                        width: var(--logo-width);
+                        height: var(--logo-height);
+                        fill: var(--logo-fill);
+                    }
+                }
+
+                .title {
+                    margin-bottom: var(--title-margin-bottom);
+                }
+
+                .text-danger {
+                    font-size: 14px;
+                    color: var(--text-danger-color);
+                    letter-spacing: -0.5px;
+                }
+
+                .form-input-wrapper {
+                    width: var(--form-input-wrapper-width);
+
+                    #capslock {
+                        display: none;
+                        color: var(--capslock-color);
+                    }
+
+                    .form-input-text {
+                        width: var(--form-input-text-width);
+                        color: var(--main-layout-default-color);
+                        font-size: var(--main-layout-default-font-size);
+                        padding: var(--form-input-text-padding);
+                        border: none;
+                        outline: none;
+                        border-bottom: 1px solid var(--form-input-text-border-color);
+
+                        &:focus {
+                            border-color: var(--form-input-text-hover-border-color);
+                        }
+                    }
+
+                    .form-input-text.input-validation-error {
+                        border-color: var(--input-validation-error-border-color);
+                    }
+                }
+
+                .form-input-wrapper + .form-input-wrapper {
+                    margin-top: var(--between-form-input-wrappers-margin-top);
+                }
+
+                .checkbox {
+                    display: flex;
+                    color: var(--text-secondary);
+                    margin-top: var(--check-box-margin-top);
+
+                    .form-label {
+                        display: flex;
+                        align-items: center;
+                        cursor: pointer;
+
+                        input + p {
+                            margin-left: var(--between-form-label-input-p-margin-left);
+                        }
+
+                        .form-check-input {
+                            width: var(--form-check-input-width);
+                            height: var(--form-check-input-height);
+                            appearance: none;
+                            background-color: transparent;
+                            border: none;
+                            content: url("/Svgs/circleCheckIcon.svg?fill=#AAA");
+                            margin: 0;
+                            cursor: pointer;
+
+                            &:checked {
+                                content: url("/Svgs/circleCheckIcon.svg?fill=58E28B");
+                            }
+                        }
+                    }
+                }
+
+                .checkbox + .text-danger {
+                    margin-top: 5px;
+                }
+            }
+
+            #external-account {
+                display: flex;
+                align-items: center;
+
+                button {
+                    appearance: none;
+                    background-color: var(--external-account-button-background-color);
+                    border: 1px solid var(--external-account-button-border-color);
+                    border-radius: var(--external-account-button-border-radius);
+                    width: var(--external-account-button-width);
+                    height: var(--external-account-button-height);
+                    cursor: pointer;
+                }
+
+                button + button {
+                    margin-left: var(--between-external-account-buttons-margin-left);
+                }
+
+                .login-Google {
+                    content: url("/client-app/src/svgs/GoogleIcon/googleIcon.svg");
+                }
+
+                .login-Kakao {
+                    content: url("/client-app/src/svgs/KakaoIcon/kakaoIcon.svg");
+                }
+
+                .login-Naver {
+                    content: url("/client-app/src/svgs/NaverIcon/naverIcon.svg");
+                }
+            }
+        }
+
+        .vertical-line::before {
+            content: "|";
+            color: var(--vertical-line-before-color);
+            font-size: var(--vertical-line-before-font-size);
+            font-weight: var(--vertical-line-before-font-weight);
+            line-height: var(--vertical-line-before-line-height);
+            margin: var(--vertical-line-before-margin);
+        }
+    }
+}
