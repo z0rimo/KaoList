@@ -1,0 +1,16 @@
+﻿@page
+@model ConfirmEmailFailedModel
+@{
+    ViewData["Title"] = SR.Reset_Password;
+}
+
+<p class="fs-4 fw-semibold title">@ViewData["Title"]</p>
+<div class="identity-container">
+    <p>
+        @SR.Email_verification_failed
+    </p>
+    <p>
+        @SR.If_the_same_phenomenon_continues_to_occur__please_leave_the_relevant_information_in_our_inquiry_form
+    </p>
+    <button type="submit" class="btn btn-primary gray-theme fw-bold">@SR.To_Homepage</button>
+</div>

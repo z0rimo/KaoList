@@ -1,10 +1,32 @@
 ﻿@page
 @model LockoutModel
 @{
-    ViewData["Title"] = "Locked out";
+    ViewData["Title"] = SR.Account_Lockout;
 }
 
-<header>
-    <h1 class="text-danger">@ViewData["Title"]</h1>
-    <p class="text-danger">This account has been locked out, please try again later.</p>
-</header>
+<environment include="Development">
+    <link rel="stylesheet" href="~/css/pages/Identity/Account/Lockout.css" asp-append-version="true" />
+</environment>
+<environment exclude="Development">
+    <link rel="stylesheet" href="~/css/pages/Identity/Account/Lockout.min.css" />
+</environment>
+<p class="fs-4 fw-semibold title">@ViewData["Title"]</p>
+<div class="identity-container">
+    <section>
+        <p class="fs-8">@SR.Your_account_has_been_locked_for_reasons_described_below</p>
+        <p class="fs-8">@SR.For_inquiries_about_account_lockout__please_use_the_Inquiry_tab</p>
+        <div>
+            <div>
+                <p>@SR.Account_lockout_date:</p>
+                <p></p>
+            </div>
+            <div>
+                <p>@SR.Account_unlock_date:</p>
+            </div>
+            <div>
+                <p>@SR.Reason_for_account_lockout:</p>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary gray-theme fw-bold">@SR.To_Homepage</button>
+    </section>
+</div>

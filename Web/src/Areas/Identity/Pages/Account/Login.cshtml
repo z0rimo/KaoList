@@ -19,8 +19,8 @@
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
             <div class="form-input-wrapper">
-                <input asp-for="Input.Password" id="pw" class="form-input-text pw" autocomplete="current-password" placeholder="@SR.Password" aria-required="true" />
-                <p id="capslock">@SR.CapsLock_is_enabled_</p>
+                <input asp-for="Input.Password" id="pw" class="form-input-text" autocomplete="current-password" placeholder="@SR.Password" aria-required="true" />
+                <p id="capslock">@SR.CapsLock_is_enabled</p>
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
             <div class="checkbox">
@@ -38,6 +38,9 @@
                 <p class="vertical-line" />
                 <p>
                     <a asp-page="./ForgotPassword">@SR.Forgot_Password</a>
+                </p>
+                <p>
+                    <a asp-page="./ExternalLogin">adf</a>
                 </p>
             </div>
         </form>

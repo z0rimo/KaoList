@@ -1,21 +1,19 @@
 ﻿@page
 @model LogoutModel
 @{
-    ViewData["Title"] = "Log out";
+    ViewData["Title"] = SR.Logout;
 }
 
-<header>
-    <h1>@ViewData["Title"]</h1>
-    @{
-        if (User.Identity.IsAuthenticated)
-        {
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
-                <button type="submit" class="nav-link btn btn-link text-dark">Click here to Logout</button>
-            </form>
-        }
-        else
-        {
-            <p>You have successfully logged out of the application.</p>
-        }
+<p class="fs-4 fw-semibold title">@ViewData["Title"]</p>
+@{
+    if (User.Identity.IsAuthenticated)
+    {
+        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+            <button type="submit" class="btn btn-primary gray-theme fw-bold">@SR.Click_here_to_Logout</button>
+        </form>
     }
-</header>
+    else
+    {
+        <p>@SR.You_have_successfully_logged_out</p>
+    }
+}
