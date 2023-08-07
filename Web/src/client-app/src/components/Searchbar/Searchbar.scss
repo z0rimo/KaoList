@@ -1,54 +1,71 @@
+@use "sass:map";
+@import "../../scss/variables";
+
 .searchbar {
-    --searchbar-width: 630px;
-    --searchbar-height: 50px;
-    --searchbar-font-color: var(--color-gray20);
-    --searchbar-margin-top: 20px;
-    --searchbar-box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
+    --searchbar-default-color: #{$text-primary};
     --searchbar-background-color: var(--color-white);
 
-    --input-width: 579px;
-    --input-height: 50px;
-    --input-font-size: 15px;
-    --input-padding: 4px 0px 4px 12px;
-    --input-margin: 0;
+    --input-background-color: transparent;
+    --input-border: none;
 
-    --search-button-width: 51px;
-    --search-button-padding: 0;
-    --search-button-margin: 0;
+    --search-button-background-color: transparent;
+    --search-button-border: none;
 
-    --search-icon-color: var(--color-slightly-desaturated-cyan);
+    --search-icon-fill: var(--color-slightly-desaturated-cyan);
 
     display: flex;
-    width: var(--searchbar-width);
-    height: var(--searchbar-height);
-    box-shadow: var(--searchbar-box-shadow);
-    color: var(--searchbar-font-color);
-    margin: 0 auto;
-    margin-top: var(--searchbar-margin-top);
     background-color: var(--searchbar-background-color);
+    color: var(--searchbar-default-color);
 
     .input {
-        width: var(--input-width);
-        height: var(--input-height);
-        background-color: transparent;
-        font-size: var(--input-font-size);
-        padding: var(--input-padding);
-        margin: var(--input-margin);
-        border: none;
+        background-color: var(--input-background-color);
+        border: var(--input-border);
     }
 
     .search-button {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: var(--search-button-width);
-        background-color: transparent;
-        padding: var(--search-button-padding);
-        margin: var(--search-button-margin);
-        border: none;
+        background-color: var(--search-button-background-color);
+        border: var(--search-button-border);
+
+        .search-icon {
+            fill: var(--search-icon-fill);
+        }
+    }
+}
+
+.searchbar.song-searchbar{
+    --searchbar-width: 630px;
+    --searchbar-height: 50px;
+    --searchbar-margin: 0 auto;
+    --searchbar-margin-top: 20px;
+    --searchbar-box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
+
+    --input-width: 579px;
+    --input-height: 50px;
+    --input-font-size: #{map.get($font-sizes, 7)};
+    --input-padding: 4px 0px 4px 12px;
+
+    --search-button-width: 51px;
+    --search-button-padding: 0;
+
+    width: var(--searchbar-width);
+    height: var(--searchbar-height);
+    box-shadow: var(--searchbar-box-shadow);
+    margin: var(--searchbar-margin);
+    margin-top: var(--searchbar-margin-top);
+
+    .input {
+        width: var(--input-width);
+        height: var(--input-height);
+        font-size: var(--input-font-size);
+        padding: var(--input-padding);
     }
 
-    .search-icon {
-        fill: var(--search-icon-color);
+    .search-button {
+        width: var(--search-button-width);
+        padding: var(--search-button-padding);
+        margin: var(--search-button-margin);
     }
 }

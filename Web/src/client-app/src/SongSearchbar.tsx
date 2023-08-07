@@ -1,14 +1,20 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import ClassNameHelper from "./ClassNameHelper";
 import Searchbar from "./components/Searchbar";
 import RoutePath from "./RoutePath";
 
-function SongSearchbar() {
+interface ISongSearchbarProps {
+    className?: string;
+}
+
+function SongSearchbar(props: ISongSearchbarProps) {
+    const { className } = props;
     const { t } = useTranslation("Searchbar");
     const [q, setQ] = useState<string>('');
     const navigate = useNavigate();
-    const handleSubmit = React.useCallback<React.FormEventHandler<HTMLFormElement>>(() => {        
+    const handleSubmit = React.useCallback<React.FormEventHandler<HTMLFormElement>>(() => {
         navigate(`${RoutePath['search']}?q=${q}`);
     }, [q])
 
@@ -17,7 +23,7 @@ function SongSearchbar() {
     }, []);
 
     return (
-        <Searchbar
+        <Searchbar className={ClassNameHelper.concat("song-searchbar", className)}
             value={q}
             onSubmit={handleSubmit}
             onChange={handleChange}
@@ -25,5 +31,4 @@ function SongSearchbar() {
         />
     )
 }
-
 export default React.memo(SongSearchbar);
