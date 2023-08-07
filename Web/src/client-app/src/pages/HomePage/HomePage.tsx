@@ -49,7 +49,7 @@ function HomePage() {
     const { t } = useTranslation('Home');
 
     return (
-        <MainLayout>
+        <MainLayout className="aquamarine-theme">
             <MainSection className="homepage-region">
                 <div className="main-logo-wrapper">
                     <LazyLogo className="main-logo" />
