@@ -1,13 +1,8 @@
-import React from "react";
-import HeaderLogo from "./HeaderLogo";
-import HeaderNav from "./HeaderNav";
+import React, { HtmlHTMLAttributes } from "react";
 
-function HeaderStartRegion() {
+function HeaderStartRegion(props: HtmlHTMLAttributes<HTMLDivElement>) {
     return (
-        <div className="header-start-region">
-            <HeaderLogo />
-            <HeaderNav />
-        </div>
+        <div className="header-start-region" {...props}/>
     )
 }
 

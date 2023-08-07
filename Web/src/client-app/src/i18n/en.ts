@@ -5,11 +5,14 @@ const lang: II18nResources = {
         "Home": "Home",
         "Chart": "Chart",
         "Community": "Community",
+        "Liked Chart": "Liked Chart",
+        "Discover Chart": "Discover Chart",
+        "Playlist": "Playlist",
         "Sign In": "Sign In",
-        "Sign Out": "Sign Out",
-        "Discover Chart": 'Discover Chart',
-        "Liked Chart": 'Liked Chart',
-        "Playlist": "Playlist"
+        "Sign Out": "Sign Out"
+    },
+    "UserProfileDropdown": {
+        "Account Settings": "Account Settings"
     },
     "PlaylistTitle": {
         "Playlist": "Playlist"
@@ -28,6 +31,11 @@ const lang: II18nResources = {
     },
     "Searchbar": {
         "Search Song": "Serach Song"
+    },
+    "Footer": {
+        "Terms of Service": "Terms of Service",
+        "Privacy Policy": "Privacy Policy",
+        "Inquiry": "Inquiry"
     }
 }
 

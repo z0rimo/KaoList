@@ -1,4 +1,4 @@
-import React, { MouseEvent } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { Location, useLocation, useNavigate } from "react-router-dom";
 import ClassNameHelper from "../../ClassNameHelper";
@@ -14,18 +14,17 @@ function ChartDropDownContent(props: React.HTMLAttributes<HTMLElement>) {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const handleClick = React.useCallback((evt: MouseEvent, path: string) => {
+    const handleClick = React.useCallback((path: string) => {
         navigate(path);
     }, [navigate]);
 
-    const handleDiscoverChartClick = React.useCallback((evt: MouseEvent) => {
-        handleClick(evt, RoutePath['discoverChart']);
+    const handleDiscoverChartClick = React.useCallback(() => {
+        handleClick(RoutePath['discoverChart']);
     }, [handleClick]);
 
-    const handleLikedChartClick = React.useCallback((evt: MouseEvent) => {
-        handleClick(evt, RoutePath['likedChart']);
+    const handleLikedChartClick = React.useCallback(() => {
+        handleClick(RoutePath['likedChart']);
     }, [handleClick]);
-
 
     return (
         <ul {...props}>

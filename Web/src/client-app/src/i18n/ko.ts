@@ -5,11 +5,14 @@ const lang: Required<II18nResources> = {
         "Home": "홈",
         "Chart": "차트",
         "Community": "커뮤니티",
+        "Liked Chart": "인기차트",
+        "Discover Chart": "신곡차트",
+        "Playlist": "플레이리스트",
         "Sign In": "로그인",
-        "Sign Out": "로그아웃",
-        "Discover Chart": '신곡 차트',
-        "Liked Chart": '인기 차트',
-        "Playlist": '플레이리스트'
+        "Sign Out": "로그아웃"
+    },
+    "UserProfileDropdown": {
+        "Account Settings": "계정관리"
     },
     "PlaylistTitle": {
         "Playlist": "플레이리스트"
@@ -28,6 +31,11 @@ const lang: Required<II18nResources> = {
     },
     "Searchbar": {
         "Search Song": "곡 검색"
+    },
+    "Footer": {
+        "Terms of Service": "이용약관",
+        "Privacy Policy": "개인정보처리방침",
+        "Inquiry": "문의사항"
     }
 }
 

@@ -4,8 +4,11 @@ const RoutePath = Object.freeze({
     likedChart: '/chart/like',
     community: '/community',
     playlist: '/playlist',
-    search: '/song/search'
+    search: '/song/search',
+    myPage: '/mypage',
+    terms: '/customer/terms',
+    policy: '/customer/policy',
+    inquiry: '/customer/inquiry',
 })
-
 
 export default RoutePath;

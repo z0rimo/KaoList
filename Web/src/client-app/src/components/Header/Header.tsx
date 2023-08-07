@@ -1,36 +1,23 @@
 import React from "react";
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from "react-router-dom";
-import { I18nResourcesKeyType } from "../../i18n/I18nResources";
-import HeaderStartRegion from "./HeaderStartRegion";
-import SignOutButton from "./SignOutButton";
+import { useLocation } from "react-router-dom";
+import PathHelper from "../../PathHelper";
+import CustomerHeader from "./CustomerHeader";
+import MainHeader from "./MainHeader"; 
 
 function Header() {
-    const { t } = useTranslation<I18nResourcesKeyType>('Header');
-    const navigate = useNavigate();
+    let Header: React.ElementType;
+    const location = useLocation();
 
-    const handleSignInClick = React.useCallback(() => {
-        navigate(window.authPaths.Login);
-    }, [navigate]);
-
-    const handleSignOutClick = React.useCallback(() => {
-        navigate(window.authPaths.LogOut + '?returnUrl=/', {
-            state: {local: true}
-        });
-    }, [navigate]);
+    if (PathHelper.getAreaNameByPath(location.pathname) === 'customer') {
+        Header = CustomerHeader;
+    }
+    else {
+        Header = MainHeader;
+    }
 
     return (
-        <header>
-            <div className="content-region">
-                <HeaderStartRegion />
-                <div>
-                    <button onClick={handleSignInClick}>{t('SignIn')}</button>
-
-                </div>
-                <SignOutButton />
-            </div>
-        </header>
-    );
+        <Header />
+    )
 }
 
 export default React.memo(Header);

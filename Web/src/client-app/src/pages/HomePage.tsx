@@ -21,7 +21,7 @@ const discoverCharItemRender = (item: IDiscoverChartItem) => {
 
 function HomePage() {
     return (
-        <MainLayout>
+        <MainLayout className="aquamarine-theme">
             <MainSection>
                 <DiscoverChart maxResults={50}
                     Table={props => <table {...props} />}

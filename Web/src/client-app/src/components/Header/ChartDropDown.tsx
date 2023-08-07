@@ -8,13 +8,9 @@ function ChartDropDown() {
     const { t } = useTranslation<I18nResourcesKeyType>('Header');
 
     return (
-        <Dropdown className="chart-dropdown" >
-            <Dropdown.Header>
-                <p>{t('Chart')}</p>
-            </Dropdown.Header>
-            <Dropdown.Content>
-                <ChartDropDownContent className="chart-nav" />
-            </Dropdown.Content>
+        <Dropdown className="chart-dropdown" activeAction="hover">
+            <p>{t('Chart')}</p>
+            <ChartDropDownContent className="chart-nav bottom-right-box-shadow" />
         </Dropdown>
     )
 }

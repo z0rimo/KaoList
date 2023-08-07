@@ -1,178 +1,190 @@
 @use "sass:map";
-@import 'scss/variables/_variables.scss';
+@import "scss/variables";
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
-    margin: 0;
-    font-family: 'Roboto', 'Noto Sans KR', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  font-family: 'Roboto', 'Noto Sans KR', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
 }
 
 :root {
-    --color-black: #{$color-black};
-    --color-bright-magenta: #{$color-bright-magenta};
-    --color-bright-orange: #{$color-bright-orange};
-    --color-dark-moderate-cyan: #{$color-dark-moderate-cyan};
-    --color-dark-moderate-pink: #{$color-dark-moderate-pink};
-    --color-gray20: #{$color-gray20};
-    --color-gray33: #{$color-gray33};
-    --color-gray51: #{$color-gray51};
-    --color-gray56: #{$color-gray56};
-    --color-gray59: #{$color-gray59};
-    --color-gray67: #{$color-gray67};
-    --color-gray77: #{$color-gray77};
-    --color-gray79: #{$color-gray79};
-    --color-gray82: #{$color-gray82};
-    --color-gray85: #{$color-gray85};
-    --color-gray91: #{$color-gray91};
-    --color-gray95: #{$color-gray95};
-    --color-gray98: #{$color-gray98};
-    --color-gray99: #{$color-gray99};
-    --color-light-grayish-blue: #{$color-light-grayish-blue};
-    --color-light-orange67: #{$color-light-orange67};
-    --color-light-orange69: #{$color-light-orange69};
-    --color-light-red: #{$color-light-red};
-    --color-moderate-blue: #{$color-moderate-blue};
-    --color-moderate-cyan: #{$color-moderate-cyan};
-    --color-moderate-cyan-lime-green: #{$color-moderate-cyan-lime-green};
-    --color-moderate-red: #{$color-moderate-red};
-    --color-mostly-desaturated-dark-blue: #{$color-mostly-desaturated-dark-blue};
-    --color-mostly-desaturated-dark-cyan: #{$color-mostly-desaturated-dark-cyan};
-    --color-pale-blue: #{$color-pale-blue};
-    --color-slightly-desaturated-cyan: #{$color-slightly-desaturated-cyan};
-    --color-slightly-desaturated-pink: #{$color-slightly-desaturated-pink};
-    --color-soft-blue: #{$color-soft-blue};
-    --color-soft-lime: #{$color-soft-lime};
-    --color-soft-magenta: #{$color-soft-magenta};
-    --color-soft-red: #{$color-soft-red};
-    --color-stale-aquamarine: #{$color-stale-aquamarine};
-    --color-strong-blue: #{$color-strong-blue};
-    --color-strong-lime: #{$color-strong-lime};
-    --color-strong-orange: #{$color-strong-orange};
-    --color-very-dark-blue: #{$color-very-dark-blue};
-    --color-very-dark-desaturated-blue: #{$color-very-dark-desaturated-blue};
-    --color-very-dark-grayish-blue: #{$color-very-dark-grayish-blue};
-    --color-very-dark-grayish-orange: #{$color-very-dark-grayish-orange};
-    --color-very-soft-cyan: #{$color-very-soft-cyan};
-    --color-vivid-red: #{$color-vivid-red};
-    --color-white: #{$color-white};
+  --color-black: #{$color-black};
+  --color-bright-magenta: #{$color-bright-magenta};
+  --color-bright-orange: #{$color-bright-orange};
+  --color-dark-moderate-cyan: #{$color-dark-moderate-cyan};
+  --color-dark-moderate-pink: #{$color-dark-moderate-pink};
+  --color-gray20: #{$color-gray20};
+  --color-gray33: #{$color-gray33};
+  --color-gray51: #{$color-gray51};
+  --color-gray56: #{$color-gray56};
+  --color-gray59: #{$color-gray59};
+  --color-gray67: #{$color-gray67};
+  --color-gray77: #{$color-gray77};
+  --color-gray79: #{$color-gray79};
+  --color-gray82: #{$color-gray82};
+  --color-gray85: #{$color-gray85};
+  --color-gray91: #{$color-gray91};
+  --color-gray95: #{$color-gray95};
+  --color-gray98: #{$color-gray98};
+  --color-gray99: #{$color-gray99};
+  --color-light-grayish-blue: #{$color-light-grayish-blue};
+  --color-light-orange67: #{$color-light-orange67};
+  --color-light-orange69: #{$color-light-orange69};
+  --color-light-red: #{$color-light-red};
+  --color-moderate-blue: #{$color-moderate-blue};
+  --color-moderate-cyan: #{$color-moderate-cyan};
+  --color-moderate-cyan-lime-green: #{$color-moderate-cyan-lime-green};
+  --color-moderate-red: #{$color-moderate-red};
+  --color-mostly-desaturated-dark-blue: #{$color-mostly-desaturated-dark-blue};
+  --color-mostly-desaturated-dark-cyan: #{$color-mostly-desaturated-dark-cyan};
+  --color-pale-blue: #{$color-pale-blue};
+  --color-slightly-desaturated-cyan: #{$color-slightly-desaturated-cyan};
+  --color-slightly-desaturated-pink: #{$color-slightly-desaturated-pink};
+  --color-soft-blue: #{$color-soft-blue};
+  --color-soft-lime: #{$color-soft-lime};
+  --color-soft-magenta: #{$color-soft-magenta};
+  --color-soft-red: #{$color-soft-red};
+  --color-stale-aquamarine: #{$color-stale-aquamarine};
+  --color-strong-blue: #{$color-strong-blue};
+  --color-strong-lime: #{$color-strong-lime};
+  --color-strong-orange: #{$color-strong-orange};
+  --color-very-dark-blue: #{$color-very-dark-blue};
+  --color-very-dark-desaturated-blue: #{$color-very-dark-desaturated-blue};
+  --color-very-dark-grayish-blue: #{$color-very-dark-grayish-blue};
+  --color-very-dark-grayish-orange: #{$color-very-dark-grayish-orange};
+  --color-very-soft-cyan: #{$color-very-soft-cyan};
+  --color-vivid-red: #{$color-vivid-red};
+  --color-white: #{$color-white};
 }
 
 ul {
-    list-style-type: none;
+  list-style-type: none;
 }
 
 ul,
 li,
 ol,
 p {
-    margin: 0;
-    padding: 0;
+  margin: 0;
+  padding: 0;
 }
 
 .dropdown {
-    position: relative;
+  position: relative;
 
+  .dropdown-content {
+    display: none !important;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    width: max-content;
+  }
+
+  &:hover {
     .dropdown-content {
-        display: none !important;
-        position: absolute;
-        left: 0;
-        top: 100%;
-        width: max-content;
-    }
+      display: block !important;
 
-    &:hover {
-        .dropdown-content {
-            display: block !important;
-        }
     }
+  }
 }
 
 .btn {
-    --btn-background-color: transparent;
-    --btn-border-color: transparent;
-    --btn-color: var(--color-very-dark-blue);
-    --btn-hover-background-color: var(--color-gray79);
-    --btn-hover-border-color: var(--color-gray33);
-    --btn-hover-color: var(--color-white);
-    display: inline-block;
-    font-weight: 400;
-    line-height: 1.5;
-    color: var(--btn-color);
-    text-align: center;
-    text-decoration: none;
-    vertical-align: middle;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
-    background-color: var(--btn-background-color);
-    border: 1px solid var(--btn-border-color);
-    padding: 0.375rem 0.75rem;
-    font-size: 1rem;
-    border-radius: 0.25rem;
-    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+  --btn-background-color: transparent;
+  --btn-border-color: transparent;
+  --btn-color: var(--color-very-dark-blue);
 
-    &:hover {
-        background-color: var(--btn-hover-background-color);
-        border: 1px solid var(--btn-hover-border-color);
-        color: var(--btn-hover-color);
-    }
+  --btn-hover-background-color: var(--color-gray79);
+  --btn-hover-border-color: var(--color-gray33);
+  --btn-hover-color: var(--color-white);
+
+  display: inline-block;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--btn-color);
+  text-align: center;
+  text-decoration: none;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  background-color: var(--btn-background-color);
+  border: 1px solid var(--btn-border-color);
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  border-radius: 0.25rem;
+  transition: color .15s ease-in-out,
+    background-color .15s ease-in-out,
+    border-color .15s ease-in-out,
+    box-shadow .15s ease-in-out;
+
+  &:hover {
+    background-color: var(--btn-hover-background-color);
+    border: 1px solid var(--btn-hover-border-color);
+    color: var(--btn-hover-color);
+  }
 }
 
 .btn-primary {
-    --btn-background-color: var(--color-white);
-    --btn-color: var(--color-gray20);
-    --btn-border: 1px solid var(--color-gray67);
+  --btn-background-color: var(--color-white);
+  --btn-color: var(--color-gray20);
+  --btn-border: 1px solid var(--color-gray67);
 }
 
 .btn-secondary {
-    --btn-background-color: var(--color-slightly-desaturated-cyan);
-    --btn-color: var(--color-white);
-    --btn-border: 1px solid var(--color-light-grayish-blue);
+  --btn-background-color: var(--color-slightly-desaturated-cyan);
+  --btn-color: var(--color-white);
+  --btn-border: 1px solid var(--color-light-grayish-blue);
 }
 
 .rounded-circle {
-    border-radius: $rounded-circle;
+  border-radius: $rounded-circle;
 }
 
 .table-white-border-gray {
-    --table-width: 100%;
-    --table-background-color: var(--color-white);
-    --table-box-shadow: 0px 1.6px 3.6px rgba(0, 0, 0, 0.13), 0px 0.3px 0.9px rgba(0, 0, 0, 0.11);
-    --table-border-radius: 5px;
-    --table-head-font-size: 18px;
-    --table-head-border-bottom: 1px solid var(--color-gray82);
-    --table-head-padding: 15px 0 15px 0;
-    --table-content-font-size: 18px;
-    --table-content-border-bottom: 1px solid var(--color-gray82);
-    --table-content-padding: 15px 0 15px 0;
-    width: var(--table-width);
-    background-color: var(--table-background-color);
-    box-shadow: var(--table-box-shadow);
-    border-radius: var(--table-border-radius);
-    border-collapse: collapse;
+  --table-width: 100%;
+  --table-background-color: var(--color-white);
+  --table-box-shadow: 0px 1.6px 3.6px rgba(0, 0, 0, 0.13), 0px 0.3px 0.9px rgba(0, 0, 0, 0.11);
+  --table-border-radius: 5px;
 
-    thead tr:first-child {
-        font-size: var(--table-head-font-size);
-        border-bottom: var(--table-head-border-bottom);
-    }
+  --table-head-font-size: 18px;
+  --table-head-border-bottom: 1px solid var(--color-gray82);
+  --table-head-padding: 15px 0 15px 0;
 
-    tbody tr {
-        padding: var(--table-content-padding);
-        border-bottom: var(--table-content-border-bottom);
-        font-size: var(--table-content-font-size);
-    }
+  --table-content-font-size: 18px;
+  --table-content-border-bottom: 1px solid var(--color-gray82);
+  --table-content-padding: 15px 0 15px 0;
+
+  width: var(--table-width);
+  background-color: var(--table-background-color);
+  box-shadow: var(--table-box-shadow);
+  border-radius: var(--table-border-radius);
+  border-collapse: collapse;
+
+  thead tr:first-child {
+    font-size: var(--table-head-font-size);
+    border-bottom: var(--table-head-border-bottom);
+  }
+
+  tbody tr {
+    padding: var(--table-content-padding);
+    border-bottom: var(--table-content-border-bottom);
+    font-size: var(--table-content-font-size);
+  }
 }
 
 .bottom-right-box-shadow {
-    box-shadow: 0px 1.6px 3.6px rgba(0, 0, 0, 0.13), 0px 0.3px 0.9px rgba(0, 0, 0, 0.11);
+  box-shadow: 0px 1.6px 3.6px rgba(0, 0, 0, 0.13), 0px 0.3px 0.9px rgba(0, 0, 0, 0.11);
 }

@@ -5,11 +5,14 @@ interface Resources {
         'Home': string;
         'Chart': string;
         'Community': string;
-        'Sign In': string;
-        'Sign Out': string;
         'Liked Chart': string;
         'Discover Chart': string;
         'Playlist': string;
+        'Sign In': string;
+        "Sign Out": string;      
+    },
+    "UserProfileDropdown": {
+        "Account Settings": string;
     },
     "PlaylistTitle": {
         "Playlist": string;
@@ -28,9 +31,13 @@ interface Resources {
     },
     "Searchbar": {
         "Search Song": string;
+    },
+    "Footer": {
+        'Terms of Service': string;
+        'Privacy Policy': string;
+        'Inquiry': string;
     }
 }
-
 
 export type I18nResourcesKeyType = keyof Resources;
 

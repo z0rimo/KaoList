@@ -56,13 +56,19 @@ function App() {
             <BrowserRouter basename={baseUrl}>
                 <Routes>
                     <Route path='/' element={<HomePage />} />
-                    <Route path='/chart' >
+                    <Route path='/chart'>
                         <Route path="discover" element={<EmptyPage />} />
                         <Route path="like" element={<EmptyPage />} />
+                    </Route>
+                    <Route path='/customer'>
+                        <Route path={RoutePath['terms']} element={<EmptyPage />} />
+                        <Route path={RoutePath['policy']} element={<EmptyPage />} />
+                        <Route path={RoutePath['inquiry']} element={<EmptyPage />} />
                     </Route>
                     <Route path='/community' element={<EmptyPage />} />
                     <Route path={RoutePath['playlist']} element={<PlaylistPage />} />
                     <Route path={RoutePath['search']} element={<EmptyPage />} /> 
+                    <Route path={RoutePath['myPage']} element={<EmptyPage />} />
                     <Route path={window.authPaths.Login} element={loginAction(LoginActions.Login)} />
                     <Route path={window.authPaths.LoginFailed} element={loginAction(LoginActions.LoginFailed)} />
                     <Route path={window.authPaths.LoginCallback} element={loginAction(LoginActions.LoginCallback)} />
