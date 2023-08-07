@@ -2,34 +2,35 @@ import React from 'react';
 import RenderTable, { IRenderTableProps } from './components/RenderTable';
 import { IChartSnippet } from './api/kaolistApi';
 
-export interface IDiscoverChartItem extends IChartSnippet {
+export interface ILikedChartItem extends IChartSnippet {
     id: string;
+    rank?: number;
 }
 
-type DiscoverChartProps = {
+type LikedChartProps = {
     startDate?: Date;
     endDate?: Date;
-    Table: IRenderTableProps<IDiscoverChartItem>['Table'];
-    thead: IRenderTableProps<IDiscoverChartItem>['thead'];
-    renderer: IRenderTableProps<IDiscoverChartItem>['renderer'];
+    Table: IRenderTableProps<ILikedChartItem>['Table'];
+    thead: IRenderTableProps<ILikedChartItem>['thead'];
+    renderer: IRenderTableProps<ILikedChartItem>['renderer'];
     maxResults?: number;
 } & React.TableHTMLAttributes<HTMLTableElement>;
 
-function DiscoverChart(props: DiscoverChartProps) {
+function LikedChart(props: LikedChartProps) {
     const { startDate, endDate, Table, thead, renderer, maxResults, ...rest } = props;
 
-    const keySelector = React.useCallback((item: IDiscoverChartItem) => {
+    const keySelector = React.useCallback((item: ILikedChartItem) => {
         return item.id;
     }, []);
 
-    const [items, setItems] = React.useState<IDiscoverChartItem[]>([]);
+    const [items, setItems] = React.useState<ILikedChartItem[]>([]);
     React.useEffect(() => {
         (async () => {
             const response = await window.api.kaoList.charts.list({
                 startDate: startDate,
                 endDate: endDate,
                 part: ['snippet'],
-                type: 'discovered',
+                type: 'liked',
                 maxResults: maxResults ?? 10
             });
 
@@ -40,7 +41,6 @@ function DiscoverChart(props: DiscoverChartProps) {
                 })
             }))
         })();
-        // eslint-disable-next-line
     }, []);
 
     return (
@@ -55,5 +55,4 @@ function DiscoverChart(props: DiscoverChartProps) {
     )
 }
 
-export default React.memo(DiscoverChart);
-
+export default React.memo(LikedChart);

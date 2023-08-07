@@ -1,0 +1,222 @@
+.homepage-region {
+    --main-logo-wrapper-padding-top: 80px;
+
+    --main-logo-fill: var(--color-white);
+    --main-logo-filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+
+    .main-logo-wrapper {
+        display: flex;
+        justify-content: center;
+        padding-top: var(--main-logo-wrapper-padding-top);
+
+        .main-logo {
+            fill: var(--main-logo-fill);
+            filter: var(--main-logo-filter);
+        }
+    }
+
+    .chart-region {
+        --chart-region-width: 1080px;
+        --chart-region-height: 580px;
+        --chart-region-background-color: var(--color-white);
+        --chart-region-margin: 60px 0 72px;
+        --chart-region-padding-top: 43px;
+        --chart-region-box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.25);
+        --chart-region-border-radius: 5px;
+        --chart-region-font-color: var(--color-gray20);
+
+        --more-chart-font-color: var(--chart-region-font-color);
+        --more-chart-margin-top: 11px;
+        --more-chart-margin-left: 3px;
+
+        --table-width: 500px;
+        --table-border-spacing: 0px;
+        --table-shadow: 0px 1px 2px rgb(0 0 0 / 0.25);
+        --table-margin-top: 14px;
+        --table-background-color: var(--color-gray99);
+
+        --table-head-border-top: 1px solid var(--color-gray91);
+
+        --chart-head-border-bottom: 1px solid var(--color-gray51);
+        --chart-data-border-bottom: 1px solid var(--color-light-grayish-blue);
+
+        --discover-chart-padding: 8px 11px;
+        --liked-chart-padding: 8px 11px 8px 7px;
+
+        --table-font-weight: 400;
+
+        --discover-chart-1th-child-width: 50.6%;
+        --discover-chart-2th-child-width: 25.8%;
+        --discover-chart-3th-child-width: 11.8%;
+        --discover-chart-4th-child-width: 11.8%;
+
+        --discover-chart-head-width: 100%;
+
+        --liked-chart-1th-child-width: 7.8%;
+        --liked-chart-2th-child-width: 51.2%;
+        --liked-chart-3th-child-width: 17.4%;
+        --liked-chart-4th-child-width: 11.8%;
+        --liked-chart-5th-child-width: 11.8%;
+
+        --liked-chart-1th-child-padding-right: 5px;
+        --liked-chart-3th-child-margin-left: -5px;
+
+        display: flex;
+        justify-content: space-evenly;
+        align-items: flex-start;
+        width: var(--chart-region-width);
+        height: var(--chart-region-height);
+        background-color: var(--chart-region-background-color);
+        color: var(--chart-region-font-color);
+        margin: var(--chart-region-margin);
+        padding-top: var(--chart-region-padding-top);
+        box-shadow: var(--chart-region-box-shadow);
+        border-radius: var(--chart-region-border-radius);
+
+        .chart-wrapper {
+            display: flex;
+            flex-direction: column;
+            color: var(--chart-region-font-color);
+
+            a {
+                display: flex;
+                flex-direction: row-reverse;
+                align-items: center;
+                text-decoration: none;
+                color: var(--more-chart-font-color);
+                margin-top: var(--more-chart-margin-top);
+            }
+
+            a::before {
+                content: "+";
+                margin-left: var(--more-chart-margin-left);
+            }
+
+            table {
+                border-collapse: collapse;
+                border: none;
+                width: var(--table-width);
+                border-spacing: var(--table-border-spacing);
+                box-shadow: var(--table-shadow);
+                margin-top: var(--table-margin-top);
+                background-color: var(--table-background-color);
+
+                th,
+                td {
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    display: block;
+                    overflow: hidden;
+                    font-weight: var(--table-font-weight);
+                }
+
+                tr {
+                    display: flex;
+                    align-items: center;
+                }
+
+                thead {
+                    border-top: var(--table-head-border-top);
+                }
+
+                .discover-chart-head,
+                .discover-chart-data {
+                    :nth-child(1) {
+                        width: var(--discover-chart-1th-child-width);
+                    }
+
+                    :nth-child(2) {
+                        width: var(--discover-chart-2th-child-width);
+                    }
+
+                    :nth-child(3) {
+                        width: var(--discover-chart-3th-child-width);
+                    }
+
+                    :nth-child(4) {
+                        width: var(--discover-chart-4th-child-width);
+                    }
+                }
+
+                .discover-chart-head {
+                    width: var(--discover-chart-head-width);
+                    padding: var(--discover-chart-padding);
+                    border-bottom: var(--chart-head-border-bottom);
+
+                    :nth-child(2) {
+                        display: flex;
+                    }
+                }
+
+                .discover-chart-data {
+                    display: flex;
+                    padding: var(--discover-chart-padding);
+                    border-bottom: var(--chart-data-border-bottom);
+
+                    :nth-child(3),
+                    :nth-child(4) {
+                        display: flex;
+                        justify-content: center;
+                    }
+                }
+
+                .liked-chart-head,
+                .liked-chart-data {
+                    :nth-child(1) {
+                        width: var(--liked-chart-1th-child-width);
+                    }
+
+                    :nth-child(2) {
+                        width: var(--liked-chart-2th-child-width);
+                    }
+
+                    :nth-child(3) {
+                        width: var(--liked-chart-3th-child-width);
+                    }
+
+                    :nth-child(4) {
+                        width: var(--liked-chart-4th-child-width);
+                    }
+
+                    :nth-child(5) {
+                        width: var(--liked-chart-5th-child-width);
+                    }
+                }
+
+                .liked-chart-head {
+                    padding: var(--liked-chart-padding);
+                    border-bottom: var(--chart-head-border-bottom);
+
+                    :nth-child(3) {
+                        display: flex;
+                    }
+
+                    :nth-child(4),
+                    :nth-child(5) {
+                        display: flex;
+                        justify-content: center;
+                    }
+                }
+
+                .liked-chart-data {
+                    padding: var(--liked-chart-padding);
+                    border-bottom: var(--chart-data-border-bottom);
+
+                    :nth-child(1) {
+                        text-align: center;
+                        padding-right: var(--liked-chart-1th-child-padding-right);
+                    }
+
+                    :nth-child(3) {
+                        margin-left: var(--liked-chart-3th-child-margin-left);
+                    }
+
+                    :nth-child(4),
+                    :nth-child(5) {
+                        text-align: center;
+                    }
+                }
+            }
+        }
+    }
+}

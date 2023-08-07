@@ -36,6 +36,14 @@ const lang: II18nResources = {
         "Terms of Service": "Terms of Service",
         "Privacy Policy": "Privacy Policy",
         "Inquiry": "Inquiry"
+    },
+    "Home": {
+        "Title": "Title",
+        "Artist": "Artist",
+        "Rank": "Rank",
+        "Liked Song": "Liked Song",
+        "New Song Update": "New Song Update",
+        "More Chart": "More Chart"
     }
 }
 

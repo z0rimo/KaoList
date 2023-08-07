@@ -36,6 +36,14 @@ interface Resources {
         'Terms of Service': string;
         'Privacy Policy': string;
         'Inquiry': string;
+    },
+    'Home': {
+        'Title': string;
+        'Artist': string;
+        'Rank': string;
+        'Liked Song': string;
+        'New Song Update': string;
+        'More Chart': string;
     }
 }
 

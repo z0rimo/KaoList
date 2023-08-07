@@ -36,6 +36,14 @@ const lang: Required<II18nResources> = {
         "Terms of Service": "이용약관",
         "Privacy Policy": "개인정보처리방침",
         "Inquiry": "문의사항"
+    },
+    "Home": {
+        "Title": "곡명",
+        "Artist": "아티스트",
+        "Rank": "순위",
+        "Liked Song": "인기 곡",
+        "New Song Update": "신곡 업데이트",
+        "More Chart": "차트 더보기"
     }
 }
 
