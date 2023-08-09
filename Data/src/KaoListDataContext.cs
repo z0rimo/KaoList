@@ -1,4 +1,4 @@
-﻿using CodeRabbits.KaoList.Board;
+using CodeRabbits.KaoList.Board;
 using CodeRabbits.KaoList.Identity;
 using CodeRabbits.KaoList.Song;
 using Duende.IdentityServer.EntityFramework.Options;
@@ -33,6 +33,8 @@ public partial class KaoListDataContext<TUser> : ApiAuthorizationDbContext<TUser
     public virtual DbSet<SignInAttempt> SignInAttempts { get; set; } = default!;
     public virtual DbSet<Sing> Sings { get; set; } = default!;
     public virtual DbSet<SingUser> SingUsers { get; set; } = default!;
+    public virtual DbSet<SingBlind> SingBlinds { get; set; } = default!;
+    public virtual DbSet<SingFollower> SingFollowers { get; set; } = default!;
     public virtual DbSet<SongSearchLog> SongSearchLogs { get; set; } = default!;
     public virtual DbSet<SoundPlayLog> SoundPlayLogs { get; set; } = default!;
     public virtual DbSet<Sound> Sounds { get; set; } = default!;
