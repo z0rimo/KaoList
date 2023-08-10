@@ -5,9 +5,9 @@ namespace CodeRabbits.KaoList.Web.Models
 {
     public abstract class KaoListPageResponse : KaoListResponse
     {
-        public virtual string? NextPageToken { get; set; }
+        public virtual int? NextPageToken { get; set; }
 
-        public virtual string? PrevPageToken { get; set; }
+        public virtual int? PrevPageToken { get; set; }
 
         public virtual PageInfo? PageInfo { get; set; }
     }

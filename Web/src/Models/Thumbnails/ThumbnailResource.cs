@@ -7,8 +7,8 @@ namespace CodeRabbits.KaoList.Web.Models.Thumbnails
     {
         public string? Url { get; set; }
 
-        public string? Width { get; set; }
+        public int? Width { get; set; }
 
-        public string? Height { get; set; }
+        public int? Height { get; set; }
     }
 }

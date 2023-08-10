@@ -1,6 +1,8 @@
 // Licensed to the CodeRabbits under one or more agreements.
 // The CodeRabbits licenses this file to you under the MIT license.
 
+using CodeRabbits.KaoList.Web.Models.Songs;
+
 namespace CodeRabbits.KaoList.Web.Models.Charts
 {
     public class DiscoverChartSnippet
@@ -11,6 +13,6 @@ namespace CodeRabbits.KaoList.Web.Models.Charts
 
         public IEnumerable<ChartUser> SingUser { get; set; } = default!;
 
-        public Dictionary<string, ChartKaraokeItem>? Karaoke { get; set; }
+        public SongKaraokeItem? Karaoke { get; set; }
     }
 }

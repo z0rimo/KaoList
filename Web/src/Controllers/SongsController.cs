@@ -2,12 +2,11 @@
 // The CodeRabbits licenses this file to you under the MIT license.
 
 using CodeRabbits.KaoList.Data;
-using CodeRabbits.KaoList.Identity;
 using CodeRabbits.KaoList.Web.Identitys;
 using CodeRabbits.KaoList.Web.Models;
 using CodeRabbits.KaoList.Web.Models.Songs;
+using CodeRabbits.KaoList.Web.Models.Thumbnails;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -71,10 +70,28 @@ namespace CodeRabbits.KaoList.Web.Controllers
             throw new NotImplementedException();
         }
 
-        private async Task<IEnumerable<SongResource>> GetSongItemsByIdAsync(IEnumerable<string> ids)
+        private KaoListDataContext CreateScopedDataContext()
         {
-            using var scope = _serviceScopeFactory.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<KaoListDataContext>();
+            var scope = _serviceScopeFactory.CreateScope();
+            return scope.ServiceProvider.GetRequiredService<KaoListDataContext>();
+        }
+
+        [Authorize(Roles = KaoListRoles.Administrator)]
+        [HttpDelete]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(SongResource), StatusCodes.Status200OK)]
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(
+
+            )
+        {
+            throw new NotImplementedException();
+        }
+
+
+        private async Task<IEnumerable<SongResource>> GetSongItemsByIdAsync(IEnumerable<string> ids, int offset, int maxResults)
+        {
+            var context = CreateScopedDataContext();
 
             var songs = await (from sing in context.Sings
                                join inst in context.Instrumental on sing.InstrumentalId equals inst.Id
@@ -83,7 +100,13 @@ namespace CodeRabbits.KaoList.Web.Controllers
                                {
                                    Sing = sing,
                                    Instrumental = inst
-                               }).ToListAsync();
+                               })
+                               .OrderBy(s => s.Sing.Id)
+                               .Skip(offset)
+                               .Take(maxResults)
+                               .ToListAsync();
+
+
 
             return songs.Select(song => new SongResource
             {
@@ -92,30 +115,90 @@ namespace CodeRabbits.KaoList.Web.Controllers
             }).ToList();
         }
 
-        private async Task<IEnumerable<SongResource>> GetSongItemsBySnippetAsync(IEnumerable<string> ids)
+        private async Task<IEnumerable<SongResource>> GetSongItemsBySnippetAsync(IEnumerable<string> ids, int offset, int maxResults)
         {
-            using var scope = _serviceScopeFactory.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<KaoListDataContext>();
-            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<KaoListUser>>();
+            var context = CreateScopedDataContext();
+
             var songs = await (from sing in context.Sings
                                join inst in context.Instrumental on sing.InstrumentalId equals inst.Id
                                where ids.Contains(sing.Id)
                                select new
                                {
                                    Sing = sing,
-                                   Instrumental = inst
-                               }).ToListAsync();
+                                   Instrumental = inst,
+                                   SongUsers = context.SingUsers
+                                                      .Where(su => su.SingId == sing.Id)
+                                                      .Join(context.Users,
+                                                            su => su.UserId,
+                                                            user => user.Id,
+                                                            (su, user) => new { su, user.NickName })
+                                                      .ToList(),
+                                   KaraokeInfo = context.Karaokes
+                                                        .Where(k => k.SingId == sing.Id)
+                                                        .Select(k => new { k.Provider, k.No })
+                                                        .FirstOrDefault()
+                               })
+                               .OrderBy(s => s.Sing.Id)
+                               .Skip(offset)
+                               .Take(maxResults)
+                               .ToListAsync();
 
-            SongSnippet snippet = new SongSnippet
+            return songs.Select(song => new SongResource
             {
+                Id = song.Sing.Id,
+                Etag = song.Instrumental.ConcurrencyStamp,
+                Snippet = new SongSnippet
+                {
+                    Created = song.Sing.Created,
+                    Title = song.Instrumental.Title,
+                    SongUsers = song.SongUsers.Select(su => new SongUser
+                    {
+                        Id = su.su.UserId,
+                        Nickname = su.NickName
+                    }),
+                    Thumbnail = new ThumbnailResource
+                    {
+                        Url = song.Instrumental.SoundId,
+                        Width = 300,
+                        Height = 300
+                    },
+                    Karaoke = new SongKaraokeItem
+                    {
+                        No = song.KaraokeInfo?.No,
+                        ProviderName = song.KaraokeInfo?.Provider
+                    }
+                }
+            }).ToList();
+        }
 
-            };
+        private async Task<IEnumerable<SongResource>> GetSongItemsByStatsticsAsync(IEnumerable<string> ids, int offset, int maxResults)
+        {
+            var context = CreateScopedDataContext();
+
+            var songs = await (from sing in context.Sings
+                               join inst in context.Instrumental on sing.InstrumentalId equals inst.Id
+                               where ids.Contains(sing.Id)
+                               select new
+                               {
+                                   Sing = sing,
+                                   Instrumental = inst,
+                                   FollowCount = context.SingFollowers.Count(f => f.SingId == sing.Id),
+                                   BlindCount = context.SingBlinds.Count(b => b.SingId == sing.Id)
+                               })
+                               .OrderBy(s => s.Sing.Id)
+                               .Skip(offset)
+                               .Take(maxResults)
+                               .ToListAsync();
 
             return songs.Select(song => new SongResource
             {
                 Etag = song.Instrumental.ConcurrencyStamp,
                 Id = song.Sing.Id,
-                Snippet = snippet
+                Statistics = new SongStatistics
+                {
+                    FollowCount = (uint)song.FollowCount,
+                    BlindCount = (uint)song.BlindCount
+                }
             }).ToList();
         }
 
@@ -137,12 +220,12 @@ namespace CodeRabbits.KaoList.Web.Controllers
         [HttpGet("list")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(SongListResponse), StatusCodes.Status200OK)]
-        [ValidateAntiForgeryToken]
+        
         public async Task<SongListResponse> GetListAsync(
             [FromQuery(Name = "part")] SongPart[] parts,
             [FromQuery(Name = "id")] string[]? ids,
             [FromQuery] string? myRating,
-            [FromQuery] string? pageToken,
+            [FromQuery] int offset = 0,
             [FromQuery] int maxResults = 20
             )
         {
@@ -160,16 +243,18 @@ namespace CodeRabbits.KaoList.Web.Controllers
                     switch (part)
                     {
                         case SongPart.Id:
-                            var songItemsById = await GetSongItemsByIdAsync(ids);
-                            items.AddRange(songItemsById.Take(maxResults));
+                            var songItemsById = await GetSongItemsByIdAsync(ids, offset, maxResults);
+                            items.AddRange(songItemsById);
                             break;
 
                         case SongPart.Snippet:
-
+                            var songItemsBySnippet = await GetSongItemsBySnippetAsync(ids, offset, maxResults);
+                            items.AddRange(songItemsBySnippet);
                             break;
 
                         case SongPart.Statistics:
-
+                            var songItemsByStatstics = await GetSongItemsByStatsticsAsync(ids, offset, maxResults);
+                            items.AddRange(songItemsByStatstics);
                             break;
                     }
 
@@ -178,11 +263,15 @@ namespace CodeRabbits.KaoList.Web.Controllers
 
             int totalResults = await GetTotalResultsFromDBAsync(ids);
             int resultsPerPage = items.Count;
+            int nextOffset = offset + maxResults;
+            int prevOffset = offset - maxResults > 0 ? offset - maxResults : 0;
 
             return new SongListResponse
             {
                 Etag = new Guid().ToString(),
                 Items = items,
+                NextPageToken = nextOffset < totalResults ? nextOffset : null,
+                PrevPageToken = offset > 0 ? prevOffset : null,
                 PageInfo = new PageInfo
                 {
                     TotalResults = totalResults,

@@ -12,7 +12,7 @@ namespace CodeRabbits.KaoList.Web.Models.Songs
 
         public string? Title { get; set; } = default!;
 
-        public IEnumerable<SongUser> SongUsers { get; set; } = default!;
+        public IEnumerable<SongUser>? SongUsers { get; set; } = default!;
 
         public ThumbnailResource? Thumbnail { get; set; }
 
