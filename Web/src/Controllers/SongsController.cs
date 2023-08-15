@@ -106,8 +106,6 @@ namespace CodeRabbits.KaoList.Web.Controllers
                                .Take(maxResults)
                                .ToListAsync();
 
-
-
             return songs.Select(song => new SongResource
             {
                 Etag = song.Instrumental.ConcurrencyStamp,
@@ -257,7 +255,6 @@ namespace CodeRabbits.KaoList.Web.Controllers
                             items.AddRange(songItemsByStatstics);
                             break;
                     }
-
                 }
             }
 

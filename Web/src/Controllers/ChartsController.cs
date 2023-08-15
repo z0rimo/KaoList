@@ -68,7 +68,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
             };
         }
 
-        [HttpGet("list")]
+        
         public async Task<ChartResponse> GetListAsync(string part, string? type, DateTime? startDate, DateTime? endDate, int maxResults = 5)
         {
             var parts = part.Split(",");

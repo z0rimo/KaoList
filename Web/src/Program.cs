@@ -14,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 using CodeRabbits.Extensions.DependencyInjection;
 using CodeRabbits.AspNetCore.Razor.TagHelpers;
+using CodeRabbits.KaoList.Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -29,6 +30,9 @@ services.AddDbContext<KaoListDataContext>(options =>
 
         b.EnableRetryOnFailure();
     }));
+
+services.AddTransient<SongService>();
+services.AddTransient<UserService>();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
