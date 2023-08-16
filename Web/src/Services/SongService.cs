@@ -18,13 +18,13 @@ public class SongService
 
     public void DeleteAll()
     {
-        var allInstrumentals = _context.Instrumental.ToList(); // 1. 모든 데이터 가져오기
-        _context.Instrumental.RemoveRange(allInstrumentals);    // 2. 가져온 데이터 삭제하기
+        var allInstrumentals = _context.Instrumental.ToList();
+        _context.Instrumental.RemoveRange(allInstrumentals);
 
         var allSings = _context.Sings.ToList();
         _context.Sings.RemoveRange(allSings);
 
-        _context.SaveChanges();                                // 3. 변경 사항 저장하기
+        _context.SaveChanges();
     }
 
     public void ConvertAndSaveJsonToDb()
@@ -33,7 +33,7 @@ public class SongService
         var jsonContent = File.ReadAllText(jsonFilePath);
         var songs = JsonConvert.DeserializeObject<List<Song>>(jsonContent);
 
-        foreach (var song in songs)
+        foreach (var song in songs!)
         {
             DateTime? releaseDate = DateTime.MinValue;
             if (song.Release != "0000-00-00")
@@ -46,6 +46,7 @@ public class SongService
                 Title = song.Title,
                 NormalizedTitle = song.Title.ToUpper(),
                 SoundId = null,
+                Created = DateTime.UtcNow,
                 Composer = song.Composer,
             };
 
@@ -98,18 +99,24 @@ public class SongService
             }
         }
 
-        _context.SaveChanges();  // 모든 객체를 저장
+        _context.SaveChanges();
     }
 
 }
 
 public class Song
 {
-    public string No { get; set; }
-    public string Brand { get; set; }
-    public string Title { get; set; }
-    public string Singer { get; set; }
-    public string Composer { get; set; }
-    public string Lyricist { get; set; }
-    public string Release { get; set; }
+    public required string No { get; set; }
+
+    public required string Brand { get; set; }
+
+    public required string Title { get; set; }
+
+    public required string Singer { get; set; }
+
+    public required string Composer { get; set; }
+
+    public string? Lyricist { get; set; }
+
+    public required string Release { get; set; }
 }

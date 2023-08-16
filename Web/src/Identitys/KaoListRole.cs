@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Identity;
 
 namespace CodeRabbits.KaoList.Web.Identitys
 {
-    public class KaoListRoles : IdentityRole
+    public class KaoListRole : IdentityRole
     {
-        public const string Administrator = "kaolist.administrator";
+        public const string Administrator = "Administrator";
     }
 }

@@ -29,9 +29,9 @@ public static class Utilities
         var scope = HttpUtility.UrlEncode(oAuth2Config["scope"]);
         var codeVerifier = "c775e7b757ede630cd0aa1113bd102661ab38829ca52a6422ab782862f268646";
         var codeVerifierBytes = Encoding.ASCII.GetBytes(codeVerifier);
-        var hashedBytes = codeVerifierBytes.Sha256();
+        var hashedBytes = codeVerifierBytes.Sha256(
+);
         var code_challenge = Base64Url.Encode(hashedBytes);
-
         response = await client.GetAsync($"/connect/authorize?client_id={clinetId}&redirect_uri={redirectUri}&response_type={oAuth2Config["response_type"]}&scope={scope}&state=c878ad85922d4689ab1aafae68cdfa0b&code_challenge={code_challenge}&code_challenge_method=S256&response_mode=query");
 
         var loginUri = response.RequestMessage.RequestUri;
@@ -72,19 +72,11 @@ public static class Utilities
 
     public static void InitializeDbForTests(KaoListDataContext db)
     {
-        db.Instrumental.AddRange(GetInstrumentals());
-        db.Users.AddRange(GetKaoListUsers());
-        db.Sings.AddRange(GetSings());
-        db.SingUsers.AddRange(GetSingUsers());
         db.SaveChanges();
     }
 
     public static void ReinitializeDbForTests(KaoListDataContext db)
     {
-        db.Instrumental.RemoveRange(db.Instrumental);
-        db.Users.RemoveRange(db.Users);
-        db.Sings.RemoveRange(db.Sings);
-        db.SingUsers.RemoveRange(db.SingUsers);
         db.SaveChanges();
 
         InitializeDbForTests(db);

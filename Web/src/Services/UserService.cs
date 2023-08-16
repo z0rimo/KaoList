@@ -23,7 +23,7 @@ namespace CodeRabbits.KaoList.Web.Services
             var jsonContent = File.ReadAllText(jsonFilePath);
             var users = JsonConvert.DeserializeObject<List<User>>(jsonContent);
 
-            foreach (var user in users)
+            foreach (var user in users!)
             {
                 var userinfo = new KaoListUser
                 {
@@ -42,5 +42,5 @@ namespace CodeRabbits.KaoList.Web.Services
 
 public class User
 {
-    public string Name { get; set; }
+    public required string Name { get; set; }
 }

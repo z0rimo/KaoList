@@ -25,7 +25,7 @@ public class ChartApiTest
     public async Task GetList()
     {
         var client = _application.CreateClient();
-
+        await Utilities.LoginAsync(client, "q@q.q", "1q2w3e$R");
         var response = await client.GetAsync("/api/charts/list?part=id");
         response.EnsureSuccessStatusCode();
         var result = await response.Content.ReadFromJsonAsync<ChartResponse>();

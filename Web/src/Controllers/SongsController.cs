@@ -1,11 +1,14 @@
 // Licensed to the CodeRabbits under one or more agreements.
 // The CodeRabbits licenses this file to you under the MIT license.
 
+using System.Diagnostics.Metrics;
 using CodeRabbits.KaoList.Data;
+using CodeRabbits.KaoList.Song;
 using CodeRabbits.KaoList.Web.Identitys;
 using CodeRabbits.KaoList.Web.Models;
 using CodeRabbits.KaoList.Web.Models.Songs;
 using CodeRabbits.KaoList.Web.Models.Thumbnails;
+using Duende.IdentityServer.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -25,46 +28,224 @@ namespace CodeRabbits.KaoList.Web.Controllers
             _serviceScopeFactory = serviceScopeFactory;
         }
 
-        [Authorize(Roles = KaoListRoles.Administrator)]
+        //[Authorize(Roles = KaoListRole.Administrator)]
         [HttpPost]
         [Produces("application/json")]
         [ProducesResponseType(typeof(SongResource), StatusCodes.Status200OK)]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public IActionResult Post(
-            [FromQuery(Name = "part")] SongPart[] parts,
+            [FromQuery(Name = "part")] string[] parts,
+            [FromQuery(Name = "type")] string type,
             SongResource resource
             )
         {
-            if (resource == null)
+            if (!ModelState.IsValid)
             {
-                return BadRequest("SongResource is can't be null");
+                return BadRequest(ModelState);
             }
 
-            if (parts.Contains(SongPart.Id))
+            try
             {
-                var existingSong = _context.Sings.Find(resource.Id);
-                if (existingSong != null)
+                if (type == "inst")
                 {
-                    _context.Sings.Remove(existingSong);
+                    CreateInstAndSing(parts, resource);
                 }
+                else if (type == "sing")
+                {
+                    CreateSing(parts, resource);
+                }
+                else
+                {
+                    return BadRequest("Invalid type specified.");
+                }
+
+                return Ok();
             }
-            else
+            catch (Exception ex)
             {
-                // add this
+                // TODO: 로그 기록
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        private void CreateInstAndSing(string[] parts, SongResource resource)
+        {
+            var instrumental = new Instrumental
+            {
+                Created = DateTime.UtcNow,
+            };
+
+            if (parts.Contains("snippet"))
+            {
+                if (resource.Snippet == null || string.IsNullOrEmpty(resource.Snippet.Title))
+                {
+                    throw new ArgumentException("Snippet or Title is missing in the resource.");
+                }
+
+                instrumental.Title = resource.Snippet.Title;
+                instrumental.NormalizedTitle = resource.Snippet.Title.ToUpper();
+                instrumental.Composer = resource.Snippet.Composer;
+                instrumental.SoundId = resource.Snippet.Thumbnail?.Url;
+            }
+
+            _context.Instrumental.Add(instrumental);
+
+            if (parts.Contains("id") || parts.Contains("snippet"))
+            {
+                var sing = new Sing
+                {
+                    InstrumentalId = instrumental.Id,
+                };
+
+                if (parts.Contains("snippet"))
+                {
+                    sing.SoundId = instrumental.SoundId;
+                }
+
+                _context.Sings.Add(sing);
             }
 
             _context.SaveChanges();
-            return Ok(resource);
         }
 
-        [Authorize(Roles = KaoListRoles.Administrator)]
+        private void CreateSing(string[] parts, SongResource resource)
+        {
+            if (resource.Id.IsNullOrEmpty() == true)
+            {
+                throw new ArgumentNullException(nameof(resource.Id), "Id is not provided");
+            }
+
+            var instrumental = _context.Instrumental.Where(i => i.Id == resource.Id).FirstOrDefault();
+
+            if (instrumental == null)
+            {
+                throw new InvalidOperationException($"No Instrumental found with the Id {resource.Id}");
+            }
+
+            if (parts.Contains("id") || parts.Contains("snippet"))
+            {
+                var sing = new Sing
+                {
+                    InstrumentalId = resource.Id,
+                };
+
+                if (parts.Contains("snippet"))
+                {
+                    sing.SoundId = instrumental.SoundId;
+                }
+
+                _context.Sings.Add(sing);
+            }
+
+            _context.SaveChanges();
+        }
+
+
+        //[Authorize(Roles = KaoListRoles.Administrator)]
         [HttpPut]
         [Produces("application/json")]
         [ProducesResponseType(typeof(SongResource), StatusCodes.Status200OK)]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public IActionResult Put(
-            [FromQuery(Name = "part")] SongPart[] parts,
+            [FromQuery(Name = "part")] string[] parts,
+            [FromQuery(Name = "type")] string type,
             SongResource resource
+            )
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                if (type == "inst")
+                {
+                    UpdateInst(parts, resource);
+                }
+
+                if (type == "sing")
+                {
+                    UpdateSing(parts, resource);
+                }
+
+                else
+                {
+                    return BadRequest("Invalid type specified.");
+                }
+                
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        private void UpdateInst(string[] parts, SongResource resource)
+        {
+            if (resource.Id.IsNullOrEmpty() == true)
+            {
+                throw new ArgumentNullException(nameof(resource.Id), "Id is not provided");
+            }
+
+            var instrumental = _context.Instrumental.Where(i => i.Id == resource.Id).FirstOrDefault();
+
+            if (instrumental == null)
+            {
+                throw new InvalidOperationException($"No Instrumental found with the Id {resource.Id}");
+            }
+
+            if (parts.Contains("snippet"))
+            {
+                if (resource.Snippet == null || string.IsNullOrEmpty(resource.Snippet.Title))
+                {
+                    throw new ArgumentException("Snippet or Title is missing in the resource.");
+                }
+
+                instrumental.Title = resource.Snippet.Title;
+                instrumental.NormalizedTitle = resource.Snippet.Title.ToUpper();
+                instrumental.Composer = resource.Snippet.Composer;
+                instrumental.SoundId = resource.Snippet.Thumbnail?.Url;
+            }
+
+            _context.SaveChanges();
+        }
+
+        private void UpdateSing(string[] parts, SongResource resource)
+        {
+            if (resource.Id.IsNullOrEmpty() == true)
+            {
+                throw new ArgumentNullException(nameof(resource.Id), "Id is not provided");
+            }
+
+            var sing = _context.Sings.Where(i => i.Id == resource.Id).FirstOrDefault();
+
+            if (sing == null)
+            {
+                throw new InvalidOperationException($"No Sing found with the Id {resource.Id}");
+            }
+
+            if (parts.Contains("snippet"))
+            {
+                if (resource.Snippet == null || string.IsNullOrEmpty(resource.Snippet.Title))
+                {
+                    throw new ArgumentException("Snippet or Title is missing in the resource.");
+                }
+
+                sing.SoundId = resource.Snippet.Thumbnail?.Url;
+            }
+
+            _context.SaveChanges();
+        }
+
+        //[Authorize(Roles = KaoListRoles.Administrator)]
+        [HttpDelete]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(SongResource), StatusCodes.Status200OK)]
+        //[ValidateAntiForgeryToken]
+        public IActionResult Delete(
+
             )
         {
             throw new NotImplementedException();
@@ -75,19 +256,6 @@ namespace CodeRabbits.KaoList.Web.Controllers
             var scope = _serviceScopeFactory.CreateScope();
             return scope.ServiceProvider.GetRequiredService<KaoListDataContext>();
         }
-
-        [Authorize(Roles = KaoListRoles.Administrator)]
-        [HttpDelete]
-        [Produces("application/json")]
-        [ProducesResponseType(typeof(SongResource), StatusCodes.Status200OK)]
-        [ValidateAntiForgeryToken]
-        public IActionResult Delete(
-
-            )
-        {
-            throw new NotImplementedException();
-        }
-
 
         private async Task<IEnumerable<SongResource>> GetSongItemsByIdAsync(IEnumerable<string> ids, int offset, int maxResults)
         {
@@ -154,7 +322,8 @@ namespace CodeRabbits.KaoList.Web.Controllers
                         Id = su.su.UserId,
                         Nickname = su.NickName
                     }),
-                    Thumbnail = new ThumbnailResource
+                    Composer = song.Instrumental.Composer,
+                    Thumbnail = song.Instrumental.SoundId == null ? null : new ThumbnailResource
                     {
                         Url = song.Instrumental.SoundId,
                         Width = 300,
@@ -218,7 +387,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
         [HttpGet("list")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(SongListResponse), StatusCodes.Status200OK)]
-        
+
         public async Task<SongListResponse> GetListAsync(
             [FromQuery(Name = "part")] SongPart[] parts,
             [FromQuery(Name = "id")] string[]? ids,

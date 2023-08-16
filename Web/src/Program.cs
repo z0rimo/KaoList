@@ -15,6 +15,7 @@ using Microsoft.Extensions.FileProviders;
 using CodeRabbits.Extensions.DependencyInjection;
 using CodeRabbits.AspNetCore.Razor.TagHelpers;
 using CodeRabbits.KaoList.Web.Services;
+using CodeRabbits.KaoList.Web.Datas;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -37,6 +38,11 @@ services.AddTransient<UserService>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<KaoListUser>();
+/*builder.Services.AddIdentity<KaoListUser, KaoListRole>()
+    .AddSignInManager()
+    .AddEntityFrameworkStores<KaoListDataContext>()
+    .AddClaimsPrincipalFactory<KaoListUserClaimsPrincipalFactory<KaoListUser>>()
+    .AddDefaultTokenProviders();*/
 builder.Services.AddIdentityCore<KaoListUser>(options =>
     {
         options.Stores.MaxLengthForKeys = 128;
@@ -44,8 +50,10 @@ builder.Services.AddIdentityCore<KaoListUser>(options =>
         options.SignIn.RequireConfirmedAccount = true;
     })
     .AddSignInManager()
+    .AddRoles<KaoListRole>()
     .AddEntityFrameworkStores<KaoListDataContext>()
-    .AddClaimsPrincipalFactory<KaoListUserClaimsPrincipalFactory<KaoListUser>>();
+    .AddClaimsPrincipalFactory<KaoListUserClaimsPrincipalFactory<KaoListUser>>()
+    .AddDefaultTokenProviders();
 
 builder.Services.AddIdentityServer()
     .AddApiAuthorization<KaoListUser, KaoListDataContext>();
@@ -88,6 +96,11 @@ builder.Services.Configure<SvgTagHelperOption>(o =>
 });
 
 var app = builder.Build();
+using var scope = app.Services.CreateScope();
+var serviceProvider = scope.ServiceProvider;
+var dbContext = serviceProvider.GetRequiredService<KaoListDataContext>();
+
+SeedData.Initialize(dbContext);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

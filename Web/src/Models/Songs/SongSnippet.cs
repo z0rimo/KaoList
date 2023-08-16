@@ -14,6 +14,8 @@ namespace CodeRabbits.KaoList.Web.Models.Songs
 
         public IEnumerable<SongUser>? SongUsers { get; set; } = default!;
 
+        public string? Composer { get; set; } = default!;
+
         public ThumbnailResource? Thumbnail { get; set; }
 
         public I18nLanguageResource? I18nName { get; set; }
