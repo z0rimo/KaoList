@@ -3,9 +3,8 @@
 
 namespace CodeRabbits.KaoList.Web.Models.Charts
 {
-    public enum ChartPart
+    public class LikedChartSnippet : ChartSnippet
     {
-        Id,
-        Snippet,
+        public int? Rank { get; set; }
     }
 }

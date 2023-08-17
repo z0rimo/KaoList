@@ -3,12 +3,10 @@
 
 namespace CodeRabbits.KaoList.Web.Models.Songs
 {
-    public class SongFollow
+    public enum SongRating
     {
-        public string? SongId { get; set; }
-
-        public string? UserId { get; set; }
-
-        public DateTime? Created { get; set; }
+        None,
+        Follow,
+        Blind,
     }
 }

@@ -3,12 +3,12 @@
 
 namespace CodeRabbits.KaoList.Web.Models.Charts
 {
-    public class DiscoverChartResource : KaoListResponse
+    public class LikedChartResource : KaoListResponse
     {
-        public override string Kind { get; set; } = "kaoList#discoverChart";
+        public override string Kind { get; set; } = "kaoList#likedChart";
 
         public string? Id { get; set; } = default!;
 
-        public ChartSnippet? Snippet { get; set; }
+        public LikedChartSnippet? Snippet { get; set; }
     }
 }

@@ -7,6 +7,6 @@ namespace CodeRabbits.KaoList.Web.Models.Songs
     {
         public override string Kind { get; set; } = "kaoList#songListResponse";
 
-        public IEnumerable<SongResource>? Items { get; set; }
+        public IEnumerable<SongResource>? resources { get; set; }
     }
 }

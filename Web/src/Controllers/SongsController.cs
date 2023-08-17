@@ -2,6 +2,7 @@
 // The CodeRabbits licenses this file to you under the MIT license.
 
 using System.Diagnostics.Metrics;
+using System.IO;
 using CodeRabbits.KaoList.Data;
 using CodeRabbits.KaoList.Song;
 using CodeRabbits.KaoList.Web.Identitys;
@@ -9,6 +10,7 @@ using CodeRabbits.KaoList.Web.Models;
 using CodeRabbits.KaoList.Web.Models.Songs;
 using CodeRabbits.KaoList.Web.Models.Thumbnails;
 using Duende.IdentityServer.Extensions;
+using Duende.IdentityServer.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -244,11 +246,68 @@ namespace CodeRabbits.KaoList.Web.Controllers
         [Produces("application/json")]
         [ProducesResponseType(typeof(SongResource), StatusCodes.Status200OK)]
         //[ValidateAntiForgeryToken]
-        public IActionResult Delete(
-
+        public async Task<IActionResult> DeleteAsync(
+            [FromQuery(Name = "type")] string type,
+            string id
             )
         {
-            throw new NotImplementedException();
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                if (type == "inst")
+                {
+                    await DeleteInstAsync(id);
+                }
+
+                if (type == "sing")
+                {
+                    await DeleteSingAsync(id);
+                }
+
+                else
+                {
+                    return BadRequest("Invalid type specified.");
+                }
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        private async Task DeleteInstAsync(string id)
+        {
+            await DeleteEntityByIdAsync<Instrumental>(id);
+        }
+
+        private async Task DeleteSingAsync(string id)
+        {
+            await DeleteEntityByIdAsync<Sing>(id);
+        }
+
+        private async Task DeleteEntityByIdAsync<TEntity>(string id) where TEntity : class
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                throw new ArgumentNullException(nameof(id), "Id is not provided");
+            }
+
+            var context = CreateScopedDataContext();
+            var entity = await context.Set<TEntity>().FindAsync(id);
+
+            if (entity == null)
+            {
+                throw new InvalidOperationException($"No entity of type {typeof(TEntity).Name} found with the Id {id}");
+            }
+
+            context.Set<TEntity>().Remove(entity);
+            await context.SaveChangesAsync();
         }
 
         private KaoListDataContext CreateScopedDataContext()
@@ -384,6 +443,49 @@ namespace CodeRabbits.KaoList.Web.Controllers
             }
         }
 
+        [HttpPost("rate")]
+        [ProducesResponseType(typeof(SongListResponse), StatusCodes.Status200OK)]
+        public async Task<IActionResult> setRating(string songId, SongRating rating, string userId)
+        {
+            var context = CreateScopedDataContext();
+
+            var songExists = await _context.Sings.AnyAsync(s => s.Id == songId);
+            if (!songExists)
+            {
+                return NotFound(new { error = "Song not found." });
+            }
+
+            switch (rating)
+            {
+                case SongRating.Follow:
+                    var follow = new SingFollower
+                    {
+                        SingId = songId,
+                        UserId = userId,
+                        Created = DateTime.Now
+                    };
+                    context.SingFollowers.Add(follow);
+                    break;
+
+                case SongRating.Blind:
+                    var blind = new SingBlind
+                    {
+                        SingId = songId,
+                        UserId = userId,
+                        Created = DateTime.Now
+                    };
+                    context.SingBlinds.Add(blind);
+                    break;
+
+                case SongRating.None:
+                    break;
+            }
+
+            await context.SaveChangesAsync();
+
+            return Ok();
+        }
+
         [HttpGet("list")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(SongListResponse), StatusCodes.Status200OK)]
@@ -435,7 +537,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
             return new SongListResponse
             {
                 Etag = new Guid().ToString(),
-                Items = items,
+                resources = items,
                 NextPageToken = nextOffset < totalResults ? nextOffset : null,
                 PrevPageToken = offset > 0 ? prevOffset : null,
                 PageInfo = new PageInfo
