@@ -30,6 +30,12 @@ namespace CodeRabbits.KaoList.Web.Controllers
             _serviceScopeFactory = serviceScopeFactory;
         }
 
+        private KaoListDataContext CreateScopedDataContext()
+        {
+            var scope = _serviceScopeFactory.CreateScope();
+            return scope.ServiceProvider.GetRequiredService<KaoListDataContext>();
+        }
+
         //[Authorize(Roles = KaoListRole.Administrator)]
         [HttpPost]
         [Produces("application/json")]
@@ -310,12 +316,6 @@ namespace CodeRabbits.KaoList.Web.Controllers
             await context.SaveChangesAsync();
         }
 
-        private KaoListDataContext CreateScopedDataContext()
-        {
-            var scope = _serviceScopeFactory.CreateScope();
-            return scope.ServiceProvider.GetRequiredService<KaoListDataContext>();
-        }
-
         private async Task<IEnumerable<SongResource>> GetSongItemsByIdAsync(IEnumerable<string> ids, int offset, int maxResults)
         {
             var context = CreateScopedDataContext();
@@ -430,8 +430,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
 
         private async Task<int> GetTotalResultsFromDBAsync(IEnumerable<string>? ids)
         {
-            using var scope = _serviceScopeFactory.CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<KaoListDataContext>();
+            var context = CreateScopedDataContext();
 
             if (ids == null || !ids.Any())
             {
@@ -489,13 +488,12 @@ namespace CodeRabbits.KaoList.Web.Controllers
         [HttpGet("list")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(SongListResponse), StatusCodes.Status200OK)]
-
         public async Task<SongListResponse> GetListAsync(
             [FromQuery(Name = "part")] SongPart[] parts,
             [FromQuery(Name = "id")] string[]? ids,
-            [FromQuery] string? myRating,
-            [FromQuery] int offset = 0,
-            [FromQuery] int maxResults = 20
+            string? myRating,
+            int offset = 0,
+            int maxResults = 20
             )
         {
             if (parts == null)
@@ -537,7 +535,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
             return new SongListResponse
             {
                 Etag = new Guid().ToString(),
-                resources = items,
+                Resources = items,
                 NextPageToken = nextOffset < totalResults ? nextOffset : null,
                 PrevPageToken = offset > 0 ? prevOffset : null,
                 PageInfo = new PageInfo
