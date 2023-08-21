@@ -11,34 +11,27 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 const DiscoverChartItem = React.memo((props: IDiscoverChartItem) => {
+    let tjNo = "-";
+    let kumyoungNo = "-";
+
+    if (props.karaoke?.providerName === "tj") {
+        tjNo = props.karaoke.no ?? "-";
+    } else if (props.karaoke?.providerName === "kumyoung") {
+        kumyoungNo = props.karaoke.no ?? "-";
+    }
+
     return (
         <tr className="discover-chart-data">
             <td>{props.title}</td>
-            <td>{props.singgers?.map(item => item.nickName).join(", ")}</td>
-            <td>{(props?.karaoke && props?.karaoke['tj']?.no !== undefined) ? props?.karaoke['tj']?.no : "-"}</td>
-            <td>{(props?.karaoke && props?.karaoke['kumyoung']?.no !== undefined) ? props?.karaoke['kumyoung']?.no : "-"}</td>
+            <td>{props.songUsers?.map(item => item.nickname).join(", ")}</td>
+            <td>{tjNo}</td>
+            <td>{kumyoungNo}</td>
         </tr>
     )
 });
 
 const discoverChartItemRender: Parameters<typeof DiscoverChart>[0]['renderer'] = (item) => {
     return <DiscoverChartItem {...item} />
-}
-
-const LikedChartItem = React.memo((props: ILikedChartItem) => {
-    return (
-        <tr className="liked-chart-data">
-            <td>{props.rank}</td>
-            <td>{props.title}</td>
-            <td>{props.singgers?.map(item => item.nickName).join(", ")}</td>
-            <td>{(props?.karaoke && props?.karaoke['tj']?.no !== undefined) ? props?.karaoke['tj']?.no : "-"}</td>
-            <td>{(props?.karaoke && props?.karaoke['kumyoung']?.no !== undefined) ? props?.karaoke['kumyoung']?.no : "-"}</td>
-        </tr>
-    )
-});
-
-const likedCharItemRender: Parameters<typeof LikedChart>[0]['renderer'] = (item, index) => {
-    return <LikedChartItem {...item} rank={index + 1} />
 }
 
 const Table = (tableProps: React.DetailedHTMLProps<React.TableHTMLAttributes<HTMLTableElement>, HTMLTableElement>) => {
@@ -68,6 +61,7 @@ function HomePage() {
                                         <th>{t("Artist")}</th>
                                         <th>TJ</th>
                                         <th>KY</th>
+
                                     </tr>
                                 </thead>
                             }
@@ -76,7 +70,7 @@ function HomePage() {
                     </div>
                     <div className="chart-wrapper">
                         <div className="chart-title">{t("Liked Song")}</div>
-                        <LikedChart className="liked-chart" maxResults={10}
+                        {/* <LikedChart className="liked-chart" maxResults={10}
                             Table={Table}
                             renderer={likedCharItemRender}
                             thead={
@@ -90,7 +84,7 @@ function HomePage() {
                                     </tr>
                                 </thead>
                             }
-                        />
+                        /> */}
                         <Link className="fs-8" to={RoutePath['likedChart']}>{t("More Chart")}</Link>
                     </div>
                 </div>
