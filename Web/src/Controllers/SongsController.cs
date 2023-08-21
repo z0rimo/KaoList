@@ -443,7 +443,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
         }
 
         [HttpPost("rate")]
-        [ProducesResponseType(typeof(SongListResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(SongListResponse), StatusCodes.Status204NoContent)]
         public async Task<IActionResult> setRating(string songId, SongRating rating, string userId)
         {
             var context = CreateScopedDataContext();
@@ -535,7 +535,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
             return new SongListResponse
             {
                 Etag = new Guid().ToString(),
-                Resources = items,
+                Items = items,
                 NextPageToken = nextOffset < totalResults ? nextOffset : null,
                 PrevPageToken = offset > 0 ? prevOffset : null,
                 PageInfo = new PageInfo

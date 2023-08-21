@@ -33,7 +33,7 @@ public class SongApiTest
         var answer = new SongListResponse
         {
             Etag = Guid.NewGuid().ToString(),
-            Resources = new List<SongResource>
+            Items = new List<SongResource>
             {
                 new SongResource
                 {
@@ -48,7 +48,7 @@ public class SongApiTest
             }
         };
 
-        Assert.Equal(JsonSerializer.Serialize(result!.Resources), JsonSerializer.Serialize(answer.Resources));
+        Assert.Equal(JsonSerializer.Serialize(result!.Items), JsonSerializer.Serialize(answer.Items));
     }
 
     [Fact]
@@ -60,7 +60,7 @@ public class SongApiTest
         var answer = new SongListResponse
         {
             Etag = Guid.NewGuid().ToString(),
-            Resources = new List<SongResource>
+            Items = new List<SongResource>
             {
                 new SongResource
                 {
@@ -123,6 +123,6 @@ public class SongApiTest
             }
         };
 
-        Assert.Equal(JsonSerializer.Serialize(result!.Resources), JsonSerializer.Serialize(answer.Resources));
+        Assert.Equal(JsonSerializer.Serialize(result!.Items), JsonSerializer.Serialize(answer.Items));
     }
 }
