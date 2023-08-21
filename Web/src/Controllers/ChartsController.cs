@@ -114,7 +114,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
                 {
                     Created = song.Sing.Created,
                     Title = song.Instrumental.Title,
-                    SongUsers = song.SongUsers.Select(su => new SongUser
+                    Songusers = song.SongUsers.Select(su => new SongUser
                     {
                         Id = su.su.UserId,
                         Nickname = su.NickName
@@ -220,7 +220,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
 
             foreach (var sing in sings)
             {
-                var score = await CalculateSongScoreAsync(sing.Id, startDate, endDate);
+                var score = await CalculateSongScoreAsync(sing.Id!, startDate, endDate);
                 songScores.Add(new PopularSing
                 {
                     SingId = sing.Id,
@@ -246,8 +246,6 @@ namespace CodeRabbits.KaoList.Web.Controllers
             )
         {
             var resources = new List<LikedChartResource>();
-
-            
 
             int totalResults = await GetTotalSongsByDate();
             int resultsPerPage = resources.Count;

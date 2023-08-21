@@ -12,7 +12,7 @@ namespace CodeRabbits.KaoList.Web.Models.Songs
 
         public virtual string? Title { get; set; } = default!;
 
-        public virtual IEnumerable<SongUser>? SongUsers { get; set; } = default!;
+        public virtual IEnumerable<SongUser>? Songusers { get; set; } = default!;
 
         public virtual string? Composer { get; set; } = default!;
 

@@ -19,12 +19,12 @@ namespace CodeRabbits.KaoList.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SongsController : ControllerBase
+    public class SongContoller : ControllerBase
     {
         private readonly KaoListDataContext _context;
         private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        public SongsController(KaoListDataContext context, IServiceScopeFactory serviceScopeFactory)
+        public SongContoller(KaoListDataContext context, IServiceScopeFactory serviceScopeFactory)
         {
             _context = context;
             _serviceScopeFactory = serviceScopeFactory;
@@ -376,7 +376,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
                 {
                     Created = song.Sing.Created,
                     Title = song.Instrumental.Title,
-                    SongUsers = song.SongUsers.Select(su => new SongUser
+                    Songusers = song.SongUsers.Select(su => new SongUser
                     {
                         Id = su.su.UserId,
                         Nickname = su.NickName
