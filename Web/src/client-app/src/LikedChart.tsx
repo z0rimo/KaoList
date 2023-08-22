@@ -26,21 +26,21 @@ function LikedChart(props: LikedChartProps) {
     const [items, setItems] = React.useState<ILikedChartItem[]>([]);
     React.useEffect(() => {
         (async () => {
-            const response = await window.api.kaoList.charts.list({
-                startDate: startDate,
-                endDate: endDate,
+            const response = await window.api.kaoList.charts.discoverChartList({
+                date: new Date().toISOString().split('T')[0],
                 part: ['snippet'],
-                type: 'liked',
+                type: 'discovered',
                 maxResults: maxResults ?? 10
             });
 
-            setItems(response.items.map(item => {
-                return ({
-                    id: item.id,
+            if (response.resources) {
+                setItems(response.resources.map(item => ({
+                    id: item.id!,
                     ...item.snippet!
-                })
-            }))
+                })));
+            }
         })();
+        // eslint-disable-next-line
     }, []);
 
     return (

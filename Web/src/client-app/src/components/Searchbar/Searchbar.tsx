@@ -1,8 +1,15 @@
 import React from "react";
-import ClassNameHelper from "../../ClassNameHelper";
 import StringHelper from "../../StringHelper";
 import LazySearchIcon from "../../svgs/LazySearchIcon";
 import './Searchbar.scss';
+
+interface SearchbarProps {
+    value: string | string[];
+    placeholder?: string;
+    onChange?: React.ChangeEventHandler<HTMLInputElement>;
+    onSubmit?: React.FormEventHandler<HTMLFormElement>;
+}
+
 const SearchButton = React.memo((props: React.ButtonHTMLAttributes<HTMLButtonElement>) => {
     return (
         <button className="search-button" {...props}>
@@ -11,26 +18,20 @@ const SearchButton = React.memo((props: React.ButtonHTMLAttributes<HTMLButtonEle
     )
 });
 
-interface ISearchbarProps {
-    value: string;
-    className?: string;
-    placeholder?: string;
-    onChange?: React.ChangeEventHandler<HTMLInputElement>;
-    onSubmit?: React.FormEventHandler<HTMLFormElement>;
-}
+function Searchbar(props: SearchbarProps) {
+    const { value, onSubmit } = props;
+    const handleSubmit = React.useCallback<React.FormEventHandler<HTMLFormElement>>
+        (evt => {
+            evt.preventDefault();
+            if (StringHelper.isWhiteSpace(value.toString())) {
+                return;
+            }
 
-function Searchbar(props: ISearchbarProps) {
-    const { value, onSubmit, className } = props;
-    const handleSubmit = React.useCallback<React.FormEventHandler<HTMLFormElement>>(evt => {
-        evt.preventDefault();
-        if (StringHelper.isWhiteSpace(value)) {
-            return;
-        }
-        onSubmit && onSubmit(evt);
-    }, [value, onSubmit]);
+            onSubmit && onSubmit(evt);
+        }, [value, onSubmit]);
 
     return (
-        <form className={ClassNameHelper.concat("searchbar", className)} onSubmit={handleSubmit}>
+        <form className="searchbar" onSubmit={handleSubmit}>
             <input className="input"
                 type="text"
                 name="q"
@@ -43,4 +44,5 @@ function Searchbar(props: ISearchbarProps) {
         </form>
     )
 }
+
 export default React.memo(Searchbar);

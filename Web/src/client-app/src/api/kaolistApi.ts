@@ -6,6 +6,90 @@ declare global {
     }
 }
 
+export interface IKaoListResponse {
+    kind: string;
+    etag?: string;
+}
+
+export interface IPageInfo {
+    totalResults: number;
+    resultPerPage: number;
+}
+
+export interface IKaoListPageResponse extends IKaoListResponse {
+    nextPageToken?: number;
+    prevPageToken?: number;
+    pageInfo?: IPageInfo;
+}
+
+export interface IThumbnailResource {
+    url?: string;
+    width?: number;
+    height?: number;
+}
+
+export interface II18nLanguageSnippet {
+    name?: string;
+}
+
+export interface II18nLanguageResource extends IKaoListResponse {
+    kind: string;
+    id?: string;
+    snippet?: II18nLanguageSnippet;
+}
+
+export interface ISongKaraoke {
+    providerName?: string;
+    no?: string;
+}
+
+export interface ISongStatistics {
+    followCount?: number;
+    blindCount?: number;
+}
+
+export interface ISongUser {
+    id: string;
+    nickname: string;
+}
+
+export interface ISongSnippet {
+    created?: Date;
+    title?: string;
+    songUsers?: ISongUser[];
+    composer?: string;
+    thumbnail?: IThumbnailResource;
+    i18nName?: II18nLanguageResource;
+    karaoke?: ISongKaraoke;
+}
+
+export interface ISongResource extends IKaoListResponse {
+    kind: string;
+    id?: string;
+    snippet?: ISongSnippet;
+    statistics?: ISongStatistics;
+}
+
+export interface ISongListResponse extends IKaoListPageResponse {
+    kind: string;
+    items?: ISongResource[];
+}
+
+export interface IChartSnippet extends ISongSnippet {
+
+}
+
+export interface IDiscoverChartResource extends IKaoListResponse {
+    kind: string;
+    id?: string;
+    snippet?: IChartSnippet;
+}
+
+export interface IDiscoverChartListReponse extends IKaoListPageResponse {
+    kind: string;
+    resources?: IDiscoverChartResource[];
+}
+
 export interface IChartSnippetKaraokeUserItem {
     id: string;
     nickName: string;
@@ -22,17 +106,11 @@ export interface IKaolistChartsListApiOption extends IApiGlobalOption {
     type?: 'discovered' | 'liked';
     startDate?: Date;
     endDate?: Date;
+    date?: string;
+    offset?: number;
     maxResults?: number;
 }
 
-export interface IChartSnippet {
-    title: string;
-    created: Date | null;
-    composer: IChartSnippetKaraokeUserItem;
-    singgers: IChartSnippetKaraokeUserItem[];
-    soundId?: string;
-    karaoke?: { [key: string]: IChartSnippetKaraokeItem }
-}
 
 export interface IChartItem {
     id: string;
@@ -50,7 +128,7 @@ type QueryType<T extends object = { [key: string]: string | number | string[] | 
 };
 
 interface IKaolistChartsApi {
-    list: (option?: IKaolistChartsListApiOption) => Promise<IChartResponse>;
+    discoverChartList: (option?: IKaolistChartsListApiOption) => Promise<IDiscoverChartListReponse>;
 }
 
 interface IKaolistApi {
@@ -62,7 +140,7 @@ interface IKaolistApiConstructorProps {
 }
 
 const kaoListApiEndPoint = {
-    chartsList: '/api/charts/list'
+    discoverChart: '/api/charts/list/discover'
 }
 
 class KaoListApi implements IKaolistApi {
@@ -74,13 +152,13 @@ class KaoListApi implements IKaolistApi {
         this._baseUrl = props?.baseUrl ?? '';
 
         this._charts = {
-            list: (option?: IKaolistChartsListApiOption) => {
+            discoverChartList: (option?: IKaolistChartsListApiOption) => {
                 const queryBuild = (options?: IKaolistChartsListApiOption): QueryType<IKaolistChartsListApiOption> | undefined => {
                     if (options === undefined || Object.keys(options).length === 0) {
                         return;
                     }
 
-                    const { startDate, endDate, ...rest } = options;
+                    const { date, startDate, endDate, ...rest } = options;
                     let q: QueryType<IKaolistChartsListApiOption> = { ...rest };
 
                     if (startDate) {
@@ -94,7 +172,7 @@ class KaoListApi implements IKaolistApi {
                     return q;
                 }
 
-                return this.getAsync(kaoListApiEndPoint.chartsList, queryBuild(option)).then(item => item.json() as Promise<IChartResponse>);
+                return this.getAsync(kaoListApiEndPoint.discoverChart, queryBuild(option)).then(item => item.json() as Promise<IDiscoverChartListReponse>);
             }
         }
     }
