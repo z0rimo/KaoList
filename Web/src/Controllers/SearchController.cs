@@ -1,6 +1,7 @@
 // Licensed to the CodeRabbits under one or more agreements.
 // The CodeRabbits licenses this file to you under the MIT license.
 
+using System.Security.Claims;
 using CodeRabbits.KaoList.Data;
 using CodeRabbits.KaoList.Song;
 using CodeRabbits.KaoList.Web.Models;
@@ -19,11 +20,17 @@ namespace CodeRabbits.KaoList.Web.Controllers
     {
         private readonly KaoListDataContext _context;
         private readonly IServiceScopeFactory _serviceScopeFactory;
+        private readonly ILogger<SearchController> _logger;
 
-        public SearchController(KaoListDataContext context, IServiceScopeFactory serviceScopeFactory)
+        public SearchController(
+            KaoListDataContext context,
+            IServiceScopeFactory serviceScopeFactory,
+            ILogger<SearchController> logger
+            )
         {
             _context = context;
             _serviceScopeFactory = serviceScopeFactory;
+            _logger = logger;
         }
 
         private KaoListDataContext CreateScopedDataContext()
@@ -100,7 +107,6 @@ namespace CodeRabbits.KaoList.Web.Controllers
                                                         .Select(k => new { k.Provider, k.No })
                                                         .FirstOrDefault()
                                })
-                               .OrderByDescending(song => allQueries.Any(query => song.Instrumental.NormalizedTitle == query)) // 정확히 일치하는 항목을 우선적으로
                                .Skip(offset)
                                .Take(maxResults)
                                .ToListAsync();
@@ -153,9 +159,21 @@ namespace CodeRabbits.KaoList.Web.Controllers
             }
 
             var items = new List<SearchResource>();
+            var token = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
 
             if (querys != null && querys.Any())
             {
+                var log = new SongSearchLog
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Query = string.Join(",", querys),
+                    UserId = "8ab65dd9-bce0-4c1e-b3f1-4e2b613e444e",
+                    IdentityToken = token
+                };
+
+                _context.SongSearchLogs.Add(log);
+                await _context.SaveChangesAsync();
+
                 foreach (var part in parts)
                 {
                     switch (part)
