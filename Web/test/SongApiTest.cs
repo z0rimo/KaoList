@@ -70,7 +70,7 @@ public class SongApiTest
                     {
                         Created = new DateTime(year: 2022, month: 8, day: 29, hour: 5, minute: 32, second: 31, millisecond: 919),
                         Title = "felt",
-                        Songusers = new List<SongUser>
+                        SongUsers = new List<SongUser>
                         {
                             new SongUser
                             {
@@ -99,7 +99,7 @@ public class SongApiTest
                     {
                         Created = new DateTime(year: 2022, month: 8, day: 29, hour: 5, minute: 32, second: 32, millisecond: 283),
                         Title = "bright lights",
-                        Songusers = new List<SongUser>
+                        SongUsers = new List<SongUser>
                         {
                             new SongUser
                             {

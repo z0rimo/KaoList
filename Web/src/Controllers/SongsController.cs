@@ -376,7 +376,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
                 {
                     Created = song.Sing.Created,
                     Title = song.Instrumental.Title,
-                    Songusers = song.SongUsers.Select(su => new SongUser
+                    SongUsers = song.SongUsers.Select(su => new SongUser
                     {
                         Id = su.su.UserId,
                         Nickname = su.NickName
