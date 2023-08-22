@@ -67,7 +67,7 @@ public class ChartApiTest
                 {
                     Id = "24f266f2-d34b-488c-a974-63f0a1671c3d",
                     ETag = "e3eb3a53-4a70-4501-bfac-99b292873495",
-                    Snippet = new ChartSnippet
+                    Snippet = new ChartdSnippet
                     {
                         Composer = new ChartUser
                         {
@@ -90,7 +90,7 @@ public class ChartApiTest
                 {
                     Id = "4df36b28-31ba-4e41-87aa-6d9309e1fc55",
                     ETag = "61eee3da-3b9f-423b-a466-874d2a085c78",
-                    Snippet = new ChartSnippet
+                    Snippet = new ChartdSnippet
                     {
                         Composer = new ChartUser
                         {

@@ -19,12 +19,12 @@ namespace CodeRabbits.KaoList.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SongsController : ControllerBase
+    public class SongsContoller : ControllerBase
     {
         private readonly KaoListDataContext _context;
         private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        public SongsController(KaoListDataContext context, IServiceScopeFactory serviceScopeFactory)
+        public SongsContoller(KaoListDataContext context, IServiceScopeFactory serviceScopeFactory)
         {
             _context = context;
             _serviceScopeFactory = serviceScopeFactory;

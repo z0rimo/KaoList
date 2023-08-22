@@ -1,12 +1,12 @@
 // Licensed to the CodeRabbits under one or more agreements.
 // The CodeRabbits licenses this file to you under the MIT license.
 
-using CodeRabbits.KaoList.Web.Models.Songs;
-
 namespace CodeRabbits.KaoList.Web.Models.Searchs
 {
-    public class SearchSnippet : SongSnippet
+    public class SearchSongId
     {
+        public string Kind { get; set; } = "kaoList#song";
 
+        public string? Id { get; set; } = default!;
     }
 }
