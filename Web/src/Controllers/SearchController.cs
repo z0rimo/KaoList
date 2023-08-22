@@ -20,17 +20,14 @@ namespace CodeRabbits.KaoList.Web.Controllers
     {
         private readonly KaoListDataContext _context;
         private readonly IServiceScopeFactory _serviceScopeFactory;
-        private readonly ILogger<SearchController> _logger;
 
         public SearchController(
             KaoListDataContext context,
-            IServiceScopeFactory serviceScopeFactory,
-            ILogger<SearchController> logger
+            IServiceScopeFactory serviceScopeFactory
             )
         {
             _context = context;
             _serviceScopeFactory = serviceScopeFactory;
-            _logger = logger;
         }
 
         private KaoListDataContext CreateScopedDataContext()
