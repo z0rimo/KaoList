@@ -1,38 +1,23 @@
 import React from "react";
 import MainLayout from "../../layouts/MainLayout";
 import MainSection from "../../components/MainSection";
-import DiscoverChart, { IDiscoverChartItem } from "../../DiscoverChart";
+import DiscoverChart from "../../DiscoverChart";
 import LazyLogo from "../../svgs/LazyLogo";
 import './HomePage.scss';
 import SongSearchbar from "../../SongSearchbar";
-import LikedChart, { ILikedChartItem } from "../../LikedChart";
+import LikedChart from "../../LikedChart";
 import RoutePath from "../../RoutePath";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useSearchContext } from "../../contexts/SearchContext";
-
-const DiscoverChartItem = React.memo((props: IDiscoverChartItem) => {
-    let tjNo = "-";
-    let kumyoungNo = "-";
-
-    if (props.karaoke?.providerName === "tj") {
-        tjNo = props.karaoke.no ?? "-";
-    } else if (props.karaoke?.providerName === "kumyoung") {
-        kumyoungNo = props.karaoke.no ?? "-";
-    }
-
-    return (
-        <tr className="discover-chart-data">
-            <td>{props.title}</td>
-            <td>{props.songUsers?.map(item => item.nickname).join(", ")}</td>
-            <td>{tjNo}</td>
-            <td>{kumyoungNo}</td>
-        </tr>
-    )
-});
+import DiscoverChartItem from "../../components/DiscoverChartItem";
+import LikedChartItem from "../../components/LikedChartItem";
 
 const discoverChartItemRender: Parameters<typeof DiscoverChart>[0]['renderer'] = (item) => {
     return <DiscoverChartItem {...item} />
+}
+
+const likedChartItemRender: Parameters<typeof LikedChart>[0]['renderer'] = (item) => {
+    return <LikedChartItem {...item} />
 }
 
 const Table = (tableProps: React.DetailedHTMLProps<React.TableHTMLAttributes<HTMLTableElement>, HTMLTableElement>) => {
@@ -41,15 +26,6 @@ const Table = (tableProps: React.DetailedHTMLProps<React.TableHTMLAttributes<HTM
 
 function HomePage() {
     const { t } = useTranslation('Home');
-    const { setQ } = useSearchContext();
-    const navigate = useNavigate();
-
-    const handleSubmit = React.useCallback<React.FormEventHandler<HTMLFormElement>>(evt => {
-        evt.preventDefault();
-        var data = new FormData(evt.currentTarget).get('q');
-        setQ(data as string);
-        navigate(`${RoutePath['search']}?q=${data}`);
-    }, [setQ, navigate]);
 
     return (
         <MainLayout className="aquamarine-theme">
@@ -57,7 +33,7 @@ function HomePage() {
                 <div className="main-logo-wrapper">
                     <LazyLogo className="main-logo" />
                 </div>
-                <SongSearchbar onSubmit={handleSubmit} />
+                <SongSearchbar />
                 <div className="chart-region">
                     <div className="chart-wrapper">
                         <div className="chart-title">{t("New Song Update")}</div>
@@ -80,9 +56,9 @@ function HomePage() {
                     </div>
                     <div className="chart-wrapper">
                         <div className="chart-title">{t("Liked Song")}</div>
-                        {/* <LikedChart className="liked-chart" maxResults={10}
+                        <DiscoverChart className="liked-chart" maxResults={10}
                             Table={Table}
-                            renderer={likedCharItemRender}
+                            renderer={likedChartItemRender}
                             thead={
                                 <thead>
                                     <tr className="liked-chart-head">
@@ -94,7 +70,7 @@ function HomePage() {
                                     </tr>
                                 </thead>
                             }
-                        /> */}
+                        />
                         <Link className="fs-8" to={RoutePath['likedChart']}>{t("More Chart")}</Link>
                     </div>
                 </div>

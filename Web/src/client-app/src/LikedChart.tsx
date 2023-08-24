@@ -1,8 +1,8 @@
 import React from 'react';
 import RenderTable, { IRenderTableProps } from './components/RenderTable';
-import { IChartSnippet } from './api/kaolistApi';
+import { ISongSnippet } from './api/kaolistApi';
 
-export interface ILikedChartItem extends IChartSnippet {
+export interface ILikedChartItem extends ISongSnippet {
     id: string;
     rank?: number;
 }
@@ -26,18 +26,21 @@ function LikedChart(props: LikedChartProps) {
     const [items, setItems] = React.useState<ILikedChartItem[]>([]);
     React.useEffect(() => {
         (async () => {
-            const response = await window.api.kaoList.charts.discoverChartList({
-                date: new Date().toISOString().split('T')[0],
+            const response = await window.api.kaoList.charts.likedChartList({
+                startDate: startDate,
+                endDate: endDate,
                 part: ['snippet'],
-                //type: 'discovered',
                 maxResults: maxResults ?? 10
             });
 
             if (response.resources) {
-                setItems(response.resources.map(item => ({
+                const rankedItems = response.resources.map((item, index) => ({
                     id: item.id!,
+                    rank: index + 1,
                     ...item.snippet!
-                })));
+                }));
+
+                setItems(rankedItems);
             }
         })();
         // eslint-disable-next-line

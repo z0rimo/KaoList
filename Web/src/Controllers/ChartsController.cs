@@ -34,14 +34,27 @@ namespace CodeRabbits.KaoList.Web.Controllers
         private async Task<int> GetTotalSongsByDate(DateTime? date = null)
         {
             var context = CreateScopedDataContext();
-            var initialQuery = context.Sings.AsQueryable();
+            var initQuery = context.Sings.AsQueryable();
 
             if (date.HasValue)
             {
-                initialQuery = initialQuery.Where(s => s.Created == date.Value.Date);
+                initQuery = initQuery.Where(s => s.Created == date.Value.Date);
             }
 
-            return await initialQuery.CountAsync();
+            return await initQuery.CountAsync();
+        }
+
+        private async Task<int> GetTotalSongsByDates(DateTime? startDate, DateTime? endTime)
+        {
+            var context = CreateScopedDataContext();
+            var initQuery = context.Sings.AsQueryable();
+
+            if (startDate.HasValue && endTime.HasValue)
+            {
+                initQuery = initQuery.Where(i => i.Created >= startDate.Value.Date && i.Created <= endTime.Value.Date);
+            }
+
+            return await initQuery.CountAsync();
         }
 
         private async Task<IEnumerable<DiscoverChartResource>> GetDiscoverChartItemsByIdAsync(int offset, int maxResults, DateTime? date = null)
@@ -199,6 +212,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
         private async Task<double> CalculateSongScoreAsync(string singId, DateTime? startDate, DateTime? endDate)
         {
             var context = CreateScopedDataContext();
+            
             //var title = context.Sings.Where(s => s.Id);
             //TODO: search title 로그 부분 처리
 

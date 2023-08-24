@@ -62,10 +62,8 @@ public class SongService
 
             _context.Sings.Add(sing);
 
-            // 노래의 singer 속성에 해당하는 사용자를 Users 테이블에서 찾기
             var user = _context.Users.FirstOrDefault(u => u.NickName == song.Singer);
 
-            // 해당 사용자가 존재하면 SingUsers 테이블에 항목 추가
             if (user != null)
             {
                 var singUser = new SingUser
@@ -74,7 +72,6 @@ public class SongService
                     UserId = user.Id
                 };
 
-                // 중복 추가를 피하기 위한 검사
                 if (!_context.SingUsers.Any(su => su.SingId == singUser.SingId && su.UserId == singUser.UserId))
                 {
                     _context.SingUsers.Add(singUser);
