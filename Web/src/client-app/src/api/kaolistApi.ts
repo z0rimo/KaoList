@@ -77,19 +77,26 @@ export interface ISongListResponse extends IKaoListPageResponse {
     items?: ISongResource[];
 }
 
-export interface IChartSnippet extends ISongSnippet {
-
-}
-
 export interface IDiscoverChartResource extends IKaoListResponse {
     kind: string;
     id?: string;
-    snippet?: IChartSnippet;
+    snippet?: ISongSnippet;
 }
 
 export interface IDiscoverChartListResponse extends IKaoListPageResponse {
     kind: string;
     resources?: IDiscoverChartResource[];
+}
+
+export interface ILikedChartResource extends IKaoListResponse {
+    kind: string;
+    id?: string;
+    snippet?: ISongSnippet;
+}
+
+export interface ILikedChartListResponse extends IKaoListPageResponse {
+    kind: string;
+    resources?: ILikedChartResource[];
 }
 
 export interface ISearchSongId {
@@ -137,23 +144,13 @@ export interface IKaolistSearchListApiOption extends IApiGlobalOption {
     q?: string[];
 }
 
-export interface IChartItem {
-    id: string;
-    etag: string;
-    snippet?: IChartSnippet;
-}
-
-export interface IChartResponse {
-    etag: string;
-    items: IChartItem[];
-}
-
 type QueryType<T extends object = { [key: string]: string | number | string[] | number[] }> = {
     [P in keyof T]?: T[P] extends (string | number | string[] | number[] | undefined) ? T[P] : string | number | string[] | number[];
 };
 
 interface IKaolistChartsApi {
     discoverChartList: (option?: IKaolistChartsListApiOption) => Promise<IDiscoverChartListResponse>;
+    likedChartList: (option?: IKaolistChartsListApiOption) => Promise<ILikedChartListResponse>;
 }
 
 interface IKaolistSearchsApi {
@@ -171,6 +168,7 @@ interface IKaolistApiConstructorProps {
 
 const kaoListApiEndPoint = {
     discoverChart: '/api/charts/list/discover',
+    likedChart: 'api/charts/list/liked',
     songSearch: '/api/search/list'
 }
 
@@ -205,6 +203,29 @@ class KaoListApi implements IKaolistApi {
                 }
 
                 return this.getAsync(kaoListApiEndPoint.discoverChart, queryBuild(option)).then(item => item.json() as Promise<IDiscoverChartListResponse>);
+            },
+
+            likedChartList: (option?: IKaolistChartsListApiOption) => {
+                const queryBuild = (options?: IKaolistChartsListApiOption): QueryType<IKaolistChartsListApiOption> | undefined => {
+                    if (options === undefined || Object.keys(options).length === 0) {
+                        return;
+                    }
+
+                    const { startDate, endDate, ...rest } = options;
+                    let q: QueryType<IKaolistChartsListApiOption> = { ...rest };
+
+                    if (startDate) {
+                        q.startDate = startDate.toISOString();
+                    }
+
+                    if (endDate) {
+                        q.endDate = endDate.toISOString();
+                    }
+
+                    return q;
+                }
+
+                return this.getAsync(kaoListApiEndPoint.likedChart, queryBuild(option)).then(item => item.json() as Promise<ILikedChartListResponse>);
             }
         }
 

@@ -212,6 +212,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
         private async Task<double> CalculateSongScoreAsync(string singId, DateTime? startDate, DateTime? endDate)
         {
             var context = CreateScopedDataContext();
+            
             //var title = context.Sings.Where(s => s.Id);
             //TODO: search title 로그 부분 처리
 

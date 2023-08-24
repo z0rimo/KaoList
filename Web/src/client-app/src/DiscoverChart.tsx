@@ -1,14 +1,13 @@
 import React from 'react';
 import RenderTable, { IRenderTableProps } from './components/RenderTable';
-import { IChartSnippet } from './api/kaolistApi';
+import { ISongSnippet } from './api/kaolistApi';
 
-export interface IDiscoverChartItem extends IChartSnippet {
+export interface IDiscoverChartItem extends ISongSnippet {
     id: string;
 }
 
 type DiscoverChartProps = {
-    startDate?: Date;
-    endDate?: Date;
+    date?: Date;
     Table: IRenderTableProps<IDiscoverChartItem>['Table'];
     thead: IRenderTableProps<IDiscoverChartItem>['thead'];
     renderer: IRenderTableProps<IDiscoverChartItem>['renderer'];
@@ -16,7 +15,7 @@ type DiscoverChartProps = {
 } & React.TableHTMLAttributes<HTMLTableElement>;
 
 function DiscoverChart(props: DiscoverChartProps) {
-    const { startDate, endDate, Table, thead, renderer, maxResults, ...rest } = props;
+    const { date, Table, thead, renderer, maxResults, ...rest } = props;
 
     const keySelector = React.useCallback((item: IDiscoverChartItem) => {
         return item.id;
