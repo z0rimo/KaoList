@@ -29,7 +29,7 @@ function LikedChart(props: LikedChartProps) {
             const response = await window.api.kaoList.charts.discoverChartList({
                 date: new Date().toISOString().split('T')[0],
                 part: ['snippet'],
-                type: 'discovered',
+                //type: 'discovered',
                 maxResults: maxResults ?? 10
             });
 

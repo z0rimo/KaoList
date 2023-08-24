@@ -5,7 +5,7 @@ using CodeRabbits.KaoList.Web.Models.Songs;
 
 namespace CodeRabbits.KaoList.Web.Models.Searchs
 {
-    public class SearchSnippet : SongSnippet
+    public class SearchSnippet
     {
 
     }

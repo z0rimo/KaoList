@@ -1,3 +1,5 @@
+import authorizeService from "../api-authorization/AuthorizeService";
+
 declare global {
     interface Window {
         api: {
@@ -85,9 +87,29 @@ export interface IDiscoverChartResource extends IKaoListResponse {
     snippet?: IChartSnippet;
 }
 
-export interface IDiscoverChartListReponse extends IKaoListPageResponse {
+export interface IDiscoverChartListResponse extends IKaoListPageResponse {
     kind: string;
     resources?: IDiscoverChartResource[];
+}
+
+export interface ISearchSongId {
+    kind: string;
+    id?: string;
+}
+
+export interface ISearchSnippet extends ISongSnippet {
+
+}
+
+export interface ISearchResource extends IKaoListResponse {
+    kind: string;
+    id?: ISearchSongId;
+    snippet?: ISearchSnippet[];
+}
+
+export interface ISearchListResponse extends IKaoListPageResponse {
+    kind: string;
+    items?: ISearchResource[];
 }
 
 export interface IChartSnippetKaraokeUserItem {
@@ -99,18 +121,21 @@ export interface IChartSnippetKaraokeItem {
     no: string;
 }
 
-export interface IApiGlobalOption { }
-
-export interface IKaolistChartsListApiOption extends IApiGlobalOption {
+export interface IApiGlobalOption {
     part?: Array<'snippet'>;
-    type?: 'discovered' | 'liked';
-    startDate?: Date;
-    endDate?: Date;
-    date?: string;
     offset?: number;
     maxResults?: number;
 }
 
+export interface IKaolistChartsListApiOption extends IApiGlobalOption {
+    startDate?: Date;
+    endDate?: Date;
+    date?: string;
+}
+
+export interface IKaolistSearchListApiOption extends IApiGlobalOption {
+    q?: string[];
+}
 
 export interface IChartItem {
     id: string;
@@ -128,11 +153,16 @@ type QueryType<T extends object = { [key: string]: string | number | string[] | 
 };
 
 interface IKaolistChartsApi {
-    discoverChartList: (option?: IKaolistChartsListApiOption) => Promise<IDiscoverChartListReponse>;
+    discoverChartList: (option?: IKaolistChartsListApiOption) => Promise<IDiscoverChartListResponse>;
+}
+
+interface IKaolistSearchsApi {
+    songSearchList: (option?: IKaolistSearchListApiOption) => Promise<ISearchListResponse>;
 }
 
 interface IKaolistApi {
     charts: IKaolistChartsApi;
+    searchs: IKaolistSearchsApi;
 }
 
 interface IKaolistApiConstructorProps {
@@ -140,13 +170,15 @@ interface IKaolistApiConstructorProps {
 }
 
 const kaoListApiEndPoint = {
-    discoverChart: '/api/charts/list/discover'
+    discoverChart: '/api/charts/list/discover',
+    songSearch: '/api/search/list'
 }
 
 class KaoListApi implements IKaolistApi {
     private _baseUrl: string;
 
     private _charts: IKaolistChartsApi;
+    private _searchs: IKaolistSearchsApi;
 
     constructor(props?: IKaolistApiConstructorProps) {
         this._baseUrl = props?.baseUrl ?? '';
@@ -172,7 +204,29 @@ class KaoListApi implements IKaolistApi {
                     return q;
                 }
 
-                return this.getAsync(kaoListApiEndPoint.discoverChart, queryBuild(option)).then(item => item.json() as Promise<IDiscoverChartListReponse>);
+                return this.getAsync(kaoListApiEndPoint.discoverChart, queryBuild(option)).then(item => item.json() as Promise<IDiscoverChartListResponse>);
+            }
+        }
+
+        this._searchs = {
+            songSearchList: (option?: IKaolistSearchListApiOption) => {
+                const queryBuild = (options?: IKaolistSearchListApiOption): QueryType<IKaolistSearchListApiOption> | undefined => {
+                    if (options === undefined || Object.keys(options).length === 0) {
+                        return;
+                    }
+
+
+                    const { q, ...rest } = options;
+                    let query: QueryType<IKaolistSearchListApiOption> = { ...rest };
+
+                    if (q) {
+                        query.q = q;
+                    }
+
+                    return query;
+                }
+
+                return this.getAsync(kaoListApiEndPoint.songSearch, queryBuild(option)).then(item => item.json() as Promise<ISearchListResponse>);
             }
         }
     }
@@ -205,14 +259,26 @@ class KaoListApi implements IKaolistApi {
         return url;
     }
 
-    getAsync = (path: string, query?: QueryType) => {
-        return fetch(this.buildUrl(path, query));
+    getAsync = async (path: string, query?: QueryType) => {
+        const token = await authorizeService.getAccessToken();
+        let init: RequestInit | undefined = undefined;
+        if (token !== undefined) {
+            init = {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        }
+        return await fetch(this.buildUrl(path, query), init);
     }
 
     get charts(): IKaolistChartsApi {
         return this._charts;
     }
 
+    get searchs(): IKaolistSearchsApi {
+        return this._searchs;
+    }
 }
 
 const api = new KaoListApi();

@@ -16,6 +16,7 @@ using CodeRabbits.Extensions.DependencyInjection;
 using CodeRabbits.AspNetCore.Razor.TagHelpers;
 using CodeRabbits.KaoList.Web.Services;
 using CodeRabbits.KaoList.Web.Datas;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -94,6 +95,9 @@ builder.Services.Configure<SvgTagHelperOption>(o =>
 {
     o.BasePath = "./Svgs";
 });
+
+builder.Services.Configure<IdentityOptions>(options =>
+    options.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier);
 
 var app = builder.Build();
 using var scope = app.Services.CreateScope();

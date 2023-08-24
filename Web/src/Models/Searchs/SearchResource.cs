@@ -9,8 +9,8 @@ namespace CodeRabbits.KaoList.Web.Models.Searchs
     {
         public override string Kind { get; set; } = "kaoList#searchResult";
 
-        public object? Id { get; set; } = default!;
+        public string? Id { get; set; } = default!;
 
-        public SearchSnippet? Snippet { get; set; }
+        public SongSnippet? Snippet { get; set; }
     }
 }

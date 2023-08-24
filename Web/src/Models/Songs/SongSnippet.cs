@@ -8,17 +8,17 @@ namespace CodeRabbits.KaoList.Web.Models.Songs
 {
     public class SongSnippet
     {
-        public virtual DateTime? Created { get; set; } = default!;
-
         public virtual string? Title { get; set; } = default!;
 
         public virtual IEnumerable<SongUser>? SongUsers { get; set; } = default!;
 
         public virtual string? Composer { get; set; } = default!;
 
-        public virtual ThumbnailResource? Thumbnail { get; set; }
-
         public virtual I18nLanguageResource? I18nName { get; set; }
+
+        public virtual DateTime? Created { get; set; } = default!;
+
+        public virtual ThumbnailResource? Thumbnail { get; set; }
 
         public virtual SongKaraokeItem? Karaoke { get; set; }
     }
