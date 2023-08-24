@@ -1,16 +1,17 @@
 import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { useSearchContext } from "../../contexts/SearchContext";
+import DiscoverChartItem from "../../components/DiscoverChartItem";
+import LikedChartItem from "../../components/LikedChartItem";
 import MainLayout from "../../layouts/MainLayout";
 import MainSection from "../../components/MainSection";
 import DiscoverChart from "../../DiscoverChart";
 import LazyLogo from "../../svgs/LazyLogo";
-import './HomePage.scss';
 import SongSearchbar from "../../SongSearchbar";
 import LikedChart from "../../LikedChart";
 import RoutePath from "../../RoutePath";
-import { Link } from "react-router-dom";
-import { useTranslation } from "react-i18next";
-import DiscoverChartItem from "../../components/DiscoverChartItem";
-import LikedChartItem from "../../components/LikedChartItem";
+import './HomePage.scss';
 
 const discoverChartItemRender: Parameters<typeof DiscoverChart>[0]['renderer'] = (item) => {
     return <DiscoverChartItem {...item} />
@@ -26,6 +27,15 @@ const Table = (tableProps: React.DetailedHTMLProps<React.TableHTMLAttributes<HTM
 
 function HomePage() {
     const { t } = useTranslation('Home');
+    const { setQ } = useSearchContext();
+    const navigate = useNavigate();
+
+    const handleSubmit = React.useCallback<React.FormEventHandler<HTMLFormElement>>(evt => {
+        evt.preventDefault();
+        var data = new FormData(evt.currentTarget).get('q');
+        setQ(data as string);
+        navigate(`${RoutePath['search']}?q=${data}`);
+    }, [setQ, navigate]);
 
     return (
         <MainLayout className="aquamarine-theme">
@@ -33,7 +43,7 @@ function HomePage() {
                 <div className="main-logo-wrapper">
                     <LazyLogo className="main-logo" />
                 </div>
-                <SongSearchbar />
+                <SongSearchbar onSubmit={handleSubmit}/>
                 <div className="chart-region">
                     <div className="main-chart-wrapper">
                         <div className="chart-title">{t("New Song Update")}</div>

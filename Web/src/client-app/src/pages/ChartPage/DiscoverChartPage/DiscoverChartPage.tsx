@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import MainLayout from "../../layouts/MainLayout/MainLayout";
-import MainSection from "../../components/MainSection";
-import DiscoverChart, { IDiscoverChartItem } from "../../DiscoverChart";
-import LazyStarSolidIcon from "../../svgs/LazyStarSolidIcon";
-import LazyStarIcon from "../../svgs/LazyStarIcon";
-import StringHelper from "../../StringHelper";
+import MainLayout from "../../../layouts/MainLayout/MainLayout";
+import MainSection from "../../../components/MainSection";
+import DiscoverChart, { IDiscoverChartItem } from "../../../DiscoverChart";
+import LazyStarSolidIcon from "../../../svgs/LazyStarSolidIcon";
+import LazyStarIcon from "../../../svgs/LazyStarIcon";
+import StringHelper from "../../../StringHelper";
+import TableTitle from "../../../components/TableTitle";
+import Pagination from "../../../components/Pagination";
 import "./DiscoverChartPage.scss";
-import TableTitle from "../../components/TableTitle";
-import Pagination from "../../components/Pagination";
+import "../ChartPage.scss";
 
 const DiscoverChartItem = React.memo((props: IDiscoverChartItem) => {
     const [like, setLike] = useState<boolean>(false);

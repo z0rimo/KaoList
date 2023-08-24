@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import React from "react";
 import MainLayout from "../../layouts/MainLayout/MainLayout";
 import MainSection from "../../components/MainSection";
-import SongSearchbar from "../../SongSearchbar";
 import SongSearchList, { ISongSearchListItem } from "../../SongSearchList";
-import { useLocation } from "react-router-dom";
+import Pagination from "../../components/Pagination";
 
 const SongSearchListItem = React.memo((props: ISongSearchListItem) => {
     let tjNo = "-";
@@ -36,41 +35,27 @@ const songSearchListItemRender = (item: ISongSearchListItem) => {
 const Table = React.memo((props: React.HTMLAttributes<HTMLTableElement>) => <table {...props} />);
 
 function SearchPage() {
-    const location = useLocation();
-    
-    // useEffect(() => {
-    //     const params = new URLSearchParams(location.search);
-    //     const q = params.get('q');
-        
-    //     if (q) {
-    //       fetch(`https://localhost:44461/api/search/list?part=snippet&q=${q}`)
-    //         .then(response => response.json())
-    //         .catch(error => {
-    //           console.error("API 호출 오류:", error);
-    //         });
-    //     }
-    //   }, []);
-
     return (
         <MainLayout>
-            <MainSection />
-            <SongSearchbar />
-            <SongSearchList
-                maxResults={20}
-                Table={Table}
-                renderer={songSearchListItemRender}
-                thead={
-                    <thead>
-                        <tr>
-                            <th>Thumbnail</th>
-                            <th>Title / SongUser</th>
-                            <th>TJ</th>
-                            <th>KY</th>
-                            <th>Liked</th>
-                        </tr>
-                    </thead>
-                }
-            />
+            <MainSection>
+                <SongSearchList
+                    maxResults={20}
+                    Table={Table}
+                    renderer={songSearchListItemRender}
+                    thead={
+                        <thead>
+                            <tr>
+                                <th>Thumbnail</th>
+                                <th>Title / SongUser</th>
+                                <th>TJ</th>
+                                <th>KY</th>
+                                <th>Liked</th>
+                            </tr>
+                        </thead>
+                    }
+                />
+                <Pagination />
+            </MainSection>
         </MainLayout >
     )
 }

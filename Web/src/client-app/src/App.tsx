@@ -12,8 +12,8 @@ import React from 'react';
 import authService from './api-authorization/AuthorizeService';
 import SearchPage from './pages/SearchPage/SearchPage';
 import SearchContext, { useSearchContext } from './contexts/SearchContext';
-import DiscoverChartPage from './pages/DiscoverChartPage/DiscoverChartPage';
-import LikedChartPage from './pages/LikedChartPage/LikedChartPage';
+import DiscoverChartPage from './pages/ChartPage/DiscoverChartPage/DiscoverChartPage';
+import LikedChartPage from './pages/ChartPage/LikedChartPage/LikedChartPage';
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href') ?? undefined;
 

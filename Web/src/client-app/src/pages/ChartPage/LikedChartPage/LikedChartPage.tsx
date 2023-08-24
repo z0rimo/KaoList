@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import DateOptionFormatter from "../../components/DateOptionFormatter";
-import MainLayout from "../../layouts/MainLayout/MainLayout";
-import MainSection from "../../components/MainSection";
-import TableTitle from "../../components/TableTitle";
-import LikedChart, { ILikedChartItem } from "../../LikedChart";
-import LazyStarSolidIcon from "../../svgs/LazyStarSolidIcon";
-import StringHelper from "../../StringHelper";
-import LazyArrowUpIcon from "../../svgs/LazyArrowUpIcon";
-import LazyArrowDownIcon from "../../svgs/LazyArrowDownIcon";
-import LazyStarIcon from "../../svgs/LazyStarIcon";
-import LikedChartDropdown from "../../components/LikedChartDropdown";
+import DateOptionFormatter from "../../../components/DateOptionFormatter";
+import MainLayout from "../../../layouts/MainLayout/MainLayout";
+import MainSection from "../../../components/MainSection";
+import TableTitle from "../../../components/TableTitle";
+import LikedChart, { ILikedChartItem } from "../../../LikedChart";
+import LazyStarSolidIcon from "../../../svgs/LazyStarSolidIcon";
+import StringHelper from "../../../StringHelper";
+import LazyArrowUpIcon from "../../../svgs/LazyArrowUpIcon";
+import LazyArrowDownIcon from "../../../svgs/LazyArrowDownIcon";
+import LazyStarIcon from "../../../svgs/LazyStarIcon";
+import LikedChartDropdown from "../../../components/LikedChartDropdown";
+import "./LikedChartPage.scss";
+import "../ChartPage.scss";
 
 function RankChange(length: number) {
     if (length === 4) {
