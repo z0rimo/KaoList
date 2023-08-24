@@ -7,6 +7,6 @@ namespace CodeRabbits.KaoList.Web.Models.Searchs
     {
         public override string Kind { get; set; } = "kaoList#song";
 
-        public string? songId { get; set; }
+        public string? Id { get; set; }
     }
 }

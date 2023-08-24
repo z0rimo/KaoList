@@ -10,6 +10,8 @@ import RoutePath from './RoutePath';
 import IdentityContext, { useIdentityContextBlock } from './contexts/IdentityContext';
 import React from 'react';
 import authService from './api-authorization/AuthorizeService';
+import SearchPage from './pages/SearchPage/SearchPage';
+import SearchContext, { useSearchContext } from './contexts/SearchContext';
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href') ?? undefined;
 
@@ -23,6 +25,8 @@ function logoutAction(name: string) {
 
 function App() {
     const identityContext = useIdentityContextBlock();
+    const searchContext = useSearchContext();
+    
     const updateUserIdentity = React.useCallback(() => {
         authService.getUser()
             .then(user => {
@@ -53,32 +57,34 @@ function App() {
 
     return (
         <IdentityContext.Provider value={identityContext}>
-            <BrowserRouter basename={baseUrl}>
-                <Routes>
-                    <Route path='/' element={<HomePage />} />
-                    <Route path='/chart'>
-                        <Route path="discover" element={<EmptyPage />} />
-                        <Route path="like" element={<EmptyPage />} />
-                    </Route>
-                    <Route path='/customer'>
-                        <Route path={RoutePath['terms']} element={<EmptyPage />} />
-                        <Route path={RoutePath['policy']} element={<EmptyPage />} />
-                        <Route path={RoutePath['inquiry']} element={<EmptyPage />} />
-                    </Route>
-                    <Route path='/community' element={<EmptyPage />} />
-                    <Route path={RoutePath['playlist']} element={<PlaylistPage />} />
-                    <Route path={RoutePath['search']} element={<EmptyPage />} /> 
-                    <Route path={RoutePath['myPage']} element={<EmptyPage />} />
-                    <Route path={window.authPaths.Login} element={loginAction(LoginActions.Login)} />
-                    <Route path={window.authPaths.LoginFailed} element={loginAction(LoginActions.LoginFailed)} />
-                    <Route path={window.authPaths.LoginCallback} element={loginAction(LoginActions.LoginCallback)} />
-                    <Route path={window.authPaths.Profile} element={loginAction(LoginActions.Profile)} />
-                    <Route path={window.authPaths.Register} element={loginAction(LoginActions.Register)} />
-                    <Route path={window.authPaths.LogOut} element={logoutAction(LogoutActions.Logout)} />
-                    <Route path={window.authPaths.LogOutCallback} element={logoutAction(LogoutActions.LogoutCallback)} />
-                    <Route path={window.authPaths.LoggedOut} element={logoutAction(LogoutActions.LoggedOut)} />
-                </Routes>
-            </BrowserRouter>
+            <SearchContext.Provider value={searchContext}>
+                <BrowserRouter basename={baseUrl}>
+                    <Routes>
+                        <Route path='/' element={<HomePage />} />
+                        <Route path='/chart'>
+                            <Route path="discover" element={<EmptyPage />} />
+                            <Route path="like" element={<EmptyPage />} />
+                        </Route>
+                        <Route path='/customer'>
+                            <Route path={RoutePath['terms']} element={<EmptyPage />} />
+                            <Route path={RoutePath['policy']} element={<EmptyPage />} />
+                            <Route path={RoutePath['inquiry']} element={<EmptyPage />} />
+                        </Route>
+                        <Route path='/community' element={<EmptyPage />} />
+                        <Route path={RoutePath['playlist']} element={<PlaylistPage />} />
+                        <Route path={RoutePath['search']} element={<SearchPage />} />
+                        <Route path={RoutePath['myPage']} element={<EmptyPage />} />
+                        <Route path={window.authPaths.Login} element={loginAction(LoginActions.Login)} />
+                        <Route path={window.authPaths.LoginFailed} element={loginAction(LoginActions.LoginFailed)} />
+                        <Route path={window.authPaths.LoginCallback} element={loginAction(LoginActions.LoginCallback)} />
+                        <Route path={window.authPaths.Profile} element={loginAction(LoginActions.Profile)} />
+                        <Route path={window.authPaths.Register} element={loginAction(LoginActions.Register)} />
+                        <Route path={window.authPaths.LogOut} element={logoutAction(LogoutActions.Logout)} />
+                        <Route path={window.authPaths.LogOutCallback} element={logoutAction(LogoutActions.LogoutCallback)} />
+                        <Route path={window.authPaths.LoggedOut} element={logoutAction(LogoutActions.LoggedOut)} />
+                    </Routes>
+                </BrowserRouter>
+            </SearchContext.Provider>
         </IdentityContext.Provider>
     );
 }

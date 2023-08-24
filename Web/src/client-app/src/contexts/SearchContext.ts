@@ -7,7 +7,7 @@ export interface ISearchContext {
 
 export function useSearchContext() {
     const [q, setQ] = React.useState<string | string[]>('');
-
+    
     return React.useMemo<ISearchContext>(() => {
         return {
             q: q,

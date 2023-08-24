@@ -1,14 +1,15 @@
 // Licensed to the CodeRabbits under one or more agreements.
 // The CodeRabbits licenses this file to you under the MIT license.
 
-using System.Security.Claims;
 using CodeRabbits.KaoList.Data;
+using CodeRabbits.KaoList.Identity;
 using CodeRabbits.KaoList.Song;
 using CodeRabbits.KaoList.Web.Models;
 using CodeRabbits.KaoList.Web.Models.Search;
 using CodeRabbits.KaoList.Web.Models.Searchs;
 using CodeRabbits.KaoList.Web.Models.Songs;
 using CodeRabbits.KaoList.Web.Models.Thumbnails;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,14 +21,17 @@ namespace CodeRabbits.KaoList.Web.Controllers
     {
         private readonly KaoListDataContext _context;
         private readonly IServiceScopeFactory _serviceScopeFactory;
+        private readonly UserManager<KaoListUser> _userManager;
 
         public SearchController(
             KaoListDataContext context,
-            IServiceScopeFactory serviceScopeFactory
+            IServiceScopeFactory serviceScopeFactory,
+            UserManager<KaoListUser> userManager
             )
         {
             _context = context;
             _serviceScopeFactory = serviceScopeFactory;
+            _userManager = userManager;
         }
 
         private KaoListDataContext CreateScopedDataContext()
@@ -51,13 +55,12 @@ namespace CodeRabbits.KaoList.Web.Controllers
             }
         }
 
-
         private async Task<IEnumerable<SearchResource>> GetSearchItemByIdAsync(IEnumerable<string> querys, int offset, int maxResults)
         {
             var context = CreateScopedDataContext();
             var allQueries = querys.SelectMany(q => q.Split(',')).ToList();
 
-            var songs = await (from sing in context.Sings
+            /*var songs = await (from sing in context.Sings
                                join inst in context.Instrumental on sing.InstrumentalId equals inst.Id
                                where allQueries.Contains(inst.NormalizedTitle!)
                                select new
@@ -68,12 +71,25 @@ namespace CodeRabbits.KaoList.Web.Controllers
                                .OrderBy(s => s.Instrumental.Id)
                                .Skip(offset)
                                .Take(maxResults)
-                               .ToListAsync();
+                               .ToListAsync();*/
 
-            return songs.Select(song => new SearchResource
+            var songsQuery = from sing in context.Sings
+                             join inst in context.Instrumental on sing.InstrumentalId equals inst.Id
+                             select new { Sing = sing, Instrumental = inst };
+
+            var songs = await songsQuery.ToListAsync();
+            var filteredSongs = songs
+                                .Where(s => allQueries.Any(q => s.Instrumental.NormalizedTitle!.Contains(q)))
+                                .OrderBy(s => s.Instrumental.Id)
+                                .Skip(offset)
+                                .Take(maxResults)
+                                .ToList();
+
+
+            return filteredSongs.Select(song => new SearchResource
             {
                 Etag = song.Instrumental.ConcurrencyStamp,
-                Id = new SearchSongId
+                Id = new SearchSong
                 {
                     Id = song.Sing.Id
                 }
@@ -110,12 +126,12 @@ namespace CodeRabbits.KaoList.Web.Controllers
 
             return songs.Select(song => new SearchResource
             {
-                Id = new SearchSongId
+                Id = new SearchSong
                 {
                     Id = song.Sing.Id
                 },
                 Etag = song.Instrumental.ConcurrencyStamp,
-                Snippet = new SearchSnippet
+                Snippet = new SongSnippet
                 {
                     Created = song.Sing.Created,
                     Title = song.Instrumental.Title,
@@ -156,7 +172,30 @@ namespace CodeRabbits.KaoList.Web.Controllers
             }
 
             var items = new List<SearchResource>();
-            var token = HttpContext.Request.Headers["Authorization"].FirstOrDefault()?.Split(" ").Last();
+            var token = HttpContext.Request.Cookies["IdentityToken"];
+            if (token == null)
+            {
+                token = Guid.NewGuid().ToString();
+                var cookieOptions = new CookieOptions
+                {
+                    // Set the secure flag, which Chrome's changes will require for SameSite none.
+                    // Note this will also require you to be running on HTTPS.
+                    Secure = true,
+
+                    // Set the cookie to HTTP only which is good practice unless you really do need
+                    // to access it client side in scripts.
+                    HttpOnly = true,
+
+                    // Add the SameSite attribute, this will emit the attribute with a value of none.
+                    SameSite = SameSiteMode.None
+
+                    // The client should follow its default cookie policy.
+                    // SameSite = SameSiteMode.Unspecified
+                };
+
+                HttpContext.Response.Cookies.Append("IdentityToken", token, cookieOptions);
+
+            }
 
             if (querys != null && querys.Any())
             {
@@ -164,13 +203,14 @@ namespace CodeRabbits.KaoList.Web.Controllers
                 {
                     Id = Guid.NewGuid().ToString(),
                     Query = string.Join(",", querys),
-                    UserId = "8ab65dd9-bce0-4c1e-b3f1-4e2b613e444e",
+                    UserId = _userManager.GetUserId(User),
                     IdentityToken = token
                 };
+                //TODO: 로그인 시 토큰도 같이 보내야됨. 현재 userid가 null
 
                 _context.SongSearchLogs.Add(log);
                 await _context.SaveChangesAsync();
-
+                
                 foreach (var part in parts)
                 {
                     switch (part)

@@ -1,18 +1,15 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
 import Searchbar from "./components/Searchbar";
 import { useSearchContext } from "./contexts/SearchContext";
-import RoutePath from "./RoutePath";
 
-function SongSearchbar() {
+interface ISongSearchbarProps {
+    onSubmit?: React.FormEventHandler<HTMLFormElement>;
+}
+
+function SongSearchbar(props: ISongSearchbarProps) {
     const { t } = useTranslation("Searchbar");
     const { q, setQ } = useSearchContext();
-    const navigate = useNavigate();
-    const handleSubmit = React.useCallback<React.FormEventHandler<HTMLFormElement>>
-        (() => {
-            navigate(`${RoutePath['search']}?q=${q}`);
-        }, [navigate, q])
 
     const handleChange = React.useCallback<React.ChangeEventHandler<HTMLInputElement>>
         (evt => {
@@ -22,7 +19,7 @@ function SongSearchbar() {
     return (
         <Searchbar
             value={q!}
-            onSubmit={handleSubmit}
+            onSubmit={props.onSubmit}
             onChange={handleChange}
             placeholder={t('Search Song') ?? undefined}
         />
