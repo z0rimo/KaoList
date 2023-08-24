@@ -35,7 +35,7 @@ function HomePage() {
                 </div>
                 <SongSearchbar />
                 <div className="chart-region">
-                    <div className="chart-wrapper">
+                    <div className="main-chart-wrapper">
                         <div className="chart-title">{t("New Song Update")}</div>
                         <DiscoverChart className="discover-chart" maxResults={10}
                             Table={Table}
@@ -53,7 +53,7 @@ function HomePage() {
                         />
                         <Link className="fs-8" to={RoutePath['discoverChart']}>{t('More Chart')}</Link>
                     </div>
-                    <div className="chart-wrapper">
+                    <div className="main-chart-wrapper">
                         <div className="chart-title">{t("Liked Song")}</div>
                         <DiscoverChart className="liked-chart" maxResults={10}
                             Table={Table}
