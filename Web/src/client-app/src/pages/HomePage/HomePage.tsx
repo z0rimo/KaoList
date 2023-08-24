@@ -47,7 +47,6 @@ function HomePage() {
                                         <th>{t("Artist")}</th>
                                         <th>TJ</th>
                                         <th>KY</th>
-
                                     </tr>
                                 </thead>
                             }

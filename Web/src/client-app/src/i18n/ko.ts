@@ -44,7 +44,20 @@ const lang: Required<II18nResources> = {
         "Liked Song": "인기 곡",
         "New Song Update": "신곡 업데이트",
         "More Chart": "차트 더보기"
-    }
+    },
+    "Chart": {
+        "Liked Chart": "인기 차트",
+        "Filter": "필터",
+        "Period": "기간",
+        "Daily": "일간",
+        "Monthly": "월간",
+        "All": "전체",
+        "Rank": "순위",
+        "Thumbnail": "썸네일",
+        "Title/Artist": "곡명/아티스트",
+        "Like": "좋아요",
+        "Thumbnail of {0}": "{0}의 썸네일"
+    },
 }
 
 export default lang;

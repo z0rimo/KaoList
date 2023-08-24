@@ -1,0 +1,184 @@
+.liked {
+    --table-margin-bottom: 30px;
+    --drop-down-wrapper-width: 82px;
+
+    --drop-down-width: 100%;
+    --drop-down-height: 100%;
+    --drop-down-padding-top: 10px;
+    --drop-down-font-size: 16px;
+    --drop-down-text-color: var(--color-gray20);
+    --drop-down-background-color: var(--color-white);
+    --drop-down-border-radius: 5px;
+
+    --drop-down-content-padding: 5px 8px 5px 8px;
+    --drop-down-content-item-plus-padding-top: 2.5px;
+
+    --drop-down-checked-icon-border: 1px solid var(--color-gray20);
+    --drop-down-checked-icon-width: 16px;
+    --drop-down-checked-icon-height: 16px;
+    --drop-down-checked-icon-margin-top: 1px;
+    --drop-down-checked-icon-border-radius: 2px;
+    --drop-down-checked-icon-active-color: var(--color-slightly-desaturated-cyan);
+
+    --drop-down-period-border-bottom: 1px solid var(--color-gray95);
+    --drop-down-period-border-top: 1px solid var(--color-gray82);
+
+    --rank-child-width: 9.5%;
+    --thumbnail-child-width: 9.5%;
+    --title-artist-child-width: 52.5%;
+    --title-artist-child-padding-left: 25px;
+    --title-artist-margin-top: 10px;
+    --tj-child-width: 7.6%;
+    --ky-child-width: 7.6%;
+    --like-child-width: 13.3%;
+
+    --thumbnail-img-width: 100px;
+    --thumbnail-img-height: 100px;
+
+    --rank-num-margin-bottom: 8px;
+    --rank-change-num-font-size: 14px;
+    --arrow-icon-margin-right: 4px;
+
+    table {
+        margin-bottom: var(--table-margin-bottom);
+    }
+
+    .text-cyan {
+        color: var(--color-slightly-desaturated-cyan);
+    }
+
+    .text-pink {
+        color: var(--color-slightly-desaturated-pink);
+    }
+
+    .drop-down-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: var(--drop-down-wrapper-width);
+
+        .drop-down {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            align-items: flex-start;
+            width: var(--drop-down-width);
+            height: var(--drop-down-height);
+            padding-top: var(--drop-down-padding-top);
+
+            ul {
+                position: absolute;
+                width: var(--drop-down-width);
+                background-color: var(--drop-down-background-color);
+                font-size: var(--drop-down-font-size);
+                border: none;
+                border-radius: var(--drop-down-border-radius);
+                color: var(--drop-down-text-color);
+
+                .period {
+                    border-bottom: var(--drop-down-period-border-bottom);
+                    border-top: var(--drop-down-period-border-top);
+                }
+
+                .drop-down-content {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: var(--drop-down-content-padding);
+                }
+
+                .item+.item {
+                    padding-top: var(--drop-down-content-item-plus-padding-top);
+                }
+            }
+
+            .checked-icon {
+                border: var(--drop-down-checked-icon-border);
+                width: var(--drop-down-checked-icon-width);
+                height: var(--drop-down-checked-icon-height);
+                margin-top: var(--drop-down-checked-icon-margin-top);
+                border-radius: var(--drop-down-checked-icon-border-radius);
+            }
+
+            .checked-icon.active {
+                fill: var(--drop-down-checked-icon-active-color);
+            }
+
+            :hover {
+                cursor: pointer;
+            }
+        }
+    }
+
+    .liked.table-th,
+    .liked.table-td {
+
+        display: flex;
+        align-items: center;
+
+        .rank {
+            width: var(--rank-child-width);
+            display: flex;
+            flex-direction: column;
+
+            .rank-num {
+                margin-bottom: var(--rank-num-margin-bottom);
+            }
+
+            .arrow-num-wrapper {
+                font-size: var(--rank-change-num-font-size);
+                min-width: var(--rank-child-width);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                .arrow-icon {
+                    margin-right: var(--arrow-icon-margin-right);
+                }
+            }
+        }
+
+        .thumbnail {
+            width: var(--thumbnail-child-width);
+
+            img {
+                width: var(--thumbnail-img-width);
+                height: var(--thumbnail-img-height);
+            }
+        }
+
+        .title-artist {
+            width: var(--title-artist-child-width);
+            padding-left: var(--title-artist-child-padding-left);
+            flex-direction: column;
+            align-items: stretch;
+
+            >p {
+                width: 100%;
+            }
+
+            >p+p {
+                margin-top: var(--title-artist-margin-top);
+            }
+        }
+
+        .tj {
+            width: var(--tj-child-width);
+        }
+
+        .ky {
+            width: var(--ky-child-width);
+        }
+
+        .like {
+            width: var(--like-child-width);
+
+            .like-btn {
+                padding: var(--like-btn-padding);
+                margin: var(--like-btn-margin);
+                width: var(--like-btn-width);
+                height: var(--like-btn-height);
+            }
+        }
+    }
+}

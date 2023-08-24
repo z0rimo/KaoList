@@ -229,3 +229,101 @@ p {
       stroke: var(--pagination-svg-secondary-stroke);
   }
 }
+
+.chart-wrapper {
+  --chart-wrapper-border-radius: 5px;
+
+  --table-title-wrapper-margin: 60px 0 20px 0;
+  --table-title-font-size: 30px;
+  --table-title-margin-right: 10px;
+  --table-date-font-size: 18px;
+  --table-date-color: var(--color-very-dark-grayish-blue);
+  --table-date-padding-top: 20px;
+
+  --table-width: 100%;
+  --table-text-color: var(--color-gray20);
+  --table-background-color: var(--color-white);
+  --table-border-radius: 5px;
+
+  --table-th-font-size: 18px;
+  --table-tr-first-border-bottom: 1px solid var(--color-gray82);
+  --table-th-padding: 15px 0 15px 0;
+
+  --table-td-font-size: 18px;
+  --table-td-title-font-weight: 700;
+  --table-tr-border-top: 1px solid var(--color-gray91);
+  --table-td-padding: 15px 0 15px 0;
+
+  border-radius: var(--chart-wrapper-border-radius);
+
+  .table-title-wrapper {
+      display: flex;
+      justify-content: space-between;
+      margin: var(--table-title-wrapper-margin);
+
+      >div {
+          display: flex;
+          justify-content: space-between;
+
+          .table-title {
+              font-size: var(--table-title-font-size);
+              color: var(--table-text-color);
+              margin-right: var(--table-title-margin-right);
+          }
+
+          .table-date {
+              color: var(--table-date-color);
+              padding-top: var(--table-date-padding-top);
+              font-size: var(--table-date-font-size);
+          }
+      }
+  }
+
+  table {
+      width: var(--table-width);
+      color: var(--table-text-color);
+      border-collapse: collapse;
+      background-color: var(--table-background-color);
+      border-radius: var(--table-border-radius);
+
+      tr:first-child {
+          border-top: var(--table-tr-first-border-bottom);
+      }
+
+      tr {
+          border-top: var(--table-tr-border-top);
+      }
+  }
+
+  thead {
+      tr.table-th {
+          display: flex;
+          justify-content: center;
+          font-size: var(--table-th-font-size);
+          padding: var(--table-th-padding);
+          border-top: none;
+      }
+  }
+
+  .table-td {
+      display: flex;
+
+      td {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: var(--table-td-padding);
+          font-size: var(--table-td-font-size);
+      }
+
+      .title {
+          font-weight: var(--table-td-title-font-weight);
+      }
+
+      button {
+          border: none;
+          background-color: transparent;
+          cursor: pointer;
+      }
+  }
+}

@@ -12,6 +12,8 @@ import React from 'react';
 import authService from './api-authorization/AuthorizeService';
 import SearchPage from './pages/SearchPage/SearchPage';
 import SearchContext, { useSearchContext } from './contexts/SearchContext';
+import DiscoverChartPage from './pages/DiscoverChartPage/DiscoverChartPage';
+import LikedChartPage from './pages/LikedChartPage/LikedChartPage';
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href') ?? undefined;
 
@@ -62,8 +64,8 @@ function App() {
                     <Routes>
                         <Route path='/' element={<HomePage />} />
                         <Route path='/chart'>
-                            <Route path="discover" element={<EmptyPage />} />
-                            <Route path="like" element={<EmptyPage />} />
+                            <Route path="discover" element={<DiscoverChartPage />} />
+                            <Route path="like" element={<LikedChartPage />} />
                         </Route>
                         <Route path='/customer'>
                             <Route path={RoutePath['terms']} element={<EmptyPage />} />

@@ -44,7 +44,20 @@ const lang: II18nResources = {
         "Liked Song": "Liked Song",
         "New Song Update": "New Song Update",
         "More Chart": "More Chart"
-    }
+    },
+    "Chart": {
+        "Liked Chart": "Liked Chart",
+        "Filter": "Filter",
+        "Period": "Period",
+        "Daily": "Daily",
+        "Monthly": "Monthly",
+        "All": "All",
+        "Thumbnail": "Thumbnail",
+        "Rank": "Rank",
+        "Title/Artist": "Title/Artist",
+        "Like": "Like",
+        "Thumbnail of {0}": "Thumbnail of {0}"
+    },
 }
 
 export default lang;

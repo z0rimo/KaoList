@@ -44,7 +44,20 @@ interface Resources {
         'Liked Song': string;
         'New Song Update': string;
         'More Chart': string;
-    }
+    },
+    "Chart": {
+        "Liked Chart": string;
+        "Filter": string;
+        "Period": string;
+        "Daily": string
+        "Monthly": string;
+        "All": string;
+        "Rank": string;
+        "Thumbnail": string;
+        "Title/Artist": string;
+        "Like": string;
+        "Thumbnail of {0}": string;
+    },
 }
 
 export type I18nResourcesKeyType = keyof Resources;
