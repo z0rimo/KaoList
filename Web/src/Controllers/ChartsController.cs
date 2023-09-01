@@ -246,7 +246,6 @@ namespace CodeRabbits.KaoList.Web.Controllers
             return songScores.OrderByDescending(s => s.Score).ToList();
         }
 
-
         [HttpGet("list/like")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(LikedChartListResponse), StatusCodes.Status200OK)]

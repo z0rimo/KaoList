@@ -1,17 +1,16 @@
 // Licensed to the CodeRabbits under one or more agreements.
 // The CodeRabbits licenses this file to you under the MIT license.
 
-using System.Diagnostics.Metrics;
-using System.IO;
+using System.Diagnostics;
 using CodeRabbits.KaoList.Data;
+using CodeRabbits.KaoList.Identity;
 using CodeRabbits.KaoList.Song;
-using CodeRabbits.KaoList.Web.Identitys;
 using CodeRabbits.KaoList.Web.Models;
 using CodeRabbits.KaoList.Web.Models.Songs;
 using CodeRabbits.KaoList.Web.Models.Thumbnails;
 using Duende.IdentityServer.Extensions;
-using Duende.IdentityServer.Models;
-using Microsoft.AspNetCore.Authorization;
+using Duende.IdentityServer.Validation;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,15 +18,19 @@ namespace CodeRabbits.KaoList.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SongsContoller : ControllerBase
+    public class SongsController : ControllerBase
     {
         private readonly KaoListDataContext _context;
         private readonly IServiceScopeFactory _serviceScopeFactory;
+        private readonly UserManager<KaoListUser> _userManager;
 
-        public SongsContoller(KaoListDataContext context, IServiceScopeFactory serviceScopeFactory)
+        public SongsController(KaoListDataContext context,
+            IServiceScopeFactory serviceScopeFactory,
+            UserManager<KaoListUser> userManager)
         {
             _context = context;
             _serviceScopeFactory = serviceScopeFactory;
+            _userManager = userManager;
         }
 
         private KaoListDataContext CreateScopedDataContext()
@@ -181,7 +184,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
                 {
                     return BadRequest("Invalid type specified.");
                 }
-                
+
                 return Ok();
             }
             catch (Exception ex)
@@ -544,6 +547,164 @@ namespace CodeRabbits.KaoList.Web.Controllers
                     ResultPerPage = resultsPerPage
                 }
             };
+        }
+
+        private async Task<SongResource> GetSongDetailBySnippetAsync(string id)
+        {
+            var context = CreateScopedDataContext();
+
+            var song = await (from sing in context.Sings
+                              join inst in context.Instrumental on sing.InstrumentalId equals inst.Id
+                              where sing.Id == id
+                              select new
+                              {
+                                  Sing = sing,
+                                  Instrumental = inst,
+                                  SongUsers = context.SingUsers
+                                                      .Where(su => su.SingId == sing.Id)
+                                                      .Join(context.Users,
+                                                            su => su.UserId,
+                                                            user => user.Id,
+                                                            (su, user) => new { su, user.NickName })
+                                                      .ToList(),
+                              }).FirstOrDefaultAsync();
+
+            if (song == null)
+            {
+                return null;
+            }
+
+            return new SongResource
+            {
+                Id = song.Sing.Id,
+                Etag = song.Instrumental.ConcurrencyStamp,
+                Snippet = new SongSnippet
+                {
+                    Created = song.Sing.Created,
+                    Title = song.Instrumental.Title,
+                    SongUsers = song.SongUsers.Select(su => new SongUser
+                    {
+                        Id = su.su.UserId,
+                        Nickname = su.NickName
+                    }),
+                    Thumbnail = song.Instrumental.SoundId == null ? null : new ThumbnailResource
+                    {
+                        Url = song.Instrumental.SoundId,
+                        Width = 300,
+                        Height = 300
+                    }
+                }
+            };
+        }
+
+        private async Task<IEnumerable<SongResource>> GetOtherSongsAsync(string id, int maxResults)
+        {
+            var context = CreateScopedDataContext();
+
+            var otherSongs = await (from sing in context.Sings
+                                    join inst in context.Instrumental on sing.InstrumentalId equals inst.Id
+                                    where inst.Id == id
+                                    select new
+                                    {
+                                        Sing = sing,
+                                        Instrumental = inst,
+                                        SongUsers = context.SingUsers
+                                                      .Where(su => su.SingId == sing.Id)
+                                                      .Join(context.Users,
+                                                            su => su.UserId,
+                                                            user => user.Id,
+                                                            (su, user) => new { su, user.NickName })
+                                                      .ToList()
+                                    })
+                                    .OrderBy(s => s.Sing.Created)
+                                    .Take(maxResults)
+                                    .ToListAsync();
+
+            return otherSongs.Select(song => new SongResource
+            {
+                Etag = song.Instrumental.ConcurrencyStamp,
+                Id = song.Sing.Id,
+                Snippet = new SongSnippet
+                {
+                    Created = song.Sing.Created,
+                    Title = song.Instrumental.Title,
+                    SongUsers = song.SongUsers.Select(su => new SongUser
+                    {
+                        Id = su.su.UserId,
+                        Nickname = su.NickName
+                    }),
+                    Thumbnail = song.Instrumental.SoundId == null ? null : new ThumbnailResource
+                    {
+                        Url = song.Instrumental.SoundId,
+                        Width = 300,
+                        Height = 300
+                    }
+                }
+            }).ToList();
+        }
+
+        private async Task<IEnumerable<SongResource>> GetOtherMySongsAsync(string userId, string instId, int maxResults)
+        {
+            var context = CreateScopedDataContext();
+
+            var otherMySongs = await (from sing in context.Sings
+                                      join inst in context.Instrumental on sing.InstrumentalId equals inst.Id
+                                      join singUser in context.SingUsers on sing.Id equals singUser.SingId
+                                      where inst.Id == instId && singUser.UserId == userId
+                                      select new
+                                      {
+                                          Sing = sing,
+                                          Instrumental = inst
+                                      })
+                                      .OrderBy(s => s.Sing.Created)
+                                      .Take(maxResults)
+                                      .ToListAsync();
+
+            return otherMySongs.Select(song => new SongResource
+            {
+                Id = song.Sing.Id,
+                Snippet = new SongSnippet
+                {
+                    Created = song.Sing.Created,
+                    Title = song.Instrumental.Title,
+                }
+            }).ToList();
+        }
+
+        [HttpGet("detail")]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(SongDetailResponse), StatusCodes.Status200OK)]
+        public async Task<SongDetailResponse> GetSongDetailAsync(
+            [FromQuery(Name = "id")] string id,
+            int maxResults = 10
+            )
+        {
+            var context = CreateScopedDataContext();
+
+            var instId = context.Sings.Where(s => s.Id == id).Select(s => s.InstrumentalId).FirstOrDefault();
+            var songDetail = await GetSongDetailBySnippetAsync(id);
+
+            var userId = _userManager.GetUserId(User);
+            var otherSongs = await GetOtherSongsAsync(instId!, maxResults);
+            var otherMySongs = await GetOtherMySongsAsync(userId, instId, maxResults);
+
+            if (userId == null || !userId.Any())
+            {
+                return new SongDetailResponse
+                {
+                    Item = songDetail,
+                    OtherSongs = otherSongs,
+                    OtherMySongs = otherMySongs
+                };
+            }
+            else
+            {
+                return new SongDetailResponse
+                {
+                    Item = songDetail,
+                    OtherSongs = otherSongs
+                };
+            }
         }
     }
 }

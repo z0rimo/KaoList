@@ -23,8 +23,12 @@ const DiscoverChartItem = React.memo((props: IDiscoverChartItem) => {
         kumyoungNo = props.karaoke.no ?? "-";
     }
 
+    const navgiateToDetailClick = () => {
+        window.location.href = `/songs/detail?id=${props.id}`;
+    }
+
     return (
-        <tr className="table-td discover">
+        <tr className="table-td discover" onClick={navgiateToDetailClick}>
             <td>
                 <img alt={StringHelper.format(t('Thumbnail of {0}'), props.title)}
                     src="https://i.ytimg.com/vi/XOxI7bEHQgc/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLC5kqwJDiTRyMg0D5mIsZ0ZyTcvRg" />

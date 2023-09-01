@@ -128,6 +128,13 @@ export interface IChartSnippetKaraokeItem {
     no: string;
 }
 
+export interface ISongDetailResponse extends IKaoListPageResponse {
+    kind: string;
+    item?: ISongResource;
+    otherSongs?: ISongResource[];
+    otherMySongs?: ISongResource[];
+}
+
 export interface IApiGlobalOption {
     part?: Array<'snippet'>;
     offset?: number;
@@ -144,6 +151,10 @@ export interface IKaolistSearchListApiOption extends IApiGlobalOption {
     q?: string[];
 }
 
+export interface IKaolistSongDetailApiOption extends IApiGlobalOption {
+    q: string;
+}
+
 type QueryType<T extends object = { [key: string]: string | number | string[] | number[] }> = {
     [P in keyof T]?: T[P] extends (string | number | string[] | number[] | undefined) ? T[P] : string | number | string[] | number[];
 };
@@ -157,9 +168,14 @@ interface IKaolistSearchsApi {
     songSearchList: (option?: IKaolistSearchListApiOption) => Promise<ISearchListResponse>;
 }
 
+interface IKaolistSongsApi {
+    songDetail: (option?: IKaolistSongDetailApiOption) => Promise<ISongDetailResponse>;
+}
+
 interface IKaolistApi {
     charts: IKaolistChartsApi;
     searchs: IKaolistSearchsApi;
+    songs: IKaolistSongsApi;
 }
 
 interface IKaolistApiConstructorProps {
@@ -167,9 +183,10 @@ interface IKaolistApiConstructorProps {
 }
 
 const kaoListApiEndPoint = {
-    discoverChart: '/api/charts/list/discover',
-    likedChart: 'api/charts/list/liked',
-    songSearch: '/api/search/list'
+    chartDiscover: '/api/charts/list/discover',
+    chartLiked: 'api/charts/list/liked',
+    searchSong: '/api/search/list',
+    songDetail: '/api/songs/detail'
 }
 
 class KaoListApi implements IKaolistApi {
@@ -177,6 +194,7 @@ class KaoListApi implements IKaolistApi {
 
     private _charts: IKaolistChartsApi;
     private _searchs: IKaolistSearchsApi;
+    private _songs: IKaolistSongsApi;
 
     constructor(props?: IKaolistApiConstructorProps) {
         this._baseUrl = props?.baseUrl ?? '';
@@ -202,7 +220,7 @@ class KaoListApi implements IKaolistApi {
                     return q;
                 }
 
-                return this.getAsync(kaoListApiEndPoint.discoverChart, queryBuild(option)).then(item => item.json() as Promise<IDiscoverChartListResponse>);
+                return this.getAsync(kaoListApiEndPoint.chartDiscover, queryBuild(option)).then(item => item.json() as Promise<IDiscoverChartListResponse>);
             },
 
             likedChartList: (option?: IKaolistChartsListApiOption) => {
@@ -225,7 +243,7 @@ class KaoListApi implements IKaolistApi {
                     return q;
                 }
 
-                return this.getAsync(kaoListApiEndPoint.likedChart, queryBuild(option)).then(item => item.json() as Promise<ILikedChartListResponse>);
+                return this.getAsync(kaoListApiEndPoint.chartLiked, queryBuild(option)).then(item => item.json() as Promise<ILikedChartListResponse>);
             }
         }
 
@@ -247,7 +265,28 @@ class KaoListApi implements IKaolistApi {
                     return query;
                 }
 
-                return this.getAsync(kaoListApiEndPoint.songSearch, queryBuild(option)).then(item => item.json() as Promise<ISearchListResponse>);
+                return this.getAsync(kaoListApiEndPoint.searchSong, queryBuild(option)).then(item => item.json() as Promise<ISearchListResponse>);
+            }
+        }
+
+        this._songs = {
+            songDetail: (option?: IKaolistSongDetailApiOption) => {
+                const queryBuild = (options?: IKaolistSongDetailApiOption): QueryType<IKaolistSongDetailApiOption> | undefined => {
+                    if (options === undefined || Object.keys(options).length === 0) {
+                        return;
+                    }
+
+                    const { q, ...rest } = options;
+                    let query: QueryType<IKaolistSongDetailApiOption> = { ...rest };
+
+                    if (q) {
+                        query.q = q;
+                    }
+
+                    return query;
+                }
+
+                return this.getAsync(kaoListApiEndPoint.songDetail, queryBuild(option)).then(item => item.json() as Promise<ISongDetailResponse>);
             }
         }
     }
@@ -299,6 +338,10 @@ class KaoListApi implements IKaolistApi {
 
     get searchs(): IKaolistSearchsApi {
         return this._searchs;
+    }
+
+    get songs(): IKaolistSongsApi {
+        return this._songs;
     }
 }
 
