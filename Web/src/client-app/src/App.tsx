@@ -14,6 +14,7 @@ import SearchPage from './pages/SearchPage/SearchPage';
 import SearchContext, { useSearchContext } from './contexts/SearchContext';
 import DiscoverChartPage from './pages/ChartPage/DiscoverChartPage/DiscoverChartPage';
 import LikedChartPage from './pages/ChartPage/LikedChartPage/LikedChartPage';
+import SongDetailPage from './pages/SongDetailPage/SongDetailPage';
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href') ?? undefined;
 
@@ -71,6 +72,9 @@ function App() {
                             <Route path={RoutePath['terms']} element={<EmptyPage />} />
                             <Route path={RoutePath['policy']} element={<EmptyPage />} />
                             <Route path={RoutePath['inquiry']} element={<EmptyPage />} />
+                        </Route>
+                        <Route path='/songs'>
+                            <Route path={RoutePath['songDetail']} element={<SongDetailPage />} />
                         </Route>
                         <Route path='/community' element={<EmptyPage />} />
                         <Route path={RoutePath['playlist']} element={<PlaylistPage />} />

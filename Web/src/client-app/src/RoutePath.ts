@@ -9,6 +9,7 @@ const RoutePath = Object.freeze({
     terms: '/customer/terms',
     policy: '/customer/policy',
     inquiry: '/customer/inquiry',
+    songDetail: '/songs/detail',
 })
 
 export default RoutePath;

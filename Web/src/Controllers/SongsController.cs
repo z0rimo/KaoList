@@ -1,7 +1,6 @@
 // Licensed to the CodeRabbits under one or more agreements.
 // The CodeRabbits licenses this file to you under the MIT license.
 
-using System.Diagnostics;
 using CodeRabbits.KaoList.Data;
 using CodeRabbits.KaoList.Identity;
 using CodeRabbits.KaoList.Song;
@@ -9,7 +8,6 @@ using CodeRabbits.KaoList.Web.Models;
 using CodeRabbits.KaoList.Web.Models.Songs;
 using CodeRabbits.KaoList.Web.Models.Thumbnails;
 using Duende.IdentityServer.Extensions;
-using Duende.IdentityServer.Validation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -688,23 +686,116 @@ namespace CodeRabbits.KaoList.Web.Controllers
             var otherSongs = await GetOtherSongsAsync(instId!, maxResults);
             var otherMySongs = await GetOtherMySongsAsync(userId, instId, maxResults);
 
-            if (userId == null || !userId.Any())
+            var response = new SongDetailResponse
             {
-                return new SongDetailResponse
+                Item = songDetail,
+                OtherSongs = otherSongs
+            };
+
+            if (otherMySongs != null && otherMySongs.Any())
+            {
+                response.OtherMySongs = otherMySongs;
+            }
+
+            return response;
+        }
+
+        [HttpPut("rate")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> RateSongAsync(
+            [FromQuery(Name = "ids")] string[] ids,
+            [FromQuery(Name = "rating")] string ratingText
+            )
+        {
+            var context = CreateScopedDataContext();
+            var userId = _userManager.GetUserId(User);
+            var convertingStr = char.ToUpper(ratingText[0]) + ratingText.Substring(1).ToLower();
+
+            if (Enum.TryParse(convertingStr, out SongRating rating))
+            {
+                foreach (var id in ids)
                 {
-                    Item = songDetail,
-                    OtherSongs = otherSongs,
-                    OtherMySongs = otherMySongs
-                };
+                    var singExists = await context.Sings.AnyAsync(s => s.Id == id);
+                    if (!singExists)
+                    {
+                        return NotFound($"Sing with ID {id} not found");
+                    }
+
+                    var existingFollow = await context.SingFollowers
+                        .FirstOrDefaultAsync(sf => sf.SingId == id && sf.UserId == userId);
+                    if (existingFollow != null)
+                    {
+                        context.SingFollowers.Remove(existingFollow);
+                    }
+
+                    var existingBlind = await context.SingBlinds
+                        .FirstOrDefaultAsync(sb => sb.SingId == id && sb.UserId == userId);
+                    if (existingBlind != null)
+                    {
+                        context.SingBlinds.Remove(existingBlind);
+                    }
+
+                    if (rating == SongRating.Follow)
+                    {
+                        context.SingFollowers.Add(new SingFollower { SingId = id, UserId = userId });
+                    }
+                    else if (rating == SongRating.Blind)
+                    {
+                        context.SingBlinds.Add(new SingBlind { SingId = id, UserId = userId });
+                    }
+                }
+
+                await context.SaveChangesAsync();
+
+                return NoContent();
             }
             else
             {
-                return new SongDetailResponse
-                {
-                    Item = songDetail,
-                    OtherSongs = otherSongs
-                };
+                return BadRequest("Invalid rating value");
             }
         }
+
+        [HttpGet("getRating")]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(SongGetRatingResponse), StatusCodes.Status200OK)]
+        public async Task<SongGetRatingResponse> GetSongRatingAsync(
+            [FromQuery(Name = "id")] string[] ids
+            )
+        {
+            var context = CreateScopedDataContext();
+            var userId = _userManager.GetUserId(User);
+
+            var resources = new List<SongGetRatingResource>();
+
+            foreach (var id in ids)
+            {
+                bool isFollowed = await context.SingFollowers.AnyAsync(sf => sf.SingId == id && sf.UserId == userId);
+
+                SongRating rating;
+
+                if (isFollowed)
+                {
+                    rating = SongRating.Follow;
+                }
+                else
+                {
+                    bool isBlinded = await context.SingBlinds.AnyAsync(sb => sb.SingId == id && sb.UserId == userId);
+                    rating = isBlinded ? SongRating.Blind : SongRating.None;
+                }
+
+                resources.Add(new SongGetRatingResource
+                {
+                    Id = id,
+                    Rating = rating
+                });
+            }
+
+            return new SongGetRatingResponse
+            {
+                Resources = resources.ToArray()
+            };
+        }
+
     }
 }

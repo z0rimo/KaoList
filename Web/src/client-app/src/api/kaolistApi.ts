@@ -152,7 +152,7 @@ export interface IKaolistSearchListApiOption extends IApiGlobalOption {
 }
 
 export interface IKaolistSongDetailApiOption extends IApiGlobalOption {
-    q: string;
+    id?: string;
 }
 
 type QueryType<T extends object = { [key: string]: string | number | string[] | number[] }> = {
@@ -254,7 +254,6 @@ class KaoListApi implements IKaolistApi {
                         return;
                     }
 
-
                     const { q, ...rest } = options;
                     let query: QueryType<IKaolistSearchListApiOption> = { ...rest };
 
@@ -276,11 +275,11 @@ class KaoListApi implements IKaolistApi {
                         return;
                     }
 
-                    const { q, ...rest } = options;
+                    const { id, ...rest } = options;
                     let query: QueryType<IKaolistSongDetailApiOption> = { ...rest };
 
-                    if (q) {
-                        query.q = q;
+                    if (id) {
+                        query.id = id;
                     }
 
                     return query;

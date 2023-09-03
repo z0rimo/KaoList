@@ -8,7 +8,10 @@ var gulp = require('gulp'),
     minifyCSS = require('gulp-minify-css'),
     autoprefixer = require('gulp-autoprefixer'),
     rename = require('gulp-rename'),
+    ts = require('gulp-typescript'),
     bundleconfig = require('./bundleconfig.json');
+
+var tsProject = ts.createProject("tsconfig.json");
 
 const regex = {
     css: /\.css$/,
@@ -23,6 +26,11 @@ gulp.task('sass', () => gulp.src('client-app/src/scss/**/*.s[a|c]ss')
     .pipe(gulp.dest('client-app/public/css/'))
 );
 
+gulp.task('ts', () => gulp.src("Scripts/**/*.ts")
+    .pipe(tsProject())
+    .js.pipe(gulp.dest('client-app/public/js'))
+);
+
 gulp.task('min:css', () => gulp.src("client-app/src/css/**/!(*.min).css", { base: '.' })
     .pipe(minifyCSS())
     .pipe(rename({
@@ -32,7 +40,7 @@ gulp.task('min:css', () => gulp.src("client-app/src/css/**/!(*.min).css", { base
     .pipe(gulp.dest('.'))
 );
 
-gulp.task('min', gulp.series(['sass', 'min:css']));
+gulp.task('min', gulp.series(['sass', 'min:css', 'ts']));
 
 gulp.task('clean', () =>
     del([...bundleconfig.map(bundle => bundle.outputFileName), "client-app/src/css"])
