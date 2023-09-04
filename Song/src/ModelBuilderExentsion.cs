@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CodeRabbits.KaoList.Song;
@@ -140,6 +140,7 @@ public static class ModelBuilderExentsion
             b.HasMany<SingBlind>().WithOne().HasForeignKey(ib => ib.SingId).IsRequired();
             b.HasMany<SingFollower>().WithOne().HasForeignKey(ib => ib.SingId).IsRequired();
             b.HasMany<SingUser>().WithOne().HasForeignKey(ib => ib.SingId).IsRequired();
+            b.HasMany<SingVisitLog>().WithOne().HasForeignKey(ib => ib.SingId).IsRequired();
             b.HasMany<TitleSing>().WithOne().HasForeignKey(ib => ib.SingId).IsRequired();
         });
 
@@ -163,6 +164,14 @@ public static class ModelBuilderExentsion
         {
             b.HasKey(su => new { su.SingId, su.UserId });
             b.ToTable("SingUsers");
+        });
+
+        builder.Entity<SingVisitLog>(b =>
+        {
+            b.HasKey(svl => svl.Id);
+            b.ToTable("SingVisitLogs");
+
+            b.Property(svl => svl.Created).IsRequired();
         });
 
         builder.Entity<SongSearchLog>(b =>
