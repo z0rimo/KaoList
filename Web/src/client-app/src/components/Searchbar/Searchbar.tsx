@@ -2,8 +2,10 @@ import React from "react";
 import StringHelper from "../../StringHelper";
 import LazySearchIcon from "../../svgs/LazySearchIcon";
 import './Searchbar.scss';
+import ClassNameHelper from "../../ClassNameHelper";
 
 interface SearchbarProps {
+    className?: string;
     value: string | string[];
     placeholder?: string;
     onChange?: React.ChangeEventHandler<HTMLInputElement>;
@@ -19,7 +21,7 @@ const SearchButton = React.memo((props: React.ButtonHTMLAttributes<HTMLButtonEle
 });
 
 function Searchbar(props: SearchbarProps) {
-    const { value, onSubmit } = props;
+    const { value, onSubmit, className } = props;
     const handleSubmit = React.useCallback<React.FormEventHandler<HTMLFormElement>>
         (evt => {
             evt.preventDefault();
@@ -31,7 +33,7 @@ function Searchbar(props: SearchbarProps) {
         }, [value, onSubmit]);
 
     return (
-        <form className="searchbar" onSubmit={handleSubmit}>
+        <form className={ClassNameHelper.concat('searchbar', className)} onSubmit={handleSubmit}>
             <input className="input"
                 type="text"
                 name="q"

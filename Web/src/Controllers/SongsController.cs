@@ -1,17 +1,14 @@
 // Licensed to the CodeRabbits under one or more agreements.
 // The CodeRabbits licenses this file to you under the MIT license.
 
-using System.Diagnostics.Metrics;
-using System.IO;
 using CodeRabbits.KaoList.Data;
+using CodeRabbits.KaoList.Identity;
 using CodeRabbits.KaoList.Song;
-using CodeRabbits.KaoList.Web.Identitys;
 using CodeRabbits.KaoList.Web.Models;
 using CodeRabbits.KaoList.Web.Models.Songs;
 using CodeRabbits.KaoList.Web.Models.Thumbnails;
 using Duende.IdentityServer.Extensions;
-using Duende.IdentityServer.Models;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,15 +16,19 @@ namespace CodeRabbits.KaoList.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class SongsContoller : ControllerBase
+    public class SongsController : ControllerBase
     {
         private readonly KaoListDataContext _context;
         private readonly IServiceScopeFactory _serviceScopeFactory;
+        private readonly UserManager<KaoListUser> _userManager;
 
-        public SongsContoller(KaoListDataContext context, IServiceScopeFactory serviceScopeFactory)
+        public SongsController(KaoListDataContext context,
+            IServiceScopeFactory serviceScopeFactory,
+            UserManager<KaoListUser> userManager)
         {
             _context = context;
             _serviceScopeFactory = serviceScopeFactory;
+            _userManager = userManager;
         }
 
         private KaoListDataContext CreateScopedDataContext()
@@ -181,7 +182,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
                 {
                     return BadRequest("Invalid type specified.");
                 }
-                
+
                 return Ok();
             }
             catch (Exception ex)
@@ -545,5 +546,256 @@ namespace CodeRabbits.KaoList.Web.Controllers
                 }
             };
         }
+
+        private async Task<SongResource> GetSongDetailBySnippetAsync(string id)
+        {
+            var context = CreateScopedDataContext();
+
+            var song = await (from sing in context.Sings
+                              join inst in context.Instrumental on sing.InstrumentalId equals inst.Id
+                              where sing.Id == id
+                              select new
+                              {
+                                  Sing = sing,
+                                  Instrumental = inst,
+                                  SongUsers = context.SingUsers
+                                                      .Where(su => su.SingId == sing.Id)
+                                                      .Join(context.Users,
+                                                            su => su.UserId,
+                                                            user => user.Id,
+                                                            (su, user) => new { su, user.NickName })
+                                                      .ToList(),
+                              }).FirstOrDefaultAsync();
+
+            if (song == null)
+            {
+                return null;
+            }
+
+            return new SongResource
+            {
+                Id = song.Sing.Id,
+                Etag = song.Instrumental.ConcurrencyStamp,
+                Snippet = new SongSnippet
+                {
+                    Created = song.Sing.Created,
+                    Title = song.Instrumental.Title,
+                    SongUsers = song.SongUsers.Select(su => new SongUser
+                    {
+                        Id = su.su.UserId,
+                        Nickname = su.NickName
+                    }),
+                    Thumbnail = song.Instrumental.SoundId == null ? null : new ThumbnailResource
+                    {
+                        Url = song.Instrumental.SoundId,
+                        Width = 300,
+                        Height = 300
+                    }
+                }
+            };
+        }
+
+        private async Task<IEnumerable<SongResource>> GetOtherSongsAsync(string id, int maxResults)
+        {
+            var context = CreateScopedDataContext();
+
+            var otherSongs = await (from sing in context.Sings
+                                    join inst in context.Instrumental on sing.InstrumentalId equals inst.Id
+                                    where inst.Id == id
+                                    select new
+                                    {
+                                        Sing = sing,
+                                        Instrumental = inst,
+                                        SongUsers = context.SingUsers
+                                                      .Where(su => su.SingId == sing.Id)
+                                                      .Join(context.Users,
+                                                            su => su.UserId,
+                                                            user => user.Id,
+                                                            (su, user) => new { su, user.NickName })
+                                                      .ToList()
+                                    })
+                                    .OrderBy(s => s.Sing.Created)
+                                    .Take(maxResults)
+                                    .ToListAsync();
+
+            return otherSongs.Select(song => new SongResource
+            {
+                Etag = song.Instrumental.ConcurrencyStamp,
+                Id = song.Sing.Id,
+                Snippet = new SongSnippet
+                {
+                    Created = song.Sing.Created,
+                    Title = song.Instrumental.Title,
+                    SongUsers = song.SongUsers.Select(su => new SongUser
+                    {
+                        Id = su.su.UserId,
+                        Nickname = su.NickName
+                    }),
+                    Thumbnail = song.Instrumental.SoundId == null ? null : new ThumbnailResource
+                    {
+                        Url = song.Instrumental.SoundId,
+                        Width = 300,
+                        Height = 300
+                    }
+                }
+            }).ToList();
+        }
+
+        private async Task<IEnumerable<SongResource>> GetOtherMySongsAsync(string userId, string instId, int maxResults)
+        {
+            var context = CreateScopedDataContext();
+
+            var otherMySongs = await (from sing in context.Sings
+                                      join inst in context.Instrumental on sing.InstrumentalId equals inst.Id
+                                      join singUser in context.SingUsers on sing.Id equals singUser.SingId
+                                      where inst.Id == instId && singUser.UserId == userId
+                                      select new
+                                      {
+                                          Sing = sing,
+                                          Instrumental = inst
+                                      })
+                                      .OrderBy(s => s.Sing.Created)
+                                      .Take(maxResults)
+                                      .ToListAsync();
+
+            return otherMySongs.Select(song => new SongResource
+            {
+                Id = song.Sing.Id,
+                Snippet = new SongSnippet
+                {
+                    Created = song.Sing.Created,
+                    Title = song.Instrumental.Title,
+                }
+            }).ToList();
+        }
+
+        [HttpGet("detail")]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(SongDetailResponse), StatusCodes.Status200OK)]
+        public async Task<SongDetailResponse> GetSongDetailAsync(
+            [FromQuery(Name = "id")] string id,
+            int maxResults = 10
+            )
+        {
+            var context = CreateScopedDataContext();
+
+            var instId = context.Sings.Where(s => s.Id == id).Select(s => s.InstrumentalId).FirstOrDefault();
+            var songDetail = await GetSongDetailBySnippetAsync(id);
+
+            var userId = _userManager.GetUserId(User);
+            var otherSongs = await GetOtherSongsAsync(instId!, maxResults);
+            var otherMySongs = await GetOtherMySongsAsync(userId, instId, maxResults);
+
+            var response = new SongDetailResponse
+            {
+                Item = songDetail,
+                OtherSongs = otherSongs
+            };
+
+            if (otherMySongs != null && otherMySongs.Any())
+            {
+                response.OtherMySongs = otherMySongs;
+            }
+
+            return response;
+        }
+
+        [HttpPut("rate")]
+        [Produces("application/json")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public async Task<IActionResult> RateSongAsync(
+            [FromQuery(Name = "ids")] string[] ids,
+            [FromQuery(Name = "rating")] string ratingText
+            )
+        {
+            var context = CreateScopedDataContext();
+            var userId = _userManager.GetUserId(User);
+            var convertingStr = char.ToUpper(ratingText[0]) + ratingText.Substring(1).ToLower();
+
+            if (Enum.TryParse(convertingStr, out SongRating rating))
+            {
+                foreach (var id in ids)
+                {
+                    var singExists = await context.Sings.AnyAsync(s => s.Id == id);
+                    if (!singExists)
+                    {
+                        return NotFound($"Sing with ID {id} not found");
+                    }
+
+                    var existingFollow = await context.SingFollowers
+                        .FirstOrDefaultAsync(sf => sf.SingId == id && sf.UserId == userId);
+                    if (existingFollow != null)
+                    {
+                        context.SingFollowers.Remove(existingFollow);
+                    }
+
+                    var existingBlind = await context.SingBlinds
+                        .FirstOrDefaultAsync(sb => sb.SingId == id && sb.UserId == userId);
+                    if (existingBlind != null)
+                    {
+                        context.SingBlinds.Remove(existingBlind);
+                    }
+
+                    if (rating == SongRating.Follow)
+                    {
+                        context.SingFollowers.Add(new SingFollower { SingId = id, UserId = userId });
+                    }
+                    else if (rating == SongRating.Blind)
+                    {
+                        context.SingBlinds.Add(new SingBlind { SingId = id, UserId = userId });
+                    }
+                }
+
+                await context.SaveChangesAsync();
+
+                return NoContent();
+            }
+            else
+            {
+                return BadRequest("Invalid rating value");
+            }
+        }
+
+        [HttpGet("getRating")]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(SongGetRatingResponse), StatusCodes.Status200OK)]
+        public async Task<SongGetRatingResponse> GetSongRatingAsync(
+            [FromQuery(Name = "id")] string[] ids
+            )
+        {
+            var context = CreateScopedDataContext();
+            var userId = _userManager.GetUserId(User);
+
+            var resources = new List<SongGetRatingResource>();
+
+            foreach (var id in ids)
+            {
+                bool isFollowed = await context.SingFollowers.AnyAsync(sf => sf.SingId == id && sf.UserId == userId);
+
+                SongRating rating;
+
+                if (isFollowed)
+                {
+                    rating = SongRating.Follow;
+                }
+                else
+                {
+                    bool isBlinded = await context.SingBlinds.AnyAsync(sb => sb.SingId == id && sb.UserId == userId);
+                    rating = isBlinded ? SongRating.Blind : SongRating.None;
+                }
+
+                resources.Add(new SongGetRatingResource
+                {
+                    Id = id,
+                    Rating = rating
+                });
+            }
+
+            return new SongGetRatingResponse
+            {
+                Resources = resources.ToArray()
+            };
+        }
+
     }
 }

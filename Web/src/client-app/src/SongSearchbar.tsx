@@ -18,6 +18,7 @@ function SongSearchbar(props: ISongSearchbarProps) {
 
     return (
         <Searchbar
+            className="song-searchbar"
             value={q!}
             onSubmit={props.onSubmit}
             onChange={handleChange}

@@ -81,6 +81,16 @@ p {
   padding: 0;
 }
 
+svg {
+  .primary {
+    fill: var(--color-gray51);
+  }
+
+  .secondary {
+    fill: var(--color-gray85);
+  }
+}
+
 .dropdown {
   position: relative;
 
