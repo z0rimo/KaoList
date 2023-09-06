@@ -317,6 +317,27 @@ namespace CodeRabbits.KaoList.Web.Controllers
             await context.SaveChangesAsync();
         }
 
+        private async Task<SongRating> FetchSongRatingAsync(string singId, string userId)
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                return SongRating.None;
+            }
+
+            var context = CreateScopedDataContext();
+
+            bool isFollowed = await context.SingFollowers.AnyAsync(sf => sf.SingId == singId && sf.UserId == userId);
+
+            if (isFollowed)
+            {
+                return SongRating.Follow;
+            }
+
+            bool isBlinded = await context.SingBlinds.AnyAsync(sb => sb.SingId == singId && sb.UserId == userId);
+
+            return isBlinded ? SongRating.Blind : SongRating.None;
+        }
+
         private async Task<IEnumerable<SongResource>> GetSongItemsByIdAsync(IEnumerable<string> ids, int offset, int maxResults)
         {
             var context = CreateScopedDataContext();
@@ -344,6 +365,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
         private async Task<IEnumerable<SongResource>> GetSongItemsBySnippetAsync(IEnumerable<string> ids, int offset, int maxResults)
         {
             var context = CreateScopedDataContext();
+            var userId = _userManager.GetUserId(User);
 
             var songs = await (from sing in context.Sings
                                join inst in context.Instrumental on sing.InstrumentalId equals inst.Id
@@ -369,34 +391,45 @@ namespace CodeRabbits.KaoList.Web.Controllers
                                .Take(maxResults)
                                .ToListAsync();
 
-            return songs.Select(song => new SongResource
+            var songResources = new List<SongResource>();
+
+            foreach (var song in songs)
             {
-                Id = song.Sing.Id,
-                Etag = song.Instrumental.ConcurrencyStamp,
-                Snippet = new SongSnippet
+                var rating = userId != null ? await FetchSongRatingAsync(song.Sing.Id, userId) : (SongRating?)null;
+
+                songResources.Add(new SongResource
                 {
-                    Created = song.Sing.Created,
-                    Title = song.Instrumental.Title,
-                    SongUsers = song.SongUsers.Select(su => new SongUser
+                    Id = song.Sing.Id,
+                    Etag = song.Instrumental.ConcurrencyStamp,
+                    Rating = rating,
+                    Snippet = new SongSnippet
                     {
-                        Id = su.su.UserId,
-                        Nickname = su.NickName
-                    }),
-                    Composer = song.Instrumental.Composer,
-                    Thumbnail = song.Instrumental.SoundId == null ? null : new ThumbnailResource
-                    {
-                        Url = song.Instrumental.SoundId,
-                        Width = 300,
-                        Height = 300
-                    },
-                    Karaoke = new SongKaraokeItem
-                    {
-                        No = song.KaraokeInfo?.No,
-                        ProviderName = song.KaraokeInfo?.Provider
+                        Created = song.Sing.Created,
+                        Title = song.Instrumental.Title,
+                        SongUsers = song.SongUsers.Select(su => new SongUser
+                        {
+                            Id = su.su.UserId,
+                            Nickname = su.NickName
+                        }),
+                        Composer = song.Instrumental.Composer,
+                        Thumbnail = song.Instrumental.SoundId == null ? null : new ThumbnailResource
+                        {
+                            Url = song.Instrumental.SoundId,
+                            Width = 300,
+                            Height = 300
+                        },
+                        Karaoke = new SongKaraokeItem
+                        {
+                            No = song.KaraokeInfo?.No,
+                            ProviderName = song.KaraokeInfo?.Provider
+                        }
                     }
-                }
-            }).ToList();
+                });
+            }
+
+            return songResources;
         }
+
 
         private async Task<IEnumerable<SongResource>> GetSongItemsByStatsticsAsync(IEnumerable<string> ids, int offset, int maxResults)
         {
@@ -441,49 +474,6 @@ namespace CodeRabbits.KaoList.Web.Controllers
             {
                 return await context.Sings.Where(sing => ids.Contains(sing.Id)).CountAsync();
             }
-        }
-
-        [HttpPost("rate")]
-        [ProducesResponseType(typeof(SongListResponse), StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> setRating(string songId, SongRating rating, string userId)
-        {
-            var context = CreateScopedDataContext();
-
-            var songExists = await _context.Sings.AnyAsync(s => s.Id == songId);
-            if (!songExists)
-            {
-                return NotFound(new { error = "Song not found." });
-            }
-
-            switch (rating)
-            {
-                case SongRating.Follow:
-                    var follow = new SingFollower
-                    {
-                        SingId = songId,
-                        UserId = userId,
-                        Created = DateTime.Now
-                    };
-                    context.SingFollowers.Add(follow);
-                    break;
-
-                case SongRating.Blind:
-                    var blind = new SingBlind
-                    {
-                        SingId = songId,
-                        UserId = userId,
-                        Created = DateTime.Now
-                    };
-                    context.SingBlinds.Add(blind);
-                    break;
-
-                case SongRating.None:
-                    break;
-            }
-
-            await context.SaveChangesAsync();
-
-            return Ok();
         }
 
         [HttpGet("list")]
@@ -550,6 +540,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
         private async Task<SongResource> GetSongDetailBySnippetAsync(string id)
         {
             var context = CreateScopedDataContext();
+            var userId = _userManager.GetUserId(User);
 
             var song = await (from sing in context.Sings
                               join inst in context.Instrumental on sing.InstrumentalId equals inst.Id
@@ -572,10 +563,13 @@ namespace CodeRabbits.KaoList.Web.Controllers
                 return null;
             }
 
+            var rating = userId != null ? await FetchSongRatingAsync(song.Sing.Id, userId) : (SongRating?)null;
+
             return new SongResource
             {
                 Id = song.Sing.Id,
                 Etag = song.Instrumental.ConcurrencyStamp,
+                Rating = rating,
                 Snippet = new SongSnippet
                 {
                     Created = song.Sing.Created,
@@ -595,13 +589,13 @@ namespace CodeRabbits.KaoList.Web.Controllers
             };
         }
 
-        private async Task<IEnumerable<SongResource>> GetOtherSongsAsync(string id, int maxResults)
+        private async Task<IEnumerable<SongResource>> GetOtherSongsAsync(string instId, string singId, int maxResults)
         {
             var context = CreateScopedDataContext();
 
             var otherSongs = await (from sing in context.Sings
                                     join inst in context.Instrumental on sing.InstrumentalId equals inst.Id
-                                    where inst.Id == id
+                                    where inst.Id == instId && sing.Id != singId
                                     select new
                                     {
                                         Sing = sing,
@@ -683,7 +677,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
             var songDetail = await GetSongDetailBySnippetAsync(id);
 
             var userId = _userManager.GetUserId(User);
-            var otherSongs = await GetOtherSongsAsync(instId!, maxResults);
+            var otherSongs = await GetOtherSongsAsync(instId!, id, maxResults);
             var otherMySongs = await GetOtherMySongsAsync(userId, instId, maxResults);
 
             var response = new SongDetailResponse
@@ -724,13 +718,14 @@ namespace CodeRabbits.KaoList.Web.Controllers
 
                     var existingFollow = await context.SingFollowers
                         .FirstOrDefaultAsync(sf => sf.SingId == id && sf.UserId == userId);
+                    var existingBlind = await context.SingBlinds
+                        .FirstOrDefaultAsync(sb => sb.SingId == id && sb.UserId == userId);
+
                     if (existingFollow != null)
                     {
                         context.SingFollowers.Remove(existingFollow);
                     }
 
-                    var existingBlind = await context.SingBlinds
-                        .FirstOrDefaultAsync(sb => sb.SingId == id && sb.UserId == userId);
                     if (existingBlind != null)
                     {
                         context.SingBlinds.Remove(existingBlind);
@@ -738,10 +733,20 @@ namespace CodeRabbits.KaoList.Web.Controllers
 
                     if (rating == SongRating.Follow)
                     {
+                        if (existingBlind != null)
+                        {
+                            context.SingBlinds.Remove(existingBlind);
+                        }
+
                         context.SingFollowers.Add(new SingFollower { SingId = id, UserId = userId });
                     }
                     else if (rating == SongRating.Blind)
                     {
+                        if (existingFollow != null)
+                        {
+                            context.SingFollowers.Remove(existingFollow);
+                        }
+
                         context.SingBlinds.Add(new SingBlind { SingId = id, UserId = userId });
                     }
                 }
@@ -760,33 +765,20 @@ namespace CodeRabbits.KaoList.Web.Controllers
         [Produces("application/json")]
         [ProducesResponseType(typeof(SongGetRatingResponse), StatusCodes.Status200OK)]
         public async Task<SongGetRatingResponse> GetSongRatingAsync(
-            [FromQuery(Name = "id")] string[] ids
+            [FromQuery(Name = "ids")] string[] ids
             )
         {
-            var context = CreateScopedDataContext();
             var userId = _userManager.GetUserId(User);
 
             var resources = new List<SongGetRatingResource>();
 
-            foreach (var id in ids)
+            foreach (var singId in ids)
             {
-                bool isFollowed = await context.SingFollowers.AnyAsync(sf => sf.SingId == id && sf.UserId == userId);
-
-                SongRating rating;
-
-                if (isFollowed)
-                {
-                    rating = SongRating.Follow;
-                }
-                else
-                {
-                    bool isBlinded = await context.SingBlinds.AnyAsync(sb => sb.SingId == id && sb.UserId == userId);
-                    rating = isBlinded ? SongRating.Blind : SongRating.None;
-                }
+                var rating = await FetchSongRatingAsync(singId, userId);
 
                 resources.Add(new SongGetRatingResource
                 {
-                    Id = id,
+                    Id = singId,
                     Rating = rating
                 });
             }
@@ -796,6 +788,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
                 Resources = resources.ToArray()
             };
         }
+
 
     }
 }

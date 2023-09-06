@@ -5,7 +5,7 @@ import ClassNameHelper from "../../ClassNameHelper";
 import { I18nResourcesKeyType } from "../../i18n/I18nResources";
 import RoutePath from "../../RoutePath";
 import ChartDropDown from "./ChartDropDown";
-import HeaderManageNavPages from "./HeaderManageNavPages";
+import HeaderManageNavPages from "../HeaderManageNavPages";
 import { useIdentityContext } from "../../contexts/IdentityContext";
 
 function HeaderNav() {

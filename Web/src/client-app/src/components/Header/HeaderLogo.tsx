@@ -2,7 +2,7 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import RoutePath from "../../RoutePath";
 import LazyHeaderLogoIcon from "../../svgs/LazyHeaderLogoIcon";
-import HeaderManageNavPages from "./HeaderManageNavPages";
+import HeaderManageNavPages from "../HeaderManageNavPages";
 
 function HeaderLogo() {
     const location = useLocation();

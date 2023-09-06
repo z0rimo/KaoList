@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CodeRabbits.KaoList.Song;
@@ -156,7 +156,7 @@ public static class ModelBuilderExentsion
             b.HasKey(sf => new { sf.SingId, sf.UserId });
             b.ToTable("SingFollowers");
 
-            b.Property(sf => sf.Created).IsRequired();
+            b.Property(sf => sf.Created).IsRequired().HasDefaultValueSql("GETUTCDATE()");
         });
 
         builder.Entity<SingUser>(b =>

@@ -5,7 +5,7 @@ import ClassNameHelper from "../../ClassNameHelper";
 import { useIdentityContext } from "../../contexts/IdentityContext";
 import RoutePath from "../../RoutePath";
 import ChartDropDown from "./ChartDropDown";
-import HeaderManageNavPages from "./HeaderManageNavPages";
+import HeaderManageNavPages from "../HeaderManageNavPages";
 
 function MainHeaderNav() {
     const { t } = useTranslation('Header');

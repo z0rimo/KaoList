@@ -55,8 +55,13 @@ const lang: II18nResources = {
         "Thumbnail": "Thumbnail",
         "Rank": "Rank",
         "Title/Artist": "Title/Artist",
+        "Artist": "Artist",
         "Like": "Like",
-        "Thumbnail of {0}": "Thumbnail of {0}"
+        "Thumbnail of {0}": "Thumbnail of {0}",
+        "Other Users": "Other Users",
+        "Songs I have sung": "Songs I've sung",
+        "Follow": "Follow",
+        "Blind": "Blind",
     },
 }
 

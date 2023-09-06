@@ -1,4 +1,4 @@
-﻿namespace CodeRabbits.KaoList.Song;
+namespace CodeRabbits.KaoList.Song;
 
 /// <summary>
 /// The user to followed the sing.
@@ -18,5 +18,5 @@ public class SingFollower
     /// <summary>
     /// The date tiem you started following sing.
     /// </summary>
-    public virtual DateTime? Created { get; set; }
+    public virtual DateTime? Created { get; set; } = DateTime.UtcNow;
 }

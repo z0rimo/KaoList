@@ -1,0 +1,124 @@
+.song-detail-container {
+    margin: 40px 0 165px;
+    background-color: white;
+    width: 1080px;
+    color: #333;
+
+    th {
+        font-size: 18px;
+        display: flex;
+        margin-left: 25px;
+        margin-top: 15px;
+    }
+
+    table {
+        tr {
+            border-top: 1px solid black;
+        }
+    }
+
+    .song-detail {
+        display: flex;
+        padding: 35px 25px;
+        border-bottom: 1px solid #d2d2d2;
+    
+        img {
+            width: 230px;
+            height: 230px;
+        }
+    
+        button {
+            cursor: pointer;
+        }
+    
+        .song-detail-info-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            width: 830px;
+            margin-left: 20px;
+    
+            .song-detail-info {
+                margin-top: 87px;
+    
+                .title {
+                    font-size: 72px;
+                    font-weight: 700;
+                    margin-bottom: 10px;
+                }
+    
+                .button-group {
+                    display: flex;
+                    align-items: flex-end;
+    
+                    *+* {
+                        margin-left: 10px;
+                    }
+    
+                    .btn-primary {
+                        background-color: var(--btn-backgroundc-color);
+                        color: var(--btn-color);
+                        border: var(--btn-border);
+                        font-size: 15px;
+                        padding: 3px 6px;
+                    }
+    
+                    .follow {
+                        background-color: #6BB9A4;
+                        color: white;
+                        border-radius: 1px;
+    
+                        &:hover {
+                            background-color: white;
+                            color: var(--colro-gray20);
+                            border: 1px solid var(--color-gray67);
+                        }
+                    }
+    
+                    .blind {
+                        background-color: black;
+                        color: white;
+                        border: 1px solid var(--color-gray79);
+                        border-radius: 1px;
+                    }
+                }
+            }
+
+            .follow-btn {
+                border: none;
+                background-color: transparent;
+            }
+        }
+    }
+
+    .table-td {
+        --1th-img-width: 100px;
+        --1th-img-height: 100px;
+        --1th-child-width: 14%;
+        --2th-child-width: 86%;
+        --2th-child-font-weight: 700;
+
+        align-items: center;
+        font-size: 18px;
+        cursor: pointer;
+        
+        td {
+            padding: 15px 0 15px;
+        }
+
+        :nth-child(1) {
+            width: var(--1th-child-width);
+
+            >img {
+                width: var(--1th-img-width);
+                height: var(--1th-img-height);
+                margin: 0 25px;
+            }
+        }
+
+        :nth-child(2) {
+            width: var(--2th-child-width);
+            font-weight: var(--2th-child-font-weight);
+        }
+    }
+}
