@@ -55,8 +55,13 @@ const lang: Required<II18nResources> = {
         "Rank": "순위",
         "Thumbnail": "썸네일",
         "Title/Artist": "곡명/아티스트",
+        "Artist": "아티스트",
         "Like": "좋아요",
-        "Thumbnail of {0}": "{0}의 썸네일"
+        "Thumbnail of {0}": "{0}의 썸네일",
+        "Other Users": "다른 유저",
+        "Songs I have sung": "내가 부른 노래",
+        "Follow": "팔로우",
+        "Blind": "차단",
     },
 }
 

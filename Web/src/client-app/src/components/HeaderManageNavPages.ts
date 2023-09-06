@@ -1,5 +1,5 @@
 import { Location } from "react-router-dom";
-import "../../JsExtension";
+import "../JsExtension";
 
 const mainRoutePathRegExp = "/{0}|^/{0}/"
 const customerRoutePathRegExp = "/customer/{0}$|^/customer/{0}/"

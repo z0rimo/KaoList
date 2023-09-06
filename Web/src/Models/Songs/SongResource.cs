@@ -9,6 +9,8 @@ namespace CodeRabbits.KaoList.Web.Models.Songs
 
         public string? Id { get; set; } = default!;
 
+        public SongRating? Rating { get; set; }
+
         public SongSnippet? Snippet { get; set; }
 
         public SongStatistics? Statistics { get; set; }

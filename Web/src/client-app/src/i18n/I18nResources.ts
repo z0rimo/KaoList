@@ -55,8 +55,13 @@ interface Resources {
         "Rank": string;
         "Thumbnail": string;
         "Title/Artist": string;
+        "Artist": string;
         "Like": string;
         "Thumbnail of {0}": string;
+        "Other Users": string;
+        "Songs I have sung": string;
+        "Follow": string;
+        "Blind": string;
     },
 }
 

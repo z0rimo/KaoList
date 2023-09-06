@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation, useNavigate } from "react-router-dom";
 import ClassNameHelper from "../../ClassNameHelper";
 import RoutePath from "../../RoutePath";
-import HeaderManageNavPages from "./HeaderManageNavPages";
+import HeaderManageNavPages from "../HeaderManageNavPages";
 
 function CustomerHeaderNav() {
     const { t } = useTranslation('Footer');
