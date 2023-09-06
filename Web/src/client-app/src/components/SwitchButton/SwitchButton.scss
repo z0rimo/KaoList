@@ -3,6 +3,7 @@
 .switch-button {
     --switch-button-width: 46px;
     --switch-button-height: 20px;
+    --switch-button-font-size: 12px;
 
     --slider-top: 0;
     --slider-left: 0;
@@ -21,10 +22,10 @@
     --slider-toggle-text-font-color: #{$text-secondary};
 
     --slider-on-active-left: 6px;
-    --slider-on-active-bottom: 3px;
+    --slider-on-active-bottom: 2px;
 
     --slider-off-active-right: 4px;
-    --slider-off-active-bottom: 3px;
+    --slider-off-active-bottom: 2px;
 
     --checked-combine-slider-background-color: var(--color-moderate-cyan-lime-green);
 
@@ -38,6 +39,7 @@
     display: inline-block;
     width: var(--switch-button-width);
     height: var(--switch-button-height);
+    font-size: var(--switch-button-font-size);
 
     .slider {
         display: flex;
