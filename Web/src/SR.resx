@@ -132,6 +132,9 @@
   <data name="Account unlock date" xml:space="preserve">
     <value>계정 잠금 해제 날짜</value>
   </data>
+  <data name="Add a local account so you can log in without an external login" xml:space="preserve">
+    <value>로컬 계정을 추가하면 외부 로그인 없이 로그인할 수 있습니다.</value>
+  </data>
   <data name="Agree to all terms" xml:space="preserve">
     <value>약관 전체 동의</value>
   </data>
@@ -143,6 +146,9 @@
   </data>
   <data name="CapsLock is enabled" xml:space="preserve">
     <value>CapsLock이 켜져있습니다.</value>
+  </data>
+  <data name="Change Password" xml:space="preserve">
+    <value>비밀번호 변경</value>
   </data>
   <data name="Click here to Logout" xml:space="preserve">
     <value>로그아웃을 하려면 여기를 클릭하세요</value>
@@ -207,6 +213,15 @@
   <data name="Please check your email and complete the registration process" xml:space="preserve">
     <value>이메일을 확인해 회원가입 과정을 마쳐주세요.</value>
   </data>
+  <data name="Please confirm your new password" xml:space="preserve">
+    <value>새로운 비밀번호를 확인하세요.</value>
+  </data>
+  <data name="Please enter your new password" xml:space="preserve">
+    <value>새로운 비밀번호를 입력하세요.</value>
+  </data>
+  <data name="Please enter your old password" xml:space="preserve">
+    <value>기존 비밀번호를 입력하세요.</value>
+  </data>
   <data name="Privacy Policy" xml:space="preserve">
     <value>개인정보이용방침</value>
   </data>
@@ -231,6 +246,9 @@
   <data name="Send Email" xml:space="preserve">
     <value>이메일 전송</value>
   </data>
+  <data name="Set Password" xml:space="preserve">
+    <value>패스워드 초기화</value>
+  </data>
   <data name="Social Login" xml:space="preserve">
     <value>소셜 로그인</value>
   </data>
@@ -246,10 +264,19 @@
   <data name="Unusual access" xml:space="preserve">
     <value>비정상적인 접근</value>
   </data>
+  <data name="Update Password" xml:space="preserve">
+    <value>비밀번호 재설정</value>
+  </data>
+  <data name="You do not have a local username/password for this site" xml:space="preserve">
+    <value>이 사이트에 대한 로컬 사용자 이름/비밀번호가 없습니다.</value>
+  </data>
   <data name="You have successfully logged out" xml:space="preserve">
     <value>로그아웃에 성공했습니다.</value>
   </data>
   <data name="Your account has been locked for reasons described below" xml:space="preserve">
     <value>회원님의 계정이 후술할 이유로 인해 잠금조치 되었습니다.</value>
+  </data>
+  <data name="{0} is required" xml:space="preserve">
+    <value>* {0}을 입력하세요.</value>
   </data>
 </root>

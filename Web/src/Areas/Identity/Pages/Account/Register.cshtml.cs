@@ -48,24 +48,24 @@ namespace CodeRabbits.KaoList.Web.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required(ErrorMessage = "* {0}을 입력하세요.")]
+            [Required(ErrorMessageResourceType = typeof(SR), ErrorMessageResourceName = "_0__is_required")]
             [EmailAddress]
-            [Display(Name = "Email")]
+            [Display(Name = "이메일")]
             public string Email { get; set; }
 
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 8)]
+            [Required(ErrorMessage = "* {0}를 입력하세요.")]
+            [StringLength(100, ErrorMessage = "* {0}는 최소 {2}자에서 {1}자 사이의 조합이어야합니다.", MinimumLength = 8)]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Display(Name = "비밀번호")]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Display(Name = "비밀번호 확인")]
+            [Compare("Password", ErrorMessage = "* 비밀번호와 일치하지 않습니다.")]
             public string ConfirmPassword { get; set; }
 
-            [Required(ErrorMessage = "The {0} field is required.")]
-            [Display(Name = nameof(Nickname))]
+            [Required(ErrorMessage = "* {0}을 입력하세요.")]
+            [Display(Name = "닉네임")]
             public string Nickname { get; set; }
 
             [Required]

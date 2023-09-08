@@ -1,11 +1,10 @@
 const agreeAll = document.querySelector<HTMLInputElement>('input[type="checkbox"].agree-all');
 const items = Array.prototype.slice.call(document.querySelectorAll<HTMLInputElement>('input[type="checkbox"].agree-item')) as HTMLInputElement[];
-let requiredItems = items.filter((input) => input.hasAttribute('required'));
-let submit = document.querySelector<HTMLInputElement | HTMLButtonElement>("*[type=submit]");
+const requiredItems = items.filter((input) => input.hasAttribute('required'));
 
 function updateCheck() {
-    let agreeAllCheck = requiredItems.reduce((acc, current) => acc && current.checked, true);
-    submit.disabled = !agreeAllCheck;
+    const agreeAllCheck = requiredItems.reduce((acc, current) => acc && current.checked, true);
+
     agreeAll.checked = agreeAllCheck;
 }
 
@@ -14,9 +13,13 @@ requiredItems.forEach(item => {
 });
 
 agreeAll.onchange = (evt) => {
-    let target = evt.currentTarget as HTMLInputElement;
+    const target = evt.currentTarget as HTMLInputElement;
     requiredItems.forEach(item => {
         item.checked = target.checked;
     });
     updateCheck();
 };
+
+window.addEventListener("load", function () {
+    updateCheck();
+});
