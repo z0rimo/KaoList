@@ -7,7 +7,7 @@ import './MyPage.scss';
 
 function MyPage() {
     return (
-        <MainLayout>
+        <MainLayout className='gray-theme'>
             <MainSection>
                 <div className='mypage-wrapper'>
                     <MyPageProfileList />

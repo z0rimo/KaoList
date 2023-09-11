@@ -1,5 +1,7 @@
+import { promises } from "dns";
 import authorizeService from "../api-authorization/AuthorizeService";
 import { SongRating } from "../enums/SongRating";
+import { ExternalLogin } from "../enums/ExternalLogin";
 
 declare global {
     interface Window {
@@ -150,6 +152,35 @@ export interface ISongGetRatingResponse {
     resources: ISongGetRatingResource[];
 }
 
+export interface IMyPageSongSearchLog {
+    query?: string;
+    created?: Date;
+}
+
+export interface IMyPageSignInLog {
+    created?: Date;
+    ipAddress?: string;
+}
+
+export interface IMyPageFollowedSong {
+    title?: string;
+    created?: Date;
+}
+
+export interface IMyPageResource {
+    email?: string;
+    nickname?: string;
+    nicknameEditedDateTime?: Date;
+    songSearchQueryList?: IMyPageSongSearchLog[];
+    signInLogList?: IMyPageSignInLog[];
+    followedSongList?: IMyPageFollowedSong[];
+    externalLogin?: ExternalLogin;
+}
+
+export interface IMyPageResponse {
+    item?: IMyPageResource;
+}
+
 export interface IApiGlobalOption {
     part?: Array<'snippet'>;
     offset?: number;
@@ -179,6 +210,9 @@ export interface IKaolistSongGetRatingApiOption extends IApiGlobalOption {
     ids?: string[];
 }
 
+export interface IKaolistMyPageApiOption extends IApiGlobalOption {
+}
+
 type QueryType<T extends object = { [key: string]: string | number | string[] | number[] }> = {
     [P in keyof T]?: T[P] extends (string | number | string[] | number[] | undefined) ? T[P] : string | number | string[] | number[];
 };
@@ -198,10 +232,15 @@ interface IKaolistSongsApi {
     songGetRating: (option?: IKaolistSongGetRatingApiOption) => Promise<ISongGetRatingResponse>;
 }
 
+interface IKaolistMyPagesApi {
+    myPage: (option?: IKaolistMyPageApiOption) => Promise<IMyPageResponse>;
+}
+
 interface IKaolistApi {
     charts: IKaolistChartsApi;
     searchs: IKaolistSearchsApi;
     songs: IKaolistSongsApi;
+    mypages: IKaolistMyPagesApi;
 }
 
 interface IKaolistApiConstructorProps {
@@ -215,6 +254,7 @@ const kaoListApiEndPoint = {
     songDetail: '/api/songs/detail',
     songRate: 'api/songs/rate',
     songGetRating: 'api/songs/getRating',
+    mypage: 'api/mypage',
 }
 
 class KaoListApi implements IKaolistApi {
@@ -223,6 +263,7 @@ class KaoListApi implements IKaolistApi {
     private _charts: IKaolistChartsApi;
     private _searchs: IKaolistSearchsApi;
     private _songs: IKaolistSongsApi;
+    private _myPages: IKaolistMyPagesApi;
 
     constructor(props?: IKaolistApiConstructorProps) {
         this._baseUrl = props?.baseUrl ?? '';
@@ -331,17 +372,34 @@ class KaoListApi implements IKaolistApi {
                         return;
                     }
 
-                    const {ids: singIds, ...rest} = options;
+                    const {ids, ...rest} = options;
                     let query: QueryType<IKaolistSongGetRatingApiOption> = { ...rest};
 
-                    if (singIds) {
-                        query.ids = singIds;
+                    if (ids) {
+                        query.ids = ids;
                     }
 
                     return query;
                 }
 
                 return this.getAsync(kaoListApiEndPoint.songGetRating, queryBuild(option)).then(item => item.json() as Promise<ISongGetRatingResponse>);
+            }
+        }
+
+        this._myPages = {
+            myPage: (option?: IKaolistMyPageApiOption) => {
+                const queryBuild = (options?: IKaolistMyPageApiOption): QueryType<IKaolistMyPageApiOption> | undefined => {
+                    if (options === undefined || Object.keys(options).length === 0) {
+                        return;
+                    }
+
+                    const { ...rest} = options;
+                    let query: QueryType<IKaolistMyPageApiOption> = {...rest};
+
+                    return query;
+                }
+
+                return this.getAsync(kaoListApiEndPoint.mypage, queryBuild(option)).then(item => item.json() as Promise<IMyPageResponse>);
             }
         }
     }
@@ -422,6 +480,10 @@ class KaoListApi implements IKaolistApi {
 
     get songs(): IKaolistSongsApi {
         return this._songs;
+    }
+
+    get mypages(): IKaolistMyPagesApi {
+        return this._myPages;
     }
 }
 

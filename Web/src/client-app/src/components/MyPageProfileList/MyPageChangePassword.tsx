@@ -1,18 +1,20 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 import MyPageItem from "../mypage/MyPageItem";
 
 function MyPageChangePassword() {
     const { t } = useTranslation("MyPage");
+    const handleChangePasswordClick = () => {
+        window.location.href = "/Identity/Account/ChangePassword";
+    }
 
     return (
         <MyPageItem
             title={`${t('Change password')}`}
             options={
-                <Link to="">
+                <button className="link-item" onClick={handleChangePasswordClick}>
                     {t('Change password')}
-                </Link>
+                </button>
             }
         />
     )

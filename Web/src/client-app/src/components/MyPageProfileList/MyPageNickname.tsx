@@ -6,15 +6,17 @@ import DateOptionFormatter from "../DateOptionFormatter";
 
 interface IMyPageProfileNicknameItem {
     nickname?: string;
-    lastModified?: Date;
+    lastModified?: string;
 }
 
 function MyPageNickname(
     {
-        nickname = "고흥군청소년문화의집",
-        lastModified = new Date(2007, 1, 28, 11, 39, 7)
+        nickname = "Default Nickname",
+        lastModified = new Date().toLocaleDateString()
     }: IMyPageProfileNicknameItem) {
     const { t } = useTranslation("MyPage");
+    const dateObject = new Date(lastModified);
+    const formattedDate = dateObject.toLocaleDateString(navigator.language, DateOptionFormatter.long);
 
     return (
         <MyPageItem
@@ -24,7 +26,7 @@ function MyPageNickname(
                     <p className="information">{nickname}</p>
                     <span className="fs-8 more-information">
                         <p>{`${t('Last modified')}:`}</p>
-                        <p>{lastModified.toLocaleDateString(navigator.language, DateOptionFormatter.long)}</p>
+                        <p>{formattedDate}</p>
                     </span>
                 </div>
             }
