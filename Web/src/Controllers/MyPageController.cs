@@ -69,7 +69,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
             var response = new MyPageSongSearchLogResponse
             {
                 Etag = new Guid().ToString(),
-                items = songSearchLogList
+                Resources = songSearchLogList
             };
 
             return Ok(response);
@@ -97,7 +97,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
             var response = new MyPageSignInLogResponse
             {
                 Etag = new Guid().ToString(),
-                items = signInLogList
+                Resources = signInLogList
             };
 
             return Ok(response);
@@ -105,7 +105,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
 
         [HttpGet("followedSongList")]
         [Produces("application/json")]
-        [ProducesResponseType(typeof(MyPageSignInLogResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(MyPageFollowedSongResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetFollowedSongListAsync()
         {
             var userValidationResult = await ValidateAndGetUserAsync();
@@ -127,7 +127,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
             var response = new MyPageFollowedSongResponse
             {
                 Etag = new Guid().ToString(),
-                items = followedSongList
+                Resources = followedSongList
             };
 
             return Ok(response);
@@ -147,7 +147,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
             var response = new MyPageProfileResponse
             {
                 Etag = new Guid().ToString(),
-                Item = new MyPageProfileResource
+                Resource = new MyPageProfileResource
                 {
                     Email = user.Email,
                     Nickname = user.NickName,

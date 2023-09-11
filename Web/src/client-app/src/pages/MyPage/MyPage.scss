@@ -9,7 +9,7 @@
     --mypage-wrapper-icon-height: 14px;
 
     --mypage-item-wrapper-background-color: var(--color-white);
-    --mypage-item-wrapper-margin-top: 20px;
+    --mypage-item-wrapper-margin-bottom: 20px;
 
     --mypage-item-padding: 15px 20px;
 
@@ -111,7 +111,7 @@
     .mypage-item-wrapper {
         background-color: var(--mypage-item-wrapper-background-color);
         border-radius: #{$border-radius-sm};
-        margin-top: var(--mypage-item-wrapper-margin-top);
+        margin-bottom: var(--mypage-item-wrapper-margin-bottom);
 
         .thumbnail-wrapper {
             position: sticky;

@@ -1,14 +1,14 @@
 import React from 'react';
-import MyPageSongFollowList from './MyPageSongFollowList';
-import MyPageRecentSongSearchHistory from './MyPageRecentSongSearchHistory';
-import MyPageAccessHistory from './MyPageAccessHistory';
+import MyPageFollowedSongList from './MyPageFollowedSongList';
+import MyPageSongSearchLogList from './MyPageSongSearchLogList';
+import MyPageSignInLogList from './MyPageSignInLogList';
 
 function MyPageActiviyList() {
     return (
         <div className='bottom-right-box-shadow mypage-item-wrapper'>
-            <MyPageSongFollowList />
-            <MyPageRecentSongSearchHistory />
-            <MyPageAccessHistory />
+            <MyPageFollowedSongList />
+            <MyPageSongSearchLogList />
+            <MyPageSignInLogList />
         </div>
     )
 }

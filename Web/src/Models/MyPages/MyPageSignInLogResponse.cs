@@ -7,6 +7,6 @@ namespace CodeRabbits.KaoList.Web.Models.MyPages
     {
         public override string Kind { get; set; } = "kaoList#myPageSignInLogResponse";
 
-        public IEnumerable<MyPageSignInLogResource>? items { get; set; }
+        public IEnumerable<MyPageSignInLogResource>? Resources { get; set; }
     }
 }

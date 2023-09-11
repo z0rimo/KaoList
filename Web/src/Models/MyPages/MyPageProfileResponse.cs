@@ -7,6 +7,6 @@ namespace CodeRabbits.KaoList.Web.Models.MyPages
     {
         public override string Kind { get; set; } = "kaoList#myPageProfileResponse";
 
-        public MyPageProfileResource? Item { get; set; }
+        public MyPageProfileResource? Resource { get; set; }
     }
 }

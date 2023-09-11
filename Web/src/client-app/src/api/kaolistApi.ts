@@ -12,7 +12,7 @@ declare global {
 }
 
 export interface IKaoListResponse {
-    kind: string;
+    kind?: string;
     etag?: string;
 }
 
@@ -38,7 +38,7 @@ export interface II18nLanguageSnippet {
 }
 
 export interface II18nLanguageResource extends IKaoListResponse {
-    kind: string;
+    kind?: string;
     id?: string;
     snippet?: II18nLanguageSnippet;
 }
@@ -59,7 +59,7 @@ export interface ISongUser {
 }
 
 export interface ISongSnippet {
-    created?: Date;
+    created?: string;
     title?: string;
     songUsers?: ISongUser[];
     composer?: string;
@@ -69,7 +69,7 @@ export interface ISongSnippet {
 }
 
 export interface ISongResource extends IKaoListResponse {
-    kind: string;
+    kind?: string;
     id?: string;
     rating?: SongRating;
     snippet?: ISongSnippet;
@@ -77,34 +77,34 @@ export interface ISongResource extends IKaoListResponse {
 }
 
 export interface ISongListResponse extends IKaoListPageResponse {
-    kind: string;
+    kind?: string;
     items?: ISongResource[];
 }
 
 export interface IDiscoverChartResource extends IKaoListResponse {
-    kind: string;
+    kind?: string;
     id?: string;
     snippet?: ISongSnippet;
 }
 
 export interface IDiscoverChartListResponse extends IKaoListPageResponse {
-    kind: string;
+    kind?: string;
     resources?: IDiscoverChartResource[];
 }
 
 export interface ILikedChartResource extends IKaoListResponse {
-    kind: string;
+    kind?: string;
     id?: string;
     snippet?: ISongSnippet;
 }
 
 export interface ILikedChartListResponse extends IKaoListPageResponse {
-    kind: string;
+    kind?: string;
     resources?: ILikedChartResource[];
 }
 
 export interface ISearchSongId {
-    kind: string;
+    kind?: string;
     id?: string;
 }
 
@@ -113,13 +113,13 @@ export interface ISearchSnippet extends ISongSnippet {
 }
 
 export interface ISearchResource extends IKaoListResponse {
-    kind: string;
+    kind?: string;
     id?: ISearchSongId;
     snippet?: ISearchSnippet[];
 }
 
 export interface ISearchListResponse extends IKaoListPageResponse {
-    kind: string;
+    kind?: string;
     items?: ISearchResource[];
 }
 
@@ -133,7 +133,7 @@ export interface IChartSnippetKaraokeItem {
 }
 
 export interface ISongDetailResponse extends IKaoListPageResponse {
-    kind: string;
+    kind?: string;
     item?: ISongResource;
     otherSongs?: ISongResource[];
     otherMySongs?: ISongResource[];
@@ -152,43 +152,50 @@ export interface ISongGetRatingResponse {
     resources: ISongGetRatingResource[];
 }
 
-export interface IMyPageSongSearchLogResource {
-    queryId?: string;
+export interface IMyPageSongSearchLogResource extends IKaoListResponse {
+    kind?: string;
+    id?: string;
     query?: string;
-    created?: Date;
+    created?: string;
 }
 
-export interface IMyPageSignInLogResource {
-    created?: Date;
+export interface IMyPageSignInLogResource extends IKaoListResponse {
+    kind?: string;
+    id: number;
+    created?: string;
     ipAddress?: string;
 }
 
-export interface IMyPageFollowedSongResource {
+export interface IMyPageFollowedSongResource extends IKaoListResponse {
+    kind?: string;
+    id?: string;
     title?: string;
-    singId?: string;
-    created?: Date;
+    created?: string;
 }
 
-export interface ISongSearchLogListResponse {
+export interface ISongSearchLogListResponse extends IKaoListResponse {
+    kind?: string;
     resources?: IMyPageSongSearchLogResource[];
 }
 
-export interface ISignInLogListReseponse {
+export interface ISignInLogListReseponse extends IKaoListResponse {
+    kind?: string;
     resources?: IMyPageSignInLogResource[];
 }
 
-export interface IFollowedSongListResponse {
+export interface IFollowedSongListResponse extends IKaoListResponse {
+    kind?: string;
     resources?: IMyPageFollowedSongResource[];
 }
 
-export interface IMyPageProfileResource {
+export interface IMyPageProfileResource extends IKaoListResponse {
     email?: string;
     nickname?: string;
     nicknameEditedDateTime?: Date;
     externalLogin?: ExternalLogin;
 }
 
-export interface IMyPageProfileResponse {
+export interface IMyPageProfileResponse extends IKaoListResponse {
     item?: IMyPageProfileResource;
 }
 
@@ -403,13 +410,13 @@ class KaoListApi implements IKaolistApi {
             myPageSignInLogList: (option?: IKaolistMyPageApiOption) => {
                 const query = queryBuildHelper(option);
 
-                return this.getAsync(kaoListApiEndPoint.myPageSongSearchLogList, query).then(item => item.json() as Promise<ISignInLogListReseponse>);
+                return this.getAsync(kaoListApiEndPoint.myPageSignInLogList, query).then(item => item.json() as Promise<ISignInLogListReseponse>);
             },
 
             myPageFollowedSongList: (option?: IKaolistMyPageApiOption) => {
                 const query = queryBuildHelper(option);
 
-                return this.getAsync(kaoListApiEndPoint.myPageSongSearchLogList, query).then(item => item.json() as Promise<IFollowedSongListResponse>);
+                return this.getAsync(kaoListApiEndPoint.myPageFollowedSongList, query).then(item => item.json() as Promise<IFollowedSongListResponse>);
             }
         }
     }

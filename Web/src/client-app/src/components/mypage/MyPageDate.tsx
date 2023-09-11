@@ -7,7 +7,7 @@ function MyPageDate(props: { children?: Date }) {
     }
 
     return (
-        <p>{props.children.toLocaleDateString(navigator.language, DateOptionFormatter.short)}</p>
+        <p>{props.children?.toLocaleDateString(navigator.language, DateOptionFormatter.short)}</p>
     )
 }
 

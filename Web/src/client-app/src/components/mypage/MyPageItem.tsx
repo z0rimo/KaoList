@@ -9,7 +9,7 @@ export interface IMyPageItemProps {
     options?: React.ReactNode;
 }
 
-function MyPageItem(props: IMyPageItemProps) {
+function MyPageItem(props:  IMyPageItemProps) {
     const { title, information, options, className } = props;
 
     return (

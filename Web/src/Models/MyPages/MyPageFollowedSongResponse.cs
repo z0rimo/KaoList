@@ -7,6 +7,6 @@ namespace CodeRabbits.KaoList.Web.Models.MyPages
     {
         public override string Kind { get; set; } = "kaoList#myPageFollowedSongResponse";
 
-        public IEnumerable<MyPageFollowedSongResource>? items { get; set; }
+        public IEnumerable<MyPageFollowedSongResource>? Resources { get; set; }
     }
 }
