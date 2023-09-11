@@ -28,6 +28,20 @@ function MyPageSongFollowList({ items = defaultItems, count = 1223 }: IMyPageSon
         setDisplay(!display);
     }, [display]);
 
+    const [itemsd, setItemsd] = React.useState<IMyPageSongFollowListItem[]>([]);
+
+    React.useEffect(() => {
+        (async () => {
+            const response = await window.api.kaoList.mypages.myPageFollowedSongList();
+
+            if (response.resources) {
+                setItemsd(response.resources.map(item => {
+                    
+                }))
+            }
+        })
+    })
+
     return (
         <Dropdown>
             <MyPageDropdownHead

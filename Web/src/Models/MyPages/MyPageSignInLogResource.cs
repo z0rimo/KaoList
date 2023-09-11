@@ -6,8 +6,12 @@ using System.Text.Json.Serialization;
 
 namespace CodeRabbits.KaoList.Web.Models.MyPages
 {
-    public class MyPageSignInLog
+    public class MyPageSignInLogResource : KaoListResponse
     {
+        public override string Kind { get; set; } = "kaoList#signInLog";
+
+        public int? Id { get; set; } = default!;
+
         public DateTime? Created { get; set; }
 
         [JsonConverter(typeof(IPAddressJsonConverter))]

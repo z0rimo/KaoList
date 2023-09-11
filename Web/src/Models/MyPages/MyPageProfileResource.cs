@@ -3,21 +3,17 @@
 
 namespace CodeRabbits.KaoList.Web.Models.MyPages
 {
-    public class MyPageResource : KaoListResponse
+    public class MyPageProfileResource : KaoListResponse
     {
-        public override string Kind { get; set; } = "kaoList#myPage";
+        public override string Kind { get; set; } = "kaoList#myPageProfile";
+
+        public string? Id { get; set; } = default!;
 
         public string? Email { get; set; }
 
         public string? Nickname { get; set; }
 
         public DateTime? NicknameEditedDateTime { get; set; }
-
-        public List<MyPageSongSerachLog>? SongSearchQueryList { get; set; }
-
-        public List<MyPageSignInLog>? SignInLogList { get; set; }
-
-        public List<MyPageFollowedSong>? FollowedSongList { get; set; }
 
         public MyPageExternalLogin? ExternalLogin { get; set; }
     }

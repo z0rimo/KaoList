@@ -1,7 +1,6 @@
 import React from 'react';
 import RenderTable, { IRenderTableProps } from './components/RenderTable';
 import { ISongSnippet } from './api/kaolistApi';
-import { useSearchContext } from './contexts/SearchContext';
 import { useLocation } from 'react-router-dom';
 
 export interface ISongSearchListItem extends ISongSnippet {

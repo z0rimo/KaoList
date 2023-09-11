@@ -3,9 +3,13 @@
 
 namespace CodeRabbits.KaoList.Web.Models.MyPages
 {
-    public class MyPageFollowedSong
+    public class MyPageSongSerachLogResource : KaoListResponse
     {
-        public string? Title { get; set; }
+        public override string Kind { get; set; } = "kaoList#songSerachLog";
+
+        public string? Id { get; set; } = default!;
+
+        public string? Query { get; set; }
 
         public DateTime? Created { get; set; }
     }

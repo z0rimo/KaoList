@@ -13,7 +13,7 @@ function MyPageProfileList() {
 
     React.useEffect(() => {
         (async () => {
-            const response = await window.api.kaoList.mypages.myPage();
+            const response = await window.api.kaoList.mypages.myPageProfile();
 
             if (response.item) {
                 const { email, nickname, nicknameEditedDateTime } = response.item;

@@ -25,7 +25,7 @@ function DiscoverChart(props: DiscoverChartProps) {
     React.useEffect(() => {
         (async () => {
             const response = await window.api.kaoList.charts.discoverChartList({
-                date: new Date().toISOString().split('T')[0],
+                date: date,
                 part: ['snippet'],
                 maxResults: maxResults ?? 10
             });
