@@ -39,7 +39,7 @@ const SongDetailOtherMySongItem = React.memo((props: ISongDetailOtherMySongItem)
                 <p className="title">{props.title}</p>
             </td>
             <td>
-                <p>{props.created?.toDateString()}</p>
+                <p>{props.created !== undefined ? new Date(props.created)?.toDateString() : undefined}</p>
             </td>
         </tr>
     )

@@ -15,6 +15,7 @@ import SearchContext, { useSearchContext } from './contexts/SearchContext';
 import DiscoverChartPage from './pages/ChartPage/DiscoverChartPage/DiscoverChartPage';
 import LikedChartPage from './pages/ChartPage/LikedChartPage/LikedChartPage';
 import SongDetailPage from './pages/SongDetailPage/SongDetailPage';
+import MyPage from './pages/MyPage';
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href') ?? undefined;
 
@@ -79,7 +80,7 @@ function App() {
                         <Route path='/community' element={<EmptyPage />} />
                         <Route path={RoutePath['playlist']} element={<PlaylistPage />} />
                         <Route path={RoutePath['search']} element={<SearchPage />} />
-                        <Route path={RoutePath['myPage']} element={<EmptyPage />} />
+                        <Route path={RoutePath['myPage']} element={<MyPage />} />
                         <Route path={window.authPaths.Login} element={loginAction(LoginActions.Login)} />
                         <Route path={window.authPaths.LoginFailed} element={loginAction(LoginActions.LoginFailed)} />
                         <Route path={window.authPaths.LoginCallback} element={loginAction(LoginActions.LoginCallback)} />

@@ -24,11 +24,12 @@
         </div>
         <div class="form-input-wrapper">
             <input asp-for="Input.ConfirmPassword" class="form-input-text" placeholder="@SR.Confirm_Password" autocomplete="new-password" aria-required="true" />
+            <p id="capslock">@SR.CapsLock_is_enabled</p>
             <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
         </div>
         <div class="form-input-wrapper">
             <input asp-for="Input.Nickname" class="form-input-text" placeholder="@SR.Nickname" aria-required="true" />
-            <span asp-validation-for="Input.Nickname" class="text-danger" />
+            <span asp-validation-for="Input.Nickname" class="text-danger"></span>
         </div>
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="agreement">

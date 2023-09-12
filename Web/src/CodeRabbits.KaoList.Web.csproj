@@ -18,6 +18,7 @@
     <PackageReference Include="CodeRabbits.AspNetCore.Authentication.Kakao" Version="0.0.4" />
     <PackageReference Include="CodeRabbits.AspNetCore.Authentication.Naver" Version="0.0.4" />
     <PackageReference Include="CodeRabbits.AspNetCore.Razor.TagHelpers" Version="0.0.1" />
+    <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.4" />
     <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="7.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="7.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="7.0.10" />
@@ -60,6 +61,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Resrouces\IdentityErrorMessages.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>IdentityErrorMessages.resx</DependentUpon>
+    </Compile>
     <Compile Update="Sr.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -68,6 +74,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Resrouces\IdentityErrorMessages.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>IdentityErrorMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="SR.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Sr.Designer.cs</LastGenOutput>

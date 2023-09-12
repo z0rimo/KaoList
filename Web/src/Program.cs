@@ -17,6 +17,7 @@ using CodeRabbits.AspNetCore.Razor.TagHelpers;
 using CodeRabbits.KaoList.Web.Services;
 using CodeRabbits.KaoList.Web.Datas;
 using System.Security.Claims;
+using CodeRabbits.KaoList.Web.Areas.Identity.Pages;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -54,7 +55,8 @@ builder.Services.AddIdentityCore<KaoListUser>(options =>
     .AddRoles<KaoListRole>()
     .AddEntityFrameworkStores<KaoListDataContext>()
     .AddClaimsPrincipalFactory<KaoListUserClaimsPrincipalFactory<KaoListUser>>()
-    .AddDefaultTokenProviders();
+    .AddDefaultTokenProviders()
+    .AddErrorDescriber<LocalizedIdentityErrorDescriber>();
 
 builder.Services.AddIdentityServer()
     .AddApiAuthorization<KaoListUser, KaoListDataContext>();

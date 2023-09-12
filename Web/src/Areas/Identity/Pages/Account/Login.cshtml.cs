@@ -4,6 +4,8 @@
 #nullable disable
 
 using System.ComponentModel.DataAnnotations;
+using System.Net;
+using CodeRabbits.KaoList.Data;
 using CodeRabbits.KaoList.Identity;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
@@ -15,12 +17,21 @@ namespace CodeRabbits.KaoList.Web.Areas.Identity.Pages.Account
     public class LoginModel : PageModel
     {
         private readonly SignInManager<KaoListUser> _signInManager;
+        private readonly UserManager<KaoListUser> _userManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly KaoListDataContext _context;
 
-        public LoginModel(SignInManager<KaoListUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(
+            SignInManager<KaoListUser> signInManager,
+            UserManager<KaoListUser> userManager,
+            ILogger<LoginModel> logger,
+            KaoListDataContext context
+            )
         {
             _signInManager = signInManager;
+            _userManager = userManager;
             _logger = logger;
+            _context = context;
         }
 
         [BindProperty]
@@ -75,25 +86,47 @@ namespace CodeRabbits.KaoList.Web.Areas.Identity.Pages.Account
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                var user = await _userManager.FindByEmailAsync(Input.Email);
+                var userId = user?.Id;
+                var remoteIpAddress = HttpContext.Connection.RemoteIpAddress.MapToIPv4();
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+                    await SaveSignInAttempt(userId, true, remoteIpAddress);
                     return LocalRedirect(returnUrl);
                 }
                 if (result.IsLockedOut)
                 {
                     _logger.LogWarning("User account locked out.");
+                    await SaveSignInAttempt(userId, false, remoteIpAddress);
                     return RedirectToPage("./Lockout");
                 }
                 else
                 {
                     ModelState.AddModelError(string.Empty, "이메일 또는 비밀번호를 잘못 입력하셨습니다.");
+                    await SaveSignInAttempt(userId, false, remoteIpAddress);
                     return Page();
                 }
             }
 
             // If we got this far, something failed, redisplay form
             return Page();
+        }
+
+        public async Task SaveSignInAttempt(string UserId, bool succeeded, IPAddress IpAddress)
+        {
+
+            var singInAttempt = new SignInAttempt
+            {
+                UserId = UserId,
+                Successed = succeeded,
+                IpAddress = IpAddress,
+                CreateTime = DateTime.UtcNow
+            };
+
+            _context.SignInAttempts.Add(singInAttempt);
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -1,5 +1,7 @@
 import authorizeService from "../api-authorization/AuthorizeService";
 import { SongRating } from "../enums/SongRating";
+import { ExternalLogin } from "../enums/ExternalLogin";
+import { queryBuildHelper } from "../queryBuildHelper";
 
 declare global {
     interface Window {
@@ -10,7 +12,7 @@ declare global {
 }
 
 export interface IKaoListResponse {
-    kind: string;
+    kind?: string;
     etag?: string;
 }
 
@@ -36,7 +38,7 @@ export interface II18nLanguageSnippet {
 }
 
 export interface II18nLanguageResource extends IKaoListResponse {
-    kind: string;
+    kind?: string;
     id?: string;
     snippet?: II18nLanguageSnippet;
 }
@@ -57,7 +59,7 @@ export interface ISongUser {
 }
 
 export interface ISongSnippet {
-    created?: Date;
+    created?: string;
     title?: string;
     songUsers?: ISongUser[];
     composer?: string;
@@ -67,7 +69,7 @@ export interface ISongSnippet {
 }
 
 export interface ISongResource extends IKaoListResponse {
-    kind: string;
+    kind?: string;
     id?: string;
     rating?: SongRating;
     snippet?: ISongSnippet;
@@ -75,34 +77,34 @@ export interface ISongResource extends IKaoListResponse {
 }
 
 export interface ISongListResponse extends IKaoListPageResponse {
-    kind: string;
+    kind?: string;
     items?: ISongResource[];
 }
 
 export interface IDiscoverChartResource extends IKaoListResponse {
-    kind: string;
+    kind?: string;
     id?: string;
     snippet?: ISongSnippet;
 }
 
 export interface IDiscoverChartListResponse extends IKaoListPageResponse {
-    kind: string;
+    kind?: string;
     resources?: IDiscoverChartResource[];
 }
 
 export interface ILikedChartResource extends IKaoListResponse {
-    kind: string;
+    kind?: string;
     id?: string;
     snippet?: ISongSnippet;
 }
 
 export interface ILikedChartListResponse extends IKaoListPageResponse {
-    kind: string;
+    kind?: string;
     resources?: ILikedChartResource[];
 }
 
 export interface ISearchSongId {
-    kind: string;
+    kind?: string;
     id?: string;
 }
 
@@ -111,13 +113,13 @@ export interface ISearchSnippet extends ISongSnippet {
 }
 
 export interface ISearchResource extends IKaoListResponse {
-    kind: string;
+    kind?: string;
     id?: ISearchSongId;
     snippet?: ISearchSnippet[];
 }
 
 export interface ISearchListResponse extends IKaoListPageResponse {
-    kind: string;
+    kind?: string;
     items?: ISearchResource[];
 }
 
@@ -131,7 +133,7 @@ export interface IChartSnippetKaraokeItem {
 }
 
 export interface ISongDetailResponse extends IKaoListPageResponse {
-    kind: string;
+    kind?: string;
     item?: ISongResource;
     otherSongs?: ISongResource[];
     otherMySongs?: ISongResource[];
@@ -150,6 +152,53 @@ export interface ISongGetRatingResponse {
     resources: ISongGetRatingResource[];
 }
 
+export interface IMyPageSongSearchLogResource extends IKaoListResponse {
+    kind?: string;
+    id?: string;
+    query?: string;
+    created?: string;
+}
+
+export interface IMyPageSignInLogResource extends IKaoListResponse {
+    kind?: string;
+    id: number;
+    created?: string;
+    ipAddress?: string;
+}
+
+export interface IMyPageFollowedSongResource extends IKaoListResponse {
+    kind?: string;
+    id?: string;
+    title?: string;
+    created?: string;
+}
+
+export interface ISongSearchLogListResponse extends IKaoListResponse {
+    kind?: string;
+    resources?: IMyPageSongSearchLogResource[];
+}
+
+export interface ISignInLogListReseponse extends IKaoListResponse {
+    kind?: string;
+    resources?: IMyPageSignInLogResource[];
+}
+
+export interface IFollowedSongListResponse extends IKaoListResponse {
+    kind?: string;
+    resources?: IMyPageFollowedSongResource[];
+}
+
+export interface IMyPageProfileResource extends IKaoListResponse {
+    email?: string;
+    nickname?: string;
+    nicknameEditedDateTime?: Date;
+    externalLogin?: ExternalLogin;
+}
+
+export interface IMyPageProfileResponse extends IKaoListResponse {
+    item?: IMyPageProfileResource;
+}
+
 export interface IApiGlobalOption {
     part?: Array<'snippet'>;
     offset?: number;
@@ -159,7 +208,7 @@ export interface IApiGlobalOption {
 export interface IKaolistChartsListApiOption extends IApiGlobalOption {
     startDate?: Date;
     endDate?: Date;
-    date?: string;
+    date?: Date;
 }
 
 export interface IKaolistSearchListApiOption extends IApiGlobalOption {
@@ -179,9 +228,13 @@ export interface IKaolistSongGetRatingApiOption extends IApiGlobalOption {
     ids?: string[];
 }
 
-type QueryType<T extends object = { [key: string]: string | number | string[] | number[] }> = {
-    [P in keyof T]?: T[P] extends (string | number | string[] | number[] | undefined) ? T[P] : string | number | string[] | number[];
+export interface IKaolistMyPageApiOption extends IApiGlobalOption {
+}
+
+export type QueryType<T extends object = { [key: string]: string | number | string[] | number[] | Date }> = {
+    [P in keyof T]?: T[P] extends (string | number | string[] | number[] | Date | undefined) ? T[P] : string | number | string[] | number[] | Date;
 };
+
 
 interface IKaolistChartsApi {
     discoverChartList: (option?: IKaolistChartsListApiOption) => Promise<IDiscoverChartListResponse>;
@@ -198,10 +251,18 @@ interface IKaolistSongsApi {
     songGetRating: (option?: IKaolistSongGetRatingApiOption) => Promise<ISongGetRatingResponse>;
 }
 
+interface IKaolistMyPagesApi {
+    myPageProfile: (option?: IKaolistMyPageApiOption) => Promise<IMyPageProfileResponse>;
+    myPageSongSearchLogList: (option?: IKaolistMyPageApiOption) => Promise<ISongSearchLogListResponse>;
+    myPageSignInLogList: (option?: IKaolistMyPageApiOption) => Promise<ISignInLogListReseponse>;
+    myPageFollowedSongList: (option?: IKaolistMyPageApiOption) => Promise<IFollowedSongListResponse>;
+}
+
 interface IKaolistApi {
     charts: IKaolistChartsApi;
     searchs: IKaolistSearchsApi;
     songs: IKaolistSongsApi;
+    mypages: IKaolistMyPagesApi;
 }
 
 interface IKaolistApiConstructorProps {
@@ -215,6 +276,10 @@ const kaoListApiEndPoint = {
     songDetail: '/api/songs/detail',
     songRate: 'api/songs/rate',
     songGetRating: 'api/songs/getRating',
+    myPageProfile: 'api/mypage',
+    myPageSongSearchLogList: 'api/mypage/songSearchLogList',
+    myPageSignInLogList: 'api/mypage/signInLogList',
+    myPageFollowedSongList: 'api/mypage/followedSongList',
 }
 
 class KaoListApi implements IKaolistApi {
@@ -223,97 +288,84 @@ class KaoListApi implements IKaolistApi {
     private _charts: IKaolistChartsApi;
     private _searchs: IKaolistSearchsApi;
     private _songs: IKaolistSongsApi;
+    private _myPages: IKaolistMyPagesApi;
 
     constructor(props?: IKaolistApiConstructorProps) {
         this._baseUrl = props?.baseUrl ?? '';
 
         this._charts = {
             discoverChartList: (option?: IKaolistChartsListApiOption) => {
-                const queryBuild = (options?: IKaolistChartsListApiOption): QueryType<IKaolistChartsListApiOption> | undefined => {
-                    if (options === undefined || Object.keys(options).length === 0) {
-                        return;
-                    }
+                const specialHandler = (options: IKaolistChartsListApiOption) => {
+                    const { date, ...rest } = options;
+                    let q: Partial<IKaolistChartsListApiOption> = { ...rest };
 
-                    const { date, startDate, endDate, ...rest } = options;
-                    let q: QueryType<IKaolistChartsListApiOption> = { ...rest };
-
-                    if (startDate) {
-                        q.startDate = startDate.toISOString();
-                    }
-
-                    if (endDate) {
-                        q.endDate = endDate.toISOString();
+                    if (date instanceof Date) {
+                        q.date = date;
                     }
 
                     return q;
-                }
+                };
 
-                return this.getAsync(kaoListApiEndPoint.chartDiscover, queryBuild(option)).then(item => item.json() as Promise<IDiscoverChartListResponse>);
+                const query = queryBuildHelper(option, specialHandler);
+
+                return this.getAsync(kaoListApiEndPoint.chartDiscover, query).then(item => item.json() as Promise<IDiscoverChartListResponse>);
             },
 
             likedChartList: (option?: IKaolistChartsListApiOption) => {
-                const queryBuild = (options?: IKaolistChartsListApiOption): QueryType<IKaolistChartsListApiOption> | undefined => {
-                    if (options === undefined || Object.keys(options).length === 0) {
-                        return;
-                    }
-
+                const specialHandler = (options: IKaolistChartsListApiOption) => {
                     const { startDate, endDate, ...rest } = options;
-                    let q: QueryType<IKaolistChartsListApiOption> = { ...rest };
+                    let q: Partial<IKaolistChartsListApiOption> = { ...rest };
 
-                    if (startDate) {
-                        q.startDate = startDate.toISOString();
+                    if (startDate instanceof Date) {
+                        q.startDate = startDate;
                     }
 
-                    if (endDate) {
-                        q.endDate = endDate.toISOString();
+                    if (endDate instanceof Date) {
+                        q.endDate = endDate;
                     }
 
                     return q;
                 }
 
-                return this.getAsync(kaoListApiEndPoint.chartLiked, queryBuild(option)).then(item => item.json() as Promise<ILikedChartListResponse>);
+                const query = queryBuildHelper(option, specialHandler);
+
+                return this.getAsync(kaoListApiEndPoint.chartLiked, query).then(item => item.json() as Promise<ILikedChartListResponse>);
             }
         }
 
         this._searchs = {
             songSearchList: (option?: IKaolistSearchListApiOption) => {
-                const queryBuild = (options?: IKaolistSearchListApiOption): QueryType<IKaolistSearchListApiOption> | undefined => {
-                    if (options === undefined || Object.keys(options).length === 0) {
-                        return;
-                    }
-
+                const specialHandler = (options: IKaolistSearchListApiOption) => {
                     const { q, ...rest } = options;
-                    let query: QueryType<IKaolistSearchListApiOption> = { ...rest };
+                    let query: Partial<IKaolistSearchListApiOption> = { ...rest };
 
                     if (q) {
                         query.q = q;
                     }
 
                     return query;
-                }
+                };
 
-                return this.getAsync(kaoListApiEndPoint.searchSong, queryBuild(option)).then(item => item.json() as Promise<ISearchListResponse>);
+                const query = queryBuildHelper(option, specialHandler);
+                return this.getAsync(kaoListApiEndPoint.searchSong, query).then(item => item.json() as Promise<ISearchListResponse>);
             }
         }
 
         this._songs = {
             songDetail: (option?: IKaolistSongDetailApiOption) => {
-                const queryBuild = (options?: IKaolistSongDetailApiOption): QueryType<IKaolistSongDetailApiOption> | undefined => {
-                    if (options === undefined || Object.keys(options).length === 0) {
-                        return;
-                    }
-
+                const specialHandler = (options: IKaolistSongDetailApiOption) => {
                     const { id, ...rest } = options;
-                    let query: QueryType<IKaolistSongDetailApiOption> = { ...rest };
-
+                    let query: Partial<IKaolistSongDetailApiOption> = { ...rest };
                     if (id) {
                         query.id = id;
                     }
 
                     return query;
-                }
+                };
 
-                return this.getAsync(kaoListApiEndPoint.songDetail, queryBuild(option)).then(item => item.json() as Promise<ISongDetailResponse>);
+                const query = queryBuildHelper(option, specialHandler);
+
+                return this.getAsync(kaoListApiEndPoint.songDetail, query).then(item => item.json() as Promise<ISongDetailResponse>);
             },
 
             songRate: (option?: IKaolistSongRateApiOption): Promise<ISongRateResponse> => {
@@ -326,22 +378,45 @@ class KaoListApi implements IKaolistApi {
             },
 
             songGetRating: (option?: IKaolistSongGetRatingApiOption) => {
-                const queryBuild = (options?: IKaolistSongGetRatingApiOption): QueryType<IKaolistSongGetRatingApiOption> | undefined => {
-                    if (options === undefined || Object.keys(options).length === 0) {
-                        return;
-                    }
-
-                    const {ids: singIds, ...rest} = options;
-                    let query: QueryType<IKaolistSongGetRatingApiOption> = { ...rest};
-
-                    if (singIds) {
-                        query.ids = singIds;
+                const specialHandler = (options: IKaolistSongGetRatingApiOption) => {
+                    const { ids, ...rest } = options;
+                    let query: Partial<IKaolistSongGetRatingApiOption> = { ...rest };
+                    if (ids) {
+                        query.ids = ids;
                     }
 
                     return query;
-                }
+                };
 
-                return this.getAsync(kaoListApiEndPoint.songGetRating, queryBuild(option)).then(item => item.json() as Promise<ISongGetRatingResponse>);
+                const query = queryBuildHelper(option, specialHandler);
+
+                return this.getAsync(kaoListApiEndPoint.songGetRating, query).then(item => item.json() as Promise<ISongGetRatingResponse>);
+            }
+        }
+
+        this._myPages = {
+            myPageProfile: (option?: IKaolistMyPageApiOption) => {
+                const query = queryBuildHelper(option);
+
+                return this.getAsync(kaoListApiEndPoint.myPageProfile, query).then(item => item.json() as Promise<IMyPageProfileResponse>);
+            },
+
+            myPageSongSearchLogList: (option?: IKaolistMyPageApiOption) => {
+                const query = queryBuildHelper(option);
+
+                return this.getAsync(kaoListApiEndPoint.myPageSongSearchLogList, query).then(item => item.json() as Promise<ISongSearchLogListResponse>);
+            },
+
+            myPageSignInLogList: (option?: IKaolistMyPageApiOption) => {
+                const query = queryBuildHelper(option);
+
+                return this.getAsync(kaoListApiEndPoint.myPageSignInLogList, query).then(item => item.json() as Promise<ISignInLogListReseponse>);
+            },
+
+            myPageFollowedSongList: (option?: IKaolistMyPageApiOption) => {
+                const query = queryBuildHelper(option);
+
+                return this.getAsync(kaoListApiEndPoint.myPageFollowedSongList, query).then(item => item.json() as Promise<IFollowedSongListResponse>);
             }
         }
     }
@@ -390,7 +465,7 @@ class KaoListApi implements IKaolistApi {
     putAsync = async (path: string, body?: BodyInit | null, query?: QueryType): Promise<ISongRateResponse> => {
         const token = await authorizeService.getAccessToken();
         let init: RequestInit | undefined = undefined;
-    
+
         if (token !== undefined) {
             init = {
                 method: 'PUT',
@@ -401,9 +476,9 @@ class KaoListApi implements IKaolistApi {
                 body: body ? JSON.stringify(body) : body,
             };
         }
-    
+
         const response = await fetch(this.buildUrl(path, query), init);
-    
+
         if (response.ok) {
             return { statusCode: response.status };
         } else {
@@ -422,6 +497,10 @@ class KaoListApi implements IKaolistApi {
 
     get songs(): IKaolistSongsApi {
         return this._songs;
+    }
+
+    get mypages(): IKaolistMyPagesApi {
+        return this._myPages;
     }
 }
 

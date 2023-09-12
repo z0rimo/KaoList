@@ -61,6 +61,15 @@ namespace CodeRabbits.KaoList.Web {
         }
         
         /// <summary>
+        ///   * {0}을 입력하세요.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string _0__is_required {
+            get {
+                return ResourceManager.GetString("{0} is required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   귀하의 이메일 &quot;{0}&quot;으로 비밀번호 재설정 메일이 발송되었습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string A_password_reset_email_has_been_sent_to_your_email___0__ {
@@ -106,6 +115,15 @@ namespace CodeRabbits.KaoList.Web {
         }
         
         /// <summary>
+        ///   로컬 계정을 추가하면 외부 로그인 없이 로그인할 수 있습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Add_a_local_account_so_you_can_log_in_without_an_external_login {
+            get {
+                return ResourceManager.GetString("Add a local account so you can log in without an external login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   약관 전체 동의과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Agree_to_all_terms {
@@ -138,6 +156,15 @@ namespace CodeRabbits.KaoList.Web {
         internal static string CapsLock_is_enabled {
             get {
                 return ResourceManager.GetString("CapsLock is enabled", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   비밀번호 변경과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Change_Password {
+            get {
+                return ResourceManager.GetString("Change Password", resourceCulture);
             }
         }
         
@@ -332,6 +359,33 @@ namespace CodeRabbits.KaoList.Web {
         }
         
         /// <summary>
+        ///   새로운 비밀번호를 확인하세요.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Please_confirm_your_new_password {
+            get {
+                return ResourceManager.GetString("Please confirm your new password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   새로운 비밀번호를 입력하세요.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Please_enter_your_new_password {
+            get {
+                return ResourceManager.GetString("Please enter your new password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   기존 비밀번호를 입력하세요.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Please_enter_your_old_password {
+            get {
+                return ResourceManager.GetString("Please enter your old password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   개인정보이용방침과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Privacy_Policy {
@@ -404,6 +458,15 @@ namespace CodeRabbits.KaoList.Web {
         }
         
         /// <summary>
+        ///   패스워드 초기화과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Set_Password {
+            get {
+                return ResourceManager.GetString("Set Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   소셜 로그인과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Social_Login {
@@ -445,6 +508,24 @@ namespace CodeRabbits.KaoList.Web {
         internal static string Unusual_access {
             get {
                 return ResourceManager.GetString("Unusual access", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   비밀번호 재설정과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Update_Password {
+            get {
+                return ResourceManager.GetString("Update Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   이 사이트에 대한 로컬 사용자 이름/비밀번호가 없습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string You_do_not_have_a_local_username_password_for_this_site {
+            get {
+                return ResourceManager.GetString("You do not have a local username/password for this site", resourceCulture);
             }
         }
         

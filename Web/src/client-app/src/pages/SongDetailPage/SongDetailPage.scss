@@ -12,8 +12,15 @@
     }
 
     table {
-        tr {
-            border-top: 1px solid black;
+        border-collapse: collapse;
+        width: inherit;
+
+        tr:hover {
+            background-color: var(--color-gray95);
+        }
+
+        tr+tr {
+            border-top: 1px solid var(--color-gray91);
         }
     }
 
@@ -21,40 +28,40 @@
         display: flex;
         padding: 35px 25px;
         border-bottom: 1px solid #d2d2d2;
-    
+
         img {
             width: 230px;
             height: 230px;
         }
-    
+
         button {
             cursor: pointer;
         }
-    
+
         .song-detail-info-wrapper {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
             width: 830px;
             margin-left: 20px;
-    
+
             .song-detail-info {
                 margin-top: 87px;
-    
+
                 .title {
                     font-size: 72px;
                     font-weight: 700;
                     margin-bottom: 10px;
                 }
-    
+
                 .button-group {
                     display: flex;
                     align-items: flex-end;
-    
+
                     *+* {
                         margin-left: 10px;
                     }
-    
+
                     .btn-primary {
                         background-color: var(--btn-backgroundc-color);
                         color: var(--btn-color);
@@ -62,19 +69,19 @@
                         font-size: 15px;
                         padding: 3px 6px;
                     }
-    
+
                     .follow {
                         background-color: #6BB9A4;
                         color: white;
                         border-radius: 1px;
-    
+
                         &:hover {
                             background-color: white;
                             color: var(--colro-gray20);
                             border: 1px solid var(--color-gray67);
                         }
                     }
-    
+
                     .blind {
                         background-color: black;
                         color: white;
@@ -101,7 +108,7 @@
         align-items: center;
         font-size: 18px;
         cursor: pointer;
-        
+
         td {
             padding: 15px 0 15px;
         }
@@ -117,7 +124,7 @@
         }
 
         :nth-child(2) {
-            width: var(--2th-child-width);
+
             font-weight: var(--2th-child-font-weight);
         }
     }
