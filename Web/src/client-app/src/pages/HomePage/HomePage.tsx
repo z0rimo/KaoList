@@ -34,7 +34,7 @@ function HomePage() {
         evt.preventDefault();
         var data = new FormData(evt.currentTarget).get('q');
         setQ(data as string);
-        navigate(`${RoutePath['search']}?q=${data}`);
+        navigate(`${RoutePath['search']}?q=${data}&page=1`);
     }, [setQ, navigate]);
 
     return (

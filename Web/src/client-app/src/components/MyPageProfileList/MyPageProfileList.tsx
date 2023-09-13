@@ -14,15 +14,20 @@ function MyPageProfileList() {
     React.useEffect(() => {
         (async () => {
             const response = await window.api.kaoList.mypages.myPageProfile();
-
-            if (response.item) {
-                const { email, nickname, nicknameEditedDateTime } = response.item;
+            
+            if (response && response.resource) {
+                const { email, nickname, nicknameEditedDateTime } = response.resource;
                 setUserEmail(email ?? '');
                 setNickname(nickname ?? '');
                 setNicknameEditedTime(nicknameEditedDateTime ?? new Date());
             }
         })();
     }, []);
+    
+
+    React.useEffect(() => {
+        console.log("useremail: ", userEmail);
+    }, [userEmail]);
 
     return (
         <div className='bottom-right-box-shadow mypage-item-wrapper'>

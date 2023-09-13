@@ -35,6 +35,8 @@ const songSearchListItemRender = (item: ISongSearchListItem) => {
 const Table = React.memo((props: React.HTMLAttributes<HTMLTableElement>) => <table {...props} />);
 
 function SearchPage() {
+    const [totalResults, setTotalResults] = React.useState<number>(0);
+
     return (
         <MainLayout>
             <MainSection>
@@ -42,6 +44,7 @@ function SearchPage() {
                     maxResults={20}
                     Table={Table}
                     renderer={songSearchListItemRender}
+                    setTotalResults={setTotalResults}
                     thead={
                         <thead>
                             <tr>
@@ -54,7 +57,7 @@ function SearchPage() {
                         </thead>
                     }
                 />
-                <Pagination />
+                <Pagination totalResults={totalResults} resultsPerPage={20}/>
             </MainSection>
         </MainLayout >
     )

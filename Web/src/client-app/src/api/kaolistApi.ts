@@ -18,7 +18,7 @@ export interface IKaoListResponse {
 
 export interface IPageInfo {
     totalResults: number;
-    resultPerPage: number;
+    resultsPerPage: number;
 }
 
 export interface IKaoListPageResponse extends IKaoListResponse {
@@ -196,7 +196,7 @@ export interface IMyPageProfileResource extends IKaoListResponse {
 }
 
 export interface IMyPageProfileResponse extends IKaoListResponse {
-    item?: IMyPageProfileResource;
+    resource?: IMyPageProfileResource;
 }
 
 export interface IApiGlobalOption {
@@ -209,10 +209,12 @@ export interface IKaolistChartsListApiOption extends IApiGlobalOption {
     startDate?: Date;
     endDate?: Date;
     date?: Date;
+    page?: number;
 }
 
 export interface IKaolistSearchListApiOption extends IApiGlobalOption {
     q?: string[];
+    page?: number;
 }
 
 export interface IKaolistSongDetailApiOption extends IApiGlobalOption {
@@ -276,7 +278,7 @@ const kaoListApiEndPoint = {
     songDetail: '/api/songs/detail',
     songRate: 'api/songs/rate',
     songGetRating: 'api/songs/getRating',
-    myPageProfile: 'api/mypage',
+    myPageProfile: 'api/mypage/profile',
     myPageSongSearchLogList: 'api/mypage/songSearchLogList',
     myPageSignInLogList: 'api/mypage/signInLogList',
     myPageFollowedSongList: 'api/mypage/followedSongList',

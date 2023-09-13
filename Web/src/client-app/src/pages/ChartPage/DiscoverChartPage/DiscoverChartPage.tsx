@@ -56,6 +56,7 @@ const Table = React.memo((props: React.HTMLAttributes<HTMLTableElement>) => <tab
 
 function DiscoverChartPage() {
     const { t } = useTranslation('Chart')
+    const [totalResults, setTotalResults] = React.useState<number>(0);
 
     return (
         <MainLayout>
@@ -68,6 +69,7 @@ function DiscoverChartPage() {
                     <DiscoverChart maxResults={20}
                         Table={Table}
                         renderer={discoverCharItemRender}
+                        setTotalResults={setTotalResults}
                         thead={
                             <thead>
                                 <tr className="table-th discover">
@@ -81,7 +83,7 @@ function DiscoverChartPage() {
                         }
                     />
                 </div>
-                <Pagination />
+                <Pagination totalResults={totalResults} resultsPerPage={20}/>
             </MainSection>
         </MainLayout>
     )

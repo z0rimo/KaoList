@@ -219,8 +219,8 @@ public static class ModelBuilderExentsion
             b.HasMany<SingBlind>().WithOne().HasForeignKey(sa => sa.UserId).IsRequired();
             b.HasMany<SingFollower>().WithOne().HasForeignKey(sf => sf.UserId).IsRequired();
             b.HasMany<SingUser>().WithOne().HasForeignKey(su => su.UserId).IsRequired();
-            b.HasMany<SongSearchLog>().WithOne().HasForeignKey(sp => sp.UserId).IsRequired();
-            b.HasMany<SoundPlayLog>().WithOne().HasForeignKey(sp => sp.UserId).IsRequired();
+            b.HasMany<SongSearchLog>().WithOne().HasForeignKey(sp => sp.UserId).OnDelete(DeleteBehavior.SetNull);
+            b.HasMany<SoundPlayLog>().WithOne().HasForeignKey(sp => sp.UserId).OnDelete(DeleteBehavior.SetNull);
             b.HasMany<TitleSing>().WithOne().HasForeignKey(ts => ts.UserId).IsRequired();
         });
     }
