@@ -18,7 +18,7 @@ export interface IKaoListResponse {
 
 export interface IPageInfo {
     totalResults: number;
-    resultPerPage: number;
+    resultsPerPage: number;
 }
 
 export interface IKaoListPageResponse extends IKaoListResponse {
@@ -213,6 +213,7 @@ export interface IKaolistChartsListApiOption extends IApiGlobalOption {
 
 export interface IKaolistSearchListApiOption extends IApiGlobalOption {
     q?: string[];
+    page?: number;
 }
 
 export interface IKaolistSongDetailApiOption extends IApiGlobalOption {

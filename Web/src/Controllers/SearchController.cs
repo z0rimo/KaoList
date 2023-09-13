@@ -9,6 +9,7 @@ using CodeRabbits.KaoList.Web.Models.Search;
 using CodeRabbits.KaoList.Web.Models.Searchs;
 using CodeRabbits.KaoList.Web.Models.Songs;
 using CodeRabbits.KaoList.Web.Models.Thumbnails;
+using Duende.IdentityServer.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -162,7 +163,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
         public async Task<SearchListResponse> GetListAsync(
             [FromQuery(Name = "part")] SearchPart[] parts,
             [FromQuery(Name = "q")] string[]? querys,
-            int offset = 0,
+            [FromQuery(Name = "page")] int page = 1,
             int maxResults = 20
             )
         {
@@ -171,33 +172,11 @@ namespace CodeRabbits.KaoList.Web.Controllers
                 parts = new[] { SearchPart.Snippet };
             }
 
+            int offset = (page - 1) * maxResults;
             var items = new List<SearchResource>();
-            var token = HttpContext.Request.Cookies["IdentityToken"];
-            if (token == null)
-            {
-                token = Guid.NewGuid().ToString();
-                var cookieOptions = new CookieOptions
-                {
-                    // Set the secure flag, which Chrome's changes will require for SameSite none.
-                    // Note this will also require you to be running on HTTPS.
-                    Secure = true,
-
-                    // Set the cookie to HTTP only which is good practice unless you really do need
-                    // to access it client side in scripts.
-                    HttpOnly = true,
-
-                    // Add the SameSite attribute, this will emit the attribute with a value of none.
-                    SameSite = SameSiteMode.None
-
-                    // The client should follow its default cookie policy.
-                    // SameSite = SameSiteMode.Unspecified
-                };
-
-                HttpContext.Response.Cookies.Append("IdentityToken", token, cookieOptions);
-
-            }
-
-            if (querys != null && querys.Any())
+            var token = HttpContext.GetIdentityToken();
+          
+            if (querys != null && !querys.IsNullOrEmpty())
             {
                 var log = new SongSearchLog
                 {
@@ -206,7 +185,6 @@ namespace CodeRabbits.KaoList.Web.Controllers
                     UserId = _userManager.GetUserId(User),
                     IdentityToken = token
                 };
-                //TODO: 로그인 시 토큰도 같이 보내야됨. 현재 userid가 null
 
                 _context.SongSearchLogs.Add(log);
                 await _context.SaveChangesAsync();
@@ -230,15 +208,17 @@ namespace CodeRabbits.KaoList.Web.Controllers
 
             int totalResults = await GetTotalResultsFromDBAsync(querys);
             int resultsPerPage = items.Count;
-            int nextOffset = offset + maxResults;
-            int prevOffset = offset - maxResults > 0 ? offset - maxResults : 0;
+            var (NextPageToken, PrevPageToken) = PaginationHelper.CalculatePageTokens(offset, maxResults, totalResults);
+            // 할당분해
+            // 참고: https://learn.microsoft.com/ko-kr/dotnet/csharp/whats-new/csharp-10#assignment-and-declaration-in-same-deconstruction
+            //       https://learn.microsoft.com/ko-kr/dotnet/csharp/fundamentals/functional/deconstruct
 
             return new SearchListResponse
             {
                 Etag = new Guid().ToString(),
                 Items = items,
-                NextPageToken = nextOffset < totalResults ? nextOffset : null,
-                PrevPageToken = offset > 0 ? prevOffset : null,
+                NextPageToken = NextPageToken,
+                PrevPageToken = PrevPageToken,
                 PageInfo = new PageInfo
                 {
                     TotalResults = totalResults,

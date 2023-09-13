@@ -3,47 +3,48 @@ import { useLocation, useNavigate } from "react-router-dom";
 import ClassNameHelper from "../ClassNameHelper";
 import LazyCircleChevronRighticon from "../svgs/LazyCircleChevronRighticon";
 import PageLink from "./PageLink";
+import { IPageInfo } from "../api/kaolistApi";
 
-interface IPagintaionProps {
-    totalPosts?: number;
-    postsPerPage?: number;
-}
-
-function Pagination({ totalPosts, postsPerPage }: IPagintaionProps) {
+function Pagination({ totalResults = 0, resultsPerPage = 10 }: IPageInfo) {
     const location = useLocation();
     const navigate = useNavigate();
-    const currentParams = new URLSearchParams(location.pathname);
-    const currentPage = Number(currentParams.get("page")) || 1;
-    const [page, setPage] = useState(currentPage);
+    const currentParams = new URLSearchParams(location.search);
+    const initialCurrentPage = Number(currentParams.get("page")) || 1;
+    const [page, setPage] = useState(initialCurrentPage);
     const [currentGroup, setCurrentGroup] = useState(1);
 
-    const numOfPages: number[] = [];
-    for (let i = 1; i <= Math.ceil(totalPosts! / postsPerPage!); i++) {
-        numOfPages.push(i);
-    }
+    const maxPageNumber = Math.ceil(totalResults / resultsPerPage);
 
-    const handlePageClick = React.useCallback((num: number) => {
-        if (num === undefined) {
-            return;
-        }
-        navigate(`${location.pathname}?page=${num}`);
+    React.useEffect(() => {
+        const currentPage = Number(currentParams.get("page")) || 1;
+        setPage(currentPage);
+    }, [location]);
+
+    const handlePageClick = (num: number) => {
+        const currentParams = new URLSearchParams(location.search);
+        currentParams.set("page", String(num));
+        navigate(`${location.pathname}?${currentParams.toString()}`);
         setPage(num);
-    }, [setPage, navigate, location.pathname]);
-
+    };
+    
     const handlePrevBtn = () => {
-        const newPage = page - 10 > 0 ? page - 10 : 1;
+        const newPage = Math.max(1, page - 10);
+        const currentParams = new URLSearchParams(location.search);
+        currentParams.set("page", String(newPage));
+        navigate(`${location.pathname}?${currentParams.toString()}`);
         setPage(newPage);
-        navigate(`${location.pathname}?page=${newPage}`);
         if (currentGroup > 1) {
             setCurrentGroup(currentGroup - 1);
         }
     };
-
+    
     const handleNextBtn = () => {
-        const newPage = page + 10 <= numOfPages.length ? page + 10 : numOfPages.length;
+        const newPage = Math.min(maxPageNumber, page + 10);
+        const currentParams = new URLSearchParams(location.search);
+        currentParams.set("page", String(newPage));
+        navigate(`${location.pathname}?${currentParams.toString()}`);
         setPage(newPage);
-        navigate(`${location.pathname}?page=${newPage}`);
-        if (currentGroup < Math.ceil(numOfPages.length / 10)) {
+        if (currentGroup < Math.ceil(maxPageNumber / 10)) {
             setCurrentGroup(currentGroup + 1);
         }
     };
@@ -56,7 +57,7 @@ function Pagination({ totalPosts, postsPerPage }: IPagintaionProps) {
             <LazyCircleChevronRighticon onClick={handlePrevBtn}
                 className={ClassNameHelper.concat('left', currentGroup === 1 && 'disable')}
             />
-            {numOfPages
+            {Array.from({ length: maxPageNumber }, (_, i) => i + 1)
                 .slice(groupStartIndex, groupEndIndex)
                 .map((num) => (
                     <PageLink
@@ -64,12 +65,12 @@ function Pagination({ totalPosts, postsPerPage }: IPagintaionProps) {
                         no={num}
                         base={location.pathname}
                         className={page === num ? "active" : ''}
-                        onClick={(num) => handlePageClick(num)}
+                        onClick={() => handlePageClick(num)}
                     />
                 ))
             }
             <LazyCircleChevronRighticon onClick={handleNextBtn}
-                className={ClassNameHelper.concat('', currentGroup === Math.ceil(numOfPages.length / 10) && 'disable')}
+                className={ClassNameHelper.concat('', currentGroup === Math.ceil(maxPageNumber / 10) && 'disable')}
             />
         </div>
     );

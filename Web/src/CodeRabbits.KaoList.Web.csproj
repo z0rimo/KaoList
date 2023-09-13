@@ -18,7 +18,6 @@
     <PackageReference Include="CodeRabbits.AspNetCore.Authentication.Kakao" Version="0.0.4" />
     <PackageReference Include="CodeRabbits.AspNetCore.Authentication.Naver" Version="0.0.4" />
     <PackageReference Include="CodeRabbits.AspNetCore.Razor.TagHelpers" Version="0.0.1" />
-    <PackageReference Include="Microsoft.AspNet.Identity.Core" Version="2.2.4" />
     <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="7.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="7.0.10" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="7.0.10" />

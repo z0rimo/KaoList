@@ -81,7 +81,7 @@ function DiscoverChartPage() {
                         }
                     />
                 </div>
-                <Pagination />
+                {/* <Pagination /> */}
             </MainSection>
         </MainLayout>
     )
