@@ -45,7 +45,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
         {
             var context = CreateScopedDataContext();
 
-            if (querys == null || !querys.Any())
+            if (querys is null || !querys.Any())
             {
                 return 0;
             }
@@ -85,7 +85,6 @@ namespace CodeRabbits.KaoList.Web.Controllers
                                 .Skip(offset)
                                 .Take(maxResults)
                                 .ToList();
-
 
             return filteredSongs.Select(song => new SearchResource
             {
@@ -167,7 +166,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
             int maxResults = 20
             )
         {
-            if (parts == null || !parts.Any())
+            if (parts is null || !parts.Any())
             {
                 parts = new[] { SearchPart.Snippet };
             }
@@ -176,7 +175,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
             var items = new List<SearchResource>();
             var token = HttpContext.GetIdentityToken();
           
-            if (querys != null && !querys.IsNullOrEmpty())
+            if (querys is not null && querys.Any())
             {
                 var log = new SongSearchLog
                 {
@@ -208,7 +207,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
 
             int totalResults = await GetTotalResultsFromDBAsync(querys);
             int resultsPerPage = items.Count;
-            var (NextPageToken, PrevPageToken) = PaginationHelper.CalculatePageTokens(offset, maxResults, totalResults);
+            var (nextPageToken, prevPageToken) = PaginationHelper.CalculatePageTokens(offset, maxResults, totalResults);
             // 할당분해
             // 참고: https://learn.microsoft.com/ko-kr/dotnet/csharp/whats-new/csharp-10#assignment-and-declaration-in-same-deconstruction
             //       https://learn.microsoft.com/ko-kr/dotnet/csharp/fundamentals/functional/deconstruct
@@ -217,8 +216,8 @@ namespace CodeRabbits.KaoList.Web.Controllers
             {
                 Etag = new Guid().ToString(),
                 Items = items,
-                NextPageToken = NextPageToken,
-                PrevPageToken = PrevPageToken,
+                NextPageToken = nextPageToken,
+                PrevPageToken = prevPageToken,
                 PageInfo = new PageInfo
                 {
                     TotalResults = totalResults,

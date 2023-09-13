@@ -133,7 +133,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
             return Ok(response);
         }
 
-        [HttpGet]
+        [HttpGet("profile")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(MyPageProfileResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetMyPageListAsync()

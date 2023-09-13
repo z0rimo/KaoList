@@ -50,6 +50,8 @@ function SongSearchList(props: SongSearchListProps) {
                 setTotalResults(response.pageInfo.totalResults);
             }
         })();
+
+        window.scrollTo(0, 0);
         // eslint-disable-next-line
     }, [location.search]);
 

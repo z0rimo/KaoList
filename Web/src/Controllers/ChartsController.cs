@@ -154,11 +154,11 @@ namespace CodeRabbits.KaoList.Web.Controllers
         public async Task<DiscoverChartListResponse> GetDiscoverChartListAsync(
             [FromQuery(Name = "part")] ChartPart part,
             [FromQuery] DateTime? date,
-            string? myRating,
-            int offset = 0,
+            [FromQuery(Name = "page")] int page = 1,
             int maxResults = 20
             )
         {
+            int offset = (page - 1) * maxResults;
             var resources = new List<DiscoverChartResource>();
 
             if (part.Equals(ChartPart.Id))
@@ -174,15 +174,14 @@ namespace CodeRabbits.KaoList.Web.Controllers
 
             int totalResults = await GetTotalSongsByDate(date);
             int resultsPerPage = resources.Count;
-            int nextOffset = offset + maxResults;
-            int prevOffset = offset - maxResults > 0 ? offset - maxResults : 0;
+            var (nextPageToken, prevPageToken) = PaginationHelper.CalculatePageTokens(offset, maxResults, totalResults);
 
             return new DiscoverChartListResponse
             {
                 Etag = new Guid().ToString(),
                 resources = resources,
-                NextPageToken = nextOffset < totalResults ? nextOffset : null,
-                PrevPageToken = offset > 0 ? prevOffset : null,
+                NextPageToken = nextPageToken,
+                PrevPageToken = prevPageToken,
                 PageInfo = new PageInfo()
                 {
                     TotalResults = totalResults,
@@ -253,24 +252,23 @@ namespace CodeRabbits.KaoList.Web.Controllers
             [FromQuery(Name = "part")] ChartPart part,
             [FromQuery] DateTime? startDate,
             [FromQuery] DateTime? endDate,
-            string? myRating,
-            int offset = 0,
+            [FromQuery(Name = "page")] int page = 1,
             int maxResults = 20
             )
         {
+            int offset = (page - 1) * maxResults;
             var resources = new List<LikedChartResource>();
 
             int totalResults = await GetTotalSongsByDate();
             int resultsPerPage = resources.Count;
-            int nextOffset = offset + maxResults;
-            int prevOffset = offset - maxResults > 0 ? offset - maxResults : 0;
+            var (nextPageToken, prevPageToken) = PaginationHelper.CalculatePageTokens(offset, maxResults, totalResults);
 
             return new LikedChartListResponse
             {
                 Etag = new Guid().ToString(),
                 resources = resources,
-                NextPageToken = nextOffset < totalResults ? nextOffset : null,
-                PrevPageToken = offset > 0 ? prevOffset : null,
+                NextPageToken = nextPageToken,
+                PrevPageToken = prevPageToken,
                 PageInfo = new PageInfo()
                 {
                     TotalResults = totalResults,
