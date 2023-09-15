@@ -19,11 +19,11 @@ function ChartDropDownContent(props: React.HTMLAttributes<HTMLElement>) {
     }, [navigate]);
 
     const handleDiscoverChartClick = React.useCallback(() => {
-        handleClick(RoutePath['discoverChart']);
+        handleClick(`${RoutePath['discoverChart']}?page=1`);
     }, [handleClick]);
 
     const handleLikedChartClick = React.useCallback(() => {
-        handleClick(RoutePath['likedChart']);
+        handleClick(`${RoutePath['likedChart']}?page=1`);
     }, [handleClick]);
 
     return (

@@ -14,8 +14,12 @@ const SongSearchListItem = React.memo((props: ISongSearchListItem) => {
         kumyoungNo = props.karaoke.no ?? "-";
     }
 
+    const navgiateToDetailClick = () => {
+        window.location.href = `/songs/detail?id=${props.id}`;
+    }
+
     return (
-        <tr>
+        <tr onClick={navgiateToDetailClick}>
             <td>{props.thumbnail?.url}</td>
             <td>
                 <p>{props.title}</p>

@@ -7,6 +7,7 @@ using CodeRabbits.KaoList.Song;
 using CodeRabbits.KaoList.Web.Models;
 using CodeRabbits.KaoList.Web.Models.Songs;
 using CodeRabbits.KaoList.Web.Models.Thumbnails;
+using CodeRabbits.KaoList.Web.Services;
 using Duende.IdentityServer.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -21,14 +22,17 @@ namespace CodeRabbits.KaoList.Web.Controllers
         private readonly KaoListDataContext _context;
         private readonly IServiceScopeFactory _serviceScopeFactory;
         private readonly UserManager<KaoListUser> _userManager;
+        private readonly SongPopularityService _songPopularityService;
 
         public SongsController(KaoListDataContext context,
             IServiceScopeFactory serviceScopeFactory,
-            UserManager<KaoListUser> userManager)
+            UserManager<KaoListUser> userManager,
+            SongPopularityService songPopularityService)
         {
             _context = context;
             _serviceScopeFactory = serviceScopeFactory;
             _userManager = userManager;
+            _songPopularityService = songPopularityService;
         }
 
         private KaoListDataContext CreateScopedDataContext()
@@ -677,6 +681,17 @@ namespace CodeRabbits.KaoList.Web.Controllers
             var songDetail = await GetSongDetailBySnippetAsync(id);
 
             var userId = _userManager.GetUserId(User);
+            var token = HttpContext.GetIdentityToken();
+            var log = new SongDetailLog
+            {
+                SingId = id,
+                UserId = userId,
+                IdentityToken = token
+            };
+
+            _context.SongDetailLogs.Add(log);
+            await _context.SaveChangesAsync();
+
             var otherSongs = await GetOtherSongsAsync(instId!, id, maxResults);
             var otherMySongs = await GetOtherMySongsAsync(userId, instId, maxResults);
 
@@ -789,6 +804,12 @@ namespace CodeRabbits.KaoList.Web.Controllers
             };
         }
 
-
+        [HttpGet("updatePopularSongs")]
+        public async Task<IActionResult> UpdatePopularSongs()
+        {
+            await _songPopularityService.UpdateDailyPopularSingsAsync();
+            await _songPopularityService.UpdateAllTimePopularSingsAsync();
+            return Ok("Popular songs updated.");
+        }
     }
 }

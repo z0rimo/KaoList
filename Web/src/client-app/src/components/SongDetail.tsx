@@ -47,7 +47,6 @@ function SongDetail(props: SongDetailItemProps) {
                     }
 
                     const ratingResponse = await window.api.kaoList.songs.songGetRating({ ids: [id]});
-                    console.log("fetched data:", ratingResponse);
                     const songRating = ratingResponse.resources[0]?.rating;
                     if (songRating) {
                         const songRatingEnum = SongRating[songRating];

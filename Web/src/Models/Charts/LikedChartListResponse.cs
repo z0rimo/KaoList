@@ -7,6 +7,6 @@ namespace CodeRabbits.KaoList.Web.Models.Charts
     {
         public override string Kind { get; set; } = "kaoList#likedChartListResponse";
 
-        public IEnumerable<LikedChartResource>? resources { get; set; }
+        public IEnumerable<LikedChartResource>? Resources { get; set; }
     }
 }

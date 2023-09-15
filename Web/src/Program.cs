@@ -36,6 +36,7 @@ services.AddDbContext<KaoListDataContext>(options =>
 
 services.AddTransient<SongService>();
 services.AddTransient<UserService>();
+services.AddScoped<SongPopularityService>();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 

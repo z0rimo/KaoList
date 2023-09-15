@@ -4,6 +4,7 @@ using CodeRabbits.KaoList.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CodeRabbits.KaoList.Web.Migrations
 {
     [DbContext(typeof(KaoListDataContext))]
-    partial class KaoListDataContextModelSnapshot : ModelSnapshot
+    [Migration("20230913084206_Remove")]
+    partial class Remove
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1315,25 +1318,6 @@ namespace CodeRabbits.KaoList.Web.Migrations
                     b.ToTable("Lyrics", (string)null);
                 });
 
-            modelBuilder.Entity("CodeRabbits.KaoList.Song.PopularDailySing", b =>
-                {
-                    b.Property<DateTime?>("Created")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("SingId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<double?>("Score")
-                        .IsRequired()
-                        .HasColumnType("float");
-
-                    b.HasKey("Created", "SingId");
-
-                    b.HasIndex("SingId");
-
-                    b.ToTable("PopularDailySings", (string)null);
-                });
-
             modelBuilder.Entity("CodeRabbits.KaoList.Song.PopularSing", b =>
                 {
                     b.Property<DateTime?>("Created")
@@ -1442,29 +1426,20 @@ namespace CodeRabbits.KaoList.Web.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("Created")
-                        .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETUTCDATE()");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("IdentityToken")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("SingId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SingId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("SongDetailLogs", (string)null);
+                    b.ToTable("SongDetailLogs");
                 });
 
             modelBuilder.Entity("CodeRabbits.KaoList.Song.SongSearchLog", b =>
@@ -2335,15 +2310,6 @@ namespace CodeRabbits.KaoList.Web.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CodeRabbits.KaoList.Song.PopularDailySing", b =>
-                {
-                    b.HasOne("CodeRabbits.KaoList.Song.Sing", null)
-                        .WithMany()
-                        .HasForeignKey("SingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("CodeRabbits.KaoList.Song.PopularSing", b =>
                 {
                     b.HasOne("CodeRabbits.KaoList.Song.Sing", null)
@@ -2409,20 +2375,6 @@ namespace CodeRabbits.KaoList.Web.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("CodeRabbits.KaoList.Song.SongDetailLog", b =>
-                {
-                    b.HasOne("CodeRabbits.KaoList.Song.Sing", null)
-                        .WithMany()
-                        .HasForeignKey("SingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CodeRabbits.KaoList.Identity.KaoListUser", null)
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("CodeRabbits.KaoList.Song.SongSearchLog", b =>
