@@ -92,10 +92,14 @@ export interface IDiscoverChartListResponse extends IKaoListPageResponse {
     resources?: IDiscoverChartResource[];
 }
 
+export interface ILikedChartSnippet extends ISongSnippet {
+    rank?: number;
+}
+
 export interface ILikedChartResource extends IKaoListResponse {
     kind?: string;
     id?: string;
-    snippet?: ISongSnippet;
+    snippet?: ILikedChartSnippet;
 }
 
 export interface ILikedChartListResponse extends IKaoListPageResponse {
@@ -241,6 +245,7 @@ export type QueryType<T extends object = { [key: string]: string | number | stri
 interface IKaolistChartsApi {
     discoverChartList: (option?: IKaolistChartsListApiOption) => Promise<IDiscoverChartListResponse>;
     likedChartList: (option?: IKaolistChartsListApiOption) => Promise<ILikedChartListResponse>;
+    likedTotalChartList: (option?: IKaolistChartsListApiOption) => Promise<ILikedChartListResponse>;
 }
 
 interface IKaolistSearchsApi {
@@ -273,7 +278,8 @@ interface IKaolistApiConstructorProps {
 
 const kaoListApiEndPoint = {
     chartDiscover: '/api/charts/list/discover',
-    chartLiked: 'api/charts/list/liked',
+    chartLike: 'api/charts/list/like',
+    chartTotalLike: 'api/charts/list/totalLike',
     searchSong: '/api/search/list',
     songDetail: '/api/songs/detail',
     songRate: 'api/songs/rate',
@@ -331,7 +337,28 @@ class KaoListApi implements IKaolistApi {
 
                 const query = queryBuildHelper(option, specialHandler);
 
-                return this.getAsync(kaoListApiEndPoint.chartLiked, query).then(item => item.json() as Promise<ILikedChartListResponse>);
+                return this.getAsync(kaoListApiEndPoint.chartLike, query).then(item => item.json() as Promise<ILikedChartListResponse>);
+            },
+
+            likedTotalChartList: (option?: IKaolistChartsListApiOption) => {
+                const specialHandler = (options: IKaolistChartsListApiOption) => {
+                    const {startDate, endDate, ...rest} = options;
+                    let q: Partial<IKaolistChartsListApiOption> = {...rest};
+
+                    if (startDate instanceof Date) {
+                        q.startDate = startDate;
+                    }
+
+                    if (endDate instanceof Date) {
+                        q.endDate = endDate;
+                    }
+
+                    return q;
+                }
+
+                const query = queryBuildHelper(option, specialHandler);
+
+                return this.getAsync(kaoListApiEndPoint.chartTotalLike, query).then(item => item.json() as Promise<ILikedChartListResponse>);
             }
         }
 

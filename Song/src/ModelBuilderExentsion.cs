@@ -120,6 +120,14 @@ public static class ModelBuilderExentsion
              .UseCollation("Latin1_General_100_CI_AI_SC_UTF8");
         });
 
+        builder.Entity<PopularDailySing>(b =>
+        {
+            b.HasKey(pds => new { pds.Created, pds.SingId });
+            b.ToTable("PopularDailySings");
+
+            b.Property(pds => pds.Score).IsRequired();
+        });
+
         builder.Entity<PopularSing>(b =>
         {
             b.HasKey(ps => new { ps.Created, ps.SingId });
@@ -136,6 +144,7 @@ public static class ModelBuilderExentsion
             b.Property(s => s.Created).IsRequired();
 
             b.HasMany<Karaoke>().WithOne().HasForeignKey(k => k.SingId).IsRequired();
+            b.HasMany<PopularDailySing>().WithOne().HasForeignKey(ib => ib.SingId).IsRequired();
             b.HasMany<PopularSing>().WithOne().HasForeignKey(ib => ib.SingId).IsRequired();
             b.HasMany<SingBlind>().WithOne().HasForeignKey(ib => ib.SingId).IsRequired();
             b.HasMany<SingFollower>().WithOne().HasForeignKey(ib => ib.SingId).IsRequired();

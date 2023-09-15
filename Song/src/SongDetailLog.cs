@@ -10,8 +10,8 @@ public class SongDetailLog
     /// <summary>
     /// Id to identify the SongDetail Log.
     /// </summary>
-    public virtual string? Id { get; set; } = new Guid().ToString();
-
+    public virtual string? Id { get; set; } = Guid.NewGuid().ToString();
+      
     /// <summary>
     /// The time the SongDetail Log was created.
     /// </summary>

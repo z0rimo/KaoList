@@ -12,10 +12,11 @@ import React from 'react';
 import authService from './api-authorization/AuthorizeService';
 import SearchPage from './pages/SearchPage/SearchPage';
 import SearchContext, { useSearchContext } from './contexts/SearchContext';
-import DiscoverChartPage from './pages/ChartPage/DiscoverChartPage/DiscoverChartPage';
-import LikedChartPage from './pages/ChartPage/LikedChartPage/LikedChartPage';
 import SongDetailPage from './pages/SongDetailPage/SongDetailPage';
 import MyPage from './pages/MyPage';
+import DiscoverChartPage from './pages/ChartPages/DiscoverChartPage';
+import LikedChartPage from './pages/ChartPages/LikedChartPages';
+import LikedTotalChartPage from './pages/ChartPages/LikedChartPages/LikedTotalChartPage';
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href') ?? undefined;
 
@@ -66,8 +67,9 @@ function App() {
                     <Routes>
                         <Route path='/' element={<HomePage />} />
                         <Route path='/chart'>
-                            <Route path="discover" element={<DiscoverChartPage />} />
-                            <Route path="like" element={<LikedChartPage />} />
+                            <Route path={RoutePath['discoverChart']} element={<DiscoverChartPage />} />
+                            <Route path={RoutePath['likedChart']} element={<LikedChartPage />} />
+                            <Route path={RoutePath['likedTotalChart']} element={<LikedTotalChartPage />} />
                         </Route>
                         <Route path='/customer'>
                             <Route path={RoutePath['terms']} element={<EmptyPage />} />

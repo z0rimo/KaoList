@@ -7,41 +7,15 @@ import TableTitle from "../../../components/TableTitle";
 import LikedChart, { ILikedChartItem } from "../../../LikedChart";
 import LazyStarSolidIcon from "../../../svgs/LazyStarSolidIcon";
 import StringHelper from "../../../StringHelper";
-import LazyArrowUpIcon from "../../../svgs/LazyArrowUpIcon";
-import LazyArrowDownIcon from "../../../svgs/LazyArrowDownIcon";
 import LazyStarIcon from "../../../svgs/LazyStarIcon";
 import LikedChartDropdown from "../../../components/LikedChartDropdown";
 import "./LikedChartPage.scss";
 import "../ChartPage.scss";
-
-function RankChange(length: number) {
-    if (length === 4) {
-        return (
-            <>
-                <LazyArrowUpIcon className="arrow-icon" fill="#6BB9A4" width="7" height="10" />
-                <div className="text-cyan">1</div>
-            </>
-        )
-    }
-    else if (length === 9) {
-        return (
-            <>
-                <LazyArrowDownIcon className="arrow-icon" fill="#B96B80" width="7" height="10" />
-                <div className="text-pink">1</div>
-            </>
-        )
-    }
-    else {
-        return (
-            <p>-</p>
-        )
-    }
-}
+import Pagination from "../../../components/Pagination";
 
 const LikedChartItem = React.memo((props: ILikedChartItem) => {
     const [like, setLike] = useState<boolean>(false);
     const { t } = useTranslation('Chart');
-    //const rankChange = RankChange(props.title.length);
     let tjNo = "-";
     let kumyoungNo = "-";
 
@@ -51,10 +25,14 @@ const LikedChartItem = React.memo((props: ILikedChartItem) => {
         kumyoungNo = props.karaoke.no ?? "-";
     }
 
+    const navgiateToDetailClick = () => {
+        window.location.href = `/songs/detail?id=${props.id}`;
+    }
+
     return (
-        <tr className="table-td liked">
+        <tr className="table-td liked" onClick={navgiateToDetailClick}>
             <td className="rank">
-                <p className="rank-num">1</p>
+                <p className="rank-num">{props.rank}</p>
                 <div className="arrow-num-wrapper">
                     {/* {rankChange} */}
                 </div>
@@ -65,7 +43,7 @@ const LikedChartItem = React.memo((props: ILikedChartItem) => {
             </td>
             <td className="title-artist">
                 <p className="title">{props.title}</p>
-                <p><td>{props.songUsers?.map(item => item.nickname).join(", ")}</td></p>
+                <p>{props.songUsers?.map(item => item.nickname).join(", ")}</p>
             </td>
             <td>{tjNo}</td>
             <td>{kumyoungNo}</td>
@@ -87,20 +65,12 @@ const Table = React.memo((props: React.HTMLAttributes<HTMLTableElement>) => <tab
 function LikedChartPage() {
     const { t } = useTranslation('Chart');
     const [dropdownState, setDropdownState] = useState('All');
-    const periodAry = ["Daily", "Monthly", "All"];
+    const periodAry = ["Daily", "All"];
     let now = new Date();
 
     function dateSettingOption(e: string) {
         if (e === 'Daily') {
             return now.toLocaleDateString(navigator.language, DateOptionFormatter.long)
-        }
-        else if (e === 'Monthly') {
-            return (
-                new Date(now.setMonth(now.getMonth() - 1)).toLocaleDateString(navigator.language,  DateOptionFormatter.long)
-                + ' ~ '
-                +
-                new Date().toLocaleDateString(navigator.language,  DateOptionFormatter.long)
-            )
         }
         else {
             return (
@@ -113,6 +83,8 @@ function LikedChartPage() {
     const handlePeriodClick = React.useCallback((e: string) => {
         setDropdownState(e);
     }, [])
+
+    const [totalResults, setTotalResults] = React.useState<number>(0);
 
     return (
         <MainLayout>
@@ -128,9 +100,10 @@ function LikedChartPage() {
                         />}
                     />
                     <div className="bottom-right-box-shadow">
-                        <LikedChart maxResults={50}
+                        <LikedChart maxResults={20}
                             Table={Table}
                             renderer={likedCharItemRender}
+                            setTotalResults={setTotalResults}
                             thead={
                                 <thead>
                                     <tr className="table-th liked">
@@ -145,7 +118,8 @@ function LikedChartPage() {
                             }
                         />
                     </div>
-                </div >
+                    <Pagination totalResults={totalResults} resultsPerPage={20}/>
+                </div>
             </MainSection >
         </MainLayout >
     )
