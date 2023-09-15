@@ -79,6 +79,15 @@ namespace CodeRabbits.KaoList.Web {
         }
         
         /// <summary>
+        ///   이메일로 비밀번호 재설정 메일이 발송되었습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string A_password_reset_has_been_sent_to_your_email_ {
+            get {
+                return ResourceManager.GetString("A password reset has been sent to your email.", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   계정 잠금과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Account_Lockout {
@@ -138,6 +147,15 @@ namespace CodeRabbits.KaoList.Web {
         internal static string Agree_to_receive_events_and_other_notifications {
             get {
                 return ResourceManager.GetString("Agree to receive events and other notifications", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   등록에 필요한 링크가 포함된 이메일이 발송되었습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string An_email_has_been_sent_to_you_with_a_link_to_register {
+            get {
+                return ResourceManager.GetString("An email has been sent to you with a link to register", resourceCulture);
             }
         }
         
@@ -259,6 +277,15 @@ namespace CodeRabbits.KaoList.Web {
         }
         
         /// <summary>
+        ///   에 이메일이 발송되었습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string has_been_emailed {
+            get {
+                return ResourceManager.GetString("has been emailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   동일한 현상이 지속적으로 발생할 경우, 문의사항 탭에 해당 사항을 문의해주세요.과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string If_the_same_phenomenon_continues_to_occur__please_leave_the_relevant_information_in_our_inquiry_form {
@@ -350,11 +377,29 @@ namespace CodeRabbits.KaoList.Web {
         }
         
         /// <summary>
+        ///   비밀번호 초기화가 완료되었습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Password_reset_is_complete {
+            get {
+                return ResourceManager.GetString("Password reset is complete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   이메일을 확인해 회원가입 과정을 마쳐주세요.과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Please_check_your_email_and_complete_the_registration_process {
             get {
                 return ResourceManager.GetString("Please check your email and complete the registration process", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   아래 버튼을 눌러 로그인을 진행해주세요.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Please_click_the_button_below_to_proceed_to_login {
+            get {
+                return ResourceManager.GetString("Please click the button below to proceed to login", resourceCulture);
             }
         }
         
@@ -449,6 +494,15 @@ namespace CodeRabbits.KaoList.Web {
         }
         
         /// <summary>
+        ///   비밀번호 초기화 완료과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Reset_password_confirmation {
+            get {
+                return ResourceManager.GetString("Reset password confirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   이메일 전송과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Send_Email {
@@ -490,6 +544,15 @@ namespace CodeRabbits.KaoList.Web {
         internal static string Terms_of_Service {
             get {
                 return ResourceManager.GetString("Terms of Service", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   으로과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string to {
+            get {
+                return ResourceManager.GetString("to", resourceCulture);
             }
         }
         
@@ -544,6 +607,15 @@ namespace CodeRabbits.KaoList.Web {
         internal static string Your_account_has_been_locked_for_reasons_described_below {
             get {
                 return ResourceManager.GetString("Your account has been locked for reasons described below", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   귀하의 이메일 과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Your_email {
+            get {
+                return ResourceManager.GetString("Your email", resourceCulture);
             }
         }
     }
