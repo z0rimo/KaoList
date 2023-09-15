@@ -18,6 +18,7 @@ using CodeRabbits.KaoList.Web.Services;
 using CodeRabbits.KaoList.Web.Datas;
 using System.Security.Claims;
 using CodeRabbits.KaoList.Web.Areas.Identity.Pages;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -36,6 +37,12 @@ services.AddDbContext<KaoListDataContext>(options =>
 
 services.AddTransient<SongService>();
 services.AddTransient<UserService>();
+services.AddTransient<IEmailSender>(provider =>
+        new NaverEmailSender(
+            configuration.GetRequiredValue<string>(AuthenticationKey.NaverClientId),
+            configuration.GetRequiredValue<string>(AuthenticationKey.NaverClientClientSecret)
+        )
+    );
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 

@@ -3,11 +3,20 @@
 @{
     ViewData["Title"] = @SR.Register_confirmation;
 }
-<p class="fs-4 fw-semibod title">@ViewData["Title"]</p>
+<environment include="Development">
+    <link rel="stylesheet" href="~/css/pages/Identity/Account/layout.css" asp-append-version="true" />
+</environment>
+<environment exclude="Development">
+    <link rel="stylesheet" href="~/css/pages/Identity/Account/layout.min.css" />
+</environment>
+<p class="fs-4 fw-semibold title">@ViewData["Title"]</p>
 <div class="identity-container">
-    <p>
-        @SR.An_email_has_been_sent_to_your_email___0___with_the_link_you_need_to_register
-    </p>
+    <div>
+        <p>
+            <span>@SR.Your_email</span>
+            <span>'@Model.Email'@SR.has_been_emailed</span>
+        </p>
+    </div>
     <p>
         @SR.Please_check_your_email_and_complete_the_registration_process
     </p>
@@ -17,4 +26,3 @@
         </a>
    </div>
 </div>
-<a id="confirm-link" href="@Model.EmailConfirmationUrl">Click here to confirm your account</a>

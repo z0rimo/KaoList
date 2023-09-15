@@ -32,13 +32,13 @@ namespace CodeRabbits.KaoList.Web.Areas.Identity.Pages.Account
             public string Email { get; set; }
 
             [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(100, ErrorMessage = "* {0}는 최소 {2}자에서 {1}자 사이의 조합이어야합니다.", MinimumLength = 8)]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Compare("Password", ErrorMessage = "* 비밀번호와 일치하지 않습니다.")]
             public string ConfirmPassword { get; set; }
 
             [Required]
@@ -46,7 +46,7 @@ namespace CodeRabbits.KaoList.Web.Areas.Identity.Pages.Account
 
         }
 
-        public IActionResult OnGet(string code = null)
+        public IActionResult OnGet(string code = null, string email = null)
         {
             if (code == null)
             {
@@ -56,7 +56,8 @@ namespace CodeRabbits.KaoList.Web.Areas.Identity.Pages.Account
             {
                 Input = new InputModel
                 {
-                    Code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code))
+                    Code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code)),
+                    Email = email
                 };
                 return Page();
             }
@@ -66,6 +67,16 @@ namespace CodeRabbits.KaoList.Web.Areas.Identity.Pages.Account
         {
             if (!ModelState.IsValid)
             {
+                foreach (var modelStateKey in ModelState.Keys)
+                {
+                    var modelStateVal = ModelState[modelStateKey];
+                    foreach (var error in modelStateVal.Errors)
+                    {
+                        // error.ErrorMessage에 에러 메시지가 들어 있습니다.
+                        // 여기서 로깅하거나 디버깅할 수 있습니다.
+                        Console.WriteLine($"Key: {modelStateKey}, Error: {error.ErrorMessage}");
+                    }
+                }
                 return Page();
             }
 
