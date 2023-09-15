@@ -32,6 +32,7 @@ namespace CodeRabbits.KaoList.Web.Services
             DateTime startDate = new DateTime(kstNow.Year, kstNow.Month, kstNow.Day, 0, 0, 0, DateTimeKind.Unspecified);
             DateTime endDate = startDate.AddHours(24);
 
+            // Popular Sings today based on detail logs, ordered by score
             var popularSingsToday = await context.SongDetailLogs
                 .Where(log => log.Created >= startDate && log.Created < endDate)
                 .GroupBy(log => log.SingId)
@@ -39,9 +40,11 @@ namespace CodeRabbits.KaoList.Web.Services
                 .OrderByDescending(x => x.Score)
                 .ToListAsync();
 
+            // Remove existing records for the day
             context.PopularDailySings.RemoveRange(context.PopularDailySings);
             await context.SaveChangesAsync();
 
+            // Insert new records based on popular sings today
             foreach (var sing in popularSingsToday)
             {
                 context.PopularDailySings.Add(new PopularDailySing
@@ -52,15 +55,12 @@ namespace CodeRabbits.KaoList.Web.Services
                 });
             }
 
-            // If less than 100 records
+            // Fill the remaining slots if popularSingsToday has fewer than 100 records
             if (popularSingsToday.Count < 100)
             {
                 var remaining = 100 - popularSingsToday.Count;
-
-                // List to hold the unique SingIds from popularSingsToday
                 var uniquePopularSingIds = popularSingsToday.Select(s => s.SingId).ToList();
 
-                // Fetch the latest sings and exclude those that are already in popularSingsToday
                 var latestSings = await context.Sings
                     .Where(s => !uniquePopularSingIds.Contains(s.Id))
                     .OrderByDescending(s => s.Created)
@@ -79,33 +79,29 @@ namespace CodeRabbits.KaoList.Web.Services
                 }
             }
 
+            // Save changes
             await context.SaveChangesAsync();
         }
 
         public async Task UpdateAllTimePopularSingsAsync()
         {
             var context = CreateScopedDataContext();
-
-            // Fetch existing records for update
-            var existingRecords = await context.PopularSings.ToDictionaryAsync(x => x.SingId, x => x.Score);
+            var existingRecords = await context.PopularSings.ToDictionaryAsync(x => x.SingId!, x => x.Score);
 
             var allTimePopularSings = await context.SongDetailLogs
                 .GroupBy(log => log.SingId)
                 .Select(group => new { SingId = group.Key, Score = group.Count() })
                 .ToListAsync();
 
-            // Update the Score based on existing records
             var updatedRecords = new Dictionary<string, int>();
             foreach (var item in allTimePopularSings)
             {
-                var newScore = existingRecords.ContainsKey(item.SingId) ? item.Score + existingRecords[item.SingId] : item.Score;
-                //updatedRecords[item.SingId] = newScore;
+                var newScore = existingRecords.ContainsKey(item.SingId!) ? item.Score + existingRecords[item.SingId!] : item.Score;
+                updatedRecords[item.SingId!] = (int)newScore!;
             }
 
-            // Sort them by Score
             var sortedAllTimePopularSings = updatedRecords.OrderByDescending(x => x.Value).Take(100).ToList();
 
-            // Clear existing records
             context.PopularSings.RemoveRange(context.PopularSings);
             await context.SaveChangesAsync();
 
@@ -121,7 +117,6 @@ namespace CodeRabbits.KaoList.Web.Services
                 });
             }
 
-            // If less than 100 records
             if (sortedAllTimePopularSings.Count < 100)
             {
                 var remaining = 100 - sortedAllTimePopularSings.Count;
@@ -129,7 +124,7 @@ namespace CodeRabbits.KaoList.Web.Services
                 var uniqueAllTimePopularSingIds = sortedAllTimePopularSings.Select(s => s.Key).ToList();
 
                 var latestSings = await context.Sings
-                    .Where(s => !uniqueAllTimePopularSingIds.Contains(s.Id))
+                    .Where(s => !uniqueAllTimePopularSingIds.Contains(s.Id!))
                     .OrderByDescending(s => s.Created)
                     .Take(remaining)
                     .Select(s => s.Id)
