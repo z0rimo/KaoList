@@ -2,12 +2,15 @@
 // The CodeRabbits licenses this file to you under the MIT license.
 
 
+using System.Security.Claims;
 using CodeRabbits.KaoList.Data;
 using CodeRabbits.KaoList.Identity;
 using CodeRabbits.KaoList.Web.Models.MyPages;
+using CodeRabbits.KaoList.Web.Models.Thumbnails;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 namespace CodeRabbits.KaoList.Web.Controllers
 {
@@ -18,16 +21,19 @@ namespace CodeRabbits.KaoList.Web.Controllers
         private readonly KaoListDataContext _context;
         private readonly IServiceScopeFactory _serviceScopeFactory;
         private readonly UserManager<KaoListUser> _userManager;
+        private readonly ILogger<MyPageController> _logger;
 
         public MyPageController(
             KaoListDataContext context,
             IServiceScopeFactory serviceScopeFactory,
-            UserManager<KaoListUser> userManager
+            UserManager<KaoListUser> userManager,
+            ILogger<MyPageController> logger
             )
         {
             _context = context;
             _serviceScopeFactory = serviceScopeFactory;
             _userManager = userManager;
+            _logger = logger;
         }
 
         private async Task<IActionResult> ValidateAndGetUserAsync()
@@ -149,13 +155,100 @@ namespace CodeRabbits.KaoList.Web.Controllers
                 Etag = new Guid().ToString(),
                 Resource = new MyPageProfileResource
                 {
+                    Id = user.Id,
                     Email = user.Email,
                     Nickname = user.NickName,
-                    NicknameEditedDateTime = user.NickNameEditedDatetime
+                    NicknameEditedDateTime = user.NickNameEditedDatetime,
+                    Thumbnail = !string.IsNullOrEmpty(user.ProfileIcon) ? new ThumbnailResource
+                    {
+                        Url = user.ProfileIcon,
+                        Width = 120,
+                        Height = 120
+                    } : null
                 }
             };
 
             return Ok(response);
+        }
+
+        [HttpPost("setProfileImage")]
+        public async Task<IActionResult> SetProfileIconAsync([FromForm] MyPageProfileImage image)
+        {
+            Console.WriteLine("Received a request");
+            if (image != null)
+            {
+                Console.WriteLine("Image is not null");
+                if (image.Image != null)
+                {
+                    Console.WriteLine("image.Image is not null");
+                }
+            }
+            try
+            {
+                if (image == null || image.Image == null)
+                {
+                    return BadRequest(new { Message = "Image is null or empty" });
+                }
+
+                string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "ProfileImages");
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+
+                string fileName = $"{Guid.NewGuid()}.jpg";
+                string imagePath = Path.Combine(folderPath, fileName);
+
+                using (var stream = new FileStream(imagePath, FileMode.Create))
+                {
+                    await image.Image.CopyToAsync(stream);
+                }
+
+                var user = await _userManager.GetUserAsync(User);
+                if (user != null)
+                {
+                    user.ProfileIcon = imagePath;
+
+                    Console.WriteLine("Before update: " + user.ProfileIcon);
+                    var result = await _userManager.UpdateAsync(user);
+                    if (!result.Succeeded)
+                    {
+                        return BadRequest(new { Message = "User update failed", Errors = result.Errors });
+                    }
+                    Console.WriteLine("After update: " + user.ProfileIcon);
+                }
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(new { Message = "Image upload failed", Error = e.Message });
+            }
+        }
+
+        [HttpGet("getProfileImage")]
+        public async Task<IActionResult> GetProfileImageAsync(string id)
+        {
+            KaoListUser user;
+            if (string.IsNullOrEmpty(id))
+            {
+                user = await _userManager.GetUserAsync(User);
+            }
+            else
+            {
+                user = await _userManager.FindByIdAsync(id);
+            }
+
+            if (user == null || string.IsNullOrEmpty(user.ProfileIcon))
+            {
+                return NotFound();
+            }
+
+            var imagePath = user.ProfileIcon;
+            var image = System.IO.File.OpenRead(imagePath);
+            var stream = new FileStreamResult(image, "image/jpeg");
+
+            return stream;
         }
     }
 }
