@@ -4,6 +4,7 @@ import LazyCircleProfileIcon from "../../svgs/LazyCircleProfileIcon";
 import LazyGearIcon from "../../svgs/LazyGearIcon";
 import LazyLogo from "../../svgs/LazyLogo";
 import SignOut from "../Header/SignOut";
+import { useProfileImage } from '../../contexts/ProfileImageContext';
 
 interface IUserProfileDropdownContentProps extends React.HTMLAttributes<HTMLDivElement> {
     name?: string;
@@ -12,8 +13,9 @@ interface IUserProfileDropdownContentProps extends React.HTMLAttributes<HTMLDivE
 }
 
 function UserProfileDropdownContent(props: IUserProfileDropdownContentProps) {
-    const { name, nickname, onClick, ...rest } = props;
     const { t } = useTranslation("UserProfileDropdown");
+    const { name, nickname, onClick, ...rest } = props;
+    const { imageUrl } = useProfileImage();
 
     return (
         <div {...rest}>
@@ -23,7 +25,12 @@ function UserProfileDropdownContent(props: IUserProfileDropdownContentProps) {
             </div>
             <div className="dropdown-content-lower-region">
                 <div className="user-image-wrapper">
-                    <LazyCircleProfileIcon />
+                    {imageUrl ? (
+                        <img src={imageUrl} alt="User Profile" className="user-profile-img" width={60} height={60}/>
+                    ) : (
+                        <LazyCircleProfileIcon />
+                    )
+                    }
                     <div className="rounded-circle user-image-change" onClick={onClick}>
                         <LazyGearIcon className="gear-icon" />
                     </div>

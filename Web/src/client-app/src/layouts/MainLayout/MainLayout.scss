@@ -228,6 +228,11 @@
         .user-profile-dropdown {
             position: relative;
 
+            .user-profile-img {
+                border-radius: 50%;
+                border: 1px solid gray;
+            }
+
             .user-profile-dropdown-head {
                 display: flex;
                 align-items: center;

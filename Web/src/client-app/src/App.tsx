@@ -16,6 +16,7 @@ import DiscoverChartPage from './pages/ChartPage/DiscoverChartPage/DiscoverChart
 import LikedChartPage from './pages/ChartPage/LikedChartPage/LikedChartPage';
 import SongDetailPage from './pages/SongDetailPage/SongDetailPage';
 import MyPage from './pages/MyPage';
+import ProfileImageContext, { useProfileImageContextBlock } from './contexts/ProfileImageContext';
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href') ?? undefined;
 
@@ -30,7 +31,8 @@ function logoutAction(name: string) {
 function App() {
     const identityContext = useIdentityContextBlock();
     const searchContext = useSearchContext();
-    
+    const profileImageContext = useProfileImageContextBlock();
+
     const updateUserIdentity = React.useCallback(() => {
         authService.getUser()
             .then(user => {
@@ -62,35 +64,37 @@ function App() {
     return (
         <IdentityContext.Provider value={identityContext}>
             <SearchContext.Provider value={searchContext}>
-                <BrowserRouter basename={baseUrl}>
-                    <Routes>
-                        <Route path='/' element={<HomePage />} />
-                        <Route path='/chart'>
-                            <Route path="discover" element={<DiscoverChartPage />} />
-                            <Route path="like" element={<LikedChartPage />} />
-                        </Route>
-                        <Route path='/customer'>
-                            <Route path={RoutePath['terms']} element={<EmptyPage />} />
-                            <Route path={RoutePath['policy']} element={<EmptyPage />} />
-                            <Route path={RoutePath['inquiry']} element={<EmptyPage />} />
-                        </Route>
-                        <Route path='/songs'>
-                            <Route path={RoutePath['songDetail']} element={<SongDetailPage />} />
-                        </Route>
-                        <Route path='/community' element={<EmptyPage />} />
-                        <Route path={RoutePath['playlist']} element={<PlaylistPage />} />
-                        <Route path={RoutePath['search']} element={<SearchPage />} />
-                        <Route path={RoutePath['myPage']} element={<MyPage />} />
-                        <Route path={window.authPaths.Login} element={loginAction(LoginActions.Login)} />
-                        <Route path={window.authPaths.LoginFailed} element={loginAction(LoginActions.LoginFailed)} />
-                        <Route path={window.authPaths.LoginCallback} element={loginAction(LoginActions.LoginCallback)} />
-                        <Route path={window.authPaths.Profile} element={loginAction(LoginActions.Profile)} />
-                        <Route path={window.authPaths.Register} element={loginAction(LoginActions.Register)} />
-                        <Route path={window.authPaths.LogOut} element={logoutAction(LogoutActions.Logout)} />
-                        <Route path={window.authPaths.LogOutCallback} element={logoutAction(LogoutActions.LogoutCallback)} />
-                        <Route path={window.authPaths.LoggedOut} element={logoutAction(LogoutActions.LoggedOut)} />
-                    </Routes>
-                </BrowserRouter>
+                <ProfileImageContext.Provider value={profileImageContext}>
+                    <BrowserRouter basename={baseUrl}>
+                        <Routes>
+                            <Route path='/' element={<HomePage />} />
+                            <Route path='/chart'>
+                                <Route path="discover" element={<DiscoverChartPage />} />
+                                <Route path="like" element={<LikedChartPage />} />
+                            </Route>
+                            <Route path='/customer'>
+                                <Route path={RoutePath['terms']} element={<EmptyPage />} />
+                                <Route path={RoutePath['policy']} element={<EmptyPage />} />
+                                <Route path={RoutePath['inquiry']} element={<EmptyPage />} />
+                            </Route>
+                            <Route path='/songs'>
+                                <Route path={RoutePath['songDetail']} element={<SongDetailPage />} />
+                            </Route>
+                            <Route path='/community' element={<EmptyPage />} />
+                            <Route path={RoutePath['playlist']} element={<PlaylistPage />} />
+                            <Route path={RoutePath['search']} element={<SearchPage />} />
+                            <Route path={RoutePath['myPage']} element={<MyPage />} />
+                            <Route path={window.authPaths.Login} element={loginAction(LoginActions.Login)} />
+                            <Route path={window.authPaths.LoginFailed} element={loginAction(LoginActions.LoginFailed)} />
+                            <Route path={window.authPaths.LoginCallback} element={loginAction(LoginActions.LoginCallback)} />
+                            <Route path={window.authPaths.Profile} element={loginAction(LoginActions.Profile)} />
+                            <Route path={window.authPaths.Register} element={loginAction(LoginActions.Register)} />
+                            <Route path={window.authPaths.LogOut} element={logoutAction(LogoutActions.Logout)} />
+                            <Route path={window.authPaths.LogOutCallback} element={logoutAction(LogoutActions.LogoutCallback)} />
+                            <Route path={window.authPaths.LoggedOut} element={logoutAction(LogoutActions.LoggedOut)} />
+                        </Routes>
+                    </BrowserRouter>
+                </ProfileImageContext.Provider>
             </SearchContext.Provider>
         </IdentityContext.Provider>
     );

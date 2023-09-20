@@ -175,15 +175,6 @@ namespace CodeRabbits.KaoList.Web.Controllers
         [HttpPost("setProfileImage")]
         public async Task<IActionResult> SetProfileIconAsync([FromForm] MyPageProfileImage image)
         {
-            Console.WriteLine("Received a request");
-            if (image != null)
-            {
-                Console.WriteLine("Image is not null");
-                if (image.Image != null)
-                {
-                    Console.WriteLine("image.Image is not null");
-                }
-            }
             try
             {
                 if (image == null || image.Image == null)
@@ -217,13 +208,11 @@ namespace CodeRabbits.KaoList.Web.Controllers
                 {
                     user.ProfileIcon = fileNameWithProfiles;
 
-                    Console.WriteLine("Before update: " + user.ProfileIcon);
                     var result = await _userManager.UpdateAsync(user);
                     if (!result.Succeeded)
                     {
                         return BadRequest(new { Message = "User update failed", Errors = result.Errors });
                     }
-                    Console.WriteLine("After update: " + user.ProfileIcon);
                 }
 
                 return Ok(new { Message = "Upload successful" });
