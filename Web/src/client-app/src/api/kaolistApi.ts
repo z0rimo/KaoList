@@ -204,7 +204,7 @@ export interface IMyPageSetProfileImageResponse {
     statusCode?: number;
 }
 export interface IMyPageGetProfileImageResponse {
-    filePath?: string;
+    imageUrl?: string;
 }
 
 export interface IApiGlobalOption {
@@ -253,9 +253,6 @@ export type QueryType<T extends object = { [key: string]: string | number | stri
     [P in keyof T]?: T[P] extends (string | number | string[] | number[] | Date | undefined) ? T[P] : string | number | string[] | number[] | Date;
 };
 
-export type DataType = 'json' | 'blob';
-
-
 interface IKaolistChartsApi {
     discoverChartList: (option?: IKaolistChartsListApiOption) => Promise<IDiscoverChartListResponse>;
     likedChartList: (option?: IKaolistChartsListApiOption) => Promise<ILikedChartListResponse>;
@@ -277,7 +274,7 @@ interface IKaolistMyPagesApi {
     myPageSignInLogList: (option?: IKaolistMyPageApiOption) => Promise<ISignInLogListReseponse>;
     myPageFollowedSongList: (option?: IKaolistMyPageApiOption) => Promise<IFollowedSongListResponse>;
     myPageSetProfileImage: (properties: IKaolistMyPageSetProfileImageApiProperties) => Promise<IMyPageSetProfileImageResponse>;
-    myPageGetProfileImage: (properties: IKaolistMyPageGetProfileImageApiProperties) => Promise<Blob>;
+    myPageGetProfileImage: (properties: IKaolistMyPageGetProfileImageApiProperties) => Promise<IMyPageGetProfileImageResponse>;
 }
 
 interface IKaolistApi {
@@ -451,22 +448,11 @@ class KaoListApi implements IKaolistApi {
                     .then(item => item.json() as IMyPageSetProfileImageResponse);
             },
 
-            myPageGetProfileImage: async (properties?: IKaolistMyPageGetProfileImageApiProperties): Promise<Blob> => {
-                const token = await authorizeService.getAccessToken();
-                let init: RequestInit | undefined = undefined;
-                if (token !== undefined) {
-                    init = {
-                        headers: {
-                            "Authorization": `Bearer ${token}`
-                        }
-                    };
-                }
+            myPageGetProfileImage: (properties?: IKaolistMyPageGetProfileImageApiProperties) => {
                 const query = queryBuildHelper(properties);
-                const response = await fetch(this.buildUrl(kaoListApiEndPoint.myPageGetProfileImage, query), init);
-            
-                return await response.blob();
+
+                return this.getAsync(kaoListApiEndPoint.myPageGetProfileImage, query).then(item => item.json() as Promise<IMyPageGetProfileImageResponse>);
             }
-            
         }
     }
 

@@ -9,15 +9,14 @@ type MyPageThumbnailProps = {
 function MyPageThumbnail(props: MyPageThumbnailProps) {
     const { id, ...rest } = props;
 
-    const [imagePath, setImagePath] = React.useState<string | null>(null);
+    const [imageUrl, setImageUrl] = React.useState<string | null>(null);
     const fileInputRef = useRef(null);
 
     React.useEffect(() => {
         const fetchImage = async () => {
             const result = await window.api.kaoList.mypages.myPageGetProfileImage({ id: id });
-            if (result instanceof Blob) {
-                const blobUrl = URL.createObjectURL(result);
-                setImagePath(blobUrl);
+            if (result && result.imageUrl) {
+                setImageUrl(result.imageUrl);
             }
         }
         fetchImage();
@@ -40,8 +39,8 @@ function MyPageThumbnail(props: MyPageThumbnailProps) {
 
     return (
         <div className="thumbnail-wrapper" {...rest}>
-            {imagePath ? (
-                <img src={imagePath} className="thumbnail" alt="User thumbnail" />
+            {imageUrl ? (
+                <img src={imageUrl} className="thumbnail" alt="User thumbnail" />
             ) : (
                 <LazyCircleProfileIcon className="thumbnail" />
             )}

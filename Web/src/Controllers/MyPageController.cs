@@ -10,6 +10,7 @@ using CodeRabbits.KaoList.Web.Models.Thumbnails;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 
 namespace CodeRabbits.KaoList.Web.Controllers
@@ -21,19 +22,19 @@ namespace CodeRabbits.KaoList.Web.Controllers
         private readonly KaoListDataContext _context;
         private readonly IServiceScopeFactory _serviceScopeFactory;
         private readonly UserManager<KaoListUser> _userManager;
-        private readonly ILogger<MyPageController> _logger;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
         public MyPageController(
             KaoListDataContext context,
             IServiceScopeFactory serviceScopeFactory,
             UserManager<KaoListUser> userManager,
-            ILogger<MyPageController> logger
+            IWebHostEnvironment hostEnvironment
             )
         {
             _context = context;
             _serviceScopeFactory = serviceScopeFactory;
             _userManager = userManager;
-            _logger = logger;
+            _hostEnvironment = hostEnvironment;
         }
 
         private async Task<IActionResult> ValidateAndGetUserAsync()
@@ -190,14 +191,21 @@ namespace CodeRabbits.KaoList.Web.Controllers
                     return BadRequest(new { Message = "Image is null or empty" });
                 }
 
-                string folderPath = Path.Combine(Directory.GetCurrentDirectory(), "ProfileImages");
-                if (!Directory.Exists(folderPath))
+                string extension = Path.GetExtension(image.Image.FileName).ToLowerInvariant();
+                if (string.IsNullOrEmpty(extension) || (extension != ".jpg" && extension != ".png"))
                 {
-                    Directory.CreateDirectory(folderPath);
+                    return BadRequest(new { Message = "Only .jpg and .png extensions are allowed" });
                 }
 
-                string fileName = $"{Guid.NewGuid()}.jpg";
-                string imagePath = Path.Combine(folderPath, fileName);
+                if (image.Image.Length > 2_000_000)
+                {
+                    return BadRequest(new { Message = "File size exceeds the 2MB limit" });
+                }
+
+                string folderPath = _hostEnvironment.WebRootPath;
+                string fileNameWithoutProfiles = $"{Guid.NewGuid()}{extension}";
+                string fileNameWithProfiles = $"/profiles/{fileNameWithoutProfiles}";
+                string imagePath = Path.Combine(folderPath, "profiles", fileNameWithoutProfiles);
 
                 using (var stream = new FileStream(imagePath, FileMode.Create))
                 {
@@ -207,7 +215,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
                 var user = await _userManager.GetUserAsync(User);
                 if (user != null)
                 {
-                    user.ProfileIcon = imagePath;
+                    user.ProfileIcon = fileNameWithProfiles;
 
                     Console.WriteLine("Before update: " + user.ProfileIcon);
                     var result = await _userManager.UpdateAsync(user);
@@ -218,7 +226,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
                     Console.WriteLine("After update: " + user.ProfileIcon);
                 }
 
-                return Ok();
+                return Ok(new { Message = "Upload successful" });
             }
             catch (Exception e)
             {
@@ -229,7 +237,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
         [HttpGet("getProfileImage")]
         public async Task<IActionResult> GetProfileImageAsync(string id)
         {
-            KaoListUser user;
+            KaoListUser? user;
             if (string.IsNullOrEmpty(id))
             {
                 user = await _userManager.GetUserAsync(User);
@@ -243,12 +251,8 @@ namespace CodeRabbits.KaoList.Web.Controllers
             {
                 return NotFound();
             }
-
-            var imagePath = user.ProfileIcon;
-            var image = System.IO.File.OpenRead(imagePath);
-            var stream = new FileStreamResult(image, "image/jpeg");
-
-            return stream;
+            
+            return Ok(new { ImageUrl = user.ProfileIcon });
         }
     }
 }
