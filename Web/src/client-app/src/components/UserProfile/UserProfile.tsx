@@ -7,9 +7,11 @@ import LazyCircleProfileIcon from "../../svgs/LazyCircleProfileIcon";
 import Dropdown from "../Dropdown";
 import SignIn from "../Header/SignIn";
 import UserProfileDropdownContent from "./UserProfileDropdownContent";
+import { useProfileImage } from "../../contexts/ProfileImageContext";
 
 function UserProfile() {
     const { user } = useIdentityContext();
+    const { imageUrl } = useProfileImage();
     const navigate = useNavigate();
     const handleMyPageClick = React.useCallback(() => {
         navigate(RoutePath['myPage']);
@@ -20,11 +22,17 @@ function UserProfile() {
     }
 
     const userName = user.nickname ?? user.name;
+    
 
     return (
         <Dropdown className="user-profile-dropdown">
             <span className="user-profile-dropdown-head">
-                <LazyCircleProfileIcon />
+                {imageUrl ? (
+                    <img src={imageUrl} alt="User Profile" className="user-profile-img" width={24} height={24} />
+                ) : (
+                    <LazyCircleProfileIcon />
+                )
+                }
                 <p className="user-name">{userName}</p>
                 <LazyCaretDownSolidIcon className="caret-down-icon" />
             </span>

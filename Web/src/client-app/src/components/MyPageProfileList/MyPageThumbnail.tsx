@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useRef } from "react";
 import LazyCircleProfileIcon from "../../svgs/LazyCircleProfileIcon";
 import LazyCircleCameraIcon from "../../svgs/LazyCircleCameraIcon";
+import { useProfileImage } from '../../contexts/ProfileImageContext';
 
 type MyPageThumbnailProps = {
     id?: string;
@@ -9,7 +10,7 @@ type MyPageThumbnailProps = {
 function MyPageThumbnail(props: MyPageThumbnailProps) {
     const { id, ...rest } = props;
 
-    const [imageUrl, setImageUrl] = React.useState<string | null>(null);
+    const { imageUrl, setImageUrl } = useProfileImage();
     const fileInputRef = useRef(null);
 
     React.useEffect(() => {
@@ -20,17 +21,15 @@ function MyPageThumbnail(props: MyPageThumbnailProps) {
             }
         }
         fetchImage();
-    }, [props.id]);
+    }, [id, setImageUrl]);
 
     const handleClick = () => {
-        console.log("handleClick called");
         if (fileInputRef.current) {
             (fileInputRef.current as unknown as HTMLInputElement).click();
         }
     }
 
     const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
-        console.log("handleImageUpload called");
         const file = e.target.files ? e.target.files[0] : null;
         if (!file) return;
 

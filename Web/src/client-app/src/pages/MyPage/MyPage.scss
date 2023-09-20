@@ -118,6 +118,10 @@
             padding: var(--thumbnail-wrapper-padding);
             border-bottom: var(--thumbnail-wrapper-border-bottom);
 
+            img {
+                border-radius: 50%;
+            }
+
             .thumbnail {
                 fill: var(--thumbnail-fill);
                 width: var(--thumbnail-width);
