@@ -7,6 +7,7 @@ import MyPageAgreeEmail from './MyPageAgreeEmail';
 import MyPageExternalLogin from './MyPageExternalLogin';
 
 function MyPageProfileList() {
+    const [id, setId] = React.useState('');
     const [userEmail, setUserEmail] = React.useState('');
     const [nickname, setNickname] = React.useState('');
     const [nicknameEditedTime, setNicknameEditedTime] = React.useState(new Date());
@@ -16,7 +17,8 @@ function MyPageProfileList() {
             const response = await window.api.kaoList.mypages.myPageProfile();
             
             if (response && response.resource) {
-                const { email, nickname, nicknameEditedDateTime } = response.resource;
+                const { id, email, nickname, nicknameEditedDateTime } = response.resource;
+                setId(id ?? '');
                 setUserEmail(email ?? '');
                 setNickname(nickname ?? '');
                 setNicknameEditedTime(nicknameEditedDateTime ?? new Date());
@@ -26,12 +28,11 @@ function MyPageProfileList() {
     
 
     React.useEffect(() => {
-        console.log("useremail: ", userEmail);
     }, [userEmail]);
 
     return (
         <div className='bottom-right-box-shadow mypage-item-wrapper'>
-            <MyPageThumbnail />
+            <MyPageThumbnail id={id} />
             <MyPageEmailAddress email={userEmail} />
             <MyPageNickname nickname={nickname} lastModified={nicknameEditedTime.toString()} />
             <MyPageChangePassword />

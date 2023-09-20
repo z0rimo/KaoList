@@ -1,6 +1,8 @@
 // Licensed to the CodeRabbits under one or more agreements.
 // The CodeRabbits licenses this file to you under the MIT license.
 
+using CodeRabbits.KaoList.Web.Models.Thumbnails;
+
 namespace CodeRabbits.KaoList.Web.Models.MyPages
 {
     public class MyPageProfileResource : KaoListResponse
@@ -16,5 +18,7 @@ namespace CodeRabbits.KaoList.Web.Models.MyPages
         public DateTime? NicknameEditedDateTime { get; set; }
 
         public MyPageExternalLogin? ExternalLogin { get; set; }
+
+        public ThumbnailResource? Thumbnail { get; set; }
     }
 }
