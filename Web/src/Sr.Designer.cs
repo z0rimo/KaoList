@@ -169,6 +169,15 @@ namespace CodeRabbits.KaoList.Web {
         }
         
         /// <summary>
+        ///   귀하의 &apos;{0}&apos; 계정을 연동합니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Associate_your_account {
+            get {
+                return ResourceManager.GetString("Associate your account", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   CapsLock이 켜져있습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string CapsLock_is_enabled {
@@ -246,6 +255,15 @@ namespace CodeRabbits.KaoList.Web {
         internal static string Email_verification_failed {
             get {
                 return ResourceManager.GetString("Email verification failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   외부 로그인과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string External_Login {
+            get {
+                return ResourceManager.GetString("External Login", resourceCulture);
             }
         }
         

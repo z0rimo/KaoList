@@ -1,33 +1,33 @@
 ﻿@page
 @model ExternalLoginModel
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = SR.External_Login;
 }
-
-<h1>@ViewData["Title"]</h1>
+<environment include="Development">
+    <link rel="stylesheet" href="~/css/pages/Identity/Account/register.css" asp-append-version="true" />
+</environment>
+<environment exclude="Development">
+    <link rel="stylesheet" href="~/css/pages/Identity/Account/register.min.css" />
+</environment>
+<p class="fs-4 fw-semibold title">@ViewData["Title"]</p>
 <h2 id="external-login-title">Associate your @Model.ProviderDisplayName account.</h2>
-<hr />
-
+<p>@SR.Associate_your_account @Model.ProviderDisplayName</p>
+<p>
+    
+    <span>@Model.ProviderDisplayName.</span>
+</p>
 <p id="external-login-description" class="text-info">
     You've successfully authenticated with <strong>@Model.ProviderDisplayName</strong>.
     Please enter an email address for this site below and click the Register button to finish
     logging in.
 </p>
-
-<div class="row">
-    <div class="col-md-4">
-        <form asp-page-handler="Confirmation" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-floating">
-                <input asp-for="Input.Email" class="form-control" autocomplete="email" />
-                <label asp-for="Input.Email" class="form-label"></label>
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            <button type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
-        </form>
-    </div>
+<div class="identity-container">
+    <form asp-page-handler="Confirmation" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-input-wrapper">
+            <input asp-for="Input.Email" class="form-input-text" autocomplete="email" />
+            <span asp-validation-for="Input.Email" class="text-danger"></span>
+        </div>
+        <button id="register-submit" type="submit" class="btn btn-primary gray-theme fw-bold">@SR.Register</button>
+    </form>
 </div>
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
