@@ -23,6 +23,8 @@ namespace CodeRabbits.KaoList.Web.Services
 
         public Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
+            Console.WriteLine($"Attempting to send email to {email} with subject {subject}");
+
             SmtpClient SmtpServer = new SmtpClient("smtp.naver.com");
             SmtpServer.UseDefaultCredentials = false;
             SmtpServer.Port = 587;
@@ -38,7 +40,9 @@ namespace CodeRabbits.KaoList.Web.Services
             };
 
             mail.To.Add(email);
+            Console.WriteLine($"Sending email to {email}");
             SmtpServer.Send(mail);
+            Console.WriteLine($"Successfully sent email to {email}");
 
             return Task.CompletedTask;
         }

@@ -39,8 +39,8 @@ services.AddTransient<SongService>();
 services.AddTransient<UserService>();
 services.AddTransient<IEmailSender>(provider =>
         new NaverEmailSender(
-            configuration.GetRequiredValue<string>(AuthenticationKey.NaverClientId),
-            configuration.GetRequiredValue<string>(AuthenticationKey.NaverClientClientSecret)
+            configuration.GetRequiredValue<string>(AuthenticationKey.EmailSenderId),
+            configuration.GetRequiredValue<string>(AuthenticationKey.EmailSencderSecret)
         )
     );
 
