@@ -37,6 +37,7 @@ services.AddDbContext<KaoListDataContext>(options =>
 
 services.AddTransient<SongService>();
 services.AddTransient<UserService>();
+services.AddScoped<SongPopularityService>();
 services.AddTransient<IEmailSender>(provider =>
         new NaverEmailSender(
             configuration.GetRequiredValue<string>(AuthenticationKey.EmailSenderId),

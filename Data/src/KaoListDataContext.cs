@@ -29,12 +29,14 @@ public partial class KaoListDataContext<TUser> : ApiAuthorizationDbContext<TUser
     public virtual DbSet<InstrumentalFollower> InstrumentalFollowers { get; set; } = default!;
     public virtual DbSet<InstrumentalLocalized> InstrumentalLocalizeds { get; set; } = default!;
     public virtual DbSet<Lyric> Lyrics { get; set; } = default!;
+    public virtual DbSet<PopularDailySing> PopularDailySings { get; set; } = default!;
     public virtual DbSet<PopularSing> PopularSings { get; set; } = default!;
     public virtual DbSet<SignInAttempt> SignInAttempts { get; set; } = default!;
     public virtual DbSet<Sing> Sings { get; set; } = default!;
     public virtual DbSet<SingUser> SingUsers { get; set; } = default!;
     public virtual DbSet<SingBlind> SingBlinds { get; set; } = default!;
     public virtual DbSet<SingFollower> SingFollowers { get; set; } = default!;
+    public virtual DbSet<SongDetailLog> SongDetailLogs { get; set; } = default!;
     public virtual DbSet<SongSearchLog> SongSearchLogs { get; set; } = default!;
     public virtual DbSet<SoundPlayLog> SoundPlayLogs { get; set; } = default!;
     public virtual DbSet<Sound> Sounds { get; set; } = default!;

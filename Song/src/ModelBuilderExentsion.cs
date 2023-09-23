@@ -120,6 +120,13 @@ public static class ModelBuilderExentsion
              .UseCollation("Latin1_General_100_CI_AI_SC_UTF8");
         });
 
+        builder.Entity<PopularDailySing>(b =>
+        {
+            b.HasKey(pds => new { pds.Created, pds.SingId });
+            b.ToTable("PopularDailySings");
+            b.Property(pds => pds.Score).IsRequired();
+        });
+
         builder.Entity<PopularSing>(b =>
         {
             b.HasKey(ps => new { ps.Created, ps.SingId });
@@ -136,10 +143,12 @@ public static class ModelBuilderExentsion
             b.Property(s => s.Created).IsRequired();
 
             b.HasMany<Karaoke>().WithOne().HasForeignKey(k => k.SingId).IsRequired();
+            b.HasMany<PopularDailySing>().WithOne().HasForeignKey(ib => ib.SingId).IsRequired();
             b.HasMany<PopularSing>().WithOne().HasForeignKey(ib => ib.SingId).IsRequired();
             b.HasMany<SingBlind>().WithOne().HasForeignKey(ib => ib.SingId).IsRequired();
             b.HasMany<SingFollower>().WithOne().HasForeignKey(ib => ib.SingId).IsRequired();
             b.HasMany<SingUser>().WithOne().HasForeignKey(ib => ib.SingId).IsRequired();
+            b.HasMany<SongDetailLog>().WithOne().HasForeignKey(sdl => sdl.SingId).IsRequired();
             b.HasMany<TitleSing>().WithOne().HasForeignKey(ib => ib.SingId).IsRequired();
         });
 
@@ -163,6 +172,14 @@ public static class ModelBuilderExentsion
         {
             b.HasKey(su => new { su.SingId, su.UserId });
             b.ToTable("SingUsers");
+        });
+
+        builder.Entity<SongDetailLog>(b =>
+        {
+            b.HasKey(sdl => sdl.Id);
+            b.ToTable("SongDetailLogs");
+            b.Property(sdl => sdl.Created).IsRequired().HasDefaultValueSql("GETUTCDATE()");
+            b.Property(sdl => sdl.IdentityToken).HasColumnType("nvarchar(450)").IsRequired();
         });
 
         builder.Entity<SongSearchLog>(b =>
@@ -219,6 +236,7 @@ public static class ModelBuilderExentsion
             b.HasMany<SingBlind>().WithOne().HasForeignKey(sa => sa.UserId).IsRequired();
             b.HasMany<SingFollower>().WithOne().HasForeignKey(sf => sf.UserId).IsRequired();
             b.HasMany<SingUser>().WithOne().HasForeignKey(su => su.UserId).IsRequired();
+            b.HasMany<SongDetailLog>().WithOne().HasForeignKey(sdl => sdl.UserId).OnDelete(DeleteBehavior.SetNull);
             b.HasMany<SongSearchLog>().WithOne().HasForeignKey(sp => sp.UserId).OnDelete(DeleteBehavior.SetNull);
             b.HasMany<SoundPlayLog>().WithOne().HasForeignKey(sp => sp.UserId).OnDelete(DeleteBehavior.SetNull);
             b.HasMany<TitleSing>().WithOne().HasForeignKey(ts => ts.UserId).IsRequired();

@@ -266,7 +266,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
             return new LikedChartListResponse
             {
                 Etag = new Guid().ToString(),
-                resources = resources,
+                Resources = resources,
                 NextPageToken = nextPageToken,
                 PrevPageToken = prevPageToken,
                 PageInfo = new PageInfo()
