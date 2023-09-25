@@ -1,9 +1,12 @@
 ﻿@page
+@using Microsoft.AspNetCore.Hosting
+@using Microsoft.AspNetCore.Mvc.ViewEngines
+@inject IWebHostEnvironment Environment
+@inject ICompositeViewEngine Engine
 @model LoginModel
 @{
     ViewData["Title"] = SR.Login;
 }
-
 <environment include="Development">
     <link rel="stylesheet" href="~/css/pages/Identity/Account/login.css" asp-append-version="true" />
 </environment>
@@ -46,6 +49,7 @@
                     {
                         <button type="submit" class="login-@provider.DisplayName" name="provider"
                             value="@provider.Name" title="Log in using your @provider.DisplayName account">
+                            <svg src="-/@provider.DisplayName!.ToLower()Icon.svg" />
                         </button>
                     }
                 </div>
