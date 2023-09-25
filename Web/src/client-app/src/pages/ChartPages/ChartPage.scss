@@ -12,6 +12,7 @@
     --table-text-color: var(--color-gray20);
     --table-background-color: var(--color-white);
     --table-border-radius: 5px;
+    --table-margin-bottom: 30px;
 
     --table-th-font-size: 18px;
     --table-tr-first-border-bottom: 1px solid var(--color-gray82);
@@ -53,6 +54,7 @@
         border-collapse: collapse;
         background-color: var(--table-background-color);
         border-radius: var(--table-border-radius);
+        margin-bottom: var(--table-margin-bottom);
 
         tr:first-child {
             border-top: var(--table-tr-first-border-bottom);
@@ -93,5 +95,11 @@
             background-color: transparent;
             cursor: pointer;
         }
+    }
+
+    .pagination {
+        --pagination-padding-bottom: 60px;
+
+        padding-bottom: var(--pagination-padding-bottom);
     }
 }

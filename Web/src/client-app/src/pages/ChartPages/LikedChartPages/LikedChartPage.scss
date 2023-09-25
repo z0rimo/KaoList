@@ -1,5 +1,4 @@
 .liked {
-    --table-margin-bottom: 30px;
     --drop-down-wrapper-width: 82px;
 
     --drop-down-width: 100%;
@@ -38,10 +37,6 @@
     --rank-num-margin-bottom: 8px;
     --rank-change-num-font-size: 14px;
     --arrow-icon-margin-right: 4px;
-
-    table {
-        margin-bottom: var(--table-margin-bottom);
-    }
 
     .text-cyan {
         color: var(--color-slightly-desaturated-cyan);

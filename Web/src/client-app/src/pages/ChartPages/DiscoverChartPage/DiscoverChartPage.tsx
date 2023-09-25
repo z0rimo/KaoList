@@ -61,29 +61,31 @@ function DiscoverChartPage() {
     return (
         <MainLayout>
             <MainSection>
-                <TableTitle
-                    title="신곡 차트"
-                    date={new Date().toISOString().split('T')[0]}
-                />
-                <div className="chart-wrapper discover bottom-right-box-shadow">
-                    <DiscoverChart maxResults={20}
-                        Table={Table}
-                        renderer={discoverCharItemRender}
-                        setTotalResults={setTotalResults}
-                        thead={
-                            <thead>
-                                <tr className="table-th discover">
-                                    <th>{t("Thumbnail")}</th>
-                                    <th>{t("Title/Artist")}</th>
-                                    <th>TJ</th>
-                                    <th>KY</th>
-                                    <th>{t("Like")}</th>
-                                </tr>
-                            </thead>
-                        }
+                <div className="chart-wrapper discover">
+                    <TableTitle
+                        title="신곡 차트"
+                        date={new Date().toISOString().split('T')[0]}
                     />
+                    <div className="bottom-right-box-shadow">
+                        <DiscoverChart maxResults={20}
+                            Table={Table}
+                            renderer={discoverCharItemRender}
+                            setTotalResults={setTotalResults}
+                            thead={
+                                <thead>
+                                    <tr className="table-th discover">
+                                        <th>{t("Thumbnail")}</th>
+                                        <th>{t("Title/Artist")}</th>
+                                        <th>TJ</th>
+                                        <th>KY</th>
+                                        <th>{t("Like")}</th>
+                                    </tr>
+                                </thead>
+                            }
+                        />
+                    </div>
+                    <Pagination totalResults={totalResults} resultsPerPage={20} />
                 </div>
-                <Pagination totalResults={totalResults} resultsPerPage={20}/>
             </MainSection>
         </MainLayout>
     )

@@ -18,6 +18,9 @@ function Pagination({ totalResults = 0, resultsPerPage = 10 }: IPageInfo) {
     React.useEffect(() => {
         const currentPage = Number(currentParams.get("page")) || 1;
         setPage(currentPage);
+
+        const newCurrentGroup = Math.ceil(currentPage / 10);
+        setCurrentGroup(newCurrentGroup);
     }, [location]);
 
     const handlePageClick = (num: number) => {
@@ -26,7 +29,7 @@ function Pagination({ totalResults = 0, resultsPerPage = 10 }: IPageInfo) {
         navigate(`${location.pathname}?${currentParams.toString()}`);
         setPage(num);
     };
-    
+
     const handlePrevBtn = () => {
         const newPage = Math.max(1, page - 10);
         const currentParams = new URLSearchParams(location.search);
@@ -37,7 +40,7 @@ function Pagination({ totalResults = 0, resultsPerPage = 10 }: IPageInfo) {
             setCurrentGroup(currentGroup - 1);
         }
     };
-    
+
     const handleNextBtn = () => {
         const newPage = Math.min(maxPageNumber, page + 10);
         const currentParams = new URLSearchParams(location.search);

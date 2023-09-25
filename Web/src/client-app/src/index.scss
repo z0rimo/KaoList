@@ -216,6 +216,11 @@ svg {
 
   a {
       color: var(--color-gray85);
+      text-decoration: none;
+  }
+
+  svg {
+    cursor: pointer;
   }
 
   .active {
