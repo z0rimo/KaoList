@@ -28,6 +28,7 @@
         justify-content: center;
         background-color: var(--search-button-background-color);
         border: var(--search-button-border);
+        cursor: pointer;
 
         .search-icon {
             fill: var(--search-icon-fill);

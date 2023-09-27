@@ -166,7 +166,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
             int maxResults = 20
             )
         {
-            if (parts is null || !parts.Any())
+            if (parts is null)
             {
                 parts = new[] { SearchPart.Snippet };
             }
@@ -175,7 +175,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
             var items = new List<SearchResource>();
             var token = HttpContext.GetIdentityToken();
           
-            if (querys is not null && querys.Any())
+            if (querys is not null)
             {
                 var log = new SongSearchLog
                 {
