@@ -3,8 +3,16 @@ import MainLayout from "../../layouts/MainLayout/MainLayout";
 import MainSection from "../../components/MainSection";
 import SongSearchList, { ISongSearchListItem } from "../../SongSearchList";
 import Pagination from "../../components/Pagination";
+import { useTranslation } from "react-i18next";
+import StringHelper from "../../StringHelper";
+import LazyStarSolidIcon from "../../svgs/LazyStarSolidIcon";
+import LazyStarIcon from "../../svgs/LazyStarIcon";
+import "../ChartPage/DiscoverChartPage/DiscoverChartPage.scss";
+import "../ChartPage/ChartPage.scss";
 
 const SongSearchListItem = React.memo((props: ISongSearchListItem) => {
+    const [like, setLike] = React.useState<boolean>(false);
+    const { t } = useTranslation('Chart')
     let tjNo = "-";
     let kumyoungNo = "-";
 
@@ -14,16 +22,27 @@ const SongSearchListItem = React.memo((props: ISongSearchListItem) => {
         kumyoungNo = props.karaoke.no ?? "-";
     }
 
+    const navgiateToDetailClick = () => {
+        window.location.href = `/songs/detail?id=${props.id}`;
+    }
+
     return (
-        <tr>
-            <td>{props.thumbnail?.url}</td>
+        <tr className="table-td discover" onClick={navgiateToDetailClick}>
             <td>
-                <p>{props.title}</p>
+                <img alt={StringHelper.format(t('Thumbnail of {0}'), props.title)}
+                    src="https://i.ytimg.com/vi/XOxI7bEHQgc/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLC5kqwJDiTRyMg0D5mIsZ0ZyTcvRg" />
+            </td>
+            <td>
+                <p className="title">{props.title}</p>
                 <p>{props.songUsers?.map(item => item.nickname).join(", ")}</p>
             </td>
             <td>{tjNo}</td>
             <td>{kumyoungNo}</td>
-            {/* <td>{props.liked}</td> */}
+            <td>
+                <button className="like-btn" onClick={() => (setLike(!like))}>
+                    {like ? <LazyStarSolidIcon fill="#6BB9A4" /> : <LazyStarIcon fill="#5F6368" />}
+                </button>
+            </td>
         </tr>
     )
 })
@@ -35,29 +54,34 @@ const songSearchListItemRender = (item: ISongSearchListItem) => {
 const Table = React.memo((props: React.HTMLAttributes<HTMLTableElement>) => <table {...props} />);
 
 function SearchPage() {
+    const { t } = useTranslation('Chart')
     const [totalResults, setTotalResults] = React.useState<number>(0);
 
     return (
         <MainLayout>
             <MainSection>
-                <SongSearchList
-                    maxResults={20}
-                    Table={Table}
-                    renderer={songSearchListItemRender}
-                    setTotalResults={setTotalResults}
-                    thead={
-                        <thead>
-                            <tr>
-                                <th>Thumbnail</th>
-                                <th>Title / SongUser</th>
-                                <th>TJ</th>
-                                <th>KY</th>
-                                <th>Liked</th>
-                            </tr>
-                        </thead>
-                    }
-                />
-                <Pagination totalResults={totalResults} resultsPerPage={20}/>
+                <div className="chart-wrapper discover bottom-right-box-shadow">
+                    <SongSearchList
+                        maxResults={20}
+                        Table={Table}
+                        renderer={songSearchListItemRender}
+                        setTotalResults={setTotalResults}
+                        thead={
+                            <thead>
+                                <tr>
+                                    <tr className="table-th discover">
+                                        <th>{t("Thumbnail")}</th>
+                                        <th>{t("Title/Artist")}</th>
+                                        <th>TJ</th>
+                                        <th>KY</th>
+                                        <th>{t("Like")}</th>
+                                    </tr>
+                                </tr>
+                            </thead>
+                        }
+                    />
+                </div>
+                <Pagination totalResults={totalResults} resultsPerPage={20} />
             </MainSection>
         </MainLayout >
     )
