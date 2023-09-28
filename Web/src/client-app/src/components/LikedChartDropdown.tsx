@@ -14,9 +14,6 @@ interface ILikedChartDropDownProps extends React.HTMLAttributes<HTMLElement> {
 function LikedChartDropDown(props: ILikedChartDropDownProps) {
     const { t } = useTranslation('Chart');
     const [opened, setOpened] = useState(false);
-    function DropdownClick() {
-        setOpened(!opened);
-    }
 
     return (
         <Dropdown className="drop-down-wrapper">
