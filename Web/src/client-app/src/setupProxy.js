@@ -18,6 +18,7 @@ const context = [
     "/signin-kakao",
     "/signin-naver",
     "/profiles",
+    "/authentication/**/*"
 ];
 
 module.exports = function (app) {

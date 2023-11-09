@@ -19,6 +19,8 @@ using CodeRabbits.KaoList.Web.Datas;
 using System.Security.Claims;
 using CodeRabbits.KaoList.Web.Areas.Identity.Pages;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -94,6 +96,17 @@ builder.Services.AddAuthentication(o =>
     })
     .AddIdentityServerJwt();
 
+builder.Services.Configure<JwtBearerOptions>(
+    IdentityServerJwtConstants.IdentityServerJwtBearerScheme,
+    options =>
+    {
+        if (builder.Environment.IsProduction())
+        {
+            options.Authority = "https://kaolist.com";
+        }
+    });
+
+
 builder.Services.AddControllersWithViews()
     .AddJsonOptions(options =>
     {
@@ -127,14 +140,9 @@ if (app.Environment.IsDevelopment())
         RequestPath = "/ts"
     });
 
-}
-else
-{
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    app.UseHttpsRedirection();
 }
 
-app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
