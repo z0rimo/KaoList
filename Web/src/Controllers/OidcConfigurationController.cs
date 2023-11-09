@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
+using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CodeRabbits.KaoList.Web.Controllers

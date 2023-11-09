@@ -21,6 +21,7 @@ using CodeRabbits.KaoList.Web.Areas.Identity.Pages;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -120,6 +121,8 @@ builder.Services.Configure<SvgTagHelperOption>(o =>
 
 builder.Services.Configure<IdentityOptions>(options =>
     options.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier);
+
+builder.Services.AddScoped<IClientRequestParametersProvider, ClientRequestParametersProvider>();
 
 var app = builder.Build();
 using var scope = app.Services.CreateScope();
