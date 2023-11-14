@@ -44,7 +44,7 @@ function DiscoverChart(props: DiscoverChartProps) {
             }
 
             if (response.pageInfo?.totalResults) {
-                setTotalResults!(response.pageInfo.totalResults);
+                setTotalResults && setTotalResults(response.pageInfo.totalResults);
             }
         })();
 

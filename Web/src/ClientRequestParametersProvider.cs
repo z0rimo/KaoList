@@ -3,6 +3,8 @@
 
 using Duende.IdentityServer.Extensions;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.Options;
 
 namespace CodeRabbits.KaoList.Web;
@@ -10,13 +12,28 @@ namespace CodeRabbits.KaoList.Web;
 public class ClientRequestParametersProvider : IClientRequestParametersProvider
 {
     public ClientRequestParametersProvider(
-        IOptions<ApiAuthorizationOptions> options)
+        IOptions<ApiAuthorizationOptions> options,
+        IOptions<ForwardedHeadersOptions>? forwardedHeadersOptions = null)
     {
         Options = options;
+        ForwardedHeadersOptions = forwardedHeadersOptions;
     }
 
 
     public IOptions<ApiAuthorizationOptions> Options { get; }
+
+    public IOptions<ForwardedHeadersOptions>? ForwardedHeadersOptions { get; }
+
+    protected virtual string GetScheme(HttpContext context)
+    {
+        var protoKey = ForwardedHeadersOptions?.Value.ForwardedProtoHeaderName;
+        if (protoKey is not null && context.Request.Headers.TryGetValue(protoKey, out var scheme))
+        {
+            return scheme.Single() ?? context.Request.Scheme;
+        }
+
+        return context.Request.Scheme;
+    }
 
     public IDictionary<string, string> GetClientParameters(HttpContext context, string clientId)
     {
@@ -46,8 +63,8 @@ public class ClientRequestParametersProvider : IClientRequestParametersProvider
         {
             ["authority"] = authority,
             ["client_id"] = client.ClientId,
-            ["redirect_uri"] = $"{context.Request.Scheme}://{context.Request.Host.Value}{client.RedirectUris.First()}",
-            ["post_logout_redirect_uri"] = $"{context.Request.Scheme}://{context.Request.Host.Value}{client.PostLogoutRedirectUris.First()}",
+            ["redirect_uri"] = $"{GetScheme(context)}://{context.Request.Host.Value}{client.RedirectUris.First()}",
+            ["post_logout_redirect_uri"] = $"{GetScheme(context)}://{context.Request.Host.Value}{client.PostLogoutRedirectUris.First()}",
             ["response_type"] = responseType,
             ["scope"] = string.Join(" ", client.AllowedScopes)
         };

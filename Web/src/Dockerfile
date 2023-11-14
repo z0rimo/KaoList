@@ -22,10 +22,15 @@ COPY ["Song/src/CodeRabbits.KaoList.Song.csproj", "Song/src/"]
 RUN dotnet restore "Web/src/CodeRabbits.KaoList.Web.csproj"
 COPY . .
 WORKDIR "/src/Web/src"
+RUN npm ci
+RUN npm install --global gulp-cli
+RUN gulp --gulpfile "./gulpfile.js" min
 RUN dotnet build "CodeRabbits.KaoList.Web.csproj" -c Release -o /app/build
 
 FROM build AS publish
 RUN dotnet publish "CodeRabbits.KaoList.Web.csproj" -c Release -o /app/publish /p:UseAppHost=false
+COPY --from=build /src/Web/src/client-app/public/css ./css
+COPY --from=build /src/Web/src/client-app/public/js ./js
 
 FROM base AS final
 WORKDIR /app

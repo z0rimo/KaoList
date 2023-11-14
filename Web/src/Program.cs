@@ -22,6 +22,12 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.AspNetCore.HttpOverrides;
+using Duende.IdentityServer.ResponseHandling;
+using Duende.IdentityServer.Services;
+using CodeRabbits.KaoList.Web.IdentityServer;
+using Duende.IdentityServer.Validation;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -68,8 +74,10 @@ builder.Services.AddIdentityCore<KaoListUser>(options =>
     .AddDefaultTokenProviders()
     .AddErrorDescriber<LocalizedIdentityErrorDescriber>();
 
-builder.Services.AddIdentityServer()
-    .AddApiAuthorization<KaoListUser, KaoListDataContext>();
+builder.Services.AddIdentityServer(options =>
+    {
+        options.Authentication.CookieSameSiteMode = SameSiteMode.None;
+    }).AddApiAuthorization<KaoListUser, KaoListDataContext>();
 
 builder.Services.AddAuthentication(o =>
     {
@@ -95,16 +103,13 @@ builder.Services.AddAuthentication(o =>
 
         no.ClaimActions.MapJsonSubKey("nickname", "response", "nickname");
     })
-    .AddIdentityServerJwt();
-
-builder.Services.Configure<JwtBearerOptions>(
-    IdentityServerJwtConstants.IdentityServerJwtBearerScheme,
-    options =>
+    .AddIdentityServerJwt()
+    .AddCookie(options =>
     {
-        if (builder.Environment.IsProduction())
-        {
-            options.Authority = "https://kaolist.com";
-        }
+
+        options.Cookie.HttpOnly = true;
+        options.Cookie.SameSite = SameSiteMode.None;
+        options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
     });
 
 
@@ -123,6 +128,16 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier);
 
 builder.Services.AddScoped<IClientRequestParametersProvider, ClientRequestParametersProvider>();
+// builder.Services.AddScoped<IDiscoveryResponseGenerator, CodeRabbitsDiscoveryResponseGenerator>();
+builder.Services.AddScoped<IRedirectUriValidator, RedirectUriValidator>();
+
+builder.Services.AddScoped<IServerUrls, ServerUrls>();
+
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders =
+        ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+});
 
 var app = builder.Build();
 using var scope = app.Services.CreateScope();
@@ -145,10 +160,23 @@ if (app.Environment.IsDevelopment())
 
     app.UseHttpsRedirection();
 }
+else
+{
+    app.UseForwardedHeaders(new ForwardedHeadersOptions
+    {
+        ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+    });
+}
 
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseCookiePolicy(new CookiePolicyOptions
+{
+    MinimumSameSitePolicy = SameSiteMode.None,
+    Secure = CookieSecurePolicy.Always,
+});
 
 app.UseAuthentication();
 app.UseIdentityServer();
