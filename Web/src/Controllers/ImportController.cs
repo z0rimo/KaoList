@@ -19,13 +19,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
             _userService = userService;
         }
 
-        [HttpPost("song")]
-        public IActionResult ImportSongsFromJson()
-        {
-            _songService.ConvertAndSaveJsonToDb();
-
-            return Ok("Songs imported successfully");
-        }
+        
 
         [HttpPost("user")]
         public IActionResult ImportUsersFromJson()

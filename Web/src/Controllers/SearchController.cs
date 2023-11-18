@@ -52,7 +52,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
             else
             {
                 var queryList = querys.ToList();
-                return await context.Instrumental.Where(inst => queryList.Contains(inst.NormalizedTitle)).CountAsync();
+                return await context.Instrumental.Where(inst => queryList.Contains(inst.NormalizedTitle!)).CountAsync();
             }
         }
 

@@ -1,19 +1,23 @@
 // Licensed to the CodeRabbits under one or more agreements.
 // The CodeRabbits licenses this file to you under the MIT license.
 
-using Newtonsoft.Json;
-using System.IO;
 using CodeRabbits.KaoList.Song;
 using CodeRabbits.KaoList.Data;
+using System.Globalization;
+using CodeRabbits.KaoList.Web.Services.Mananas;
 using CodeRabbits.KaoList.Identity;
 
 public class SongService
 {
     private readonly KaoListDataContext _context;
+    private readonly MananaService _mananaService;
 
-    public SongService(KaoListDataContext context)
+    public SongService(
+        KaoListDataContext context,
+        MananaService mananaService)
     {
         _context = context;
+        _mananaService = mananaService;
     }
 
     public void DeleteAll()
@@ -27,93 +31,103 @@ public class SongService
         _context.SaveChanges();
     }
 
-    public void ConvertAndSaveJsonToDb()
+    public async Task FetchAndSaveSongsToDb()
     {
-        var jsonFilePath = "output-allbrands.json";
-        var jsonContent = File.ReadAllText(jsonFilePath);
-        var songs = JsonConvert.DeserializeObject<List<Song>>(jsonContent);
+        var brands = Enum.GetValues(typeof(MananaBrand)).Cast<MananaBrand>();
 
-        foreach (var song in songs!)
+        foreach (var brand in brands)
         {
-            DateTime? releaseDate = DateTime.MinValue;
-            if (song.Release != "0000-00-00")
+            for (var i = 1; i <= 9; i++)
             {
-                releaseDate = DateTime.Parse(song.Release);
-            }
-
-            var instrumental = new Instrumental
-            {
-                Title = song.Title,
-                NormalizedTitle = song.Title.ToUpper(),
-                SoundId = null,
-                Created = DateTime.UtcNow,
-                Composer = song.Composer,
-            };
-
-            _context.Instrumental.Add(instrumental);
-
-            var sing = new Sing
-            {
-                InstrumentalId = instrumental.Id,
-                SoundId = null,
-                Language = null,
-                Created = releaseDate
-            };
-
-            _context.Sings.Add(sing);
-
-            var user = _context.Users.FirstOrDefault(u => u.NickName == song.Singer);
-
-            if (user != null)
-            {
-                var singUser = new SingUser
+                var mananaSongs = await _mananaService.GetSongsByNoAsync(i, brand);
+                foreach (var mananaSong in mananaSongs)
                 {
-                    SingId = sing.Id,
-                    UserId = user.Id
-                };
-
-                if (!_context.SingUsers.Any(su => su.SingId == singUser.SingId && su.UserId == singUser.UserId))
-                {
-                    _context.SingUsers.Add(singUser);
+                    mananaSong.No = mananaSong.No.Trim();
+                    mananaSong.Title = mananaSong.Title.Trim();
+                    mananaSong.Singer = mananaSong.Singer.Trim();
+                    mananaSong.Composer = mananaSong.Composer?.Trim();
+                    mananaSong.Lyricist = mananaSong.Lyricist?.Trim();
+                    SaveMananaSongToDatabase(mananaSong);
                 }
-            }
-
-            var existingKaraoke = _context.Karaokes.FirstOrDefault(k => k.Provider == song.Brand && k.No == song.No);
-            if (existingKaraoke == null)
-            {
-                var karaoke = new Karaoke
-                {
-                    Provider = song.Brand,
-                    Created = releaseDate,
-                    No = song.No,
-                    SingId = sing.Id
-                };
-                _context.Karaokes.Add(karaoke);
-            }
-            else
-            {
-                continue;
             }
         }
 
         _context.SaveChanges();
     }
 
-}
+    private void SaveMananaSongToDatabase(MananaSong mananaSong)
+    {
+        var culture = new CultureInfo("ko-kr");
+        var existingKaraoke = _context.Karaokes
+            .FirstOrDefault(k => k.Provider == mananaSong.Brand && k.No == mananaSong.No);
 
-public class Song
-{
-    public required string No { get; set; }
+        if (existingKaraoke != null)
+        {
+            return;
+        }
 
-    public required string Brand { get; set; }
+        var defaultDate = "0000-00-00";
+        DateTime? releaseDate = DateTime.MinValue;
+        if (mananaSong.Release.HasValue && mananaSong.Release.Value.ToString("yyyy-MM-dd", culture) != defaultDate)
+        {
+            releaseDate = mananaSong.Release.Value;
+        }
 
-    public required string Title { get; set; }
+        var instrumental = new Instrumental
+        {
+            Title = mananaSong.Title,
+            NormalizedTitle = mananaSong.Title.ToUpper(),
+            SoundId = null,
+            Created = DateTime.UtcNow,
+            Composer = mananaSong.Composer,
+        };
 
-    public required string Singer { get; set; }
+        _context.Instrumental.Add(instrumental);
 
-    public required string Composer { get; set; }
+        var sing = new Sing
+        {
+            InstrumentalId = instrumental.Id,
+            SoundId = null,
+            Language = null,
+            Created = releaseDate
+        };
 
-    public string? Lyricist { get; set; }
+        _context.Sings.Add(sing);
 
-    public required string Release { get; set; }
+        var userinfo = new KaoListUser
+        {
+            NickName = mananaSong.Singer,
+            NormalizedNickName = mananaSong.Singer.ToUpper(),
+            NickNameEditedDatetime = DateTime.UtcNow
+        };
+
+        _context.Users.Add(userinfo);
+
+        var user = _context.Users.FirstOrDefault(u => u.NickName == mananaSong.Singer);
+
+        if (user != null)
+        {
+            var singUser = new SingUser
+            {
+                SingId = sing.Id,
+                UserId = user.Id
+            };
+
+            if (!_context.SingUsers.Any(su => su.SingId == singUser.SingId && su.UserId == singUser.UserId))
+            {
+                _context.SingUsers.Add(singUser);
+            }
+        }
+
+        var karaoke = new Karaoke
+        {
+            Provider = mananaSong.Brand,
+            Created = releaseDate,
+            No = mananaSong.No,
+            SingId = sing.Id
+        };
+
+        _context.Karaokes.Add(karaoke);
+        _context.SaveChanges();
+    }
 }

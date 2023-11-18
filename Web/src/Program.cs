@@ -28,6 +28,7 @@ using Duende.IdentityServer.Services;
 using CodeRabbits.KaoList.Web.IdentityServer;
 using Duende.IdentityServer.Validation;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using CodeRabbits.KaoList.Web.Services.Mananas;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -45,6 +46,8 @@ services.AddDbContext<KaoListDataContext>(options =>
     }));
 
 services.AddTransient<SongService>();
+services.AddTransient<MananaService>();
+services.AddHostedService<DailyTaskService>();
 services.AddTransient<UserService>();
 services.AddTransient<IEmailSender>(provider =>
         new NaverEmailSender(
@@ -54,6 +57,9 @@ services.AddTransient<IEmailSender>(provider =>
     );
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+builder.Services.AddDbContext<KaoListDataContext>(options =>
+    options.UseSqlServer(connectionString));
 
 builder.Services.AddDefaultIdentity<KaoListUser>();
 /*builder.Services.AddIdentity<KaoListUser, KaoListRole>()
@@ -128,7 +134,6 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier);
 
 builder.Services.AddScoped<IClientRequestParametersProvider, ClientRequestParametersProvider>();
-// builder.Services.AddScoped<IDiscoveryResponseGenerator, CodeRabbitsDiscoveryResponseGenerator>();
 builder.Services.AddScoped<IRedirectUriValidator, RedirectUriValidator>();
 
 builder.Services.AddScoped<IServerUrls, ServerUrls>();

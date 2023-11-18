@@ -788,7 +788,5 @@ namespace CodeRabbits.KaoList.Web.Controllers
                 Resources = resources.ToArray()
             };
         }
-
-
     }
 }

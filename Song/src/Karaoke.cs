@@ -1,4 +1,7 @@
-﻿namespace CodeRabbits.KaoList.Song;
+// Licensed to the CodeRabbits under one or more agreements.
+// The CodeRabbits licenses this file to you under the MIT license.
+
+namespace CodeRabbits.KaoList.Song;
 
 /// <summary>
 /// The sing number registered in karaoke.

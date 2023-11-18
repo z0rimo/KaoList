@@ -31,6 +31,7 @@ FROM build AS publish
 RUN dotnet publish "CodeRabbits.KaoList.Web.csproj" -c Release -o /app/publish /p:UseAppHost=false
 COPY --from=build /src/Web/src/client-app/public/css ./css
 COPY --from=build /src/Web/src/client-app/public/js ./js
+COPY --from=build /src/Web/src/client-app/public/svg ./svg
 
 FROM base AS final
 WORKDIR /app
