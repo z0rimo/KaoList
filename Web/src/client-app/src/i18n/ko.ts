@@ -125,6 +125,9 @@ const lang: Required<II18nResources> = {
         "Representative song": "대표곡",
         "Change": "변경"
     },
+    "Common" : {
+        "KaoList": "카오리스트",
+    },
 }
 
 export default lang;

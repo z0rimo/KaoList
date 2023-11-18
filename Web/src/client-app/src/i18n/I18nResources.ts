@@ -125,6 +125,9 @@ interface Resources {
         "Representative song": string;
         "Change": string;
     },
+    "Common" : {
+        "KaoList": string;
+    }
 }
 
 export type I18nResourcesKeyType = keyof Resources;

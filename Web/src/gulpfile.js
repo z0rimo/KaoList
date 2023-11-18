@@ -17,7 +17,7 @@ const regex = {
     css: /\.css$/,
     js: /\.js$/,
     sass: /\.s[a|c]ss$/
-}; 
+};
 
 gulp.task('sass', () => gulp.src('client-app/src/scss/**/*.s[a|c]ss')
     .pipe(sass({
@@ -49,5 +49,3 @@ gulp.task('clean', () =>
 gulp.task('watch', () => {
     gulp.watch("Styles/**/*.s[a|c]ss", gulp.series(["sass", "min:css"]));
 });
-
-gulp.task('default', gulp.series(['min']));

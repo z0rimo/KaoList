@@ -125,6 +125,9 @@ const lang: II18nResources = {
         "Representative song": "Representative song",
         "Change": "Change"
     },
+    "Common" : {
+        "KaoList": "KaoList",
+    },
 }
 
 export default lang;

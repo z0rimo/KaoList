@@ -159,8 +159,8 @@ if (app.Environment.IsDevelopment())
     app.UseStaticFiles(new StaticFileOptions
     {
         FileProvider = new PhysicalFileProvider(
-           Path.Combine(builder.Environment.ContentRootPath, "scripts")),
-        RequestPath = "/ts"
+           Path.Combine(builder.Environment.ContentRootPath, "public/js")),
+        RequestPath = "/js"
     });
 
     app.UseHttpsRedirection();
