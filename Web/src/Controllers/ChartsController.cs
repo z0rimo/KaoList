@@ -266,7 +266,106 @@ namespace CodeRabbits.KaoList.Web.Controllers
             return new LikedChartListResponse
             {
                 Etag = new Guid().ToString(),
-                resources = resources,
+                Resources = resources,
+                NextPageToken = nextPageToken,
+                PrevPageToken = prevPageToken,
+                PageInfo = new PageInfo()
+                {
+                    TotalResults = totalResults,
+                    ResultPerPage = resultsPerPage
+                }
+            };
+        }
+
+        private async Task<IEnumerable<LikedChartResource>> GetTotalLikedSongsBySnippetAsync(int offset, int maxResults)
+        {
+            var context = CreateScopedDataContext();
+            var songs = await (from ps in context.PopularSings
+                               join sing in context.Sings on ps.SingId equals sing.Id
+                               join inst in context.Instrumental on sing.InstrumentalId equals inst.Id
+                               orderby ps.Created descending, inst.Title
+                               select new
+                               {
+                                   Sing = sing,
+                                   Instrumental = inst,
+                                   PopularSing = ps,
+                                   SongUsers = context.SingUsers
+                                                      .Where(su => su.SingId == sing.Id)
+                                                      .Join(context.Users,
+                                                            su => su.UserId,
+                                                            user => user.Id,
+                                                            (su, user) => new { su, user.NickName })
+                                                      .ToList(),
+                                   KaraokeInfo = context.Karaokes
+                                                        .Where(k => k.SingId == sing.Id)
+                                                        .Select(k => new { k.Provider, k.No })
+                                                        .FirstOrDefault()
+                               })
+                               .Skip(offset)
+                               .Take(maxResults)
+                               .ToListAsync();
+
+            int rank = offset + 1;
+
+            return songs.Select(song => new LikedChartResource
+            {
+                Id = song.Sing.Id,
+                Snippet = new LikedChartSnippet
+                {
+                    Rank = rank++,
+                    Created = song.PopularSing.Created,
+                    Title = song.Instrumental.Title,
+                    SongUsers = song.SongUsers.Select(su => new SongUser
+                    {
+                        Id = su.su.UserId,
+                        Nickname = su.NickName
+                    }),
+                    Composer = song.Instrumental.Composer,
+                    Thumbnail = new ThumbnailResource
+                    {
+                        Url = song.Instrumental.SoundId,
+                        Width = 300,
+                        Height = 300
+                    },
+                    Karaoke = new SongKaraokeItem
+                    {
+                        No = song.KaraokeInfo?.No,
+                        ProviderName = song.KaraokeInfo?.Provider
+                    }
+                }
+            }).ToList();
+        }
+
+        [HttpGet("list/totalLike")]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(LikedChartListResponse), StatusCodes.Status200OK)]
+        public async Task<LikedChartListResponse> GetTotalLikedChartListAsync(
+            [FromQuery(Name = "part")] ChartPart part,
+            [FromQuery(Name = "page")] int page = 1,
+            int maxResults = 20
+            )
+        {
+            int offset = (page - 1) * maxResults;
+            var resources = new List<LikedChartResource>();
+
+            if (part.Equals(ChartPart.Id))
+            {
+
+            }
+            else
+            {
+                var totalLikedChartItemsBySnippet = await GetTotalLikedSongsBySnippetAsync(offset, maxResults);
+                resources.AddRange(totalLikedChartItemsBySnippet);
+            }
+
+            int totalResults = 100;
+            int resultsPerPage = resources.Count;
+            var (nextPageToken, prevPageToken) = PaginationHelper.CalculatePageTokens(offset, maxResults, totalResults);
+
+            return new LikedChartListResponse
+            {
+                Etag = Guid.NewGuid().ToString(),
+                Resources = resources,
                 NextPageToken = nextPageToken,
                 PrevPageToken = prevPageToken,
                 PageInfo = new PageInfo()
