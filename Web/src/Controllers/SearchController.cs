@@ -171,7 +171,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
                 parts = new[] { SearchPart.Snippet };
             }
 
-            int offset = (page - 1) * maxResults;
+            var offset = (page - 1) * maxResults;
             var items = new List<SearchResource>();
             var token = HttpContext.GetIdentityToken();
           
@@ -205,8 +205,8 @@ namespace CodeRabbits.KaoList.Web.Controllers
                 }
             }
 
-            int totalResults = await GetTotalResultsFromDBAsync(querys);
-            int resultsPerPage = items.Count;
+            var totalResults = await GetTotalResultsFromDBAsync(querys);
+            var resultsPerPage = items.Count;
             var (nextPageToken, prevPageToken) = PaginationHelper.CalculatePageTokens(offset, maxResults, totalResults);
             // 할당분해
             // 참고: https://learn.microsoft.com/ko-kr/dotnet/csharp/whats-new/csharp-10#assignment-and-declaration-in-same-deconstruction

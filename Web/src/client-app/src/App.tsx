@@ -4,7 +4,6 @@ import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import './i18n';
 import { Login, LoginActions, Logout, LogoutActions } from './components/identity';
-import PlaylistPage from './pages/PlaylistPage';
 import EmptyPage from './pages/EmptyPage';
 import RoutePath from './RoutePath';
 import IdentityContext, { useIdentityContextBlock } from './contexts/IdentityContext';
@@ -80,8 +79,6 @@ function App() {
                             <Route path='/songs'>
                                 <Route path={RoutePath['songDetail']} element={<SongDetailPage />} />
                             </Route>
-                            <Route path='/community' element={<EmptyPage />} />
-                            <Route path={RoutePath['playlist']} element={<PlaylistPage />} />
                             <Route path={RoutePath['search']} element={<SearchPage />} />
                             <Route path={RoutePath['myPage']} element={<MyPage />} />
                             <Route path={window.authPaths.Login} element={loginAction(LoginActions.Login)} />
