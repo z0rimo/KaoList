@@ -518,10 +518,10 @@ namespace CodeRabbits.KaoList.Web.Controllers
                 }
             }
 
-            int totalResults = await GetTotalResultsFromDBAsync(ids);
-            int resultsPerPage = items.Count;
-            int nextOffset = offset + maxResults;
-            int prevOffset = offset - maxResults > 0 ? offset - maxResults : 0;
+            var totalResults = await GetTotalResultsFromDBAsync(ids);
+            var resultsPerPage = items.Count;
+            var nextOffset = offset + maxResults;
+            var prevOffset = offset - maxResults > 0 ? offset - maxResults : 0;
 
             return new SongListResponse
             {
@@ -672,6 +672,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
             )
         {
             var context = CreateScopedDataContext();
+            var token = HttpContext.GetIdentityToken();
 
             var instId = context.Sings.Where(s => s.Id == id).Select(s => s.InstrumentalId).FirstOrDefault();
             var songDetail = await GetSongDetailBySnippetAsync(id);
@@ -679,6 +680,16 @@ namespace CodeRabbits.KaoList.Web.Controllers
             var userId = _userManager.GetUserId(User);
             var otherSongs = await GetOtherSongsAsync(instId!, id, maxResults);
             var otherMySongs = await GetOtherMySongsAsync(userId, instId, maxResults);
+
+            var log = new SongDetailLog
+            {
+                SingId = id,
+                UserId = _userManager.GetUserId(User),
+                IdentityToken = token
+            };
+
+            _context.SongDetailLogs.Add(log);
+            await _context.SaveChangesAsync();
 
             var response = new SongDetailResponse
             {

@@ -49,6 +49,7 @@ services.AddTransient<SongService>();
 services.AddTransient<MananaService>();
 services.AddHostedService<DailyTaskService>();
 services.AddTransient<UserService>();
+services.AddTransient<LogService>();
 services.AddTransient<IEmailSender>(provider =>
         new NaverEmailSender(
             configuration.GetRequiredValue<string>(AuthenticationKey.EmailSenderId),

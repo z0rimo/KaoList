@@ -9,6 +9,7 @@ using CodeRabbits.KaoList.Web.Models.Search;
 using CodeRabbits.KaoList.Web.Models.Searchs;
 using CodeRabbits.KaoList.Web.Models.Songs;
 using CodeRabbits.KaoList.Web.Models.Thumbnails;
+using CodeRabbits.KaoList.Web.Services;
 using Duende.IdentityServer.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -23,16 +24,19 @@ namespace CodeRabbits.KaoList.Web.Controllers
         private readonly KaoListDataContext _context;
         private readonly IServiceScopeFactory _serviceScopeFactory;
         private readonly UserManager<KaoListUser> _userManager;
+        private readonly LogService _logService;
 
         public SearchController(
             KaoListDataContext context,
             IServiceScopeFactory serviceScopeFactory,
-            UserManager<KaoListUser> userManager
+            UserManager<KaoListUser> userManager,
+            LogService logService
             )
         {
             _context = context;
             _serviceScopeFactory = serviceScopeFactory;
             _userManager = userManager;
+            _logService = logService;
         }
 
         private KaoListDataContext CreateScopedDataContext()
@@ -177,20 +181,11 @@ namespace CodeRabbits.KaoList.Web.Controllers
           
             if (querys is not null && querys.Any())
             {
-                var log = new SongSearchLog
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    Query = string.Join(",", querys),
-                    UserId = _userManager.GetUserId(User),
-                    IdentityToken = token
-                };
+                await _logService.CreateSearchLogAsync(string.Join(",", querys), _userManager.GetUserId(User), token);
 
-                _context.SongSearchLogs.Add(log);
-                await _context.SaveChangesAsync();
-                
                 foreach (var part in parts)
                 {
-                    switch (part)
+                    switch (part) 
                     {
                         case SearchPart.Id:
                             var searchItemsById = await GetSearchItemByIdAsync(querys, offset, maxResults);
@@ -208,9 +203,6 @@ namespace CodeRabbits.KaoList.Web.Controllers
             var totalResults = await GetTotalResultsFromDBAsync(querys);
             var resultsPerPage = items.Count;
             var (nextPageToken, prevPageToken) = PaginationHelper.CalculatePageTokens(offset, maxResults, totalResults);
-            // 할당분해
-            // 참고: https://learn.microsoft.com/ko-kr/dotnet/csharp/whats-new/csharp-10#assignment-and-declaration-in-same-deconstruction
-            //       https://learn.microsoft.com/ko-kr/dotnet/csharp/fundamentals/functional/deconstruct
 
             return new SearchListResponse
             {
