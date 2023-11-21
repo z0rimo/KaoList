@@ -4,6 +4,7 @@ using CodeRabbits.KaoList.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CodeRabbits.KaoList.Web.Migrations
 {
     [DbContext(typeof(KaoListDataContext))]
-    partial class KaoListDataContextModelSnapshot : ModelSnapshot
+    [Migration("20231120155006_Modify_properties_2")]
+    partial class Modify_properties_2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

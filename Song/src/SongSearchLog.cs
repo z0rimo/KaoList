@@ -1,4 +1,7 @@
-﻿namespace CodeRabbits.KaoList.Song;
+// Licensed to the CodeRabbits under one or more agreements.
+// The CodeRabbits licenses this file to you under the MIT license.
+
+namespace CodeRabbits.KaoList.Song;
 
 /// <summary>
 /// This is the log information for searching for a song.
@@ -14,6 +17,11 @@ public class SongSearchLog
     /// The query used to search.
     /// </summary>
     public virtual string? Query { get; set; }
+
+    /// <summary>
+    /// Sing's Id from the search results.
+    /// </summary>
+    public virtual string? SingId { get; set; }
 
     /// <summary>
     /// The user who made the search.

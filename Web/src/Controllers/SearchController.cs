@@ -181,7 +181,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
           
             if (querys is not null && querys.Any())
             {
-                await _logService.CreateSearchLogAsync(string.Join(",", querys), _userManager.GetUserId(User), token);
+                await _logService.CreateSongSearchLogAsync(string.Join(",", querys), _userManager.GetUserId(User), token);
 
                 foreach (var part in parts)
                 {

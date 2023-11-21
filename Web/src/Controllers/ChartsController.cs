@@ -199,14 +199,14 @@ namespace CodeRabbits.KaoList.Web.Controllers
                 .CountAsync();
         }
 
-        private async Task<int> GetSongSearchCountAsync(string query, DateTime? startDate, DateTime? endDate)
+        /*private async Task<int> GetSongSearchCountAsync(string query, DateTime? startDate, DateTime? endDate)
         {
             var context = CreateScopedDataContext();
 
             return await context.SongSearchLogs
                 .Where(s => s.Query!.Contains(query) && s.Created >= startDate && s.Created <= endDate)
                 .CountAsync();
-        }
+        }*/
 
         private async Task<double> CalculateSongScoreAsync(string singId, DateTime? startDate, DateTime? endDate)
         {
@@ -219,9 +219,9 @@ namespace CodeRabbits.KaoList.Web.Controllers
             double searchWeight = 0.1;
 
             int followCount = await GetSongFollowCountAsync(singId, startDate, endDate);
-            int searchCount = await GetSongSearchCountAsync(singId, startDate, endDate);
+            //int searchCount = await GetSongSearchCountAsync(singId, startDate, endDate);
 
-            return (followCount * followWeight) + (searchCount * searchWeight);
+            return (followCount * followWeight); //(searchCount * searchWeight);
         }
 
         private async Task<List<PopularSing>> GetRankedSongsAsync(DateTime? startDate, DateTime? endDate)

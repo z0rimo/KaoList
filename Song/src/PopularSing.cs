@@ -1,4 +1,4 @@
-﻿namespace CodeRabbits.KaoList.Song;
+namespace CodeRabbits.KaoList.Song;
 
 /// <summary>
 /// Popular song information.
@@ -18,5 +18,5 @@ public class PopularSing
     /// <summary>
     /// The time the score was scored.
     /// </summary>
-    public virtual DateTime? Created { get; set; }
+    public virtual DateTime? Created { get; set; } = DateTime.Now;
 }

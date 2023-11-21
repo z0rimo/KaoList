@@ -23,14 +23,6 @@ function HeaderNav() {
         handleClick(evt, RoutePath['home']);
     }, [handleClick]);
 
-    const handleCommunityClick = React.useCallback<MouseEventHandler>((evt: MouseEvent) => {
-        handleClick(evt, RoutePath['community']);
-    }, [handleClick]);
-
-    const handlePlaylistClick = React.useCallback<MouseEventHandler>((evt: MouseEvent) => {
-        handleClick(evt, RoutePath['playlist']);
-    }, [handleClick]);
-
     return (
         <nav className="nav">
             <ul className="main-nav">
@@ -39,14 +31,6 @@ function HeaderNav() {
                 <li className={HeaderManageNavPages.ChartNavClass(location)}>
                     <ChartDropDown />
                 </li>
-                <li className={ClassNameHelper.concat(HeaderManageNavPages.CommunityNavClass(location), 'link')}
-                    onClick={handleCommunityClick}>{t('Community')}
-                </li>
-                {user &&
-                    <li className={ClassNameHelper.concat(HeaderManageNavPages.PlaylistNavClass(location), 'link')}
-                        onClick={handlePlaylistClick}>{t('Playlist')}
-                    </li>
-                }
             </ul>
         </nav>
     )

@@ -7,7 +7,7 @@ function PlaylistTitle() {
     const { t } = useTranslation('PlaylistTitle');
 
     return (
-        <a href={RoutePath['playlist']} className="title">
+        <a href={RoutePath['home']} className="title">
             <LazyPlaylistTitleIcon className="title-list-icon" />
             {t("Playlist")}
         </a>

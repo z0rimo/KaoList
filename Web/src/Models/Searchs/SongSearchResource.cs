@@ -5,8 +5,12 @@ using CodeRabbits.KaoList.Web.Models.Songs;
 
 namespace CodeRabbits.KaoList.Web.Models.Searchs
 {
-    public class SearchSnippet
+    public class SearchResource : KaoListResponse
     {
+        public override string Kind { get; set; } = "kaoList#searchResult";
 
+        public SearchSong? Id { get; set; } = default!;
+
+        public SongSnippet? Snippet { get; set; }
     }
 }

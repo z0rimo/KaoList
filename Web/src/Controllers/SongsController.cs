@@ -7,6 +7,7 @@ using CodeRabbits.KaoList.Song;
 using CodeRabbits.KaoList.Web.Models;
 using CodeRabbits.KaoList.Web.Models.Songs;
 using CodeRabbits.KaoList.Web.Models.Thumbnails;
+using CodeRabbits.KaoList.Web.Services;
 using Duende.IdentityServer.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -21,14 +22,17 @@ namespace CodeRabbits.KaoList.Web.Controllers
         private readonly KaoListDataContext _context;
         private readonly IServiceScopeFactory _serviceScopeFactory;
         private readonly UserManager<KaoListUser> _userManager;
+        private readonly LogService _logService;
 
         public SongsController(KaoListDataContext context,
             IServiceScopeFactory serviceScopeFactory,
-            UserManager<KaoListUser> userManager)
+            UserManager<KaoListUser> userManager,
+            LogService logService)
         {
             _context = context;
             _serviceScopeFactory = serviceScopeFactory;
             _userManager = userManager;
+            _logService = logService;
         }
 
         private KaoListDataContext CreateScopedDataContext()
@@ -679,17 +683,8 @@ namespace CodeRabbits.KaoList.Web.Controllers
 
             var userId = _userManager.GetUserId(User);
             var otherSongs = await GetOtherSongsAsync(instId!, id, maxResults);
-            var otherMySongs = await GetOtherMySongsAsync(userId, instId, maxResults);
 
-            var log = new SongDetailLog
-            {
-                SingId = id,
-                UserId = _userManager.GetUserId(User),
-                IdentityToken = token
-            };
-
-            _context.SongDetailLogs.Add(log);
-            await _context.SaveChangesAsync();
+            await _logService.CreateSongDetailLogAsync(id, userId, token);
 
             var response = new SongDetailResponse
             {
@@ -697,8 +692,9 @@ namespace CodeRabbits.KaoList.Web.Controllers
                 OtherSongs = otherSongs
             };
 
-            if (otherMySongs != null && otherMySongs.Any())
+            if (userId is not null)
             {
+                var otherMySongs = await GetOtherMySongsAsync(userId, instId!, maxResults);
                 response.OtherMySongs = otherMySongs;
             }
 

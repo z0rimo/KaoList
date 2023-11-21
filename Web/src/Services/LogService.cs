@@ -17,16 +17,30 @@ public class LogService
         _context = context;
     }
 
-    public async Task CreateSearchLogAsync(string query, string? userId, string token)
+    public async Task CreateSongSearchLogAsync(string query, string? singId, string? userId, string token)
     {
         var log = new SongSearchLog
         {
             Query = query,
+            SingId = singId,
             UserId = userId,
             IdentityToken = token
         };
 
         _context.SongSearchLogs.Add(log);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task CreateSongDetailLogAsync(string id, string? userId, string token)
+    {
+        var log = new SongDetailLog
+        {
+            SingId = id,
+            UserId = userId,
+            IdentityToken = token
+        };
+
+        _context.SongDetailLogs.Add(log);
         await _context.SaveChangesAsync();
     }
 }
