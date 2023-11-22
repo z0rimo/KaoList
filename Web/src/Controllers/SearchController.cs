@@ -128,6 +128,11 @@ namespace CodeRabbits.KaoList.Web.Controllers
                                .Take(maxResults)
                                .ToListAsync();
 
+            foreach (var song in songs)
+            {
+                await _logService.CreateSongSearchLogAsync(string.Join(",", querys), song.Sing.Id, _userManager.GetUserId(User), HttpContext.GetIdentityToken());
+            }
+
             return songs.Select(song => new SearchResource
             {
                 Id = new SearchSong
@@ -177,12 +182,9 @@ namespace CodeRabbits.KaoList.Web.Controllers
 
             var offset = (page - 1) * maxResults;
             var items = new List<SearchResource>();
-            var token = HttpContext.GetIdentityToken();
           
             if (querys is not null && querys.Any())
             {
-                await _logService.CreateSongSearchLogAsync(string.Join(",", querys), _userManager.GetUserId(User), token);
-
                 foreach (var part in parts)
                 {
                     switch (part) 

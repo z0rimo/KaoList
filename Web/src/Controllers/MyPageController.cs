@@ -182,7 +182,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
                     return BadRequest(new { Message = "Image is null or empty" });
                 }
 
-                string extension = Path.GetExtension(image.Image.FileName).ToLowerInvariant();
+                var extension = Path.GetExtension(image.Image.FileName).ToLowerInvariant();
                 if (string.IsNullOrEmpty(extension) || (extension != ".jpg" && extension != ".png"))
                 {
                     return BadRequest(new { Message = "Only .jpg and .png extensions are allowed" });
@@ -193,10 +193,10 @@ namespace CodeRabbits.KaoList.Web.Controllers
                     return BadRequest(new { Message = "File size exceeds the 2MB limit" });
                 }
 
-                string folderPath = _hostEnvironment.WebRootPath;
-                string fileNameWithoutProfiles = $"{Guid.NewGuid()}{extension}";
-                string fileNameWithProfiles = $"/profiles/{fileNameWithoutProfiles}";
-                string imagePath = Path.Combine(folderPath, "profiles", fileNameWithoutProfiles);
+                var folderPath = _hostEnvironment.WebRootPath;
+                var fileNameWithoutProfiles = $"{Guid.NewGuid()}{extension}";
+                var fileNameWithProfiles = $"/profiles/{fileNameWithoutProfiles}";
+                var imagePath = Path.Combine(folderPath, "profiles", fileNameWithoutProfiles);
 
                 using (var stream = new FileStream(imagePath, FileMode.Create))
                 {

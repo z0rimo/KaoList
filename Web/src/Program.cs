@@ -29,6 +29,7 @@ using CodeRabbits.KaoList.Web.IdentityServer;
 using Duende.IdentityServer.Validation;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using CodeRabbits.KaoList.Web.Services.Mananas;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -123,7 +124,9 @@ builder.Services.AddAuthentication(o =>
 builder.Services.AddControllersWithViews()
     .AddJsonOptions(options =>
     {
-        options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+        options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
+        options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+
     });
 builder.Services.AddRazorPages();
 builder.Services.Configure<SvgTagHelperOption>(o =>
