@@ -28,10 +28,14 @@ public class DailyTaskService : BackgroundService
     {
         using var scope = _serviceScopeFactory.CreateScope();
         var songService = scope.ServiceProvider.GetRequiredService<SongService>();
-        await songService.FetchAndSaveSongsToDb();
+        var task1 = songService.FetchAndSaveSongsToDb();
         var songScoreService = scope.ServiceProvider.GetRequiredService<SongScoreService>();
-        await songScoreService.UpdatePoplularDailySings();
-        await songScoreService.UpdatePopularSings();
+        var task2 = songScoreService.UpdatePoplularDailySings();
+        var task3 = songScoreService.UpdatePopularSings();
+
+        await task1;
+        await task2;
+        await task3;
     }
 
     public override async Task StopAsync(CancellationToken cancellationToken)

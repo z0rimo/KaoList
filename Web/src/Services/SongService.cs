@@ -52,7 +52,7 @@ public class SongService
             }
         }
 
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
     }
 
     private void SaveMananaSongToDatabase(MananaSong mananaSong)
@@ -128,6 +128,5 @@ public class SongService
         };
 
         _context.Karaokes.Add(karaoke);
-        _context.SaveChanges();
     }
 }
