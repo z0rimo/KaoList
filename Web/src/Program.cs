@@ -30,6 +30,7 @@ using Duende.IdentityServer.Validation;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using CodeRabbits.KaoList.Web.Services.Mananas;
 using System.Text.Json;
+using CodeRabbits.KaoList.Web.Services.Songs;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -47,6 +48,7 @@ services.AddDbContext<KaoListDataContext>(options =>
     }));
 
 services.AddTransient<SongService>();
+services.AddTransient<SongScoreService>();
 services.AddTransient<MananaService>();
 services.AddHostedService<DailyTaskService>();
 services.AddTransient<UserService>();

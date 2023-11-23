@@ -6,6 +6,7 @@ namespace CodeRabbits.KaoList.Web.Services;
 using System.Threading;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using CodeRabbits.KaoList.Web.Services.Songs;
 
 public class DailyTaskService : BackgroundService
 {
@@ -28,6 +29,9 @@ public class DailyTaskService : BackgroundService
         using var scope = _serviceScopeFactory.CreateScope();
         var songService = scope.ServiceProvider.GetRequiredService<SongService>();
         await songService.FetchAndSaveSongsToDb();
+        var songScoreService = scope.ServiceProvider.GetRequiredService<SongScoreService>();
+        await songScoreService.UpdatePoplularDailySings();
+        await songScoreService.UpdatePopularSings();
     }
 
     public override async Task StopAsync(CancellationToken cancellationToken)
