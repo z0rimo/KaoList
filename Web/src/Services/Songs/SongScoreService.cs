@@ -34,15 +34,15 @@ public class SongScoreService
 
         var detailScores = await context.SongDetailLogs
             .Where(log => log.Created >= today)
-           .GroupBy(log => log.SingId)
-           .Select(g => new SongRecord { SingId = g.Key, Score = g.Count() * 0.5 })
-           .ToListAsync();
+            .GroupBy(log => log.SingId)
+            .Select(g => new SongRecord { SingId = g.Key, Score = g.Count() * 0.5 })
+            .ToListAsync();
 
         var followerScores = await context.SingFollowers
             .Where(log => log.Created >= today)
-           .GroupBy(log => log.SingId)
-           .Select(g => new SongRecord { SingId = g.Key, Score = g.Count() * 1 })
-           .ToListAsync();
+            .GroupBy(log => log.SingId)
+            .Select(g => new SongRecord { SingId = g.Key, Score = g.Count() * 1 })
+            .ToListAsync();
 
         var combinedScores = detailScores.Concat(searchScores).Concat(followerScores)
             .GroupBy(x => x.SingId)
