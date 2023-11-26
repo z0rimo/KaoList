@@ -92,6 +92,7 @@ public class SongScoreService
                 popularSing.Score += score.TotalScore;
             }
         }
+
         await context.SaveChangesAsync();
     }
 }

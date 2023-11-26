@@ -31,6 +31,9 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using CodeRabbits.KaoList.Web.Services.Mananas;
 using System.Text.Json;
 using CodeRabbits.KaoList.Web.Services.Songs;
+using CodeRabbits.KaoList.Web.Services.YouTubes;
+using Polly.Extensions.Http;
+using Polly;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -148,6 +151,16 @@ builder.Services.Configure<ForwardedHeadersOptions>(options =>
 {
     options.ForwardedHeaders =
         ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+});
+
+builder.Services.AddHttpClient<YouTubeService>(options =>
+{
+}).AddPolicyHandler(p =>
+{
+    return HttpPolicyExtensions
+        .HandleTransientHttpError()
+        .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
+        .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
 });
 
 var app = builder.Build();
