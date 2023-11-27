@@ -330,14 +330,14 @@ namespace CodeRabbits.KaoList.Web.Controllers
 
             var context = CreateScopedDataContext();
 
-            bool isFollowed = await context.SingFollowers.AnyAsync(sf => sf.SingId == singId && sf.UserId == userId);
+            var isFollowed = await context.SingFollowers.AnyAsync(sf => sf.SingId == singId && sf.UserId == userId);
 
             if (isFollowed)
             {
                 return SongRating.Follow;
             }
 
-            bool isBlinded = await context.SingBlinds.AnyAsync(sb => sb.SingId == singId && sb.UserId == userId);
+            var isBlinded = await context.SingBlinds.AnyAsync(sb => sb.SingId == singId && sb.UserId == userId);
 
             return isBlinded ? SongRating.Blind : SongRating.None;
         }
@@ -541,7 +541,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
             };
         }
 
-        private async Task<SongResource> GetSongDetailBySnippetAsync(string id)
+        private async Task<SongResource?> GetSongDetailBySnippetAsync(string id)
         {
             var context = CreateScopedDataContext();
             var userId = _userManager.GetUserId(User);

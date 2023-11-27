@@ -17,10 +17,10 @@ namespace CodeRabbits.KaoList.Web.Services.YouTubes
 
         }
 
-        private async Task<IEnumerable<string>> GetPopularSingIdListAsync()
+        /*private async Task<IEnumerable<string>> GetPopularSingIdListAsync()
         {
        
 
-        }
+        }*/
     }
 }
