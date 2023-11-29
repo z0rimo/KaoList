@@ -39,7 +39,6 @@ var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 var configuration = builder.Configuration;
 
-
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 services.AddDbContext<KaoListDataContext>(options =>
@@ -61,6 +60,9 @@ services.AddTransient<IEmailSender>(provider =>
             configuration.GetRequiredValue<string>(AuthenticationKey.EmailSenderId),
             configuration.GetRequiredValue<string>(AuthenticationKey.EmailSencderSecret)
         )
+    );
+services.AddTransient(provider =>
+        new YouTubeService(provider.GetRequiredService<HttpClient>(), AuthenticationKey.YouTubeApiKey)      
     );
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -119,7 +121,6 @@ builder.Services.AddAuthentication(o =>
     .AddIdentityServerJwt()
     .AddCookie(options =>
     {
-
         options.Cookie.HttpOnly = true;
         options.Cookie.SameSite = SameSiteMode.None;
         options.Cookie.SecurePolicy = CookieSecurePolicy.Always;

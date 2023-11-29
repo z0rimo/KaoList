@@ -10,6 +10,7 @@ using CodeRabbits.KaoList.Web.Models.Searchs;
 using CodeRabbits.KaoList.Web.Models.Songs;
 using CodeRabbits.KaoList.Web.Models.Thumbnails;
 using CodeRabbits.KaoList.Web.Services;
+using CodeRabbits.KaoList.Web.Services.YouTubes;
 using Duende.IdentityServer.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -25,18 +26,24 @@ namespace CodeRabbits.KaoList.Web.Controllers
         private readonly IServiceScopeFactory _serviceScopeFactory;
         private readonly UserManager<KaoListUser> _userManager;
         private readonly LogService _logService;
+        private readonly SongService _songService;
+        private readonly YouTubeService _youTubeService;
 
         public SearchController(
             KaoListDataContext context,
             IServiceScopeFactory serviceScopeFactory,
             UserManager<KaoListUser> userManager,
-            LogService logService
+            LogService logService,
+            SongService songService,
+            YouTubeService youTubeService
             )
         {
             _context = context;
             _serviceScopeFactory = serviceScopeFactory;
             _userManager = userManager;
             _logService = logService;
+            _songService = songService;
+            _youTubeService = youTubeService;
         }
 
         private KaoListDataContext CreateScopedDataContext()
@@ -130,6 +137,12 @@ namespace CodeRabbits.KaoList.Web.Controllers
 
             foreach (var song in songs)
             {
+                var soundId = await _songService.CheckSoundIdAsync(song.Sing.Id);
+                if (soundId is null)
+                {
+                    await _songService.UpdateSoundIdAsync(song.Instrumental.Id, song.Instrumental.Title, song.SongUsers.FirstOrDefault().NickName);
+                }
+
                 await _logService.CreateSongSearchLogAsync(string.Join(",", querys), song.Sing.Id, _userManager.GetUserId(User), HttpContext.GetIdentityToken());
             }
 
