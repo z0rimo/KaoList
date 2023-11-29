@@ -6,6 +6,9 @@ using CodeRabbits.KaoList.Data;
 using System.Globalization;
 using CodeRabbits.KaoList.Web.Services.Mananas;
 using CodeRabbits.KaoList.Identity;
+using Microsoft.EntityFrameworkCore;
+
+namespace CodeRabbits.KaoList.Web.Services;
 
 public class SongService
 {
@@ -128,5 +131,37 @@ public class SongService
         };
 
         _context.Karaokes.Add(karaoke);
+    }
+
+    public async Task<IEnumerable<(string SingId, string Query)>> GetYouTubeSearchDataAsync()
+    {
+        var singsWithTitlesAndInstrumentals = await _context.Sings
+            .Join(_context.Instrumental,
+                  sing => sing.InstrumentalId,
+                  instrumental => instrumental.Id,
+                  (sing, instrumental) => new { sing.Id, instrumental.Title, Instrumental = instrumental })
+            .Where(x => x.Instrumental.SoundId == null)
+            .ToListAsync();
+
+        var searchQueries = new List<(string SingId, string Query)>();
+
+        foreach (var item in singsWithTitlesAndInstrumentals)
+        {
+            var nickname = await _context.SingUsers
+                .Where(su => su.SingId == item.Id)
+                .Join(_context.Users,
+                      su => su.UserId,
+                      user => user.Id,
+                      (su, user) => user.NickName)
+                .FirstOrDefaultAsync();
+
+            if (!string.IsNullOrEmpty(nickname))
+            {
+                var query = $"{item.Title} {nickname}";
+                searchQueries.Add((item.Id ?? string.Empty, query ?? string.Empty));    
+            }
+        }
+
+        return searchQueries;
     }
 }

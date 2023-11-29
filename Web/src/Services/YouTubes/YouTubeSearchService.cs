@@ -1,7 +1,7 @@
 // Licensed to the CodeRabbits under one or more agreements.
 // The CodeRabbits licenses this file to you under the MIT license.
 
-using System.Net.Http.Headers;
+using System.Text.Json;
 
 namespace CodeRabbits.KaoList.Web.Services.YouTubes;
 
@@ -22,15 +22,20 @@ public class YouTubeSearchService
     public async Task<YouTubeSearchListResponse> GetSearchListAsync(
         YouTubeSearchOptions options,
         string? q,
-        string? accessToken,
         string? apiKey
         )
     {
+        var jsonOptions = new JsonSerializerOptions
+        {
+            Converters = { new DateTimeJsonConverter() },
+            PropertyNameCaseInsensitive = true
+        };
+
         var queryParams = new List<string>
         {
-            $"part={options.Part.ToString().ToLower()}",
+            $"part={options.Part?.ToString().ToLower()}",
             $"q={q}",
-            $"regionCode={options.RegionCode.ToString().Replace("_", "-")}",
+            $"regionCode={options.RegionCode?.ToString().Replace("_", "-")}",
             $"maxResults={options.MaxResults}",
             $"type={options.Type}"
         };
@@ -40,11 +45,6 @@ public class YouTubeSearchService
             queryParams.Add($"key={apiKey}");
         }
 
-        if (!string.IsNullOrEmpty(accessToken))
-        {
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
-        }
-
         var queryString = string.Join("&", queryParams);
         var url = $"https://www.googleapis.com/youtube/v3/search?{queryString}";
 
@@ -52,7 +52,16 @@ public class YouTubeSearchService
         if (!response.IsSuccessStatusCode)
         {
             _logger.LogError($"YouTube API call failed: {response.StatusCode}");
-            return null;
+            throw new Exception($"YouTube API call failed with status code: {response.StatusCode}");
         }
+
+        var searchResponse = await response.Content.ReadFromJsonAsync<YouTubeSearchListResponse>(jsonOptions);
+        if (searchResponse is null)
+        {
+            _logger.LogError("YouTube API returned empty response.");
+            throw new Exception("YouTube API returned empty response.");
+        }
+
+        return searchResponse;
     }
 }
