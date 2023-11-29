@@ -198,11 +198,11 @@ public class SongService
         }
     }
 
-    public async Task UpdateSoundIdAsync1(IEnumerable<string> singIds)
+    /*public async Task UpdateSoundIdAsync1(IEnumerable<string> singIds)
     {
         foreach (var singId in singIds)
         {
             var song = _context.Sings.Include(s => s.in)
         }
-    }
+    }*/
 }
