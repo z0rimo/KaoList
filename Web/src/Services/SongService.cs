@@ -7,6 +7,7 @@ using System.Globalization;
 using CodeRabbits.KaoList.Web.Services.Mananas;
 using CodeRabbits.KaoList.Identity;
 using Microsoft.EntityFrameworkCore;
+using CodeRabbits.KaoList.Web.Services.YouTubes;
 
 namespace CodeRabbits.KaoList.Web.Services;
 
@@ -14,13 +15,16 @@ public class SongService
 {
     private readonly KaoListDataContext _context;
     private readonly MananaService _mananaService;
+    private readonly YouTubeService _youTubeService;
 
     public SongService(
         KaoListDataContext context,
-        MananaService mananaService)
+        MananaService mananaService,
+        YouTubeService youTubeService)
     {
         _context = context;
         _mananaService = mananaService;
+        _youTubeService = youTubeService;
     }
 
     public void DeleteAll()
@@ -163,5 +167,42 @@ public class SongService
         }
 
         return searchQueries;
+    }
+
+    public async Task<string?> CheckSoundIdAsync(string? singId)
+    {
+        var soundId = await (from sing in _context.Sings
+                             join inst in _context.Instrumental on sing.InstrumentalId equals inst.Id
+                             where sing.Id == singId
+                             select inst.SoundId
+                             )
+                             .FirstOrDefaultAsync();
+
+        return soundId;
+    }
+
+    public async Task UpdateSoundIdAsync(string instId, string title, string nickname)
+    {
+        var videoId = await _youTubeService.SearchSoundIdAsync(title, nickname);
+
+        if (!string.IsNullOrEmpty(videoId))
+        {
+            var instrumental = _context.Instrumental.FirstOrDefault(i => i.Id == instId);
+            if (instrumental != null)
+            {
+                instrumental.SoundId = videoId;
+                _context.Update(instrumental);
+
+                await _context.SaveChangesAsync();
+            }
+        }
+    }
+
+    public async Task UpdateSoundIdAsync1(IEnumerable<string> singIds)
+    {
+        foreach (var singId in singIds)
+        {
+            var song = _context.Sings.Include(s => s.in)
+        }
     }
 }

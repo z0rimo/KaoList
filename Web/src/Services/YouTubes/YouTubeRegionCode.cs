@@ -5,5 +5,5 @@ namespace CodeRabbits.KaoList.Web.Services.YouTubes;
 
 public enum YouTubeRegionCode
 {
-    KO_KR,
+    KR,
 }
