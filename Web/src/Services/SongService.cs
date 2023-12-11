@@ -8,6 +8,7 @@ using CodeRabbits.KaoList.Web.Services.Mananas;
 using CodeRabbits.KaoList.Identity;
 using Microsoft.EntityFrameworkCore;
 using CodeRabbits.KaoList.Web.Services.YouTubes;
+using CodeRabbits.KaoList.Web.Models.Searchs;
 
 namespace CodeRabbits.KaoList.Web.Services;
 
@@ -16,15 +17,18 @@ public class SongService
     private readonly KaoListDataContext _context;
     private readonly MananaService _mananaService;
     private readonly YouTubeService _youTubeService;
+    private readonly ILogger<SongService> _logger;
 
     public SongService(
         KaoListDataContext context,
         MananaService mananaService,
-        YouTubeService youTubeService)
+        YouTubeService youTubeService,
+        ILogger<SongService> logger)
     {
         _context = context;
         _mananaService = mananaService;
         _youTubeService = youTubeService;
+        _logger = logger;
     }
 
     public void DeleteAll()
@@ -137,38 +141,6 @@ public class SongService
         _context.Karaokes.Add(karaoke);
     }
 
-    public async Task<IEnumerable<(string SingId, string Query)>> GetYouTubeSearchDataAsync()
-    {
-        var singsWithTitlesAndInstrumentals = await _context.Sings
-            .Join(_context.Instrumental,
-                  sing => sing.InstrumentalId,
-                  instrumental => instrumental.Id,
-                  (sing, instrumental) => new { sing.Id, instrumental.Title, Instrumental = instrumental })
-            .Where(x => x.Instrumental.SoundId == null)
-            .ToListAsync();
-
-        var searchQueries = new List<(string SingId, string Query)>();
-
-        foreach (var item in singsWithTitlesAndInstrumentals)
-        {
-            var nickname = await _context.SingUsers
-                .Where(su => su.SingId == item.Id)
-                .Join(_context.Users,
-                      su => su.UserId,
-                      user => user.Id,
-                      (su, user) => user.NickName)
-                .FirstOrDefaultAsync();
-
-            if (!string.IsNullOrEmpty(nickname))
-            {
-                var query = $"{item.Title} {nickname}";
-                searchQueries.Add((item.Id ?? string.Empty, query ?? string.Empty));    
-            }
-        }
-
-        return searchQueries;
-    }
-
     public async Task<string?> CheckSoundIdAsync(string? singId)
     {
         var soundId = await (from sing in _context.Sings
@@ -181,28 +153,56 @@ public class SongService
         return soundId;
     }
 
+    public async Task UpdateSoundIdUsingSearchSnippet(IEnumerable<SearchResource> searchResources)
+    {
+        foreach (var resource in searchResources)
+        {
+            var soundId = await CheckSoundIdAsync(resource.Id.Id);
+            if (soundId is null)
+            {
+                var title = resource.Snippet?.Title;
+                var nickname = resource.Snippet?.SongUsers?.FirstOrDefault()?.Nickname;
+                var instId = await _context.Sings
+                    .Where(s => s.Id == resource.Id.Id)
+                    .Select(s => s.InstrumentalId)
+                    .FirstOrDefaultAsync();
+
+                if (!string.IsNullOrEmpty(instId))
+                {
+                    await UpdateSoundIdAsync(instId, title, nickname);
+                }
+            }
+        }
+    }
+
+
     public async Task UpdateSoundIdAsync(string instId, string title, string nickname)
     {
         var videoId = await _youTubeService.SearchSoundIdAsync(title, nickname);
 
         if (!string.IsNullOrEmpty(videoId))
         {
-            var instrumental = _context.Instrumental.FirstOrDefault(i => i.Id == instId);
-            if (instrumental != null)
+            try
             {
-                instrumental.SoundId = videoId;
-                _context.Update(instrumental);
-
+                var newSound = new Sound { Path = videoId };
+                _context.Sounds.Add(newSound);
                 await _context.SaveChangesAsync();
+
+                var instrumental = await _context.Instrumental.FirstOrDefaultAsync(i => i.Id == instId);
+
+                if (instrumental != null)
+                {
+                    instrumental.SoundId = newSound.Id;
+                    _context.Update(instrumental);
+                    await _context.SaveChangesAsync();
+                }
+            }
+
+            catch (Exception ex)
+            {
+                _logger.LogError($"Exception occurred while updating SoundId for Instrumental ID: {instId} - {ex.Message}");
             }
         }
     }
 
-    /*public async Task UpdateSoundIdAsync1(IEnumerable<string> singIds)
-    {
-        foreach (var singId in singIds)
-        {
-            var song = _context.Sings.Include(s => s.in)
-        }
-    }*/
 }

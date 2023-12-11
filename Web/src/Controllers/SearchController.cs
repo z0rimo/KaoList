@@ -3,7 +3,6 @@
 
 using CodeRabbits.KaoList.Data;
 using CodeRabbits.KaoList.Identity;
-using CodeRabbits.KaoList.Song;
 using CodeRabbits.KaoList.Web.Models;
 using CodeRabbits.KaoList.Web.Models.Search;
 using CodeRabbits.KaoList.Web.Models.Searchs;
@@ -11,7 +10,6 @@ using CodeRabbits.KaoList.Web.Models.Songs;
 using CodeRabbits.KaoList.Web.Models.Thumbnails;
 using CodeRabbits.KaoList.Web.Services;
 using CodeRabbits.KaoList.Web.Services.YouTubes;
-using Duende.IdentityServer.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -72,19 +70,6 @@ namespace CodeRabbits.KaoList.Web.Controllers
             var context = CreateScopedDataContext();
             var allQueries = querys.SelectMany(q => q.Split(',')).ToList();
 
-            /*var songs = await (from sing in context.Sings
-                               join inst in context.Instrumental on sing.InstrumentalId equals inst.Id
-                               where allQueries.Contains(inst.NormalizedTitle!)
-                               select new
-                               {
-                                   Sing = sing,
-                                   Instrumental = inst
-                               })
-                               .OrderBy(s => s.Instrumental.Id)
-                               .Skip(offset)
-                               .Take(maxResults)
-                               .ToListAsync();*/
-
             var songsQuery = from sing in context.Sings
                              join inst in context.Instrumental on sing.InstrumentalId equals inst.Id
                              select new { Sing = sing, Instrumental = inst };
@@ -134,17 +119,6 @@ namespace CodeRabbits.KaoList.Web.Controllers
                                .Skip(offset)
                                .Take(maxResults)
                                .ToListAsync();
-
-            foreach (var song in songs)
-            {
-                var soundId = await _songService.CheckSoundIdAsync(song.Sing.Id);
-                if (soundId is null)
-                {
-                    await _songService.UpdateSoundIdAsync(song.Instrumental.Id, song.Instrumental.Title, song.SongUsers.FirstOrDefault().NickName);
-                }
-
-                await _logService.CreateSongSearchLogAsync(string.Join(",", querys), song.Sing.Id, _userManager.GetUserId(User), HttpContext.GetIdentityToken());
-            }
 
             return songs.Select(song => new SearchResource
             {
@@ -209,6 +183,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
 
                         case SearchPart.Snippet:
                             var searchItemsBySnippet = await GetSearchItemBySnippetAsync(querys, offset, maxResults);
+                            await _songService.UpdateSoundIdUsingSearchSnippet(searchItemsBySnippet);
                             items.AddRange(searchItemsBySnippet);
                             break;
                     }
@@ -221,7 +196,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
 
             return new SearchListResponse
             {
-                Etag = new Guid().ToString(),
+                Etag = Guid.NewGuid().ToString(),
                 Items = items,
                 NextPageToken = nextPageToken,
                 PrevPageToken = prevPageToken,

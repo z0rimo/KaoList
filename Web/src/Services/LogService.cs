@@ -10,9 +10,7 @@ public class LogService
 {
     private readonly KaoListDataContext _context;
 
-    public LogService(
-        KaoListDataContext context
-        )
+    public LogService(KaoListDataContext context)
     {
         _context = context;
     }

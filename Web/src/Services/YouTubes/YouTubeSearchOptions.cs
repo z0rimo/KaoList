@@ -9,7 +9,7 @@ public class YouTubeSearchOptions
 
     public string? Q { get; set; }
 
-    public YouTubeRegionCode? RegionCode { get; set; } = YouTubeRegionCode.KO_KR;
+    public YouTubeRegionCode? RegionCode { get; set; } = YouTubeRegionCode.KR;
 
     public int? MaxResults { get; set; } = 5;
 

@@ -1,4 +1,4 @@
-﻿namespace CodeRabbits.KaoList.Song;
+namespace CodeRabbits.KaoList.Song;
 
 /// <summary>
 /// Sound information that can play the song.
@@ -8,7 +8,7 @@ public class Sound
     /// <summary>
     /// The unique id of the sound.
     /// </summary>
-    public virtual string? Id { get; set; }
+    public virtual string? Id { get; set; } = Guid.NewGuid().ToString();
 
     /// <summary>
     /// A path through which the sound can be played.

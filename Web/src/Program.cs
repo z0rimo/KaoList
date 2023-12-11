@@ -49,21 +49,14 @@ services.AddDbContext<KaoListDataContext>(options =>
         b.EnableRetryOnFailure();
     }));
 
-services.AddTransient<SongService>();
-services.AddTransient<SongScoreService>();
-services.AddTransient<MananaService>();
+services.AddScoped<YouTubeService>();
+services.AddScoped<SongService>();
+services.AddScoped<SongScoreService>();
+services.AddScoped<MananaService>();
 services.AddHostedService<DailyTaskService>();
-services.AddTransient<UserService>();
-services.AddTransient<LogService>();
-services.AddTransient<IEmailSender>(provider =>
-        new NaverEmailSender(
-            configuration.GetRequiredValue<string>(AuthenticationKey.EmailSenderId),
-            configuration.GetRequiredValue<string>(AuthenticationKey.EmailSencderSecret)
-        )
-    );
-services.AddTransient(provider =>
-        new YouTubeService(provider.GetRequiredService<HttpClient>(), AuthenticationKey.YouTubeApiKey)      
-    );
+services.AddScoped<UserService>();
+services.AddScoped<LogService>();
+services.AddScoped<NaverEmailSender>();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
