@@ -8,15 +8,12 @@ namespace CodeRabbits.KaoList.Web.Services.YouTubes;
 public class YouTubeService
 {
     private readonly HttpClient _client;
-    private readonly string _apiKey;
+    private readonly string? _apiKey;
 
-    public YouTubeService(
-        HttpClient client,
-        string apiKey
-        )
+    public YouTubeService(HttpClient client, IConfiguration configuration)
     {
         _client = client;
-        _apiKey = apiKey;
+        _apiKey = configuration[AuthenticationKey.YouTubeApiKey];
     }
 
     public async Task<string?> SearchSoundIdAsync(string title, string nickname)
@@ -26,7 +23,7 @@ public class YouTubeService
             return null;
         }
 
-        var query = $"{title} {nickname}";
+        var query = $"{nickname} {title}";
         var searchOptions = new YouTubeSearchOptions
         {
             MaxResults = 1,
@@ -61,7 +58,7 @@ public class YouTubeService
             $"q={q}",
             $"regionCode={options.RegionCode}",
             $"maxResults={options.MaxResults}",
-            $"type={options.Type}"
+            $"type={options.Type?.ToString().ToLower()}"
         };
 
         if (!string.IsNullOrEmpty(apiKey))

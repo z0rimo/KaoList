@@ -9,29 +9,28 @@ namespace CodeRabbits.KaoList.Web.Services
 {
     public class NaverEmailSender : IEmailSender
     {
-        private readonly string _smtpUsername;
-        private readonly string _smtpPassword;
+        private readonly string? _smtpUsername;
+        private readonly string? _smtpPassword;
 
-        public NaverEmailSender(
-            string smtpUsername,
-            string smtpPassword
-            )
+        public NaverEmailSender(IConfiguration configuration)
         {
-            _smtpUsername = smtpUsername;
-            _smtpPassword = smtpPassword;
+            _smtpUsername = configuration[AuthenticationKey.NaverClientId];
+            _smtpPassword = configuration[AuthenticationKey.NaverClientClientSecret];
         }
 
         public Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
             Console.WriteLine($"Attempting to send email to {email} with subject {subject}");
 
-            SmtpClient SmtpServer = new SmtpClient("smtp.naver.com");
-            SmtpServer.UseDefaultCredentials = false;
-            SmtpServer.Port = 587;
-            SmtpServer.EnableSsl = true;
-            SmtpServer.Credentials = new NetworkCredential(_smtpUsername, _smtpPassword);
+            var SmtpServer = new SmtpClient("smtp.naver.com")
+            {
+                UseDefaultCredentials = false,
+                Port = 587,
+                EnableSsl = true,
+                Credentials = new NetworkCredential(_smtpUsername, _smtpPassword)
+            };
 
-            MailMessage mail = new MailMessage
+            var mail = new MailMessage
             {
                 From = new MailAddress(_smtpUsername),
                 Subject = subject,
