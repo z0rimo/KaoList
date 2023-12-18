@@ -5,10 +5,9 @@ namespace CodeRabbits.KaoList.Web.Services.Mananas;
 
 public enum MananaBrand
 {
-    Uga = 1,
-    /*Kumyoung = 1,
+    Kumyoung = 1,
     TJ,
     Joysound,
     Dam,
-    Uga,*/
+    Uga,
 }

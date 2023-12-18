@@ -33,7 +33,7 @@ public class DailyTaskService : BackgroundService
         var task2 = songScoreService.UpdatePoplularDailySings();
         var task3 = songScoreService.UpdatePopularSings();
 
-        //await task1;
+        await task1;
         await task2;
         await task3;
     }

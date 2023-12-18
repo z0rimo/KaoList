@@ -3,7 +3,6 @@
 
 using System.Text.Json.Serialization;
 using CodeRabbits.AspNetCore.Authentication.Naver;
-using CodeRabbits.AspNetCore.Authentication.Kakao;
 using CodeRabbits.KaoList.Data;
 using CodeRabbits.KaoList.Identity;
 using CodeRabbits.KaoList.Web;
@@ -18,16 +17,11 @@ using CodeRabbits.KaoList.Web.Services;
 using CodeRabbits.KaoList.Web.Datas;
 using System.Security.Claims;
 using CodeRabbits.KaoList.Web.Areas.Identity.Pages;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.AspNetCore.HttpOverrides;
-using Duende.IdentityServer.ResponseHandling;
 using Duende.IdentityServer.Services;
 using CodeRabbits.KaoList.Web.IdentityServer;
 using Duende.IdentityServer.Validation;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using CodeRabbits.KaoList.Web.Services.Mananas;
 using System.Text.Json;
 using CodeRabbits.KaoList.Web.Services.Songs;
@@ -60,7 +54,7 @@ services.AddScoped<NaverEmailSender>();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDbContext<KaoListDataContext>(options =>
-    options.UseSqlServer(connectionString));
+options.UseSqlServer(connectionString));
 
 builder.Services.AddDefaultIdentity<KaoListUser>();
 /*builder.Services.AddIdentity<KaoListUser, KaoListRole>()

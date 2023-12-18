@@ -54,7 +54,7 @@ public class SongService
                     mananaSong.Singer = mananaSong.Singer.Trim();
                     mananaSong.Composer = mananaSong.Composer?.Trim();
                     mananaSong.Lyricist = mananaSong.Lyricist?.Trim();
-                    SaveMananaSongToDatabase(mananaSong);
+                    await SaveMananaSongToDatabase(mananaSong);
                 }
             }
         }
@@ -62,12 +62,17 @@ public class SongService
         await _context.SaveChangesAsync();
     }
 
-    private void SaveMananaSongToDatabase(MananaSong mananaSong)
+    private Karaoke? GetExistingKaraoke(string provider, string no)
+    {
+        return _context.Karaokes
+            .AsNoTracking()
+            .FirstOrDefault(k => k.Provider == provider && k.No == no);
+    }
+
+    private async Task SaveMananaSongToDatabase(MananaSong mananaSong)
     {
         var culture = new CultureInfo("ko-kr");
-        var existingKaraoke = _context.Karaokes
-            .FirstOrDefault(k => k.Provider == mananaSong.Brand && k.No == mananaSong.No);
-
+        var existingKaraoke = GetExistingKaraoke(mananaSong.Brand, mananaSong.No);
         if (existingKaraoke != null)
         {
             return;
@@ -134,7 +139,19 @@ public class SongService
             SingId = sing.Id
         };
 
-        _context.Karaokes.Add(karaoke);
+        try
+        {
+            _context.Karaokes.Add(karaoke);
+            await _context.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"오류 발생: {ex.Message}");
+            if (ex.InnerException != null)
+            {
+                Console.WriteLine($"내부 예외: {ex.InnerException.Message}");
+            }
+        }
     }
 
     public async Task<IEnumerable<(string SingId, string Query)>> GetYouTubeSearchDataAsync()
