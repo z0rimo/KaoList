@@ -43,13 +43,13 @@ services.AddDbContext<KaoListDataContext>(options =>
         b.EnableRetryOnFailure();
     }));
 
-services.AddScoped<SongService>();
-services.AddScoped<SongScoreService>();
-services.AddScoped<MananaService>();
+services.AddTransient<SongService>();
+services.AddTransient<SongScoreService>();
+services.AddTransient<MananaService>();
 services.AddHostedService<DailyTaskService>();
-services.AddScoped<UserService>();
-services.AddScoped<LogService>();
-services.AddScoped<NaverEmailSender>();
+services.AddTransient<UserService>();
+services.AddTransient<LogService>();
+services.AddTransient<NaverEmailSender>();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -57,11 +57,7 @@ builder.Services.AddDbContext<KaoListDataContext>(options =>
 options.UseSqlServer(connectionString));
 
 builder.Services.AddDefaultIdentity<KaoListUser>();
-/*builder.Services.AddIdentity<KaoListUser, KaoListRole>()
-    .AddSignInManager()
-    .AddEntityFrameworkStores<KaoListDataContext>()
-    .AddClaimsPrincipalFactory<KaoListUserClaimsPrincipalFactory<KaoListUser>>()
-    .AddDefaultTokenProviders();*/
+
 builder.Services.AddIdentityCore<KaoListUser>(options =>
     {
         options.Stores.MaxLengthForKeys = 128;

@@ -125,14 +125,17 @@ public static class ModelBuilderExentsion
             b.HasKey(pds => new { pds.Created, pds.SingId });
             b.ToTable("PopularDailySings");
             b.Property(pds => pds.Score).IsRequired();
+
+            b.Property(pds => pds.Created).HasDefaultValueSql("GETDATE()");
         });
 
         builder.Entity<PopularSing>(b =>
         {
             b.HasKey(ps => new { ps.Created, ps.SingId });
             b.ToTable("PopularSings");
-
             b.Property(ps => ps.Score).IsRequired();
+
+            b.Property(pds => pds.Created).HasDefaultValueSql("GETDATE()");
         });
 
         builder.Entity<Sing>(b =>
