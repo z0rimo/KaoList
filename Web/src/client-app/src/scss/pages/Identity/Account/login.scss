@@ -1,8 +1,11 @@
 .account-service {
     --account-serivce-margin: 20px 0;
-
     display: flex;
     justify-content: center;
     align-items: center;
     margin: var(--account-serivce-margin);
+}
+
+.external-icon {
+    padding: 0;
 }
