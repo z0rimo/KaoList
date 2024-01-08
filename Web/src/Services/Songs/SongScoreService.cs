@@ -83,7 +83,6 @@ public class SongScoreService
                 {
                     SingId = score.SingId,
                     Score = score.TotalScore,
-                    Created = DateTime.UtcNow
                 };
                 context.PopularSings.Add(popularSing);
             }

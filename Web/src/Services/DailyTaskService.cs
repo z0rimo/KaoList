@@ -28,7 +28,7 @@ public class DailyTaskService : BackgroundService
     {
         using var scope = _serviceScopeFactory.CreateScope();
         var songService = scope.ServiceProvider.GetRequiredService<SongService>();
-        var task1 = songService.FetchAndSaveSongsToDb();
+        //var task1 = songService.FetchAndSaveSongsToDb();
         var songScoreService = scope.ServiceProvider.GetRequiredService<SongScoreService>();
         var task2 = songScoreService.UpdatePoplularDailySings();
         var task3 = songScoreService.UpdatePopularSings();

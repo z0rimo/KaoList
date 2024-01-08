@@ -135,6 +135,11 @@ namespace CodeRabbits.KaoList.Web.Controllers
                                .Take(maxResults)
                                .ToListAsync();
 
+            if (songs is null)
+            {
+                return null;
+            }
+
             foreach (var song in songs)
             {
                 var soundId = await _songService.CheckSoundIdAsync(song.Sing.Id);
