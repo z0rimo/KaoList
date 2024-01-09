@@ -28,6 +28,7 @@ using CodeRabbits.KaoList.Web.Services.Songs;
 using CodeRabbits.KaoList.Web.Services.YouTubes;
 using Polly.Extensions.Http;
 using Polly;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -49,7 +50,7 @@ services.AddTransient<MananaService>();
 services.AddHostedService<DailyTaskService>();
 services.AddTransient<UserService>();
 services.AddTransient<LogService>();
-services.AddTransient<NaverEmailSender>();
+services.AddTransient<IEmailSender, SendGridEmailSender>();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 

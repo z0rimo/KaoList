@@ -47,7 +47,7 @@ function HomePage() {
                 <div className="chart-region">
                     <div className="main-chart-wrapper">
                         <div className="chart-title">{t("New Song Update")}</div>
-                        <DiscoverChart className="discover-chart" maxResults={10}
+                        {/* <DiscoverChart className="discover-chart" maxResults={10}
                             Table={Table}
                             renderer={discoverChartItemRender}
                             thead={
@@ -60,12 +60,12 @@ function HomePage() {
                                     </tr>
                                 </thead>
                             }
-                        />
+                        /> */}
                         <Link className="fs-8" to={RoutePath['discoverChart']}>{t('More Chart')}</Link>
                     </div>
                     <div className="main-chart-wrapper">
                         <div className="chart-title">{t("Liked Song")}</div>
-                        <DiscoverChart className="liked-chart" maxResults={10}
+                        {/* <DiscoverChart className="liked-chart" maxResults={10}
                             Table={Table}
                             renderer={likedChartItemRender}
                             thead={
@@ -79,7 +79,7 @@ function HomePage() {
                                     </tr>
                                 </thead>
                             }
-                        />
+                        /> */}
                         <Link className="fs-8" to={RoutePath['likedChart']}>{t("More Chart")}</Link>
                     </div>
                 </div>

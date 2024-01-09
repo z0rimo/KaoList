@@ -11,7 +11,6 @@ public static class AuthenticationKey
     public const string NaverClientClientSecret = "Authentication:Naver:ClientSecret";
     public const string KakaoClientId = "Authentication:Kakao:ClientId";
     public const string KakaoClientSecret = "Authentication:Kakao:ClientSecret";
-    public const string EmailSenderId = "Authentication:MailSender:Id";
-    public const string EmailSencderSecret = "Authentication:MailSender:Secret";
     public const string YouTubeApiKey = "Authentication:YouTube:ApiKey";
+    public const string SendGridApiKey = "Authentication:SendGrid:ApiKey";
 }
