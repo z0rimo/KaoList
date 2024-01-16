@@ -50,7 +50,7 @@ public class ChangePasswordModel : PageModel
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
-        [Required(ErrorMessage = "Test")]
+        [Required(ErrorMessage = "기존 비밀번호를 입력하세요.")]
         [DataType(DataType.Password)]
         [Display(Name = "기존 비밀번호")]
         public string OldPassword { get; set; }
@@ -60,7 +60,7 @@ public class ChangePasswordModel : PageModel
         ///     directly from your code. This API may change or be removed in future releases.
         /// </summary>
         [Required]
-        [StringLength(100, ErrorMessage = "* {0}은 최소 {2}자에서 최대 {1}자 길이여야 합니다.", MinimumLength = 8)]
+        [StringLength(100, ErrorMessage = "* {0}는 최소 {2}자에서 최대 {1}자 길이여야 합니다.", MinimumLength = 8)]
         [DataType(DataType.Password)]
         [Display(Name = "새 비밀번호")]
         public string NewPassword { get; set; }
@@ -106,19 +106,32 @@ public class ChangePasswordModel : PageModel
             return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
         }
 
+        if (Input.OldPassword == Input.NewPassword)
+        {
+            ModelState.AddModelError("Input.NewPassword", "새 비밀번호는 기존 비밀번호와 같을 수 없습니다.");
+            return Page();
+        }
+
         var changePasswordResult = await _userManager.ChangePasswordAsync(user, Input.OldPassword, Input.NewPassword);
         if (!changePasswordResult.Succeeded)
         {
             foreach (var error in changePasswordResult.Errors)
             {
-                ModelState.AddModelError(string.Empty, error.Description);
+                if (error.Code == "PasswordMismatch")
+                {
+                    ModelState.AddModelError("Input.OldPassword", "기존 비밀번호가 올바르지 않습니다.");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
             }
             return Page();
         }
 
         await _signInManager.RefreshSignInAsync(user);
         _logger.LogInformation("User changed their password successfully.");
-        StatusMessage = "Your password has been changed.";
+        TempData["PasswordChanged"] = "비밀번호가 성공적으로 변경되었습니다.";
 
         return RedirectToPage();
     }
