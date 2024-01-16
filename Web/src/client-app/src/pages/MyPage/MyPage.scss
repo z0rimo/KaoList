@@ -173,6 +173,7 @@
 
                 .information-wrapper {
                     display: flex;
+                    align-items: center;
                     width: var(--information-wrapper-width);
 
                     p+span {

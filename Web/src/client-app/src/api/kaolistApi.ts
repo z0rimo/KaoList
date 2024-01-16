@@ -203,8 +203,15 @@ export interface IMyPageProfileResponse extends IKaoListResponse {
 export interface IMyPageSetProfileImageResponse {
     statusCode?: number;
 }
+
 export interface IMyPageGetProfileImageResponse {
     imageUrl?: string;
+}
+
+export interface IMyPageSetNicknameResponse {
+    statusCode?: number;
+    message?: string;
+    errors?: any;
 }
 
 export interface IApiGlobalOption {
@@ -249,6 +256,10 @@ export interface IKaolistMyPageGetProfileImageApiProperties {
     id?: string;
 }
 
+export interface IKaolistMyPageSetNicknameApiProperties {
+    nickname: string;
+}
+
 export type QueryType<T extends object = { [key: string]: string | number | string[] | number[] | Date }> = {
     [P in keyof T]?: T[P] extends (string | number | string[] | number[] | Date | undefined) ? T[P] : string | number | string[] | number[] | Date;
 };
@@ -275,6 +286,7 @@ interface IKaolistMyPagesApi {
     myPageFollowedSongList: (option?: IKaolistMyPageApiOption) => Promise<IFollowedSongListResponse>;
     myPageSetProfileImage: (properties: IKaolistMyPageSetProfileImageApiProperties) => Promise<IMyPageSetProfileImageResponse>;
     myPageGetProfileImage: (properties: IKaolistMyPageGetProfileImageApiProperties) => Promise<IMyPageGetProfileImageResponse>;
+    myPageSetNickname: (properties: IKaolistMyPageSetNicknameApiProperties) => Promise<IMyPageSetNicknameResponse>;
 }
 
 interface IKaolistApi {
@@ -301,6 +313,7 @@ const kaoListApiEndPoint = {
     myPageFollowedSongList: 'api/mypage/followedSongList',
     myPageSetProfileImage: 'api/mypage/setProfileImage',
     myPageGetProfileImage: 'api/mypage/getProfileImage',
+    myPageSetNickname: 'api/mypage/setNickname'
 }
 
 class KaoListApi implements IKaolistApi {
@@ -452,6 +465,17 @@ class KaoListApi implements IKaolistApi {
                 const query = queryBuildHelper(properties);
 
                 return this.getAsync(kaoListApiEndPoint.myPageGetProfileImage, query).then(item => item.json() as Promise<IMyPageGetProfileImageResponse>);
+            },
+
+            myPageSetNickname: (properties: IKaolistMyPageSetNicknameApiProperties) => {
+                return this.postAsync(kaoListApiEndPoint.myPageSetNickname, properties)
+                    .then(response => {
+                        if (response.ok) {
+                            return response.json() as Promise<{ message: string }>;
+                        } else {
+                            throw new Error("Nickname update failed");
+                        }
+                    });
             }
         }
     }
@@ -521,31 +545,52 @@ class KaoListApi implements IKaolistApi {
         }
     }
 
-    postAsync = async (path: string, body?: BodyInit | null, query?: QueryType) => {
+    // postAsync = async (path: string, body?: BodyInit | null, query?: QueryType) => {
+    //     const token = await authorizeService.getAccessToken();
+    //     let init: RequestInit | undefined = undefined;
+
+    //     if (token !== undefined) {
+    //         init = {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Authorization': `Bearer ${token}`,
+    //             },
+    //             body: body,
+    //         };
+
+    //         // If the body is not FormData, set the Content-Type header
+    //         if (!(body instanceof FormData)) {
+    //             init.headers = {
+    //                 ...init.headers,
+    //                 'Content-Type': 'application/json',
+    //             };
+    //             init.body = JSON.stringify(body);
+    //         }
+    //     }
+
+    //     return await fetch(this.buildUrl(path, query), init);
+    // };
+
+    postAsync = async (path: string, body?: object | BodyInit | null, query?: QueryType) => {
         const token = await authorizeService.getAccessToken();
-        let init: RequestInit | undefined = undefined;
-    
-        if (token !== undefined) {
-            init = {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                },
-                body: body,
-            };
-    
-            // If the body is not FormData, set the Content-Type header
-            if (!(body instanceof FormData)) {
-                init.headers = {
-                    ...init.headers,
-                    'Content-Type': 'application/json',
-                };
-                init.body = JSON.stringify(body);
-            }
+
+        const headers = new Headers();
+        if (token) {
+            headers.append('Authorization', `Bearer ${token}`);
         }
-    
+        if (!(body instanceof FormData)) {
+            headers.append('Content-Type', 'application/json');
+        }
+
+        let init: RequestInit = {
+            method: 'POST',
+            headers: headers,
+            body: body instanceof FormData ? body : JSON.stringify(body),
+        };
+
         return await fetch(this.buildUrl(path, query), init);
     };
+
 
     get charts(): IKaolistChartsApi {
         return this._charts;

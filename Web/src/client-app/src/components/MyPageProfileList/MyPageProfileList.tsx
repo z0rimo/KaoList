@@ -6,7 +6,7 @@ import MyPageChangePassword from './MyPageChangePassword';
 import MyPageAgreeEmail from './MyPageAgreeEmail';
 import MyPageExternalLogin from './MyPageExternalLogin';
 
-function MyPageProfileList() {
+function MyPageProfileList(props: React.HTMLAttributes<HTMLDivElement>) {
     const [id, setId] = React.useState('');
     const [userEmail, setUserEmail] = React.useState('');
     const [nickname, setNickname] = React.useState('');

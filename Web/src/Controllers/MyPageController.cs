@@ -243,5 +243,31 @@ namespace CodeRabbits.KaoList.Web.Controllers
             
             return Ok(new { ImageUrl = user.ProfileIcon });
         }
+
+        [HttpPost("setNickname")]
+        public async Task<IActionResult> UpdateNicknameAsync([FromBody] MyPageNickname nickname)
+        {
+            var userValidationResult = await ValidateAndGetUserAsync();
+            if (userValidationResult is not OkObjectResult okResult || okResult.Value is not KaoListUser user)
+            {
+                return userValidationResult;
+            }
+
+            if (string.IsNullOrEmpty(nickname.Nickname))
+            {
+                return BadRequest(new { Message = "Nickname can't be empty." });
+            }
+
+            user.NickName = nickname.Nickname;
+            user.NickNameEditedDatetime = DateTime.UtcNow;
+
+            var updateResult = await _userManager.UpdateAsync(user);
+            if (!updateResult.Succeeded)
+            {
+                return BadRequest(new { Message = "닉네임 업데이트에 실패했습니다.", updateResult.Errors });
+            }
+
+            return Ok(new {Message = "Nickname change successful." });
+        }
     }
 }
