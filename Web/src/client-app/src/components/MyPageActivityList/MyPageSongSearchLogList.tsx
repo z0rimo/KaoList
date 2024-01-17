@@ -37,7 +37,7 @@ function MyPageSongSearchLogList() {
                     </button>
                 }
             />
-            <div>
+            <>
                 {resources?.slice(0,5).map(resource => <MyPageItemWithDate
                     className="dropdown-item"
                     key={resource.id}
@@ -53,7 +53,7 @@ function MyPageSongSearchLogList() {
                         </button>
                     }
                 />)}
-            </div>
+            </>
         </Dropdown>
     )
 }

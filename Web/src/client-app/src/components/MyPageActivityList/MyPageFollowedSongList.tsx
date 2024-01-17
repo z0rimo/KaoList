@@ -36,14 +36,14 @@ function MyPageFollowedSongList() {
                     </button>
                 }
             />
-            <div>
+            <>
                 {resources?.slice(0,5).map(resource => <MyPageItemWithDate
                     className="dropdown-item"
                     key={resource.id}
                     title={resource.title}
                     date={resource.created !== undefined ? new Date(resource.created) : undefined}
                 />)}
-            </div>
+            </>
         </Dropdown>
     )
 }

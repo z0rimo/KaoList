@@ -291,7 +291,8 @@
         }
 
         .mypage-item.dropdown+.mypage-item.dropdown-item,
-        .mypage-item.link-item+.mypage-item.dropdown {
+        .mypage-item.link-item+.mypage-item.dropdown,
+        .dropdown+.dropdown {
             border-top: var(--mypage-dropdown-item-between-border-top);
         }
 
@@ -310,9 +311,5 @@
         a {
             color: var(--mypage-wrapper-font-color);
         }
-    }
-
-    .mypage-item-wrapper.activity-list {
-        margin-bottom: var(--mypage-wrapper-margin-bottom);
     }
 }

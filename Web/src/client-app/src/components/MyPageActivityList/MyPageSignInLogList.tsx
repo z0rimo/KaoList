@@ -37,7 +37,7 @@ function MyPageSignInLogList() {
                     </button>
                 }
             />
-            <div>
+            <>
                 {display &&
                     <>
                         {resources?.slice(0,5).map(resource => <MyPageItemWithDate
@@ -57,7 +57,7 @@ function MyPageSignInLogList() {
                         />)}
                     </>
                 }
-            </div>
+            </>
         </Dropdown>
     )
 }
