@@ -38,6 +38,7 @@
     --circle-camera-background-color: var(--color-white);
     --circle-camera-stroke: var(--color-soft-lime);
     --circle-camera-fill: var(--color-soft-lime);
+    --circle-camara-hover-background-color: var(--color-gray95);
 
     --subtitle-margin-top: 20px;
 
@@ -114,6 +115,8 @@
         margin-bottom: var(--mypage-item-wrapper-margin-bottom);
 
         .thumbnail-wrapper {
+            display: flex;
+            align-items: flex-end;
             position: sticky;
             padding: var(--thumbnail-wrapper-padding);
             border-bottom: var(--thumbnail-wrapper-border-bottom);
@@ -143,7 +146,16 @@
                     background-color: var(--circle-camera-background-color);
                     stroke: var(--circle-camera-stroke);
                     fill: var(--circle-camera-fill);
+
+                    &:hover {
+                        background-color: var(--circle-camara-hover-background-color);
+                    }
                 }
+            }
+
+            .notification-image {
+                padding-left: 1rem;
+                color: var(--color-very-dark-grayish-orange);
             }
         }
 
