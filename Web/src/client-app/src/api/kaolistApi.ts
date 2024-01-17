@@ -545,32 +545,6 @@ class KaoListApi implements IKaolistApi {
         }
     }
 
-    // postAsync = async (path: string, body?: BodyInit | null, query?: QueryType) => {
-    //     const token = await authorizeService.getAccessToken();
-    //     let init: RequestInit | undefined = undefined;
-
-    //     if (token !== undefined) {
-    //         init = {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Authorization': `Bearer ${token}`,
-    //             },
-    //             body: body,
-    //         };
-
-    //         // If the body is not FormData, set the Content-Type header
-    //         if (!(body instanceof FormData)) {
-    //             init.headers = {
-    //                 ...init.headers,
-    //                 'Content-Type': 'application/json',
-    //             };
-    //             init.body = JSON.stringify(body);
-    //         }
-    //     }
-
-    //     return await fetch(this.buildUrl(path, query), init);
-    // };
-
     postAsync = async (path: string, body?: object | BodyInit | null, query?: QueryType) => {
         const token = await authorizeService.getAccessToken();
 
