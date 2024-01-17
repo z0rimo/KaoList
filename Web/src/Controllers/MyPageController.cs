@@ -211,7 +211,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
                     var result = await _userManager.UpdateAsync(user);
                     if (!result.Succeeded)
                     {
-                        return BadRequest(new { Message = "User update failed", Errors = result.Errors });
+                        return BadRequest(new { Message = "User update failed", result.Errors });
                     }
                 }
 

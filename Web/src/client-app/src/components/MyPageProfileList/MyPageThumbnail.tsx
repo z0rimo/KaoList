@@ -9,7 +9,9 @@ type MyPageThumbnailProps = {
 
 function MyPageThumbnail(props: MyPageThumbnailProps) {
     const { id, ...rest } = props;
-
+    const [hover, setHover] = React.useState(false);
+    const handleMouseEnter = () => setHover(true);
+    const handleMouseLeave = () => setHover(false);
     const { imageUrl, setImageUrl } = useProfileImage();
     const fileInputRef = useRef(null);
 
@@ -38,20 +40,23 @@ function MyPageThumbnail(props: MyPageThumbnailProps) {
 
     return (
         <div className="thumbnail-wrapper" {...rest}>
-            {imageUrl ? (
-                <img src={imageUrl} className="thumbnail" alt="User thumbnail" />
-            ) : (
-                <LazyCircleProfileIcon className="thumbnail" />
-            )}
-            <button className="thumbnail-change" onClick={handleClick}>
-                <input
-                    type="file"
-                    style={{ display: "none" }}
-                    onChange={handleImageUpload}
-                    ref={fileInputRef}
-                />
-                <LazyCircleCameraIcon className="rounded-circle circle-camera" />
-            </button>
+            <div onClick={handleClick} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+                {imageUrl ? (
+                    <img src={imageUrl} className="thumbnail" alt="User thumbnail" />
+                ) : (
+                    <LazyCircleProfileIcon className="thumbnail" style={{cursor: "pointer"}} />
+                )}
+                <button className="thumbnail-change">
+                    <input
+                        type="file"
+                        style={{ display: "none" }}
+                        onChange={handleImageUpload}
+                        ref={fileInputRef}
+                    />
+                    <LazyCircleCameraIcon className="rounded-circle circle-camera" />
+                </button>
+            </div>
+            {hover && <p className="notification-image">프로필 이미지는 2MB. 확장자는 JPG, PNG만 가능합니다.</p>}
         </div>
     )
 }
