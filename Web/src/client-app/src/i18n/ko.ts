@@ -68,7 +68,7 @@ const lang: Required<II18nResources> = {
         "Profile information": "프로필 정보",
         "Email address": "이메일 주소",
         "Nickname": "닉네임",
-        "Last modified": "마지막 변경 날짜",
+        "Last_modified": "마지막 변경 날짜",
         "Change password": "비밀번호 변경",
         "Agree to receive email": "메일 수신 동의",
         "Show up personal songs": "개인 곡 공개",
@@ -127,6 +127,8 @@ const lang: Required<II18nResources> = {
     },
     "Common" : {
         "KaoList": "카오리스트",
+        "Save": "저장",
+        "Cancel": "취소"
     },
 }
 

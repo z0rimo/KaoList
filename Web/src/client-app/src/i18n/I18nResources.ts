@@ -68,7 +68,7 @@ interface Resources {
         "Profile information": string;
         "Email address": string;
         "Nickname": string;
-        "Last modified": string;
+        "Last_modified": string;
         "Change password": string;
         "Agree to receive email": string;
         "Show up personal songs": string;
@@ -127,6 +127,8 @@ interface Resources {
     },
     "Common" : {
         "KaoList": string;
+        "Save": string;
+        "Cancel": string;
     }
 }
 

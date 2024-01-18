@@ -240,6 +240,14 @@
                 .minus-icon {
                     fill: var(--minus-icon-fill);
                 }
+
+                .decision-btns {
+                    display: flex;
+
+                    button+button {    
+                        margin-left: 8px;
+                    }
+                }
             }
         }
 

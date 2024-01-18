@@ -11,18 +11,35 @@ import { useProfileImage } from "../../contexts/ProfileImageContext";
 
 function UserProfile() {
     const { user } = useIdentityContext();
-    const { imageUrl } = useProfileImage();
+    const { imageUrl, setImageUrl } = useProfileImage();
     const navigate = useNavigate();
     const handleMyPageClick = React.useCallback(() => {
         navigate(RoutePath['myPage']);
     }, [navigate]);
+
+    const fetchUserProfileImage = async () => {
+        if (!user || !user.sub) return;
+
+        try {
+            const response = await window.api.kaoList.mypages.myPageGetProfileImage({ id: user.sub });
+            if (response && response.imageUrl) {
+                setImageUrl(response.imageUrl);
+            }
+        } catch (error) {
+            console.error('Error fetching profile image:', error);
+        }
+    };
+
+    // Fetch the profile image each time the component is mounted.
+    React.useEffect(() => {
+        fetchUserProfileImage();
+    }, [user, fetchUserProfileImage]);
 
     if (!user) {
         return <SignIn />
     }
 
     const userName = user.nickname ?? user.name;
-    
 
     return (
         <Dropdown className="user-profile-dropdown">

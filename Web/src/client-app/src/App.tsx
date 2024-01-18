@@ -6,7 +6,7 @@ import './i18n';
 import { Login, LoginActions, Logout, LogoutActions } from './components/identity';
 import EmptyPage from './pages/EmptyPage';
 import RoutePath from './RoutePath';
-import IdentityContext, { useIdentityContextBlock } from './contexts/IdentityContext';
+import IdentityContext, { useIdentityContext, useIdentityContextBlock } from './contexts/IdentityContext';
 import React from 'react';
 import authService from './api-authorization/AuthorizeService';
 import SearchPage from './pages/SearchPage/SearchPage';
@@ -48,17 +48,18 @@ function App() {
             if (!await authService.isAuthenticated()) {
                 return;
             }
-
+    
             updateUserIdentity();
         })();
-    }, [updateUserIdentity])
-
-    React.useEffect(() => {
-        let id = authService.subscribe(updateUserIdentity);
-        return () => {
-            authService.unsubscribe(id);
-        }
     }, [updateUserIdentity]);
+    
+    React.useEffect(() => {
+        let subscriptionId = authService.subscribe(updateUserIdentity);
+        return () => {
+            authService.unsubscribe(subscriptionId);
+        };
+    }, [updateUserIdentity]);
+    
 
     return (
         <IdentityContext.Provider value={identityContext}>

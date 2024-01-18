@@ -1,5 +1,6 @@
 import { Profile } from "oidc-client";
 import React from "react";
+import authService from "../api-authorization/AuthorizeService";
 
 export interface IIdentityContext {
     user: Profile | null;

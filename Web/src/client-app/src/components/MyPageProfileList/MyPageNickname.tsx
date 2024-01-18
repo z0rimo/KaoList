@@ -14,7 +14,7 @@ function MyPageNickname(
         nickname = "Default Nickname",
         lastModified
     }: IMyPageProfileNicknameItem) {
-    const { t } = useTranslation("MyPage");
+    const { t } = useTranslation(['MyPage', 'Common']);
     const [isEditing, setIsEditing] = useState(false);
     const [editedNickname, setEditedNickname] = useState(nickname)
     const formattedDate = lastModified ? new Date(lastModified).toLocaleDateString(navigator.language, DateOptionFormatter.long) : null;
@@ -34,9 +34,7 @@ function MyPageNickname(
             const response = await window.api.kaoList.mypages.myPageSetNickname({nickname: editedNickname});
             if (response.statusCode === 200) {
                 console.log("Nickname change successful.")
-            } else {
-                console.log("Nickname change failed:", response.message)
-            }
+            } 
         } catch (e) {
             console.error("Network error:", e)
         }
@@ -52,7 +50,7 @@ function MyPageNickname(
 
     return (
         <MyPageItem
-            title={`${t('Nickname')}`}
+            title={`${t('MyPage:Nickname')}`}
             information={
                 <div className="information-wrapper">
                     {!isEditing ? (
@@ -65,9 +63,9 @@ function MyPageNickname(
                             className="nickname-input"
                         />
                     )}
-                    {lastModified && (
+                    {!isEditing && lastModified && (
                         <span className="fs-8 more-information">
-                            <p>{`${t('Last modified')}:`}</p>
+                            <p>{t('MyPage:Last_modified')}:</p>
                             <p>{formattedDate}</p>
                         </span>
                     )}
@@ -79,10 +77,10 @@ function MyPageNickname(
                         <LazyPencilIcon className="desaturated-cyan-icon pencil-icon" />
                     </button>
                 ) : (
-                    <>
-                        <button onClick={handleSaveClick}>Save</button>
-                        <button onClick={handleCancelClick}>Cancel</button>
-                    </>
+                    <div className="decision-btns">
+                        <button onClick={handleSaveClick}>{t('Common:Save')}</button>
+                        <button onClick={handleCancelClick}>{t('Common:Cancel')}</button>
+                    </div>
                 )
             }
         />

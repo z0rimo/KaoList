@@ -202,6 +202,7 @@ export interface IMyPageProfileResponse extends IKaoListResponse {
 
 export interface IMyPageSetProfileImageResponse {
     statusCode?: number;
+    imageUrl?: string;
 }
 
 export interface IMyPageGetProfileImageResponse {

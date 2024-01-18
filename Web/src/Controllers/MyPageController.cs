@@ -215,7 +215,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
                     }
                 }
 
-                return Ok(new { Message = "Upload successful" });
+                return Ok(new { Message = "Upload successful", ImageUrl = fileNameWithProfiles });
             }
             catch (Exception e)
             {

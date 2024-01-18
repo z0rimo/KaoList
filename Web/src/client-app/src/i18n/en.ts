@@ -68,7 +68,7 @@ const lang: II18nResources = {
         "Profile information": "Profile information",
         "Email address": "Email address",
         "Nickname": "Nickname",
-        "Last modified": "Last modified",
+        "Last_modified": "Last modified",
         "Change password": "Change password",
         "Agree to receive email": "Agree to receive email",
         "Show up personal songs": "Show up personal songs",
@@ -127,6 +127,8 @@ const lang: II18nResources = {
     },
     "Common" : {
         "KaoList": "KaoList",
+        "Save": "Save",
+        "Cancel": "Cancel"
     },
 }
 
