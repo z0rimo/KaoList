@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 
 namespace CodeRabbits.KaoList.Identity;
 
@@ -30,4 +30,9 @@ public class KaoListUser : IdentityUser
     /// Datetime the user was created.
     /// </summary>
     public DateTime? Created { get; set; } = DateTime.UtcNow;
+
+    /// <summary>
+    /// Indicates whether the user has agreed to receive emails.
+    /// </summary>
+    public bool? AcceptEmail { get; set; } = false;
 }

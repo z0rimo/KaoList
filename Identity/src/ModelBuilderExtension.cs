@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
@@ -68,6 +68,9 @@ public static class ModelBuilderExtension
              .HasMaxLength(256)
              .UseCollation("Latin1_General_100_CI_AI_SC_UTF8");
             b.Property(u => u.Created).IsRequired();
+            b.Property(u => u.AcceptEmail)
+            .IsRequired()
+            .HasDefaultValue(false);
 
             b.HasMany<KaoListUserBlind>().WithOne().HasForeignKey(ub => ub.BlinedUserId).IsRequired();
             // Since OnDelete action is performed in the preceding BlinedUserId,
