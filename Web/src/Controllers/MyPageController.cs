@@ -269,5 +269,37 @@ namespace CodeRabbits.KaoList.Web.Controllers
 
             return Ok(new {Message = "Nickname change successful." });
         }
+
+        [HttpGet("getEmailAccept")]
+        public async Task<IActionResult> GetEmailAcceptAsync()
+        {
+            var userValidationResult = await ValidateAndGetUserAsync();
+            if (userValidationResult is not OkObjectResult okResult || okResult.Value is not KaoListUser user)
+            {
+                return userValidationResult;
+            }
+
+            return Ok(new { user.AcceptEmail });
+        }
+
+        [HttpPost("setEmailAccept")]
+        public async Task<IActionResult> SetEmailAcceptAsync([FromBody] MyPageEmailAccept accept)
+        {
+            var userValidationResult = await ValidateAndGetUserAsync();
+            if (userValidationResult is not OkObjectResult okResult || okResult.Value is not KaoListUser user)
+            {
+                return userValidationResult;
+            }
+
+            user.AcceptEmail = accept.AcceptEmail;
+
+            var updateResult = await _userManager.UpdateAsync(user);
+            if (!updateResult.Succeeded)
+            {
+                return BadRequest(new { Message = "Failed to update email accept.", updateResult.Errors });
+            }
+
+            return Ok(new { Message = "Email accept updated successfully." });
+        }
     }
 }

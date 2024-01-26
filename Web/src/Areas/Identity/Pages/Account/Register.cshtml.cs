@@ -97,6 +97,7 @@ namespace CodeRabbits.KaoList.Web.Areas.Identity.Pages.Account
                 user.NickName = Input.Nickname;
                 user.NormalizedNickName = Input.Nickname.ToUpperInvariant();
                 user.NickNameEditedDatetime = DateTime.UtcNow;
+                user.AcceptEmail = Input.AdReceivedAccept;
 
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
