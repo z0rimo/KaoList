@@ -156,6 +156,9 @@
   <data name="CapsLock is enabled" xml:space="preserve">
     <value>CapsLock이 켜져있습니다.</value>
   </data>
+  <data name="Change Nickname" xml:space="preserve">
+    <value>닉네임 변경</value>
+  </data>
   <data name="Change Password" xml:space="preserve">
     <value>비밀번호 변경</value>
   </data>

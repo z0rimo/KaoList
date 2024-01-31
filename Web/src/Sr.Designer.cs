@@ -187,6 +187,15 @@ namespace CodeRabbits.KaoList.Web {
         }
         
         /// <summary>
+        ///   닉네임 변경과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Change_Nickname {
+            get {
+                return ResourceManager.GetString("Change Nickname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   비밀번호 변경과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Change_Password {

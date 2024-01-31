@@ -1,6 +1,8 @@
 // Licensed to the CodeRabbits under one or more agreements.
 // The CodeRabbits licenses this file to you under the MIT license.
 
+using System.Globalization;
+
 namespace CodeRabbits.KaoList.Web;
 
 public static class ConfigurationManagerExtension
@@ -65,13 +67,26 @@ public static class ConfigurationManagerExtension
     /// <remarks>
     /// If no matching value is found with the specified key, an exception is raised.
     /// </remarks>
-    /// <returns>The converted value.</returns>
+    /// <returns>The converted value.</returns>d
     public static object? GetValue(
         this ConfigurationManager manager,
         Type type,
         string key,
         object? defaultValue)
     {
-        return manager.GetValue(type, key, defaultValue) ?? throw new InvalidOperationException(SRHelper.Format(SR.InvalidValueName, key));
+        var value = manager.GetSection(key).Value;
+        if (value is null)
+        {
+            return defaultValue;
+        }
+
+        try
+        {
+            return Convert.ChangeType(value, type, CultureInfo.InvariantCulture);
+        }
+        catch (Exception)
+        {
+            throw new InvalidOperationException(SRHelper.Format(SR.InvalidValueName, key));
+        }
     }
 }
