@@ -1,5 +1,6 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
+// Licensed to the CodeRabbits under one or more agreements.
+// The CodeRabbits licenses this file to you under the MIT license.
+
 #nullable disable
 
 using System.ComponentModel.DataAnnotations;
@@ -96,7 +97,7 @@ namespace CodeRabbits.KaoList.Web.Areas.Identity.Pages.Account
                 var externalUser = await _userManager.FindByEmailAsync(Input.Email);
                 if (externalUser != null)
                 {
-                    ModelState.AddModelError(string.Empty, "이미 가입된 아이디입니다.");
+                    ModelState.AddModelError(string.Empty, "A user that already exists.");
                     return Page();
                 }
 
