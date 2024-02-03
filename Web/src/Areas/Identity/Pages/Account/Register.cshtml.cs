@@ -93,6 +93,13 @@ namespace CodeRabbits.KaoList.Web.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
+                var externalUser = await _userManager.FindByEmailAsync(Input.Email);
+                if (externalUser != null)
+                {
+                    ModelState.AddModelError(string.Empty, "이미 가입된 아이디입니다.");
+                    return Page();
+                }
+
                 var user = CreateUser();
                 user.NickName = Input.Nickname;
                 user.NormalizedNickName = Input.Nickname.ToUpperInvariant();

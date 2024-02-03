@@ -85,6 +85,14 @@ public class ExternalLoginModel : PageModel
             return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
         }
 
+        var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+        var internalUser = await _userManager.FindByEmailAsync(email);
+        if (internalUser != null)
+        {
+            ErrorMessage = "이미 가입된 아이디입니다.";
+            return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
+        }
+
         // Sign in the user with this external login provider if the user already has a login.
         var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
         if (result.Succeeded)
