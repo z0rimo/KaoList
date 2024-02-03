@@ -9,9 +9,21 @@ namespace CodeRabbits.KaoList.Web;
 
 public class IPAddressJsonConverter : JsonConverter<IPAddress>
 {
+    private readonly ILogger<IPAddressJsonConverter> _logger;
+
+    public IPAddressJsonConverter(ILogger<IPAddressJsonConverter> logger)
+    {
+        _logger = logger;
+    }
+
     public override IPAddress Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         var ipAddressAsString = reader.GetString();
+        if (ipAddressAsString == null)
+        {
+            _logger.LogWarning("Encountered null IP address in JSON, substituting with '0.0.0.0'.");
+            return IPAddress.Parse("0.0.0.0");
+        }
         return IPAddress.Parse(ipAddressAsString);
     }
 
