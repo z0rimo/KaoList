@@ -1,0 +1,23 @@
+﻿@page
+@model LinkExternalAccountModel
+@{
+    ViewData["Title"] = SR.External_login_integration;
+}
+<environment include="Development">
+    <link rel="stylesheet" href="~/css/pages/Identity/Account/register.css" asp-append-version="true" />
+</environment>
+<environment exclude="Development">
+    <link rel="stylesheet" href="~/css/pages/Identity/Account/register.min.css" />
+</environment>
+<p class="fs-4 fw-semibold title">@ViewData["title"]</p>
+<h2 id=""></h2>
+@if (!Model.ModelState.IsValid)
+{
+    <div class="text-danger">
+        @Html.ValidationSummary(true)
+    </div>
+}
+<form method="post">
+    <p>다음 이메일 주소와 연동하시겠습니까? @Model.Email</p>
+    <button type="submit" class="btn btn-primary">연동하기</button>
+</form>

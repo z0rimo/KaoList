@@ -58,7 +58,7 @@ public class ExternalLoginModel : PageModel
         [EmailAddress]
         public string Email { get; set; }
     }
-    
+
     public IActionResult OnGet() => RedirectToPage("./Login");
 
     public IActionResult OnPost(string provider, string returnUrl = null)
@@ -87,10 +87,10 @@ public class ExternalLoginModel : PageModel
 
         var email = info.Principal.FindFirstValue(ClaimTypes.Email);
         var internalUser = await _userManager.FindByEmailAsync(email);
+
         if (internalUser != null)
         {
-            ErrorMessage = "이미 가입된 아이디입니다.";
-            return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
+            return RedirectToPage("./LinkExternalAccount", new { Email = email, ReturnUrl = returnUrl });
         }
 
         // Sign in the user with this external login provider if the user already has a login.
@@ -177,6 +177,48 @@ public class ExternalLoginModel : PageModel
         ProviderDisplayName = info.ProviderDisplayName;
         ReturnUrl = returnUrl;
         return Page();
+    }
+
+    public async Task<IActionResult> OnPostLinkAccountAsync(string email, string returnUrl = null)
+    {
+        if (!ModelState.IsValid)
+        {
+            return Page();
+        }
+
+        var info = await _signInManager.GetExternalLoginInfoAsync();
+        if (info == null)
+        {
+            _logger.LogError("Failed to retrieve external login information.");
+            return RedirectToPage("./Login", new { ReturnUrl = returnUrl });
+        }
+
+        var user = await _userManager.FindByEmailAsync(email);
+        if (user == null)
+        {
+            _logger.LogError("이메일 {email}에 해당하는 사용자를 찾을 수 없습니다.", email);
+            ModelState.AddModelError(string.Empty, "해당 이메일에 대한 내부 계정이 존재하지 않습니다.");
+            return Page();
+        }
+
+        var addLoginResult = await _userManager.AddLoginAsync(user, info);
+        if (!addLoginResult.Succeeded)
+        {
+            foreach (var error in addLoginResult.Errors)
+            {
+                _logger.LogError("외부 로그인 매핑 실패: {ErrorDescription}", error.Description);
+
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+            return Page();
+        }
+
+        if (addLoginResult.Succeeded)
+        {
+            await _signInManager.SignInAsync(user, isPersistent: false);
+        }
+
+        return LocalRedirect(returnUrl);
     }
 
     private KaoListUser CreateUser()

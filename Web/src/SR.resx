@@ -177,6 +177,9 @@
   <data name="Do spamming" xml:space="preserve">
     <value>게시글 도배</value>
   </data>
+  <data name="Do you want to integrate with the following email addresses" xml:space="preserve">
+    <value>다음 이메일 주소와 연동하시겠습니까</value>
+  </data>
   <data name="Email Address" xml:space="preserve">
     <value>이메일 주소</value>
   </data>
@@ -185,6 +188,9 @@
   </data>
   <data name="External Login" xml:space="preserve">
     <value>외부 로그인</value>
+  </data>
+  <data name="External login integration" xml:space="preserve">
+    <value>외부 로그인 연동</value>
   </data>
   <data name="For inquiries about account lockout, please use the Inquiry tab" xml:space="preserve">
     <value>계정 잠금에 대한 문의사항은 문의사항 탭을 이용해주세요.</value>

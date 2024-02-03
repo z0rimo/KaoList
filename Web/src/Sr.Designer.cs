@@ -250,6 +250,15 @@ namespace CodeRabbits.KaoList.Web {
         }
         
         /// <summary>
+        ///   다음 이메일 주소와 연동하시겠습니까과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Do_you_want_to_integrate_with_the_following_email_addresses {
+            get {
+                return ResourceManager.GetString("Do you want to integrate with the following email addresses", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   이메일 주소과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Email_Address {
@@ -273,6 +282,15 @@ namespace CodeRabbits.KaoList.Web {
         internal static string External_Login {
             get {
                 return ResourceManager.GetString("External Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   외부 로그인 연동과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string External_login_integration {
+            get {
+                return ResourceManager.GetString("External login integration", resourceCulture);
             }
         }
         
