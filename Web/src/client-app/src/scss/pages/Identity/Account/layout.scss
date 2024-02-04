@@ -6,6 +6,7 @@
 @import '../../../color.scss';
 @import '../../../table.scss';
 @import '../../../text.scss';
+@import '../../../variables/_spacing.scss';
 
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p,
 blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em,
@@ -84,11 +85,23 @@ body {
     --vertical-line-before-font-weight: #{$font-weight-light};
     --vertical-line-before-line-height: .9em;
     --vertical-line-before-margin: 0 0.5em;
+
     background-color: var(--main-layout-background-color);
     color: var(--main-layout-color);
     font-size: var(--main-layout-font-size);
     width: var(--main-layout-width);
     height: var(--main-layout-height);
+
+    .d-flex {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .center-layout{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
     .identity-region {
         display: flex;
@@ -238,18 +251,6 @@ body {
 
                 button + button {
                     margin-left: var(--between-external-account-buttons-margin-left);
-                }
-
-                .login-Google {
-                    content: url("/client-app/public/svg/googleIcon.svg");
-                }
-
-                .login-Kakao {
-                    content: url("/client-app/public/svg/kakaoIcon.svg");
-                }
-
-                .login-Naver {
-                    content: url("/client-app/public/svg/naverIcon.svg");
                 }
             }
         }
