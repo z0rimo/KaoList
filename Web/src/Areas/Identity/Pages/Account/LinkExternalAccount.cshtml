@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="~/css/pages/Identity/Account/register.min.css" />
 </environment>
 <p class="fs-4 fw-semibold title">@ViewData["title"]</p>
-<h2 id=""></h2>
 @if (!Model.ModelState.IsValid)
 {
     <div class="text-danger">
@@ -18,6 +17,10 @@
     </div>
 }
 <form method="post">
-    <p>다음 이메일 주소와 연동하시겠습니까? @Model.Email</p>
-    <button type="submit" class="btn btn-primary">연동하기</button>
+    <p>@SR.Do_you_want_to_integrate_with_the_following_email_addresses?</p>
+    <p class="fw-bold">@Model.Email</p>
+    <div class="d-flex mt-5">
+        <a href="@Model.ReturnUrl" class="btn btn-secondary gray-theme mt-7">@SR.Cancel</a>
+        <button type="submit" class="btn btn-primary gray-theme mt-4">@SR.Integrate</button>
+    </div>
 </form>

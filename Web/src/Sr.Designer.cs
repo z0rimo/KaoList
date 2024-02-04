@@ -178,6 +178,15 @@ namespace CodeRabbits.KaoList.Web {
         }
         
         /// <summary>
+        ///   취소하기과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   CapsLock이 켜져있습니다.과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string CapsLock_is_enabled {
@@ -313,6 +322,15 @@ namespace CodeRabbits.KaoList.Web {
         }
         
         /// <summary>
+        ///   홈페이지로 이동과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Go_to_homepage {
+            get {
+                return ResourceManager.GetString("Go to homepage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   로그인 페이지로과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Go_to_Login {
@@ -346,6 +364,15 @@ namespace CodeRabbits.KaoList.Web {
         internal static string Inquery {
             get {
                 return ResourceManager.GetString("Inquery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   연동하기과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Integrate {
+            get {
+                return ResourceManager.GetString("Integrate", resourceCulture);
             }
         }
         
@@ -584,11 +611,29 @@ namespace CodeRabbits.KaoList.Web {
         }
         
         /// <summary>
+        ///   외부 로그인 계정 연동 성공과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Successful_external_login_account_integration {
+            get {
+                return ResourceManager.GetString("Successful external login account integration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   이용약관과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Terms_of_Service {
             get {
                 return ResourceManager.GetString("Terms of Service", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   외부 로그인 계정 연결에 성공하였습니다과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string The_external_login_account_connection_was_successful {
+            get {
+                return ResourceManager.GetString("The external login account connection was successful", resourceCulture);
             }
         }
         

@@ -1,0 +1,9 @@
+﻿@page
+@model LinkExternalAccountConfirmationModel
+@{
+    ViewData["Title"] = SR.Successful_external_login_account_integration;
+}
+<p class="fs-4 fw-semibold title">@ViewData["Title"]</p>
+<h2>@SR.The_external_login_account_connection_was_successful</h2>
+<a class="btn btn-primary" href="/Login">@SR.Go_to_Login</a>
+<a class="btn btn-secondary" href="/Dashboard">@SR.Go_to_homepage</a>

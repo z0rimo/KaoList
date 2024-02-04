@@ -153,6 +153,9 @@
   <data name="Associate your account" xml:space="preserve">
     <value>귀하의 '{0}' 계정을 연동합니다.</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>취소하기</value>
+  </data>
   <data name="CapsLock is enabled" xml:space="preserve">
     <value>CapsLock이 켜져있습니다.</value>
   </data>
@@ -198,6 +201,9 @@
   <data name="Forgot Password" xml:space="preserve">
     <value>비밀번호 찾기</value>
   </data>
+  <data name="Go to homepage" xml:space="preserve">
+    <value>홈페이지로 이동</value>
+  </data>
   <data name="Go to Login" xml:space="preserve">
     <value>로그인 페이지로</value>
   </data>
@@ -209,6 +215,9 @@
   </data>
   <data name="Inquery" xml:space="preserve">
     <value>문의사항</value>
+  </data>
+  <data name="Integrate" xml:space="preserve">
+    <value>연동하기</value>
   </data>
   <data name="InvalidValueName" xml:space="preserve">
     <value>Value '{0}' not found in configuration.</value>
@@ -288,8 +297,14 @@
   <data name="Spreading pornography" xml:space="preserve">
     <value>음란물 유포</value>
   </data>
+  <data name="Successful external login account integration" xml:space="preserve">
+    <value>외부 로그인 계정 연동 성공</value>
+  </data>
   <data name="Terms of Service" xml:space="preserve">
     <value>이용약관</value>
+  </data>
+  <data name="The external login account connection was successful" xml:space="preserve">
+    <value>외부 로그인 계정 연결에 성공하였습니다</value>
   </data>
   <data name="to" xml:space="preserve">
     <value>으로</value>
