@@ -57,6 +57,20 @@ public class ExternalLoginModel : PageModel
         [Required]
         [EmailAddress]
         public string Email { get; set; }
+
+        [Required(ErrorMessage = "닉네임을 입력해주세요.")]
+        public string Nickname { get; set; }
+
+        [Required]
+        [Display(Name = nameof(TermsOfService))]
+        public bool TermsOfService { get; set; }
+
+        [Required]
+        [Display(Name = nameof(PrivacyPolicy))]
+        public bool PrivacyPolicy { get; set; }
+
+        [Display(Name = nameof(AdReceivedAccept))]
+        public bool AdReceivedAccept { get; set; }
     }
 
     public IActionResult OnGet() => RedirectToPage("./Login");

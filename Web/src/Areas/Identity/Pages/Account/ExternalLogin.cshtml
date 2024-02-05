@@ -10,23 +10,70 @@
     <link rel="stylesheet" href="~/css/pages/Identity/Account/register.min.css" />
 </environment>
 <p class="fs-4 fw-semibold title">@ViewData["Title"]</p>
-<h2 id="external-login-title">Associate your @Model.ProviderDisplayName account.</h2>
-<p>@SR.Associate_your_account @Model.ProviderDisplayName</p>
-<p>
-    <span>@Model.ProviderDisplayName.</span>
-</p>
-<p id="external-login-description" class="text-info">
-    You've successfully authenticated with <strong>@Model.ProviderDisplayName</strong>.
-    Please enter an email address for this site below and click the Register button to finish
-    logging in.
-</p>
+<div id="external-login-description" class="text-info mb-5">
+    <p><span class="fw-bold">@Model.ProviderDisplayName</span> 계정 인증에 성공하였습니다.</p>
+    <p>아래에 입력된 이메일 주소를 확인하시고</p>
+    <p>등록버튼을 눌러 외부로그인 회원가입을 마무리하세요.</p>
+</div>
 <div class="identity-container">
     <form asp-page-handler="Confirmation" asp-route-returnUrl="@Model.ReturnUrl" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-input-wrapper">
-            <input asp-for="Input.Email" class="form-input-text" autocomplete="email" />
+            <input asp-for="Input.Email" class="form-input-text" autocomplete="email" readonly />
             <span asp-validation-for="Input.Email" class="text-danger"></span>
+        </div>
+        <div class="form-input-wrapper">
+            <input asp-for="Input.Nickname" class="form-input-text" placeholder="@SR.Nickname" />
+            <span asp-validation-for="Input.Nickname" class="text-danger"></span>
+        </div>
+        <div class="agreement">
+            <div class="agree-all-button">
+                <label class="form-label">
+                    <input type="checkbox" class="agree-all" />
+                    <span class="agree-all-text">@SR.Agree_to_all_terms</span>
+                </label>
+            </div>
+            <div class="terms-wrapper">
+                <ul>
+                    <li>
+                        <div class="item-wrapper">
+                            <div class="item">
+                                <input asp-for="Input.TermsOfService" type="checkbox" id="terms-agree" class="agree-item" required />
+                                <label for="terms-agree" class="text">@SR.Terms_of_Service</label>
+                            </div>
+                            <a role="button" target="_blank" href="" rel="noreferrer">
+                                <svg src="-/caretRightSolidIcon.svg" class="caret-right-icon" />
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-wrapper">
+                            <div class="item">
+                                <input asp-for="Input.PrivacyPolicy" type="checkbox" id="privacy-agree" class="agree-item" required />
+                                <label for="privacy-agree" class="text">@SR.Privacy_Policy</label>
+                            </div>
+                            <a role="button" target="_blank" href="" rel="noreferrer">
+                                <svg src="-/caretRightSolidIcon.svg" class="caret-right-icon" />
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="item-wrapper">
+                            <div class="item">
+                                <input asp-for="Input.AdReceivedAccept" type="checkbox" id="ad-email-agree" class="agree-item" />
+                                <label for="ad-email-agree" class="text">@SR.Agree_to_receive_events_and_other_notifications</label>
+                            </div>
+                            <a role="button" target="_blank" href="" rel="noreferrer">
+                                <svg src="-/caretRightSolidIcon.svg" class="caret-right-icon" />
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
         <button id="register-submit" type="submit" class="btn btn-primary gray-theme fw-bold mt-7">@SR.Register</button>
     </form>
 </div>
+@section Scripts {
+    <script src="~/js/agreement-check.js" asp-append-version="true"></script>
+}
