@@ -47,7 +47,7 @@ public class ConfirmEmailModel : PageModel
         catch (FormatException e)
         {
             _logger.LogWarning(e.Message);
-            _logger.LogWarning($"code = {code}");
+            _logger.LogWarning("code = {}", code);
             StatusMessage = "이메일 확인에 실패했습니다. 다시 시도해 주세요.";
             return RedirectToPage("./ConfirmEmailFailed");
         }
