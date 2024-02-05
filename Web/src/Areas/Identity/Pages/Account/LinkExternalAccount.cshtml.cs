@@ -37,7 +37,7 @@ public class LinkExternalAccountModel : PageModel
         var info = await _signInManager.GetExternalLoginInfoAsync();
         if (info == null)
         {
-            return RedirectToPage("./Login");
+            return RedirectToPage("./LinkExternalAccountConfirmation");
         }
 
         var user = await _userManager.FindByEmailAsync(email);
