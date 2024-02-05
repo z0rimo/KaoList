@@ -717,5 +717,14 @@ namespace CodeRabbits.KaoList.Web {
                 return ResourceManager.GetString("Your email", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   이메일이 확인되었습니다과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Your_email_has_been_confirmed {
+            get {
+                return ResourceManager.GetString("Your email has been confirmed", resourceCulture);
+            }
+        }
     }
 }

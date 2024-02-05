@@ -8,18 +8,22 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
 
 namespace CodeRabbits.KaoList.Web.Areas.Identity.Pages.Account;
 
 public class ConfirmEmailModel : PageModel
 {
     private readonly UserManager<KaoListUser> _userManager;
+    private readonly SignInManager<KaoListUser> _signInManager;
     private readonly ILogger<ConfirmEmailModel> _logger;
 
-    public ConfirmEmailModel(UserManager<KaoListUser> userManager, ILogger<ConfirmEmailModel> logger)
+    public ConfirmEmailModel(
+        UserManager<KaoListUser> userManager,
+        SignInManager<KaoListUser> signInManager,
+        ILogger<ConfirmEmailModel> logger)
     {
         _userManager = userManager;
+        _signInManager = signInManager;
         _logger = logger;
     }
 
@@ -46,18 +50,19 @@ public class ConfirmEmailModel : PageModel
 
         catch (FormatException e)
         {
-            _logger.LogWarning(e.Message);
-            _logger.LogWarning("code = {}", code);
+            _logger.LogWarning("Code = {}, ConfirmEmail Message = {}", code, e.Message);
             StatusMessage = "이메일 확인에 실패했습니다. 다시 시도해 주세요.";
             return RedirectToPage("./ConfirmEmailFailed");
         }
 
         var result = await _userManager.ConfirmEmailAsync(user, code);
-        if(result.Succeeded)
+        if (result.Succeeded)
         {
+            await _signInManager.SignInAsync(user, isPersistent: false);
             UserName = user.UserName;
+            StatusMessage = SR.Your_email_has_been_confirmed;
         }
-        StatusMessage = result.Succeeded ? "이메일이 확인 되었습니다. 감사합니다." : "이메일 확인에 실패했습니다.";
+        else StatusMessage = SR.Email_verification_failed;
         return Page();
     }
 }

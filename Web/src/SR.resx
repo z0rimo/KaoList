@@ -333,6 +333,9 @@
   <data name="Your email" xml:space="preserve">
     <value>귀하의 이메일 </value>
   </data>
+  <data name="Your email has been confirmed" xml:space="preserve">
+    <value>이메일이 확인되었습니다</value>
+  </data>
   <data name="{0} is required" xml:space="preserve">
     <value>* {0}을 입력하세요.</value>
   </data>
