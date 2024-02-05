@@ -97,7 +97,7 @@ namespace CodeRabbits.KaoList.Web.Areas.Identity.Pages.Account
                 var externalUser = await _userManager.FindByEmailAsync(Input.Email);
                 if (externalUser != null)
                 {
-                    ModelState.AddModelError(string.Empty, "A user that already exists.");
+                    ModelState.AddModelError(string.Empty, SR.A_user_that_already_exists_);
                     return Page();
                 }
 

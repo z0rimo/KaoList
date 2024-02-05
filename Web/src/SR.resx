@@ -123,6 +123,9 @@
   <data name="A password reset has been sent to your email." xml:space="preserve">
     <value>이메일로 비밀번호 재설정 메일이 발송되었습니다.</value>
   </data>
+  <data name="A user that already exists." xml:space="preserve">
+    <value>이미 존재하는 이메일입니다</value>
+  </data>
   <data name="Account Lockout" xml:space="preserve">
     <value>계정 잠금</value>
   </data>

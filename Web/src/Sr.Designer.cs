@@ -88,6 +88,15 @@ namespace CodeRabbits.KaoList.Web {
         }
         
         /// <summary>
+        ///   이미 존재하는 이메일입니다과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string A_user_that_already_exists_ {
+            get {
+                return ResourceManager.GetString("A user that already exists.", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   계정 잠금과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Account_Lockout {
