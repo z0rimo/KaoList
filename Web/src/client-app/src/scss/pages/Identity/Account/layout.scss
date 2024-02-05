@@ -85,7 +85,6 @@ body {
     --vertical-line-before-font-weight: #{$font-weight-light};
     --vertical-line-before-line-height: .9em;
     --vertical-line-before-margin: 0 0.5em;
-
     background-color: var(--main-layout-background-color);
     color: var(--main-layout-color);
     font-size: var(--main-layout-font-size);
@@ -97,7 +96,7 @@ body {
         flex-direction: column;
     }
 
-    .center-layout{
+    .center-layout {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -233,6 +232,13 @@ body {
 
                 .checkbox + .text-danger {
                     margin-top: 5px;
+                }
+
+                .identity-container {
+                    .button-wrapper {
+                        display: flex;
+                        align-items: center;
+                    }
                 }
             }
 
