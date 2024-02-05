@@ -104,7 +104,8 @@ public class ExternalLoginModel : PageModel
 
         if (internalUser != null)
         {
-            return RedirectToPage("./LinkExternalAccount", new { Email = email, ReturnUrl = returnUrl });
+            await _signInManager.SignInAsync(internalUser, isPersistent: false);
+            return LocalRedirect(returnUrl);
         }
 
         // Sign in the user with this external login provider if the user already has a login.
