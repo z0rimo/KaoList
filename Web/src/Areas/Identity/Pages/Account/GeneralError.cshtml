@@ -1,0 +1,11 @@
+﻿@page
+@model GeneralErrorModel
+@{
+    ViewData["Title"] = SR.Something_is_wrong;
+}
+<h2 class="fs-4 fw-semibold">@ViewData["Title"]</h2>
+<p class="mt-3">@SR.An_unknown_issue_has_occurred__please_contact_your_administrator_</p>
+<div class="error-info mt-3">
+    <p><span class="fw-semibold">Email:</span> kaolist@kaolist.com</p>
+</div>
+<a class="btn btn-primary gray-theme mt-7" href="/">@SR.Go_to_homepage</a>

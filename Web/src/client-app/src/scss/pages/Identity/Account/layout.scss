@@ -74,6 +74,7 @@ body {
     --between-form-label-input-p-margin-left: 6px;
     --form-check-input-width: 20px;
     --form-check-input-height: 20px;
+    --error-info-background-color: var(--color-gray95);
     --external-account-button-background-color: var(--color-white);
     --external-account-button-border-color: var(--color-gray82);
     --external-account-button-border-radius: #{$border-radius-sm};
@@ -232,6 +233,12 @@ body {
 
                 .checkbox + .text-danger {
                     margin-top: 5px;
+                }
+
+                .error-info {
+                    background-color: var(--error-info-background-color);
+                    width: inherit;
+                    padding: 18px;
                 }
 
                 .identity-container {
