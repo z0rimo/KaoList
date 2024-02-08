@@ -93,6 +93,7 @@ public class ExternalLoginModel : PageModel
         }
 
         var info = await _signInManager.GetExternalLoginInfoAsync();
+        _logger.LogInformation("외부로그인 이메일: {}", info.Principal.FindFirstValue(ClaimTypes.Email));
         if (info == null)
         {
             ErrorMessage = "Error loading external login information.";

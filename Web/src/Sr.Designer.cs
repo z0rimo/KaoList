@@ -178,6 +178,15 @@ namespace CodeRabbits.KaoList.Web {
         }
         
         /// <summary>
+        ///   알 수 없는 문제가 발생했습니다. 관리자에게 문의하세요.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string An_unknown_issue_has_occurred__please_contact_your_administrator_ {
+            get {
+                return ResourceManager.GetString("An unknown issue has occurred, please contact your administrator.", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   귀하의 &apos;{0}&apos; 계정을 연동합니다.과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Associate_your_account {
@@ -607,6 +616,15 @@ namespace CodeRabbits.KaoList.Web {
         internal static string Social_Login {
             get {
                 return ResourceManager.GetString("Social Login", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   문제가 발생했습니다과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Something_is_wrong {
+            get {
+                return ResourceManager.GetString("Something is wrong", resourceCulture);
             }
         }
         
