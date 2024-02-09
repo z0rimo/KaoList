@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using static Duende.IdentityServer.Models.IdentityResources;
 
 namespace CodeRabbits.KaoList.Web.Areas.Identity.Pages.Account
 {
@@ -93,19 +94,19 @@ namespace CodeRabbits.KaoList.Web.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    await SaveSignInAttempt(userId, true, remoteIpAddress);
+                    await SaveSignInAttempt(Input.Email, userId, true, remoteIpAddress);
                     return LocalRedirect(returnUrl);
                 }
                 if (result.IsLockedOut)
                 {
                     _logger.LogWarning("User account locked out.");
-                    await SaveSignInAttempt(userId, false, remoteIpAddress);
+                    await SaveSignInAttempt(Input.Email,userId, false, remoteIpAddress);
                     return RedirectToPage("./Lockout");
                 }
                 else
                 {
                     ModelState.AddModelError(string.Empty, "이메일 또는 비밀번호를 잘못 입력하셨습니다.");
-                    await SaveSignInAttempt(userId, false, remoteIpAddress);
+                    await SaveSignInAttempt(Input.Email, userId, false, remoteIpAddress);
                     return Page();
                 }
             }
@@ -114,8 +115,10 @@ namespace CodeRabbits.KaoList.Web.Areas.Identity.Pages.Account
             return Page();
         }
 
-        public async Task SaveSignInAttempt(string UserId, bool succeeded, IPAddress IpAddress)
+        public async Task SaveSignInAttempt(string email, string UserId, bool succeeded, IPAddress IpAddress)
         {
+            var user = await _userManager.FindByEmailAsync(email);
+            _ = user?.Id;
 
             var singInAttempt = new SignInAttempt
             {
