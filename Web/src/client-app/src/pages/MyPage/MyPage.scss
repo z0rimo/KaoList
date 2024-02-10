@@ -24,9 +24,10 @@
     --thumbnail-wrapper-padding: 20px 0px 30px 20px;
     --thumbnail-wrapper-border-bottom: 1px solid var(--color-gray85);
 
+    --sticky-thumbnail-width: 120px;
+    --sticky-thumbnail-height: 120px;
+
     --thumbnail-fill: var(--color-white);
-    --thumbnail-width: 120px;
-    --thumbnail-height: 120px;
 
     --thumbnail-change-border: 0;
     --thumbnail-change-background-color: transparent;
@@ -125,30 +126,35 @@
                 border-radius: 50%;
             }
 
-            .thumbnail {
-                fill: var(--thumbnail-fill);
-                width: var(--thumbnail-width);
-                height: var(--thumbnail-height);
-                border: transparent;
-            }
-
-            .thumbnail-change {
-                position: absolute;
+            .sticky-thumbnail {
+                width: var(--sticky-thumbnail-width);
+                height: var(--sticky-thumbnail-height);
                 cursor: pointer;
-                border: var(--thumbnail-change-border);
-                background-color: var(--thumbnail-change-background-color);
-                width: var(--thumbnail-change-width);
-                height: var(--thumbnail-change-height);
-                top: var(--thumbnail-change-top);
-                left: var(--thumbnail-change-left);
 
-                .circle-camera {
-                    background-color: var(--circle-camera-background-color);
-                    stroke: var(--circle-camera-stroke);
-                    fill: var(--circle-camera-fill);
 
-                    &:hover {
-                        background-color: var(--circle-camara-hover-background-color);
+                .thumbnail {
+                    fill: var(--thumbnail-fill);
+                    border: transparent;
+                }
+
+                .thumbnail-change {
+                    position: absolute;
+                    cursor: pointer;
+                    border: var(--thumbnail-change-border);
+                    background-color: var(--thumbnail-change-background-color);
+                    width: var(--thumbnail-change-width);
+                    height: var(--thumbnail-change-height);
+                    top: var(--thumbnail-change-top);
+                    left: var(--thumbnail-change-left);
+
+                    .circle-camera {
+                        background-color: var(--circle-camera-background-color);
+                        stroke: var(--circle-camera-stroke);
+                        fill: var(--circle-camera-fill);
+
+                        &:hover {
+                            background-color: var(--circle-camara-hover-background-color);
+                        }
                     }
                 }
             }
@@ -165,7 +171,8 @@
             align-items: center;
             padding: var(--mypage-item-padding);
 
-            a, .link-item {
+            a,
+            .link-item {
                 font-family: 'Roboto', 'Noto Sans KR', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen',
                     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
                     sans-serif;
@@ -244,7 +251,7 @@
                 .decision-btns {
                     display: flex;
 
-                    button+button {    
+                    button+button {
                         margin-left: 8px;
                     }
                 }

@@ -66,7 +66,7 @@ function MyPageThumbnail(props: MyPageThumbnailProps) {
 
     return (
         <div className="thumbnail-wrapper" {...rest}>
-            <div onClick={handleClick} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} style={{ cursor: "pointer" }}>
+            <div className="sticky-thumbnail" onClick={handleClick} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                 {imageUrl ? (
                     <img src={imageUrl} className="thumbnail" alt="User thumbnail" />
                 ) : (
