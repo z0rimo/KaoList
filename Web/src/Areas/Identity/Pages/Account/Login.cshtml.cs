@@ -115,21 +115,36 @@ namespace CodeRabbits.KaoList.Web.Areas.Identity.Pages.Account
             return Page();
         }
 
-        public async Task SaveSignInAttempt(string email, string UserId, bool succeeded, IPAddress IpAddress)
+        public async Task SaveSignInAttempt(string email, string userId, bool succeeded, IPAddress ipAddress)
         {
             var user = await _userManager.FindByEmailAsync(email);
             _ = user?.Id;
 
-            var singInAttempt = new SignInAttempt
-            {
-                UserId = UserId,
-                Successed = succeeded,
-                IpAddress = IpAddress,
-                CreateTime = DateTime.UtcNow
-            };
+            var ipAddressString = ipAddress.ToString() ?? "0.0.0.0";
 
-            _context.SignInAttempts.Add(singInAttempt);
-            await _context.SaveChangesAsync();
+            if (IPAddress.TryParse(ipAddressString, out var parsedIpAddress))
+            {
+                ipAddress = parsedIpAddress;
+            }
+            else
+            {
+                _logger.LogWarning("IP 주소 변환 실패: {IpAddressString}", ipAddressString);
+                ipAddress = IPAddress.None; 
+            }
+
+            if (!string.IsNullOrEmpty(userId))
+            {
+                var signInAttempt = new SignInAttempt
+                {
+                    UserId = userId,
+                    Successed = succeeded,
+                    IpAddress = ipAddress, 
+                    CreateTime = DateTime.UtcNow
+                };
+
+                _context.SignInAttempts.Add(signInAttempt);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

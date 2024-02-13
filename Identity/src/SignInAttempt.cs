@@ -21,7 +21,7 @@ public class SignInAttempt
     public string? UserId { get; set; }
 
     /// <summary>
-    /// User's localized nickname.
+    /// The IP address from which the user is connecting
     /// </summary>
     public IPAddress? IpAddress { get; set; }
 
