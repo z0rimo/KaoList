@@ -241,6 +241,15 @@ namespace CodeRabbits.KaoList.Web {
         }
         
         /// <summary>
+        ///   회원 탈퇴 완료과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Completed_account_deletion {
+            get {
+                return ResourceManager.GetString("Completed account deletion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   이메일 확인과(와) 유사한 지역화된 문자열을 찾습니다.
         /// </summary>
         internal static string Confirm_Email {
@@ -264,6 +273,15 @@ namespace CodeRabbits.KaoList.Web {
         internal static string Confirm_Password {
             get {
                 return ResourceManager.GetString("Confirm Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   계정 삭제과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string Delete_Account {
+            get {
+                return ResourceManager.GetString("Delete Account", resourceCulture);
             }
         }
         
@@ -373,6 +391,15 @@ namespace CodeRabbits.KaoList.Web {
             get {
                 return ResourceManager.GetString("If the same phenomenon continues to occur, please leave the relevant information " +
                         "in our inquiry form", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   그 동안 KaoList 서비스를 이용해주셔서 감사합니다.과(와) 유사한 지역화된 문자열을 찾습니다.
+        /// </summary>
+        internal static string In_the_meantime__thank_you_for_using_the_KaoList_service_ {
+            get {
+                return ResourceManager.GetString("In the meantime, thank you for using the KaoList service.", resourceCulture);
             }
         }
         
