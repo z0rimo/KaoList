@@ -95,12 +95,24 @@ body {
     .d-flex {
         display: flex;
         flex-direction: column;
+
+        .jc-center{
+            justify-content: center;
+        }
     }
 
     .center-layout {
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+
+    .danger-point {
+        color: var(--color-slightly-desaturated-pink);
+    }
+
+    .info-point {
+        color: var(--color-gray67);
     }
 
     .identity-region {

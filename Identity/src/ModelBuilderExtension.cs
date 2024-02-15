@@ -124,7 +124,9 @@ public static class ModelBuilderExtension
             b.Property(sa => sa.Id)
              .ValueGeneratedOnAdd()
              .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-            b.Property(u => u.CreateTime).IsRequired();
+            b.Property(u => u.CreateTime)
+            .IsRequired()
+            .HasDefaultValueSql("GETUTCDATE()");
         });
 
         builder.Entity<KaoListUserFollower>(b =>

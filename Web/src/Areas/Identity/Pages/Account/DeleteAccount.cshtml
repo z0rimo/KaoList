@@ -1,0 +1,57 @@
+﻿@page
+@model DeleteAccountModel
+@{
+    ViewData["Title"] = SR.Delete_Account;
+}
+<environment include="Development">
+    <link rel="stylesheet" href="~/css/pages/Identity/Account/deleteAccount.css" asp-append-version="true" />
+</environment>
+<environment exclude="Development">
+    <link rel="stylesheet" href="~/css/pages/Identity/Account/deleteAccount.min.css" />
+</environment>
+<p class="fs-4 fw-semibold title">@ViewData["Title"]</p>
+<p>회원탈퇴를 신청하기 전에 안내사항을 꼭 확인해주세요.</p>
+<div class="mt-6">
+    <p>사용하고 계신 계정(<span class="danger-point fw-bold">@Model.Input.Email</span>)은 탈퇴 후 재사용이 <span class="danger-point fw-bold">불가능</span>합니다.</p>
+    <p>30일 이내에 계정 복구를 요청하신경우 문의사항 탭으로 연락해주시길 바랍니다.</p>
+    <p> 30일이 지난 후 해당 계정의 정보가 완전히 파기됩니다.</p>
+</div>
+<div class="mt-6">
+    <p>탈퇴 후 회원정보 및 개인형 서비스 이용기록은 <span class="danger-point fw-bold">30일 이후</span> 모두 삭제됩니다.</p>
+    <p>더 빠른 시간 내에 파기를 원하시는 경우 문의사항 탭으로 연락해주시길 바랍니다.</p>
+</div>
+<hr />
+<p class="fw-bold">탈퇴하시려는 이유를 작성해주세요. <span class="info-point fw-normal">더 나은 서비스를 위해 개선하겠습니다. (중복선택 가능)</span></p>
+<div class="d-flex mt-2">
+    <div class="jc-center mt-2">
+        <input type="checkbox" id="reason1" />
+        <label for="reason1">카오리스트 회원탈퇴 후 재가입을 위해서</label>
+    </div>
+    <div class="jc-center mt-1">
+        <input type="checkbox" id="reason2" />
+        <label for="reason2">카오리스트 이용빈도가 낮아서</label>
+    </div>
+    <div class="jc-center mt-1">
+        <input type="checkbox" id="reason3" />
+        <label for="reason3">카오리스트를 이용하는데 불편해서</label>
+    </div>
+    <div class="jc-center mt-1">
+        <input type="checkbox" id="reason4" />
+        <label for="reason4">서비스 및 고객지원이 만족스럽지 못해서</label>
+    </div>
+    <div class="jc-center mt-1 mb-2">
+        <input type="checkbox" id="reason5" />
+        <label for="reason5">기타</label>
+    </div>
+    <textarea id="otherReason" rows="4" style="padding: 15px; max-width: 100%;" maxlength="240"></textarea>
+</div>
+<div class="mt-2">
+    <input type="checkbox" id="agree" name="agree" />
+    <label for="agree">위 사항을 숙지하였으며 이에 동의합니다.</label>
+</div>
+<form class="mt-2" method="post" asp-page="/Identity/Account/DeleteAccount">
+    <button type="submit" id="confirmButton" disabled>탈퇴 확인</button>
+</form>
+@section Scripts {
+    <script src="~/js/delete-account.js" asp-append-version="true"></script>
+}
