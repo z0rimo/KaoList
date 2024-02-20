@@ -10,11 +10,16 @@ function MyPage() {
         window.location.reload();
     }
 
+    const unsubscribeClick = () => {
+        window.location.href = '/Identity/Account/DeleteAccount';
+    }
+
     return (
         <MainLayout className='gray-theme'>
             <MainSection>
                 <div className='mypage-wrapper'>
                     <MyPageProfileList />
+                    <button onClick={unsubscribeClick}>탈퇴</button>
                     <MyPageActivityList />
                     <button onClick={handleSave}>저장</button>
                 </div>
