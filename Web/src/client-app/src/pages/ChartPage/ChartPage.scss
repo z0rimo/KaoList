@@ -54,11 +54,7 @@
         background-color: var(--table-background-color);
         border-radius: var(--table-border-radius);
 
-        tr:first-child {
-            border-top: var(--table-tr-first-border-bottom);
-        }
-
-        tr {
+        tr+tr {
             border-top: var(--table-tr-border-top);
         }
     }

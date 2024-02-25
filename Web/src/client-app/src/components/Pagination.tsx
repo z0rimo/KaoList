@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import ClassNameHelper from "../ClassNameHelper";
-import LazyCircleChevronRighticon from "../svgs/LazyCircleChevronRighticon";
 import PageLink from "./PageLink";
 import { IPageInfo } from "../api/kaolistApi";
+import LazyCaretRightSolidIcon from "../svgs/LazyCaretRightSolidIcon";
+import LazyCaretLeftSolidIcon from "../svgs/LazyCaretLeftSolidIcon";
 
-function Pagination({ totalResults = 0, resultsPerPage = 10 }: IPageInfo) {
+interface IPaginationProps extends IPageInfo {
+    className?: string;
+}
+
+function Pagination({ totalResults = 0, resultsPerPage = 10, className }: IPaginationProps) {
     const location = useLocation();
     const navigate = useNavigate();
     const currentParams = new URLSearchParams(location.search);
@@ -26,7 +31,7 @@ function Pagination({ totalResults = 0, resultsPerPage = 10 }: IPageInfo) {
         navigate(`${location.pathname}?${currentParams.toString()}`);
         setPage(num);
     };
-    
+
     const handlePrevBtn = () => {
         const newPage = Math.max(1, page - 10);
         const currentParams = new URLSearchParams(location.search);
@@ -37,7 +42,7 @@ function Pagination({ totalResults = 0, resultsPerPage = 10 }: IPageInfo) {
             setCurrentGroup(currentGroup - 1);
         }
     };
-    
+
     const handleNextBtn = () => {
         const newPage = Math.min(maxPageNumber, page + 10);
         const currentParams = new URLSearchParams(location.search);
@@ -53,9 +58,10 @@ function Pagination({ totalResults = 0, resultsPerPage = 10 }: IPageInfo) {
     const groupEndIndex = groupStartIndex + 10;
 
     return (
-        <div className="pagination middle-layout">
-            <LazyCircleChevronRighticon onClick={handlePrevBtn}
+        <div className={ClassNameHelper.concat('pagination middle-layout', className)}>
+            <LazyCaretLeftSolidIcon onClick={handlePrevBtn}
                 className={ClassNameHelper.concat('left', currentGroup === 1 && 'disable')}
+                style={{ width: 12, height: 14 }}
             />
             {Array.from({ length: maxPageNumber }, (_, i) => i + 1)
                 .slice(groupStartIndex, groupEndIndex)
@@ -69,8 +75,9 @@ function Pagination({ totalResults = 0, resultsPerPage = 10 }: IPageInfo) {
                     />
                 ))
             }
-            <LazyCircleChevronRighticon onClick={handleNextBtn}
+            <LazyCaretRightSolidIcon onClick={handleNextBtn}
                 className={ClassNameHelper.concat('', currentGroup === Math.ceil(maxPageNumber / 10) && 'disable')}
+                style={{ width: 12, height: 14 }}
             />
         </div>
     );

@@ -27,7 +27,7 @@ const SongSearchListItem = React.memo((props: ISongSearchListItem) => {
     }
 
     return (
-        <tr className="table-td discover" onClick={navgiateToDetailClick}>
+        <tr className="table-td" onClick={navgiateToDetailClick}>
             <td>
                 <img alt={StringHelper.format(t('Thumbnail of {0}'), props.title)}
                     src="https://i.ytimg.com/vi/XOxI7bEHQgc/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLC5kqwJDiTRyMg0D5mIsZ0ZyTcvRg" />
@@ -60,7 +60,7 @@ function SearchPage() {
     return (
         <MainLayout>
             <MainSection>
-                <div className="chart-wrapper discover bottom-right-box-shadow">
+                <div className="chart-wrapper discover bottom-right-box-shadow mt-8">
                     <SongSearchList
                         maxResults={20}
                         Table={Table}
@@ -68,20 +68,18 @@ function SearchPage() {
                         setTotalResults={setTotalResults}
                         thead={
                             <thead>
-                                <tr>
-                                    <tr className="table-th discover">
-                                        <th>{t("Thumbnail")}</th>
-                                        <th>{t("Title/Artist")}</th>
-                                        <th>TJ</th>
-                                        <th>KY</th>
-                                        <th>{t("Like")}</th>
-                                    </tr>
+                                <tr className="table-th discover">
+                                    <th>{t("Thumbnail")}</th>
+                                    <th>{t("Title/Artist")}</th>
+                                    <th>TJ</th>
+                                    <th>KY</th>
+                                    <th>{t("Like")}</th>
                                 </tr>
                             </thead>
                         }
                     />
                 </div>
-                <Pagination totalResults={totalResults} resultsPerPage={20} />
+                <Pagination className="mt-7" totalResults={totalResults} resultsPerPage={20} />
             </MainSection>
         </MainLayout >
     )
