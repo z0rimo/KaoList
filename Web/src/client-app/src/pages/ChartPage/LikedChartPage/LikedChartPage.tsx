@@ -116,7 +116,7 @@ function LikedChartPage() {
 
     return (
         <MainLayout>
-            <MainSection>
+            <MainSection className="chart-page">
                 <div className="chart-wrapper liked">
                     <TableTitle
                         title={`${t("Liked Chart")}`}

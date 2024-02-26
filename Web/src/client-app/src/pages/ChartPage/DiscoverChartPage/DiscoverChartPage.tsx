@@ -60,7 +60,7 @@ function DiscoverChartPage() {
 
     return (
         <MainLayout>
-            <MainSection>
+            <MainSection className="chart-page">
                 <TableTitle
                     title="신곡 차트"
                     date={new Date().toISOString().split('T')[0]}

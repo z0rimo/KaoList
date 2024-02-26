@@ -1,12 +1,12 @@
-.chart-wrapper {
-    --chart-wrapper-border-radius: 5px;
-
+.chart-page {
     --table-title-wrapper-margin: 60px 0 20px 0;
     --table-title-font-size: 30px;
     --table-title-margin-right: 10px;
     --table-date-font-size: 18px;
     --table-date-color: var(--color-very-dark-grayish-blue);
     --table-date-padding-top: 20px;
+
+    --chart-wrapper-border-radius: 5px;
 
     --table-width: 100%;
     --table-text-color: var(--color-gray20);
@@ -22,8 +22,6 @@
     --table-tr-border-top: 1px solid var(--color-gray91);
     --table-td-padding: 15px 0 15px 0;
 
-    border-radius: var(--chart-wrapper-border-radius);
-
     .table-title-wrapper {
         display: flex;
         justify-content: space-between;
@@ -31,8 +29,7 @@
 
         >div {
             display: flex;
-            justify-content: space-between;
-
+            
             .table-title {
                 font-size: var(--table-title-font-size);
                 color: var(--table-text-color);
@@ -47,47 +44,51 @@
         }
     }
 
-    table {
-        width: var(--table-width);
-        color: var(--table-text-color);
-        border-collapse: collapse;
-        background-color: var(--table-background-color);
-        border-radius: var(--table-border-radius);
+    .chart-wrapper {
+        border-radius: var(--chart-wrapper-border-radius);
 
-        tr+tr {
-            border-top: var(--table-tr-border-top);
+        table {
+            width: var(--table-width);
+            color: var(--table-text-color);
+            border-collapse: collapse;
+            background-color: var(--table-background-color);
+            border-radius: var(--table-border-radius);
+
+            tr+tr {
+                border-top: var(--table-tr-border-top);
+            }
         }
-    }
 
-    thead {
-        tr.table-th {
+        thead {
+            tr.table-th {
+                display: flex;
+                justify-content: center;
+                font-size: var(--table-th-font-size);
+                padding: var(--table-th-padding);
+                border-top: none;
+            }
+        }
+
+        .table-td {
             display: flex;
-            justify-content: center;
-            font-size: var(--table-th-font-size);
-            padding: var(--table-th-padding);
-            border-top: none;
-        }
-    }
 
-    .table-td {
-        display: flex;
+            td {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: var(--table-td-padding);
+                font-size: var(--table-td-font-size);
+            }
 
-        td {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: var(--table-td-padding);
-            font-size: var(--table-td-font-size);
-        }
+            .title {
+                font-weight: var(--table-td-title-font-weight);
+            }
 
-        .title {
-            font-weight: var(--table-td-title-font-weight);
-        }
-
-        button {
-            border: none;
-            background-color: transparent;
-            cursor: pointer;
+            button {
+                border: none;
+                background-color: transparent;
+                cursor: pointer;
+            }
         }
     }
 }
