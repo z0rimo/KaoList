@@ -14,10 +14,11 @@ type LikedChartProps = {
     thead: IRenderTableProps<ILikedChartItem>['thead'];
     renderer: IRenderTableProps<ILikedChartItem>['renderer'];
     maxResults?: number;
+    setTotalResults?: React.Dispatch<React.SetStateAction<number>>;
 } & React.TableHTMLAttributes<HTMLTableElement>;
 
 function LikedChart(props: LikedChartProps) {
-    const { startDate, endDate, Table, thead, renderer, maxResults, ...rest } = props;
+    const { startDate, endDate, Table, thead, renderer, maxResults, setTotalResults, ...rest } = props;
 
     const keySelector = React.useCallback((item: ILikedChartItem) => {
         return item.id;
@@ -41,6 +42,10 @@ function LikedChart(props: LikedChartProps) {
                 }));
 
                 setItems(rankedItems);
+            }
+
+            if (response.pageInfo?.totalResults) {
+                setTotalResults && setTotalResults(response.pageInfo.totalResults);
             }
         })();
         // eslint-disable-next-line

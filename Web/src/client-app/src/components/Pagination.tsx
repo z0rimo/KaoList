@@ -25,6 +25,10 @@ function Pagination({ totalResults = 0, resultsPerPage = 10, className }: IPagin
         setPage(currentPage);
     }, [location]);
 
+    if (maxPageNumber <= 1 || totalResults === 0) {
+        return null;
+    }
+
     const handlePageClick = (num: number) => {
         const currentParams = new URLSearchParams(location.search);
         currentParams.set("page", String(num));
@@ -59,10 +63,12 @@ function Pagination({ totalResults = 0, resultsPerPage = 10, className }: IPagin
 
     return (
         <div className={ClassNameHelper.concat('pagination middle-layout', className)}>
-            <LazyCaretLeftSolidIcon onClick={handlePrevBtn}
-                className={ClassNameHelper.concat('left', currentGroup === 1 && 'disable')}
-                style={{ width: 12, height: 14 }}
-            />
+            {maxPageNumber > 10 && (
+                <LazyCaretLeftSolidIcon onClick={handlePrevBtn}
+                    className={ClassNameHelper.concat('left', currentGroup === 1 && 'disable')}
+                    style={{ width: 12, height: 14 }}
+                />
+            )}
             {Array.from({ length: maxPageNumber }, (_, i) => i + 1)
                 .slice(groupStartIndex, groupEndIndex)
                 .map((num) => (
@@ -75,12 +81,15 @@ function Pagination({ totalResults = 0, resultsPerPage = 10, className }: IPagin
                     />
                 ))
             }
-            <LazyCaretRightSolidIcon onClick={handleNextBtn}
-                className={ClassNameHelper.concat('', currentGroup === Math.ceil(maxPageNumber / 10) && 'disable')}
-                style={{ width: 12, height: 14 }}
-            />
+            {maxPageNumber > 10 && (
+                <LazyCaretRightSolidIcon onClick={handleNextBtn}
+                    className={ClassNameHelper.concat('', currentGroup === Math.ceil(maxPageNumber / 10) && 'disable')}
+                    style={{ width: 12, height: 14 }}
+                />
+            )}
         </div>
     );
 }
+
 
 export default React.memo(Pagination);

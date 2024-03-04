@@ -13,6 +13,7 @@ import LazyStarIcon from "../../../svgs/LazyStarIcon";
 import LikedChartDropdown from "../../../components/LikedChartDropdown";
 import "./LikedChartPage.scss";
 import "../ChartPage.scss";
+import Pagination from "../../../components/Pagination";
 
 function RankChange(length: number) {
     if (length === 4) {
@@ -86,6 +87,7 @@ const Table = React.memo((props: React.HTMLAttributes<HTMLTableElement>) => <tab
 
 function LikedChartPage() {
     const { t } = useTranslation('Chart');
+    const [totalResults, setTotalResults] = React.useState<number>(0);
     const [dropdownState, setDropdownState] = useState('All');
     const periodAry = ["Daily", "Monthly", "All"];
     let now = new Date();
@@ -131,6 +133,7 @@ function LikedChartPage() {
                         <LikedChart maxResults={50}
                             Table={Table}
                             renderer={likedCharItemRender}
+                            setTotalResults={setTotalResults}
                             thead={
                                 <thead>
                                     <tr className="table-th liked">
@@ -145,6 +148,7 @@ function LikedChartPage() {
                             }
                         />
                     </div>
+                    <Pagination totalResults={totalResults} resultsPerPage={20}/>
                 </div >
             </MainSection >
         </MainLayout >
