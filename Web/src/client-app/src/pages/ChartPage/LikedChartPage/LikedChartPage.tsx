@@ -148,7 +148,7 @@ function LikedChartPage() {
                             }
                         />
                     </div>
-                    <Pagination totalResults={totalResults} resultsPerPage={20}/>
+                    <Pagination className="mt-4" totalResults={totalResults} resultsPerPage={20}/>
                 </div >
             </MainSection >
         </MainLayout >
