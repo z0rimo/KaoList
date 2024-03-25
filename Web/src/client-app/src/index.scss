@@ -201,41 +201,44 @@ svg {
 
 .pagination {
   --pagination-margin-left: 18px;
-  --pagination-active-color: var(--color-vivid-orange);
+  --pagination-active-color: var(--color-slightly-desaturated-cyan);
   --pagination-svg-primary-fill: var(--color-gray20);
   --pagination-svg-secondary-fill: var(--color-white);
   --pagination-svg-secondary-stroke: var(--color-gray85);
 
+  --a-color: var(--color-gray56);
+
   *+* {
-      margin-left: var(--pagination-margin-left);
+    margin-left: var(--pagination-margin-left);
   }
 
   ul {
-      display: flex;
+    display: flex;
   }
 
   a {
-      color: var(--color-gray85);
+    color: var(--a-color);
   }
 
   .active {
-      color: var(--pagination-active-color);
+    font-weight: $font-weight-bold;
+    color: var(--pagination-active-color);
   }
 
   .left {
-      transform: rotate(180deg);
+    transform: rotate(180deg);
   }
 
   .disable {
-      display: none;
+    display: none;
   }
 
   .primary {
-      fill: var(--pagination-svg-primary-fill);
+    fill: var(--pagination-svg-primary-fill);
   }
 
   .secondary {
-      fill: var(--pagination-svg-secondary-fill);
-      stroke: var(--pagination-svg-secondary-stroke);
+    fill: var(--pagination-svg-secondary-fill);
+    stroke: var(--pagination-svg-secondary-stroke);
   }
 }

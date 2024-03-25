@@ -18,7 +18,7 @@ function PageLink(props: IPageLinkProps) {
     }, [props]);
 
     return (
-        <Link
+        <Link style={{ textDecorationLine: "none" }}
             to={`${props.base}?page=${props.no}`}
             onClick={handleClick}
             className={props.className}

@@ -7,8 +7,7 @@ import { useTranslation } from "react-i18next";
 import StringHelper from "../../StringHelper";
 import LazyStarSolidIcon from "../../svgs/LazyStarSolidIcon";
 import LazyStarIcon from "../../svgs/LazyStarIcon";
-import "../ChartPage/DiscoverChartPage/DiscoverChartPage.scss";
-import "../ChartPage/ChartPage.scss";
+import "./SearchPage.scss";
 
 const SongSearchListItem = React.memo((props: ISongSearchListItem) => {
     const [like, setLike] = React.useState<boolean>(false);
@@ -27,21 +26,19 @@ const SongSearchListItem = React.memo((props: ISongSearchListItem) => {
     }
 
     return (
-        <tr className="table-td" onClick={navgiateToDetailClick}>
-            <td>
+        <tr className="tr-group fs-4">
+            <td className="center-layout">
                 <img alt={StringHelper.format(t('Thumbnail of {0}'), props.title)}
                     src="https://i.ytimg.com/vi/XOxI7bEHQgc/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLC5kqwJDiTRyMg0D5mIsZ0ZyTcvRg" />
             </td>
             <td>
-                <p className="title">{props.title}</p>
+                <p className="fw-bold">{props.title}</p>
                 <p>{props.songUsers?.map(item => item.nickname).join(", ")}</p>
             </td>
             <td>{tjNo}</td>
             <td>{kumyoungNo}</td>
             <td>
-                <button className="like-btn" onClick={() => (setLike(!like))}>
-                    {like ? <LazyStarSolidIcon fill="#6BB9A4" /> : <LazyStarIcon fill="#5F6368" />}
-                </button>
+                {like ? <LazyStarSolidIcon fill="#6BB9A4" /> : <LazyStarIcon fill="#5F6368" />}
             </td>
         </tr>
     )
@@ -59,8 +56,8 @@ function SearchPage() {
 
     return (
         <MainLayout>
-            <MainSection>
-                <div className="chart-wrapper discover bottom-right-box-shadow mt-8">
+            <MainSection className="table-section">
+                <div className="render-table-wrapper bottom-right-box-shadow">
                     <SongSearchList
                         maxResults={20}
                         Table={Table}
@@ -68,7 +65,7 @@ function SearchPage() {
                         setTotalResults={setTotalResults}
                         thead={
                             <thead>
-                                <tr className="table-th discover">
+                                <tr className="tr-group fs-4">
                                     <th>{t("Thumbnail")}</th>
                                     <th>{t("Title/Artist")}</th>
                                     <th>TJ</th>
@@ -79,7 +76,7 @@ function SearchPage() {
                         }
                     />
                 </div>
-                <Pagination className="mt-7" totalResults={totalResults} resultsPerPage={20} />
+                <Pagination className="mt-7 fs-4" totalResults={totalResults} resultsPerPage={20} />
             </MainSection>
         </MainLayout >
     )

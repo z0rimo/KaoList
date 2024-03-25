@@ -62,7 +62,7 @@ function Pagination({ totalResults = 0, resultsPerPage = 10, className }: IPagin
     const groupEndIndex = groupStartIndex + 10;
 
     return (
-        <div className={ClassNameHelper.concat('pagination middle-layout', className)}>
+        <div className={ClassNameHelper.concat('pagination center-layout', className)}>
             {maxPageNumber > 10 && (
                 <LazyCaretLeftSolidIcon onClick={handlePrevBtn}
                     className={ClassNameHelper.concat('left', currentGroup === 1 && 'disable')}

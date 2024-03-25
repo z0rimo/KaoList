@@ -1,5 +1,5 @@
 @use "sass:map";
-@import "../../scss/variables";
+@import "../../scss/index.scss";
 
 #main-layout {
     --main-layout-background-color: var(--color-gray95);
@@ -431,7 +431,7 @@
         align-items: center;
     }
     
-    .middle-layout {
+    .center-layout {
         display: flex;
         justify-content: center;
         align-items: center;
