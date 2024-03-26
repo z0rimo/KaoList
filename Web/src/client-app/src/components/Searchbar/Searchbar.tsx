@@ -1,8 +1,8 @@
 import React from "react";
 import StringHelper from "../../StringHelper";
-import LazySearchIcon from "../../svgs/LazySearchIcon";
-import './Searchbar.scss';
 import ClassNameHelper from "../../ClassNameHelper";
+import SearchButton from "../buttons/SearchButton";
+import './Searchbar.scss';
 
 interface SearchbarProps {
     className?: string;
@@ -11,14 +11,6 @@ interface SearchbarProps {
     onChange?: React.ChangeEventHandler<HTMLInputElement>;
     onSubmit?: React.FormEventHandler<HTMLFormElement>;
 }
-
-const SearchButton = React.memo((props: React.ButtonHTMLAttributes<HTMLButtonElement>) => {
-    return (
-        <button className="search-button" {...props}>
-            <LazySearchIcon className="search-icon" />
-        </button>
-    )
-});
 
 function Searchbar(props: SearchbarProps) {
     const { value, onSubmit, className } = props;
