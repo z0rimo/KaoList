@@ -27,7 +27,6 @@ function SongSearchbar(props: React.HTMLAttributes<HTMLDivElement>) {
             }
         }, [setQ, navigate]
     );
-    
 
     return (
         <Searchbar {...props}

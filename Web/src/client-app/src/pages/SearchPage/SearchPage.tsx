@@ -1,20 +1,18 @@
 import React from "react";
 import MainLayout from "../../layouts/MainLayout/MainLayout";
 import MainSection from "../../components/MainSection";
-import SongSearchList, { ISongSearchListItem } from "../../SongSearchList";
+import SongSearchList from "../../SongSearchList";
 import Pagination from "../../components/Pagination";
 import { useTranslation } from "react-i18next";
-import SongSearchItem from "../../components/SongSearchItem";
 import "./SearchPage.scss";
-
-const songSearchListItemRender = (item: ISongSearchListItem) => {
-    return <SongSearchItem {...item} />
-}
-
-const Table = React.memo((props: React.HTMLAttributes<HTMLTableElement>) => <table {...props} />);
+import Table from "../../components/Table";
+import SongSearchListItemRenderer from "../../components/SongSearchListItemRenderer";
+import { useLocation } from "react-router-dom";
 
 function SearchPage() {
     const { t } = useTranslation('Chart')
+    const location = useLocation();
+    const query = new URLSearchParams(location.search).get('q') || undefined;
     const [totalResults, setTotalResults] = React.useState<number>(0);
 
     return (
@@ -24,7 +22,7 @@ function SearchPage() {
                     <SongSearchList
                         maxResults={20}
                         Table={Table}
-                        renderer={songSearchListItemRender}
+                        renderer={(item) => <SongSearchListItemRenderer item={item} q={query} />}
                         setTotalResults={setTotalResults}
                         thead={
                             <thead>

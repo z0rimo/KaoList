@@ -4,40 +4,55 @@ import LazyStarIcon from "../svgs/LazyStarIcon";
 import { ISongSearchListItem } from "../SongSearchList";
 import { useTranslation } from "react-i18next";
 import StringHelper from "../StringHelper";
+import HighlightMatch from "./HighlightMatch";
 
-function SongSearchItem(props: ISongSearchListItem) {
-  const [like, setLike] = React.useState<boolean>(false);
-  const { t } = useTranslation('Chart')
-  let tjNo = "-";
-  let kumyoungNo = "-";
+interface ISongSearchItemProps {
+    item: ISongSearchListItem;
+    q?: string
+}
 
-  if (props.karaoke?.providerName === "tj") {
-      tjNo = props.karaoke.no ?? "-";
-  } else if (props.karaoke?.providerName === "kumyoung") {
-      kumyoungNo = props.karaoke.no ?? "-";
-  }
+function SongSearchItem({ item, q }: ISongSearchItemProps) {
+    const [like, setLike] = React.useState<boolean>(false);
+    const { t } = useTranslation('Chart')
+    let tjNo = "-";
+    let kumyoungNo = "-";
 
-  const navgiateToDetailClick = () => {
-      window.location.href = `/songs/detail?id=${props.id}`;
-  }
+    if (item.karaoke?.providerName === "tj") {
+        tjNo = item.karaoke.no ?? "-";
+    } else if (item.karaoke?.providerName === "kumyoung") {
+        kumyoungNo = item.karaoke.no ?? "-";
+    }
 
-  return (
-    <tr className="tr-group fs-4">
-          <td className="center-layout">
-              <img alt={StringHelper.format(t('Thumbnail of {0}'), props.title)}
-                  src="https://i.ytimg.com/vi/XOxI7bEHQgc/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLC5kqwJDiTRyMg0D5mIsZ0ZyTcvRg" />
-          </td>
-          <td>
-              <p className="fw-bold">{props.title}</p>
-              <p>{props.songUsers?.map(item => item.nickname).join(", ")}</p>
-          </td>
-          <td>{tjNo}</td>
-          <td>{kumyoungNo}</td>
-          <td>
-              {like ? <LazyStarSolidIcon fill="#6BB9A4" /> : <LazyStarIcon fill="#5F6368" />}
-          </td>
-      </tr>
-  )
+    const navgiateToDetailClick = () => {
+        window.location.href = `/songs/detail?id=${item.id}`;
+    }
+
+    return (
+        <tr className="tr-group fs-4">
+            <td className="center-layout">
+                <img alt={StringHelper.format(t('Thumbnail of {0}'), item.title)}
+                    src="https://i.ytimg.com/vi/XOxI7bEHQgc/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLC5kqwJDiTRyMg0D5mIsZ0ZyTcvRg" />
+            </td>
+            <td>
+                <p className="fw-bold">
+                    <HighlightMatch text={item.title} query={q} />
+                </p>
+                <p>
+                    {item.songUsers?.map((user, index) => (
+                        <React.Fragment key={index}>
+                            {index > 0 ? ", " : ""}
+                            <HighlightMatch text={user.nickname} query={q} />
+                        </React.Fragment>
+                    ))}
+                </p>
+            </td>
+            <td>{tjNo}</td>
+            <td>{kumyoungNo}</td>
+            <td>
+                {like ? <LazyStarSolidIcon fill="#6BB9A4" /> : <LazyStarIcon fill="#5F6368" />}
+            </td>
+        </tr>
+    )
 }
 
 export default React.memo(SongSearchItem);
