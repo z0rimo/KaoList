@@ -60,7 +60,6 @@ function App() {
         };
     }, [updateUserIdentity]);
     
-
     return (
         <IdentityContext.Provider value={identityContext}>
             <SearchContext.Provider value={searchContext}>

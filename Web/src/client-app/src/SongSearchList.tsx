@@ -54,7 +54,7 @@ function SongSearchList(props: SongSearchListProps) {
         window.scrollTo(0, 0);
         // eslint-disable-next-line
     }, [location.search]);
-
+    
     return (
         <RenderTable
             Table={Table}

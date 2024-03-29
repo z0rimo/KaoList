@@ -14,6 +14,7 @@ function Pagination({ totalResults = 0, resultsPerPage = 10, className }: IPagin
     const location = useLocation();
     const navigate = useNavigate();
     const currentParams = new URLSearchParams(location.search);
+    const query = currentParams.get('q');
     const initialCurrentPage = Number(currentParams.get("page")) || 1;
     const [page, setPage] = useState(initialCurrentPage);
     const [currentGroup, setCurrentGroup] = useState(1);
@@ -23,11 +24,24 @@ function Pagination({ totalResults = 0, resultsPerPage = 10, className }: IPagin
     React.useEffect(() => {
         const currentPage = Number(currentParams.get("page")) || 1;
         setPage(currentPage);
-    }, [location]);
+        setCurrentGroup(Math.ceil(currentPage / 10));
+    }, [location.search]);
 
     if (maxPageNumber <= 1 || totalResults === 0) {
         return null;
     }
+
+    const createPageUrl = (pageNum: number): string => {
+        const searchParams = new URLSearchParams(location.search);
+        searchParams.set("page", pageNum.toString()); // 페이지 번호 설정
+        if (query) {
+            searchParams.set("q", query); // 검색 쿼리가 있다면 설정
+        }
+    
+        return `${location.pathname}?${searchParams.toString()}`;
+    };
+    
+    
 
     const handlePageClick = (num: number) => {
         const currentParams = new URLSearchParams(location.search);
@@ -75,7 +89,7 @@ function Pagination({ totalResults = 0, resultsPerPage = 10, className }: IPagin
                     <PageLink
                         key={num}
                         no={num}
-                        base={location.pathname}
+                        base={createPageUrl(num)}
                         className={page === num ? "active" : ''}
                         onClick={() => handlePageClick(num)}
                     />
