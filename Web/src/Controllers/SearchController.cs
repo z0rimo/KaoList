@@ -67,6 +67,74 @@ namespace CodeRabbits.KaoList.Web.Controllers
             }
         }
 
+        private async Task<int> CalculateTotalResultsAsync(string query)
+        {
+            var context = CreateScopedDataContext();
+            var totalResults = 0;
+
+            totalResults += await context.Instrumental.CountAsync(inst => inst.NormalizedTitle!.Equals(query));
+
+            totalResults += await context.Instrumental.CountAsync(inst => inst.NormalizedTitle!.Contains(query) && !inst.NormalizedTitle.Equals(query));
+
+            totalResults += await context.SingUsers
+                                         .Join(context.Users, su => su.UserId, user => user.Id, (su, user) => new { su, user })
+                                         .CountAsync(su => su.user.NormalizedNickName == query);
+
+            return totalResults;
+        }
+
+        private async Task<IEnumerable<Instrumental>> SearchInstrumentalsAsync(string query, int offset, int maxResults)
+        {
+            var context = CreateScopedDataContext();
+
+            var exactTitleMatchesTask = context.Instrumental
+                                               .Where(inst => inst.NormalizedTitle!.Equals(query))
+                                               .OrderByDescending(inst => inst.Created);
+
+            var titleContainsMatchesTask = context.Instrumental
+                                                  .Where(inst => inst.NormalizedTitle!.Contains(query) && !inst.NormalizedTitle.Equals(query))
+                                                  .OrderByDescending(inst => inst.Created);
+
+            var singUserExactMatchesTask = SearchSingUserExactMatchesAsync(query);
+
+            var exactTitleMatches = await exactTitleMatchesTask.ToListAsync();
+            var titleContainsMatches = await titleContainsMatchesTask.ToListAsync();
+            var singUserExactMatches = await singUserExactMatchesTask;
+
+            var combinedResults = exactTitleMatches.Concat(titleContainsMatches)
+                                                   .Concat(singUserExactMatches)
+                                                   .Distinct()
+                                                   .Skip(offset)
+                                                   .Take(maxResults);
+
+            return combinedResults;
+        }
+
+
+        private async Task<IEnumerable<Instrumental>> SearchSingUserExactMatchesAsync(string query)
+        {
+            var context = CreateScopedDataContext();
+            var userMatches = context.Users
+                                     .Where(user => user.NickName == query)
+                                     .Select(user => user.Id);
+
+            var singMatches = context.SingUsers
+                                     .Where(su => userMatches.Contains(su.UserId))
+                                     .Select(su => su.SingId);
+
+            var instrumentalMatches = context.Sings
+                                             .Where(sing => singMatches.Contains(sing.Id))
+                                             .Select(sing => sing.InstrumentalId);
+
+            var instrumentals = await context.Instrumental
+                                             .Where(inst => instrumentalMatches.Contains(inst.Id))
+                                             .OrderByDescending(inst => inst.Created)
+                                             .ToListAsync();
+
+            return instrumentals;
+        }
+
+
         private async Task<IEnumerable<SearchResource>> GetSearchItemByIdAsync(IEnumerable<string> querys, int offset, int maxResults)
         {
             var context = CreateScopedDataContext();
@@ -107,80 +175,74 @@ namespace CodeRabbits.KaoList.Web.Controllers
             }).ToList();
         }
 
-        private async Task<IEnumerable<SearchResource>> GetSearchItemBySnippetAsync(IEnumerable<string> querys, int offset, int maxResults)
+        private async Task<IEnumerable<SearchResource>> GetSearchItemBySnippetAsync(IEnumerable<string> queries, int offset, int maxResults)
         {
             var context = CreateScopedDataContext();
-            var allQueries = querys.SelectMany(q => q.Split(',')).ToList();
+            var token = HttpContext.GetIdentityToken();
+            var userId = _userManager.GetUserId(User);
+            var searchResults = new List<SearchResource>();
 
-            var songs = await (from sing in context.Sings
-                               join inst in context.Instrumental on sing.InstrumentalId equals inst.Id
-                               where allQueries.Contains(inst.NormalizedTitle!)
-                               select new
-                               {
-                                   Sing = sing,
-                                   Instrumental = inst,
-                                   SongUsers = context.SingUsers
-                                                      .Where(su => su.SingId == sing.Id)
-                                                      .Join(context.Users,
-                                                            su => su.UserId,
-                                                            user => user.Id,
-                                                            (su, user) => new { su, user.NickName })
-                                                      .ToList(),
-                                   KaraokeInfo = context.Karaokes
-                                                        .Where(k => k.SingId == sing.Id)
-                                                        .Select(k => new { k.Provider, k.No })
-                                                        .FirstOrDefault()
-                               })
-                               .Skip(offset)
-                               .Take(maxResults)
-                               .ToListAsync();
-
-            if (songs is null)
+            foreach (var query in queries)
             {
-                return null;
-            }
+                var instrumentals = await SearchInstrumentalsAsync(query, offset, maxResults);
 
-            foreach (var song in songs)
-            {
-                var soundId = await _songService.CheckSoundIdAsync(song.Sing.Id);
-                if (soundId is null)
+                foreach (var inst in instrumentals)
                 {
-                    await _songService.UpdateSoundIdAsync(song.Instrumental.Id, song.Instrumental.Title, song.SongUsers.FirstOrDefault().NickName);
-                }
+                    var sings = await context.Sings
+                        .Where(s => s.InstrumentalId == inst.Id)
+                        .ToListAsync();
 
-                await _logService.CreateSongSearchLogAsync(string.Join(",", querys), song.Sing.Id, _userManager.GetUserId(User), HttpContext.GetIdentityToken());
-            }
+                    foreach (var sing in sings)
+                    {
+                        var singUsers = await context.SingUsers
+                            .Where(su => su.SingId == sing.Id)
+                            .Join(context.Users, su => su.UserId, user => user.Id, (su, user) => new { su, user.NickName })
+                            .ToListAsync();
 
-            return songs.Select(song => new SearchResource
-            {
-                Id = new SearchSong
-                {
-                    Id = song.Sing.Id
-                },
-                Etag = song.Instrumental.ConcurrencyStamp,
-                Snippet = new SongSnippet
-                {
-                    Created = song.Sing.Created,
-                    Title = song.Instrumental.Title,
-                    SongUsers = song.SongUsers.Select(su => new SongUser
-                    {
-                        Id = su.su.UserId,
-                        Nickname = su.NickName
-                    }),
-                    Composer = song.Instrumental.Composer,
-                    Thumbnail = song.Instrumental.SoundId == null ? null : new ThumbnailResource
-                    {
-                        Url = song.Instrumental.SoundId,
-                        Width = 300,
-                        Height = 300
-                    },
-                    Karaoke = new SongKaraokeItem
-                    {
-                        No = song.KaraokeInfo?.No,
-                        ProviderName = song.KaraokeInfo?.Provider
+                        var karaokeInfo = await context.Karaokes
+                            .Where(k => k.SingId == sing.Id)
+                            .Select(k => new { k.Provider, k.No })
+                            .FirstOrDefaultAsync();
+
+                        await _logService.CreateSongSearchLogAsync(query, sing.Id, userId, token);
+
+                        var resource = new SearchResource
+                        {
+                            Id = new SearchSong
+                            {
+                                Id = sing.Id
+                            },
+                            Etag = inst.ConcurrencyStamp,
+                            Snippet = new SongSnippet
+                            {
+                                Created = sing.Created,
+                                Title = inst.Title,
+                                SongUsers = singUsers.Select(su => new SongUser
+                                {
+                                    Id = su.su.UserId,
+                                    Nickname = su.NickName
+                                }).ToList(),
+                                Composer = inst.Composer,
+                                Thumbnail = inst.SoundId == null ? null : new ThumbnailResource
+                                {
+                                    Url = inst.SoundId,
+                                    Width = 300,
+                                    Height = 300
+                                },
+                                Karaoke = karaokeInfo == null ? null : new SongKaraokeItem
+                                {
+                                    No = karaokeInfo.No,
+                                    ProviderName = karaokeInfo.Provider
+                                }
+                            }
+                        };
+
+                        searchResults.Add(resource);
                     }
                 }
-            }).ToList();
+            }
+
+            return searchResults.Distinct().ToList();
         }
 
         [HttpGet("list")]
@@ -200,12 +262,12 @@ namespace CodeRabbits.KaoList.Web.Controllers
 
             var offset = (page - 1) * maxResults;
             var items = new List<SearchResource>();
-          
+
             if (querys is not null && querys.Any())
             {
                 foreach (var part in parts)
                 {
-                    switch (part) 
+                    switch (part)
                     {
                         case SearchPart.Id:
                             var searchItemsById = await GetSearchItemByIdAsync(querys, offset, maxResults);
@@ -220,7 +282,7 @@ namespace CodeRabbits.KaoList.Web.Controllers
                 }
             }
 
-            var totalResults = await GetTotalResultsFromDBAsync(querys);
+            var totalResults = querys != null ? await CalculateTotalResultsAsync(querys.FirstOrDefault()) : 0;
             var resultsPerPage = items.Count;
             var (nextPageToken, prevPageToken) = PaginationHelper.CalculatePageTokens(offset, maxResults, totalResults);
 

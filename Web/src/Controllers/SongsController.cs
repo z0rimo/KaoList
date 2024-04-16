@@ -496,31 +496,22 @@ namespace CodeRabbits.KaoList.Web.Controllers
                 throw new ArgumentNullException(nameof(parts));
             }
 
-            var items = new List<SongResource>();
-
-            if (ids != null && ids.Any())
+            if (ids is null)
             {
-                foreach (var part in parts)
-                {
-                    switch (part)
-                    {
-                        case SongPart.Id:
-                            var songItemsById = await GetSongItemsByIdAsync(ids, offset, maxResults);
-                            items.AddRange(songItemsById);
-                            break;
-
-                        case SongPart.Snippet:
-                            var songItemsBySnippet = await GetSongItemsBySnippetAsync(ids, offset, maxResults);
-                            items.AddRange(songItemsBySnippet);
-                            break;
-
-                        case SongPart.Statistics:
-                            var songItemsByStatstics = await GetSongItemsByStatsticsAsync(ids, offset, maxResults);
-                            items.AddRange(songItemsByStatstics);
-                            break;
-                    }
-                }
+                return new SongListResponse();
             }
+
+            var tasks = parts.Select(part => part switch
+            {
+                SongPart.Id => GetSongItemsByIdAsync(ids, offset, maxResults),
+                SongPart.Snippet => GetSongItemsBySnippetAsync(ids, offset, maxResults),
+                SongPart.Statistics => GetSongItemsByStatsticsAsync(ids, offset, maxResults),
+                _ => throw new ArgumentOutOfRangeException(nameof(part), $"Not expected song part value: {part}"),
+            }).ToList();
+
+            await Task.WhenAll(tasks);
+
+            var items = tasks.SelectMany(task => task.Result).ToList();
 
             var totalResults = await GetTotalResultsFromDBAsync(ids);
             var resultsPerPage = items.Count;

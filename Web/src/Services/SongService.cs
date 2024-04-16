@@ -179,7 +179,7 @@ public class SongService
             if (!string.IsNullOrEmpty(nickname))
             {
                 var query = $"{item.Title} {nickname}";
-                searchQueries.Add((item.Id ?? string.Empty, query ?? string.Empty));    
+                searchQueries.Add((item.Id ?? string.Empty, query ?? string.Empty));
             }
         }
 
@@ -214,12 +214,4 @@ public class SongService
             }
         }
     }
-
-    /*public async Task UpdateSoundIdAsync1(IEnumerable<string> singIds)
-    {
-        foreach (var singId in singIds)
-        {
-            var song = _context.Sings.Include(s => s.in)
-        }
-    }*/
 }
