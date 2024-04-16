@@ -202,9 +202,6 @@ svg {
 .pagination {
   --pagination-margin-left: 18px;
   --pagination-active-color: var(--color-slightly-desaturated-cyan);
-  --pagination-svg-primary-fill: var(--color-gray20);
-  --pagination-svg-secondary-fill: var(--color-white);
-  --pagination-svg-secondary-stroke: var(--color-gray85);
 
   --a-color: var(--color-gray56);
 
@@ -212,12 +209,22 @@ svg {
     margin-left: var(--pagination-margin-left);
   }
 
-  ul {
-    display: flex;
-  }
-
   a {
     color: var(--a-color);
+
+    &:hover {
+      font-weight: $font-weight-bold;
+      color: var(--color-gray33);
+    }
+  }
+
+  svg {
+    fill: var(--color-gray20);
+    cursor: pointer;
+  }
+
+  ul {
+    display: flex;
   }
 
   .active {
@@ -225,20 +232,7 @@ svg {
     color: var(--pagination-active-color);
   }
 
-  .left {
-    transform: rotate(180deg);
-  }
-
   .disable {
     display: none;
-  }
-
-  .primary {
-    fill: var(--pagination-svg-primary-fill);
-  }
-
-  .secondary {
-    fill: var(--pagination-svg-secondary-fill);
-    stroke: var(--pagination-svg-secondary-stroke);
   }
 }

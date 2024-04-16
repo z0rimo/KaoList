@@ -12,7 +12,7 @@ import { useLocation } from "react-router-dom";
 function SearchPage() {
     const { t } = useTranslation('Chart')
     const location = useLocation();
-    const query = new URLSearchParams(location.search).get('q') || undefined;
+    const query = new URLSearchParams(location.search).get('q') || '';
     const [totalResults, setTotalResults] = React.useState<number>(0);
 
     return (

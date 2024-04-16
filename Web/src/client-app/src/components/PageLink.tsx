@@ -8,14 +8,22 @@ interface IPageLinkProps {
 }
 
 function PageLink({ no, className, base, onClick }: IPageLinkProps) {
+    const handleClick = (evt: React.MouseEvent<HTMLAnchorElement>) => {
+        evt.preventDefault(); 
+        if (onClick) {
+            onClick(no, evt);
+        }
+    };
+
     return (
-        <a href={base} 
-           className={className}
-           onClick={(evt) => onClick && onClick(no, evt)}
-           style={{ textDecoration: "none" }}>
+        <a href={base}
+            className={className}
+            onClick={handleClick}
+            style={{ textDecoration: "none" }}>
             {no}
         </a>
     );
 }
+
 
 export default React.memo(PageLink);

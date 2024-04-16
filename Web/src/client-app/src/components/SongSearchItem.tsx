@@ -8,6 +8,7 @@ import HighlightMatch from "./HighlightMatch";
 import { useLocation, useNavigate } from "react-router-dom";
 import { queryParameterNames } from "./identity";
 import { useIdentityContext } from "../contexts/IdentityContext";
+import LazyNoImageIcon from "../svgs/LazyNoImageIcon";
 
 interface ISongSearchItemProps {
     item: ISongSearchListItem;
@@ -48,8 +49,7 @@ function SongSearchItem({ item, q }: ISongSearchItemProps) {
     return (
         <tr className="tr-group fs-4" onClick={navgiateToDetailClick} style={{ cursor: 'pointer' }}>
             <td className="center-layout">
-                <img alt={StringHelper.format(t('Thumbnail of {0}'), item.title)}
-                    src="https://i.ytimg.com/vi/XOxI7bEHQgc/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLC5kqwJDiTRyMg0D5mIsZ0ZyTcvRg" />
+                <LazyNoImageIcon style={{backgroundColor: "#d9d9d9"}}/>
             </td>
             <td>
                 <p className="fw-bold">

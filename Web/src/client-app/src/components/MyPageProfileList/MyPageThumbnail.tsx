@@ -16,14 +16,24 @@ function MyPageThumbnail(props: MyPageThumbnailProps) {
     const fileInputRef = useRef(null);
 
     React.useEffect(() => {
-        const fetchImage = async () => {
-            const result = await window.api.kaoList.mypages.myPageGetProfileImage({ id: id });
-            if (result && result.imageUrl) {
-                setImageUrl(result.imageUrl);
-            }
+        if (id) {
+            const fetchImage = async () => {
+                try {
+                    const result = await window.api.kaoList.mypages.myPageGetProfileImage({ id: id });
+                    if (result && result.imageUrl) {
+                        setImageUrl(result.imageUrl);
+                    } else {
+                        setImageUrl('');
+                    }
+                } catch (error) {
+                    console.error('Failed to fetch profile image:', error);
+                    setImageUrl('');
+                }
+            };
+            fetchImage();
         }
-        fetchImage();
-    }, [id, setImageUrl, imageUrl]);
+    }, [id, setImageUrl]);
+    
 
     const handleClick = () => {
         if (fileInputRef.current) {

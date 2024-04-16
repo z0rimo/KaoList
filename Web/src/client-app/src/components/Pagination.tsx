@@ -1,109 +1,98 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import ClassNameHelper from "../ClassNameHelper";
 import PageLink from "./PageLink";
-import { IPageInfo } from "../api/kaolistApi";
 import LazyCaretRightSolidIcon from "../svgs/LazyCaretRightSolidIcon";
 import LazyCaretLeftSolidIcon from "../svgs/LazyCaretLeftSolidIcon";
+import LazyCaretDoubleLeftIcon from "../svgs/LazyCaretDoubleLeftIcon";
+import LazyCaretDoubleRightIcon from "../svgs/LazyCaretDoubleRightIcon";
 
-interface IPaginationProps extends IPageInfo {
+interface IPaginationProps {
+    totalResults: number;
+    resultsPerPage?: number;
     className?: string;
 }
 
-function Pagination({ totalResults = 0, resultsPerPage = 10, className }: IPaginationProps) {
+function Pagination({ totalResults, resultsPerPage = 10, className }: IPaginationProps) {
     const location = useLocation();
     const navigate = useNavigate();
     const currentParams = new URLSearchParams(location.search);
-    const query = currentParams.get('q');
     const initialCurrentPage = Number(currentParams.get("page")) || 1;
     const [page, setPage] = useState(initialCurrentPage);
-    const [currentGroup, setCurrentGroup] = useState(1);
 
+    const pagesPerGroup = 10;
+    const currentGroup = Math.ceil(page / pagesPerGroup);
     const maxPageNumber = Math.ceil(totalResults / resultsPerPage);
+    const startPage = (currentGroup - 1) * pagesPerGroup + 1;
+    const endPage = Math.min(startPage + pagesPerGroup - 1, maxPageNumber);
 
-    React.useEffect(() => {
-        const currentPage = Number(currentParams.get("page")) || 1;
-        setPage(currentPage);
-        setCurrentGroup(Math.ceil(currentPage / 10));
-    }, [location.search]);
+    useEffect(() => {
+        setPage(initialCurrentPage);
+    }, [location.search, initialCurrentPage]);
 
-    if (maxPageNumber <= 1 || totalResults === 0) {
-        return null;
-    }
-
-    const createPageUrl = (pageNum: number): string => {
+    const handlePageChange = (newPage: number) => {
         const searchParams = new URLSearchParams(location.search);
-        searchParams.set("page", pageNum.toString()); // 페이지 번호 설정
-        if (query) {
-            searchParams.set("q", query); // 검색 쿼리가 있다면 설정
+        searchParams.set("page", String(newPage));
+    
+        if (currentParams.has('q')) {
+            const qValue = currentParams.get('q') ?? '';
+            searchParams.set("q", qValue);
         }
     
-        return `${location.pathname}?${searchParams.toString()}`;
+        navigate(`${location.pathname}?${searchParams.toString()}`, { replace: true });
     };
     
+
+    const handleNextGroup = () => {
+        const nextPage = Math.min(page + pagesPerGroup, maxPageNumber);
+        handlePageChange(nextPage);
+    };
     
-
-    const handlePageClick = (num: number) => {
-        const currentParams = new URLSearchParams(location.search);
-        currentParams.set("page", String(num));
-        navigate(`${location.pathname}?${currentParams.toString()}`);
-        setPage(num);
+    const handlePrevGroup = () => {
+        const prevPage = Math.max(page - pagesPerGroup, 1);
+        handlePageChange(prevPage);
     };
-
-    const handlePrevBtn = () => {
-        const newPage = Math.max(1, page - 10);
-        const currentParams = new URLSearchParams(location.search);
-        currentParams.set("page", String(newPage));
-        navigate(`${location.pathname}?${currentParams.toString()}`);
-        setPage(newPage);
-        if (currentGroup > 1) {
-            setCurrentGroup(currentGroup - 1);
-        }
-    };
-
-    const handleNextBtn = () => {
-        const newPage = Math.min(maxPageNumber, page + 10);
-        const currentParams = new URLSearchParams(location.search);
-        currentParams.set("page", String(newPage));
-        navigate(`${location.pathname}?${currentParams.toString()}`);
-        setPage(newPage);
-        if (currentGroup < Math.ceil(maxPageNumber / 10)) {
-            setCurrentGroup(currentGroup + 1);
-        }
-    };
-
-    const groupStartIndex = (currentGroup - 1) * 10;
-    const groupEndIndex = groupStartIndex + 10;
+    
 
     return (
         <div className={ClassNameHelper.concat('pagination center-layout', className)}>
-            {maxPageNumber > 10 && (
-                <LazyCaretLeftSolidIcon onClick={handlePrevBtn}
-                    className={ClassNameHelper.concat('left', currentGroup === 1 && 'disable')}
-                    style={{ width: 12, height: 14 }}
+            {currentGroup > 1 && (
+                <LazyCaretDoubleLeftIcon onClick={handlePrevGroup} />
+            )}
+            {page > 1 && (
+                <LazyCaretLeftSolidIcon
+                    onClick={() => handlePageChange(page - 1)}
+                    className="pagination-icon"
                 />
             )}
-            {Array.from({ length: maxPageNumber }, (_, i) => i + 1)
-                .slice(groupStartIndex, groupEndIndex)
+            {Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i)
                 .map((num) => (
-                    <PageLink
-                        key={num}
-                        no={num}
-                        base={createPageUrl(num)}
-                        className={page === num ? "active" : ''}
-                        onClick={() => handlePageClick(num)}
-                    />
+                    page === num ? (
+                        <div key={num} className="page-item active">
+                            {num}
+                        </div>
+                    ) : (
+                        <PageLink
+                            key={num}
+                            no={num}
+                            base={`${location.pathname}?page=${num}`}
+                            className="page-link"
+                            onClick={() => handlePageChange(num)}
+                        />
+                    )
                 ))
             }
-            {maxPageNumber > 10 && (
-                <LazyCaretRightSolidIcon onClick={handleNextBtn}
-                    className={ClassNameHelper.concat('', currentGroup === Math.ceil(maxPageNumber / 10) && 'disable')}
-                    style={{ width: 12, height: 14 }}
+            {page < maxPageNumber && (
+                <LazyCaretRightSolidIcon
+                    onClick={() => handlePageChange(page + 1)}
+                    className="pagination-icon"
                 />
+            )}
+            {currentGroup < Math.ceil(maxPageNumber / pagesPerGroup) && (
+                <LazyCaretDoubleRightIcon onClick={handleNextGroup} />
             )}
         </div>
     );
 }
-
 
 export default React.memo(Pagination);

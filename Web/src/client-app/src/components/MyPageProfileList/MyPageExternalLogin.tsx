@@ -14,6 +14,10 @@ function MyPageProfileExternalLogin({ isExternal = true, socialInfos = [] }: IMy
     const { t } = useTranslation("MyPage");
     const externalInfoSet = React.useMemo(() => new Set(socialInfos), [socialInfos]);
 
+    const handleLinkExternalAccount = (provider: string) => {
+        window.location.href = `/link-`
+    }
+
     return (
         <>
             {isExternal ?
