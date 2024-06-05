@@ -17,8 +17,8 @@ namespace CodeRabbits.KaoList.Web.Controllers
             _spotifyService = spotifyService;
         }
 
-        [HttpGet("album-image")]
-        public async Task<IActionResult> GetTopAlbumImage([FromQuery] string query)
+        [HttpGet("track-album-image")]
+        public async Task<IActionResult> GetTopTrackAlbumImage([FromQuery] string query)
         {
             var imageUrl = await _spotifyService.GetTopTrackAlbumImageAsync(query);
             if (string.IsNullOrEmpty(imageUrl))
