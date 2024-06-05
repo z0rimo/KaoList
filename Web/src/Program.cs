@@ -11,7 +11,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
-using CodeRabbits.Extensions.DependencyInjection;
 using CodeRabbits.AspNetCore.Razor.TagHelpers;
 using CodeRabbits.KaoList.Web.Services;
 using CodeRabbits.KaoList.Web.Datas;
@@ -29,28 +28,59 @@ using CodeRabbits.KaoList.Web.Services.YouTubes;
 using Polly.Extensions.Http;
 using Polly;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using CodeRabbits.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authentication.OAuth.Claims;
+using CodeRabbits.KaoList.Web.Services.Searches;
+using CodeRabbits.KaoList.Web.Models.Spotify;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 var configuration = builder.Configuration;
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+/*var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 services.AddDbContext<KaoListDataContext>(options =>
     options.UseSqlServer(connectionString, b =>
     {
         b.MigrationsAssembly("CodeRabbits.KaoList.Web");
 
         b.EnableRetryOnFailure();
-    }));
+    }));*/
 
-services.AddTransient<SongService>();
-services.AddTransient<SongScoreService>();
-services.AddTransient<MananaService>();
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+services.AddDbContextFactory<KaoListDataContext>(options =>
+    options.UseSqlServer(
+        configuration.GetConnectionString("DefaultConnection"),
+        sqlOptions =>
+        {
+            sqlOptions.MigrationsAssembly("CodeRabbits.KaoList.Web");
+            sqlOptions.EnableRetryOnFailure(
+                maxRetryCount: 5,
+                maxRetryDelay: TimeSpan.FromSeconds(30),
+                errorNumbersToAdd: null
+            );
+        }
+    ),
+    ServiceLifetime.Scoped // DbContextOptions를 스코프 수명으로 명시적으로 설정
+);
+
+
+services.AddScoped<SongService>();
+services.AddScoped<SongScoreService>();
+services.AddScoped<MananaService>();
 services.AddHostedService<DailyTaskService>();
-services.AddTransient<UserService>();
-services.AddTransient<LogService>();
-services.AddTransient<IEmailSender, SendGridEmailSender>();
+services.AddScoped<UserService>();
+services.AddScoped<LogService>();
+services.AddScoped<IEmailSender, SendGridEmailSender>();
+services.AddScoped<ISearchService, SongSearchService>();
+services.AddScoped<SpotifyService>();
+services.AddHttpContextAccessor();
+services.AddLogging(logging =>
+{
+    logging.ClearProviders();
+    logging.AddConsole();
+});
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -87,13 +117,6 @@ builder.Services.AddAuthentication(o =>
         go.ClientId = configuration.GetRequiredValue<string>(AuthenticationKey.GoogleClientId);
         go.ClientSecret = configuration.GetRequiredValue<string>(AuthenticationKey.GoogleClientSecret);
     })
-    .AddKakao(ko =>
-    {
-        ko.ClientId = configuration.GetRequiredValue<string>(AuthenticationKey.KakaoClientId);
-        ko.ClientSecret = configuration.GetRequiredValue<string>(AuthenticationKey.KakaoClientSecret);
-
-        ko.ClaimActions.MapJsonThirdKey("nickname", "properties", "kakao_account", "nickname");
-    })
     .AddNaver(no =>
     {
         no.ClientId = configuration.GetRequiredValue<string>(AuthenticationKey.NaverClientId);
@@ -101,6 +124,14 @@ builder.Services.AddAuthentication(o =>
 
         no.ClaimActions.MapJsonSubKey("nickname", "response", "nickname");
     })
+    .AddKakao(ko =>
+    {
+        ko.ClientId = configuration.GetRequiredValue<string>(AuthenticationKey.KakaoClientId);
+        ko.ClientSecret = configuration.GetRequiredValue<string>(AuthenticationKey.KakaoClientSecret);
+
+        ko.ClaimActions.MapJsonThirdKey(ClaimTypes.Email, "property_keys", "kakao_account", "email");
+    })
+
     .AddIdentityServerJwt()
     .AddCookie(options =>
     {
@@ -151,8 +182,6 @@ var app = builder.Build();
 using var scope = app.Services.CreateScope();
 var serviceProvider = scope.ServiceProvider;
 var dbContext = serviceProvider.GetRequiredService<KaoListDataContext>();
-
-SeedData.Initialize(dbContext);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

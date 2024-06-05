@@ -13,4 +13,6 @@ public static class AuthenticationKey
     public const string KakaoClientSecret = "Authentication:Kakao:ClientSecret";
     public const string YouTubeApiKey = "Authentication:YouTube:ApiKey";
     public const string SendGridApiKey = "Authentication:SendGrid:ApiKey";
+    public const string SpotifyClientId = "Authentication:Spotify:ClientId";
+    public const string SpotifyClientSecret = "Authentication:Spotify:ClientSecret";
 }
