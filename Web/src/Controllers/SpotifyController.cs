@@ -11,23 +11,18 @@ namespace CodeRabbits.KaoList.Web.Controllers
     public class SpotifyController : ControllerBase
     {
         private readonly SpotifyService _spotifyService;
-        private readonly ILogger<SpotifyController> _logger;
 
-        public SpotifyController(SpotifyService spotifyService, ILogger<SpotifyController> logger)
+        public SpotifyController(SpotifyService spotifyService)
         {
             _spotifyService = spotifyService;
-            _logger = logger;
         }
 
         [HttpGet("album-image")]
         public async Task<IActionResult> GetTopAlbumImage([FromQuery] string query)
         {
-            _logger.LogInformation($"Received request for query: {query}");
-
             var imageUrl = await _spotifyService.GetTopTrackAlbumImageAsync(query);
             if (string.IsNullOrEmpty(imageUrl))
             {
-                _logger.LogWarning($"No album found for query: {query}");
                 return NotFound("No album found for the given query.");
             }
 
