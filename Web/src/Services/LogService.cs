@@ -15,14 +15,17 @@ public class LogService
         _context = context;
     }
 
-    public async Task CreateSongSearchLogAsync(string query, string? singId, string? userId, string token)
+    public async Task CreateSongSearchLogAsync(string query, string? singId, string? userId,
+                                               string token, string? itemTitle, string? artistName = null)
     {
         var log = new SongSearchLog
         {
             Query = query,
             SingId = singId,
             UserId = userId,
-            IdentityToken = token
+            IdentityToken = token,
+            ItemTitle = itemTitle,
+            ArtistName = artistName
         };
 
         _context.SongSearchLogs.Add(log);
@@ -39,6 +42,17 @@ public class LogService
         };
 
         _context.SongDetailLogs.Add(log);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task CreateAppLogAsync(string message)
+    {
+        var log = new AppLog
+        {
+            Log = message
+        };
+
+        _context.AppLogs.Add(log);
         await _context.SaveChangesAsync();
     }
 }

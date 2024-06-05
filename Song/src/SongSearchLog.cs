@@ -37,4 +37,14 @@ public class SongSearchLog
     /// It is the date of search.
     /// </summary>
     public DateTime? Created { get; set; } = DateTime.UtcNow;
+
+    /// <summary>
+    /// The title of the item from the search results.
+    /// </summary>
+    public virtual string? ItemTitle { get; set; }
+
+    /// <summary>
+    /// The artist name of the item from the search results.
+    /// </summary>
+    public virtual string? ArtistName { get; set; }
 }
