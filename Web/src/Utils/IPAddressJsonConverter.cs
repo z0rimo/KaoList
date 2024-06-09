@@ -5,7 +5,7 @@ using System.Net;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
-namespace CodeRabbits.KaoList.Web;
+namespace CodeRabbits.KaoList.Web.Utils;
 
 public class IPAddressJsonConverter : JsonConverter<IPAddress>
 {
