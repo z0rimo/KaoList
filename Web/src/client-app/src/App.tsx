@@ -6,7 +6,7 @@ import './i18n';
 import { Login, LoginActions, Logout, LogoutActions } from './components/identity';
 import EmptyPage from './pages/EmptyPage';
 import RoutePath from './RoutePath';
-import IdentityContext, { useIdentityContext, useIdentityContextBlock } from './contexts/IdentityContext';
+import IdentityContext, { useIdentityContextBlock } from './contexts/IdentityContext';
 import React from 'react';
 import authService from './api-authorization/AuthorizeService';
 import SearchPage from './pages/SearchPage/SearchPage';
@@ -16,6 +16,8 @@ import LikedChartPage from './pages/ChartPage/LikedChartPage/LikedChartPage';
 import SongDetailPage from './pages/SongDetailPage/SongDetailPage';
 import MyPage from './pages/MyPage';
 import ProfileImageContext, { useProfileImageContextBlock } from './contexts/ProfileImageContext';
+import TotalSearchPage from './pages/TotalSearchPage';
+import NotFoundPage from './pages/ErrorPages/NotFoundPage';
 
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href') ?? undefined;
 
@@ -48,18 +50,18 @@ function App() {
             if (!await authService.isAuthenticated()) {
                 return;
             }
-    
+
             updateUserIdentity();
         })();
     }, [updateUserIdentity]);
-    
+
     React.useEffect(() => {
         let subscriptionId = authService.subscribe(updateUserIdentity);
         return () => {
             authService.unsubscribe(subscriptionId);
         };
     }, [updateUserIdentity]);
-    
+
     return (
         <IdentityContext.Provider value={identityContext}>
             <SearchContext.Provider value={searchContext}>
@@ -79,6 +81,7 @@ function App() {
                             <Route path='/songs'>
                                 <Route path={RoutePath['songDetail']} element={<SongDetailPage />} />
                             </Route>
+                            <Route path={RoutePath['totalSearch']} element={<TotalSearchPage />} />
                             <Route path={RoutePath['search']} element={<SearchPage />} />
                             <Route path={RoutePath['myPage']} element={<MyPage />} />
                             <Route path={window.authPaths.Login} element={loginAction(LoginActions.Login)} />
@@ -89,6 +92,7 @@ function App() {
                             <Route path={window.authPaths.LogOut} element={logoutAction(LogoutActions.Logout)} />
                             <Route path={window.authPaths.LogOutCallback} element={logoutAction(LogoutActions.LogoutCallback)} />
                             <Route path={window.authPaths.LoggedOut} element={logoutAction(LogoutActions.LoggedOut)} />
+                            <Route path="*" element={<NotFoundPage />}></Route>
                         </Routes>
                     </BrowserRouter>
                 </ProfileImageContext.Provider>

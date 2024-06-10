@@ -62,6 +62,7 @@ interface Resources {
         "Songs I have sung": string;
         "Follow": string;
         "Blind": string;
+        "Song Number": string;
     },
     "MyPage": {
         "Privacy": string;
@@ -129,6 +130,7 @@ interface Resources {
         "KaoList": string;
         "Save": string;
         "Cancel": string;
+        "Error": string;
     }
 }
 

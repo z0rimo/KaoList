@@ -62,6 +62,7 @@ const lang: Required<II18nResources> = {
         "Songs I have sung": "내가 부른 노래",
         "Follow": "팔로우",
         "Blind": "차단",
+        "Song Number": "곡 번호"
     },
     "MyPage": {
         "Privacy": "개인정보",
@@ -128,7 +129,8 @@ const lang: Required<II18nResources> = {
     "Common" : {
         "KaoList": "카오리스트",
         "Save": "저장",
-        "Cancel": "취소"
+        "Cancel": "취소",
+        "Error": "오류"
     },
 }
 

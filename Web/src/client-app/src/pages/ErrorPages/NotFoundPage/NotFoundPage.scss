@@ -1,0 +1,27 @@
+.mb-3 {
+  color: var(--color-gray51);
+}
+
+.uuid {
+  --uuid-color: var(--color-gray56);
+
+  color: var(--uuid-color);
+}
+
+.link-wrapper {
+  --link-color: var(--color-slightly-desaturated-cyan);
+
+  display: flex;
+
+  a {
+    color: var(--link-color);
+    padding-bottom: .15rem;
+    border-bottom: 1px solid var(--link-color);
+    font-size: 1.1rem;
+    text-decoration: none;
+  }
+
+  a+a {
+    margin-left: 20px;
+  }
+}

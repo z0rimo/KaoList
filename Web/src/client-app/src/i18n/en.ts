@@ -62,6 +62,7 @@ const lang: II18nResources = {
         "Songs I have sung": "Songs I've sung",
         "Follow": "Follow",
         "Blind": "Blind",
+        "Song Number": "Song Number"
     },
     "MyPage": {
         "Privacy": "Privacy",
@@ -128,7 +129,8 @@ const lang: II18nResources = {
     "Common" : {
         "KaoList": "KaoList",
         "Save": "Save",
-        "Cancel": "Cancel"
+        "Cancel": "Cancel",
+        "Error": "Error"
     },
 }
 
