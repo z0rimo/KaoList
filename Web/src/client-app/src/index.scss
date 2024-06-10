@@ -236,3 +236,21 @@ svg {
     display: none;
   }
 }
+
+.error-code {
+  --error-code-color: var(--color-gray33);
+  --error-code-font-size: 1.1rem;
+  --error-code-margin-bottom: .25rem;
+
+  color: var(--error-code-color);
+  font-size: var(--error-code-font-size);
+  margin-bottom: var(--error-code-margin-bottom);
+}
+
+.error-title {
+  --error-title-color: var(--color-slightly-desaturated-cyan);
+  
+  color: var(--error-title-color);
+  font-size: $h4-font-size;
+  font-weight: $font-weight-bold;
+}
