@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CodeRabbits.KaoList.Song;
+using CodeRabbits.KaoList.Web.Utils;
 
 namespace CodeRabbits.KaoList.Web.Services.Searches;
 

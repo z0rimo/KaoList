@@ -1,0 +1,115 @@
+.table-section {
+  --table-section-padding: 60px 0 15px;
+
+  --thumbnail-width: 100px;
+  --thumbnail-height: 100px;
+  --1th-child-width: 10%;
+  --2th-child-width: 12%;
+  --3th-child-width: 64%;
+  --4th-child-width: 22%;
+  --like-btn-width: 20px;
+  --like-btn-height: 20px;
+
+  --no-box-wrapper-width: 45%;
+  --no-box-between-div-margin-left: 4px;
+  --no-box-between-tr-border-top: 1px solid var(--color-gray85);
+
+  --no-box-border: 1px solid var(--color-gray56);
+  --no-box-padding: 1px 3px;
+  --no-box-tj-padding: 1px 3.88px;
+  --no-box-uga-padding: 1px 3.8565px;
+
+  --render-table-wrapper-width: 1080px;
+
+  padding: var(--table-section-padding);
+
+  .render-table-wrapper {
+    width: var(--render-table-wrapper-width);
+
+    table {
+      width: 100%;
+      table-layout: fixed;
+
+      th,
+      td {
+        padding: 8px;
+        text-align: center;
+        vertical-align: middle;
+      }
+
+      th:nth-child(1),
+      td.td-1 {
+        width: var(--1th-child-width);
+      }
+
+      th:nth-child(2),
+      td.td-2 {
+        width: var(--2th-child-width);
+        text-align: center;
+      }
+
+      th:nth-child(3),
+      td.td-3 {
+        width: var(--3th-child-width);
+      }
+
+      th:nth-child(4),
+      td.td-4 {
+        width: var(--4th-child-width);
+      }
+
+      tbody {
+        border-top: 1px solid var(--color-gray77);
+
+        .tr-group {
+          .td-1 {
+            text-align: center;
+          }
+
+          .td-2 {
+            text-align: center;
+          }
+
+          .td-3 {
+            width: var(--3th-child-width);
+            text-align: inherit;
+          }
+
+          .td-4 {
+            width: var(--4th-child-width);
+
+            .no-box-container {
+              width: var(--no-box-wrapper-width);
+            }
+          }
+        }
+
+        .no-box-wrapper {
+          display: flex;
+          align-items: center;
+
+          div+div {
+            margin-left: var(--no-box-between-div-margin-left);
+          }
+
+          .no-box {
+            border: var(--no-box-border);
+            padding: var(--no-box-padding);
+
+            &.tj {
+              padding: var(--no-box-tj-padding);
+            }
+
+            &.uga {
+              padding: var(--no-box-uga-padding);
+            }
+          }
+        }
+
+        tr+tr {
+          border-top: var(--no-box-between-tr-border-top);
+        }
+      }
+    }
+  }
+}

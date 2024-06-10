@@ -23,7 +23,7 @@ function SongSearchbar(props: React.HTMLAttributes<HTMLDivElement>) {
             const data = formData.get('q');
             if (typeof data === 'string') {
                 setQ(data);
-                navigate(`${RoutePath['search']}?q=${data}&page=1`);
+                navigate(`${RoutePath['totalSearch']}?q=${data}&page=1`);
             }
         }, [setQ, navigate]
     );
