@@ -2,6 +2,7 @@ const RoutePath = Object.freeze({
     home: '/',
     discoverChart: '/chart/discover',
     likedChart: '/chart/like',
+    totalSearch: '/totalsearch',
     search: '/song/search',
     myPage: '/mypage',
     terms: '/customer/terms',
