@@ -11,7 +11,7 @@ namespace CodeRabbits.KaoList.Web.Utils
             { "&", "and" }
         };
 
-        private static readonly string[] TitleStopWords = ["드라마", "영화", "OST", "ost"];
+        private static readonly string[] TitleStopWords = new string[] { "드라마", "영화", "OST", "ost" };
 
         public static string NormalizeText(string text)
         {
