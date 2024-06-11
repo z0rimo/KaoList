@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { GenerateUUID } from "../../../components/GenerateUUID";
 import RoutePath from "../../../RoutePath";
 import MainLayout from "../../../layouts/MainLayout";
@@ -10,6 +10,8 @@ import { useTranslation } from "react-i18next";
 function NotFoundPage(props: React.HtmlHTMLAttributes<HTMLDivElement>) {
   const { t } = useTranslation('Common');
   const uuid = GenerateUUID();
+  const location = useLocation();
+  const currentUrl = location.pathname + location.search;
 
   const historyBackClick = (evt: React.MouseEvent<HTMLAnchorElement>) => {
     evt.preventDefault();
