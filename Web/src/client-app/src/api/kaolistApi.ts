@@ -4,6 +4,14 @@ import KaoListMyPagesApi from "./services/KaoListMyPagesApi";
 import KaoListSearchsApi from "./services/KaoListSearchsApi";
 import KaoListSongsApi from "./services/KaoListSongsApi";
 
+declare global {
+    interface Window {
+        api: {
+            kaoList: IKaolistApi;
+        };
+    }
+}
+
 class KaoListApi implements IKaolistApi {
     private _baseUrl: string;
 
@@ -39,9 +47,11 @@ class KaoListApi implements IKaolistApi {
 }
 
 const api = new KaoListApi({ baseUrl: process.env.BASE_URL || "" });
-window.api = {
-    ...window.api,
-    kaoList: api
-};
+
+if (!window.api) {
+    window.api = {} as any;
+}
+
+window.api.kaoList = api;
 
 export default api;

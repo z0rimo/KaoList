@@ -7,7 +7,7 @@ import ClassNameHelper from "../ClassNameHelper";
 import { Link } from "react-router-dom";
 import LazyStarIcon from "../svgs/LazyStarIcon";
 import LazyStarSolidIcon from "../svgs/LazyStarSolidIcon";
-import { ISongSnippet } from "../api/kaolistApi3";
+import { ISongSnippet } from "../api/models/ISongModels";
 
 export interface ISongDetailItem extends ISongSnippet {
     id: string;
