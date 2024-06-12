@@ -15,43 +15,46 @@ import {
 } from "../models/IMyPageModels";
 
 class KaoListMyPagesApi extends ApiServiceBase {
-    myPageProfile = (option?: IKaolistMyPageApiOption): Promise<IMyPageProfileResponse> => {
-        return this.getAsync(kaoListApiEndPoint.myPageProfile, option).then(item => item.json() as Promise<IMyPageProfileResponse>);
+    myPageProfile = async (option?: IKaolistMyPageApiOption): Promise<IMyPageProfileResponse> => {
+        const item = await this.getAsync(kaoListApiEndPoint.myPageProfile, option);
+        return await (item.json() as Promise<IMyPageProfileResponse>);
     };
 
-    myPageSongSearchLogList = (option?: IKaolistMyPageApiOption): Promise<ISongSearchLogListResponse> => {
-        return this.getAsync(kaoListApiEndPoint.myPageSongSearchLogList, option).then(item => item.json() as Promise<ISongSearchLogListResponse>);
+    myPageSongSearchLogList = async (option?: IKaolistMyPageApiOption): Promise<ISongSearchLogListResponse> => {
+        const item = await this.getAsync(kaoListApiEndPoint.myPageSongSearchLogList, option);
+        return await (item.json() as Promise<ISongSearchLogListResponse>);
     };
 
-    myPageSignInLogList = (option?: IKaolistMyPageApiOption): Promise<ISignInLogListReseponse> => {
-        return this.getAsync(kaoListApiEndPoint.myPageSignInLogList, option).then(item => item.json() as Promise<ISignInLogListReseponse>);
+    myPageSignInLogList = async (option?: IKaolistMyPageApiOption): Promise<ISignInLogListReseponse> => {
+        const item = await this.getAsync(kaoListApiEndPoint.myPageSignInLogList, option);
+        return await (item.json() as Promise<ISignInLogListReseponse>);
     };
 
-    myPageFollowedSongList = (option?: IKaolistMyPageApiOption): Promise<IFollowedSongListResponse> => {
-        return this.getAsync(kaoListApiEndPoint.myPageFollowedSongList, option).then(item => item.json() as Promise<IFollowedSongListResponse>);
+    myPageFollowedSongList = async (option?: IKaolistMyPageApiOption): Promise<IFollowedSongListResponse> => {
+        const item = await this.getAsync(kaoListApiEndPoint.myPageFollowedSongList, option);
+        return await (item.json() as Promise<IFollowedSongListResponse>);
     };
 
-    myPageSetProfileImage = (properties: IKaolistMyPageSetProfileImageApiProperties): Promise<IMyPageSetProfileImageResponse> => {
+    myPageSetProfileImage = async (properties: IKaolistMyPageSetProfileImageApiProperties): Promise<IMyPageSetProfileImageResponse> => {
         const formData = new FormData();
         formData.append("Image", properties.image);
 
-        return this.postAsync(kaoListApiEndPoint.myPageSetProfileImage, formData)
-            .then(item => item.json() as IMyPageSetProfileImageResponse);
+        const item = await this.postAsync(kaoListApiEndPoint.myPageSetProfileImage, formData);
+        return item.json() as IMyPageSetProfileImageResponse;
     };
 
-    myPageGetProfileImage = (properties?: IKaolistMyPageGetProfileImageApiProperties): Promise<IMyPageGetProfileImageResponse> => {
-        return this.getAsync(kaoListApiEndPoint.myPageGetProfileImage, properties).then(item => item.json() as Promise<IMyPageGetProfileImageResponse>);
+    myPageGetProfileImage = async (properties?: IKaolistMyPageGetProfileImageApiProperties): Promise<IMyPageGetProfileImageResponse> => {
+        const item = await this.getAsync(kaoListApiEndPoint.myPageGetProfileImage, properties);
+        return await (item.json() as Promise<IMyPageGetProfileImageResponse>);
     };
 
-    myPageSetNickname = (properties: IKaolistMyPageSetNicknameApiProperties): Promise<IMyPageSetNicknameResponse> => {
-        return this.postAsync(kaoListApiEndPoint.myPageSetNickname, properties)
-            .then(response => {
-                if (response.ok) {
-                    return response.json() as Promise<{ message: string }>;
-                } else {
-                    throw new Error("Nickname update failed");
-                }
-            });
+    myPageSetNickname = async (properties: IKaolistMyPageSetNicknameApiProperties): Promise<IMyPageSetNicknameResponse> => {
+        const response = await this.postAsync(kaoListApiEndPoint.myPageSetNickname, properties);
+        if (response.ok) {
+            return response.json() as Promise<{ message: string; }>;
+        } else {
+            throw new Error("Nickname update failed");
+        }
     };
 }
 

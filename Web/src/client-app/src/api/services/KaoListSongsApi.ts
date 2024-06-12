@@ -8,7 +8,7 @@ export class KaoListSongsApi extends ApiServiceBase implements IKaolistSongsApi 
         super(baseUrl);
     }
 
-    songDetail = (option?: IKaolistSongDetailApiOption): Promise<ISongDetailResponse> => {
+    songDetail = async (option?: IKaolistSongDetailApiOption): Promise<ISongDetailResponse> => {
         const specialHandler = (options: IKaolistSongDetailApiOption) => {
             const { id, ...rest } = options;
             let query: Partial<IKaolistSongDetailApiOption> = { ...rest };
@@ -20,7 +20,8 @@ export class KaoListSongsApi extends ApiServiceBase implements IKaolistSongsApi 
         };
 
         const query = specialHandler(option || {});
-        return this.getAsync(kaoListApiEndPoint.songDetail, query).then(item => item.json() as Promise<ISongDetailResponse>);
+        const item = await this.getAsync(kaoListApiEndPoint.songDetail, query);
+        return await (item.json() as Promise<ISongDetailResponse>);
     };
 
     songRate = async (option?: IKaolistSongRateApiOption): Promise<ISongRateResponse> => {
@@ -35,7 +36,7 @@ export class KaoListSongsApi extends ApiServiceBase implements IKaolistSongsApi 
         };
     };
 
-    songGetRating = (option?: IKaolistSongGetRatingApiOption): Promise<ISongGetRatingResponse> => {
+    songGetRating = async (option?: IKaolistSongGetRatingApiOption): Promise<ISongGetRatingResponse> => {
         const specialHandler = (options: IKaolistSongGetRatingApiOption) => {
             const { ids, ...rest } = options;
             let query: Partial<IKaolistSongGetRatingApiOption> = { ...rest };
@@ -47,7 +48,8 @@ export class KaoListSongsApi extends ApiServiceBase implements IKaolistSongsApi 
         };
 
         const query = specialHandler(option || {});
-        return this.getAsync(kaoListApiEndPoint.songGetRating, query).then(item => item.json() as Promise<ISongGetRatingResponse>);
+        const item = await this.getAsync(kaoListApiEndPoint.songGetRating, query);
+        return await (item.json() as Promise<ISongGetRatingResponse>);
     };
 }
 

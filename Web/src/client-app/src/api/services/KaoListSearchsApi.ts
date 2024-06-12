@@ -7,7 +7,7 @@ export class KaoListSearchsApi extends ApiServiceBase implements IKaolistSearchs
         super(baseUrl);
     }
 
-    songSearchList = (option?: IKaolistSearchListApiOption): Promise<ISearchListResponse> => {
+    songSearchList = async (option?: IKaolistSearchListApiOption): Promise<ISearchListResponse> => {
         const specialHandler = (options: IKaolistSearchListApiOption) => {
             const { q, ...rest } = options;
             let query: Partial<IKaolistSearchListApiOption> = { ...rest };
@@ -20,7 +20,8 @@ export class KaoListSearchsApi extends ApiServiceBase implements IKaolistSearchs
         };
 
         const query = specialHandler(option || {});
-        return this.getAsync(kaoListApiEndPoint.searchSong, query).then(item => item.json() as Promise<ISearchListResponse>);
+        const item = await this.getAsync(kaoListApiEndPoint.searchSong, query);
+        return await (item.json() as Promise<ISearchListResponse>);
     };
 }
 
