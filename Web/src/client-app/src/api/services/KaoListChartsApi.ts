@@ -1,6 +1,11 @@
 import kaoListApiEndPoint from "../KaoListApiEndPoint";
 import ApiServiceBase from "../base/ApiServiceBase";
-import { IDiscoverChartListResponse, IKaolistChartsApi, IKaolistChartsListApiOption, ILikedChartListResponse } from "../models/IChartModels";
+import {
+    IDiscoverChartListResponse,
+    IKaolistChartsApi,
+    IKaolistChartsListApiOption,
+    ILikedChartListResponse
+} from "../models/IChartModels";
 
 export class KaoListChartsApi extends ApiServiceBase implements IKaolistChartsApi {
     constructor(baseUrl: string) {
@@ -21,7 +26,7 @@ export class KaoListChartsApi extends ApiServiceBase implements IKaolistChartsAp
 
         const query = specialHandler(option || {});
         const item = await this.getAsync(kaoListApiEndPoint.chartDiscover, query);
-      return await (item.json() as Promise<IDiscoverChartListResponse>);
+        return await (item.json() as Promise<IDiscoverChartListResponse>);
     };
 
     likedChartList = async (option?: IKaolistChartsListApiOption): Promise<ILikedChartListResponse> => {
@@ -42,7 +47,7 @@ export class KaoListChartsApi extends ApiServiceBase implements IKaolistChartsAp
 
         const query = specialHandler(option || {});
         const item = await this.getAsync(kaoListApiEndPoint.chartLiked, query);
-      return await (item.json() as Promise<ILikedChartListResponse>);
+        return await (item.json() as Promise<ILikedChartListResponse>);
     };
 }
 

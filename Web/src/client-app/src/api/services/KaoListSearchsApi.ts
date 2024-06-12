@@ -1,6 +1,10 @@
-import { IKaolistSearchsApi, IKaolistSearchListApiOption, ISearchListResponse } from "../models/ISearchModels";
 import ApiServiceBase from "../base/ApiServiceBase";
 import kaoListApiEndPoint from "../KaoListApiEndPoint";
+import {
+    IKaolistSearchsApi,
+    IKaolistSearchListApiOption,
+    ISearchListResponse
+} from "../models/ISearchModels";
 
 export class KaoListSearchsApi extends ApiServiceBase implements IKaolistSearchsApi {
     constructor(baseUrl: string) {

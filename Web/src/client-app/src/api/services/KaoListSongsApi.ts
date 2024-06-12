@@ -1,7 +1,15 @@
-import { IKaolistSongsApi, IKaolistSongDetailApiOption, IKaolistSongRateApiOption, IKaolistSongGetRatingApiOption, ISongDetailResponse, ISongRateResponse, ISongGetRatingResponse } from "../models/ISongModels";
 import ApiServiceBase from "../base/ApiServiceBase";
 import kaoListApiEndPoint from "../KaoListApiEndPoint";
 import { SongRating } from "../../enums/SongRating";
+import {
+    IKaolistSongsApi,
+    IKaolistSongDetailApiOption,
+    IKaolistSongRateApiOption,
+    IKaolistSongGetRatingApiOption,
+    ISongDetailResponse,
+    ISongRateResponse,
+    ISongGetRatingResponse
+} from "../models/ISongModels";
 
 export class KaoListSongsApi extends ApiServiceBase implements IKaolistSongsApi {
     constructor(baseUrl: string) {

@@ -1,5 +1,5 @@
 import kaoListApiEndPoint from "../KaoListApiEndPoint";
-import { ApiServiceBase } from "../base/ApiServiceBase";
+import ApiServiceBase from "../base/ApiServiceBase";
 import {
     IMyPageProfileResponse,
     ISongSearchLogListResponse,
