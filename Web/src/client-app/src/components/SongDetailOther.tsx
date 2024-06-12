@@ -1,7 +1,7 @@
 import React from 'react';
-import { ISongSnippet } from '../api/kaolistApi';
 import RenderTable, { IRenderTableProps } from './RenderTable';
 import { useLocation } from 'react-router-dom';
+import { ISongSnippet } from '../api/models/ISongModels';
 
 export interface ISongDetailOtherItem extends ISongSnippet {
     id: string;

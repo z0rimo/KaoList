@@ -1,10 +1,6 @@
+import kaoListApiEndPoint from "../KaoListApiEndPoint";
 import ApiServiceBase from "../base/ApiServiceBase";
 import { IDiscoverChartListResponse, IKaolistChartsApi, IKaolistChartsListApiOption, ILikedChartListResponse } from "../models/IChartModels";
-
-const kaoListApiEndPoint = {
-    chartDiscover: '/api/charts/list/discover',
-    chartLiked: 'api/charts/list/liked',
-}
 
 export class KaoListChartsApi extends ApiServiceBase implements IKaolistChartsApi {
     constructor(baseUrl: string) {
@@ -49,3 +45,5 @@ export class KaoListChartsApi extends ApiServiceBase implements IKaolistChartsAp
       return await (item.json() as Promise<ILikedChartListResponse>);
     };
 }
+
+export default KaoListChartsApi;

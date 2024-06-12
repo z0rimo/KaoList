@@ -5,7 +5,7 @@ import MyPageItemWithDate from "../mypage/MyPageItemWithDate";
 import LazyAngleDownIcon from "../../svgs/LazyAngleDownIcon";
 import Dropdown from "../Dropdown";
 import MyPageDropdownHead from "../mypage/MyPageDropdownHead";
-import { IMyPageFollowedSongResource } from "../../api/kaolistApi";
+import { IMyPageFollowedSongResource } from "../../api/models/IMyPageModels";
 
 function MyPageFollowedSongList() {
     const { t } = useTranslation("MyPage");

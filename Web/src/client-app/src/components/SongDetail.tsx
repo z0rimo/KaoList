@@ -1,5 +1,4 @@
 import React from "react";
-import { ISongSnippet } from "../api/kaolistApi";
 import { useLocation } from "react-router-dom";
 import StringHelper from "../StringHelper";
 import { useTranslation } from "react-i18next";
@@ -8,6 +7,7 @@ import ClassNameHelper from "../ClassNameHelper";
 import { Link } from "react-router-dom";
 import LazyStarIcon from "../svgs/LazyStarIcon";
 import LazyStarSolidIcon from "../svgs/LazyStarSolidIcon";
+import { ISongSnippet } from "../api/kaolistApi3";
 
 export interface ISongDetailItem extends ISongSnippet {
     id: string;
@@ -84,7 +84,7 @@ function SongDetail(props: SongDetailItemProps) {
     return (
         <div className="song-detail" {...rest}>
             <Link to="https://youtu.be/{해당아이디}">
-                <img src="https://i.ytimg.com/vi/{밸류}/default.jpg" alt={StringHelper.format(t('Thumbnail of {0}'), item?.title)} />
+                <img src="https://i.ytimg.com/vi/{밸류}/hqdefault.jpg" alt={StringHelper.format(t('Thumbnail of {0}'), item?.title)} />
             </Link>
             <div className="song-detail-info-wrapper">
                 <div className="song-detail-info">

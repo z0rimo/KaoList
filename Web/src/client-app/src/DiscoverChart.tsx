@@ -1,7 +1,7 @@
 import React from 'react';
 import RenderTable, { IRenderTableProps } from './components/RenderTable';
-import { ISongSnippet } from './api/kaolistApi';
 import { useLocation } from 'react-router-dom';
+import { ISongSnippet } from './api/models/ISongModels';
 
 export interface IDiscoverChartItem extends ISongSnippet {
     id: string;

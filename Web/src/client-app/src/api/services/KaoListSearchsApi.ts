@@ -1,9 +1,6 @@
 import { IKaolistSearchsApi, IKaolistSearchListApiOption, ISearchListResponse } from "../models/ISearchModels";
 import ApiServiceBase from "../base/ApiServiceBase";
-
-const kaoListApiEndPoint = {
-    searchSong: '/api/search/list',
-}
+import kaoListApiEndPoint from "../KaoListApiEndPoint";
 
 export class KaoListSearchsApi extends ApiServiceBase implements IKaolistSearchsApi {
     constructor(baseUrl: string) {
@@ -26,3 +23,5 @@ export class KaoListSearchsApi extends ApiServiceBase implements IKaolistSearchs
         return this.getAsync(kaoListApiEndPoint.searchSong, query).then(item => item.json() as Promise<ISearchListResponse>);
     };
 }
+
+export default KaoListSearchsApi;

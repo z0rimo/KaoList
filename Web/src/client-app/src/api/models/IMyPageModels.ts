@@ -1,4 +1,5 @@
 import { ExternalLogin } from "../../enums/ExternalLogin";
+import { QueryType } from "../base/ApiServiceBase";
 import { IApiGlobalOption, IKaoListResponse } from "./IApiResponse";
 
 export interface IMyPageSongSearchLogResource extends IKaoListResponse {
@@ -64,15 +65,13 @@ export interface IMyPageSetNicknameResponse {
     errors?: any;
 }
 
-export interface IKaolistMyPageApiOption extends IApiGlobalOption {}
+export interface IKaolistMyPageApiOption extends QueryType<IApiGlobalOption> {}
 
 export interface IKaolistMyPageSetProfileImageApiProperties {
     image: File;
 }
 
-export interface IKaolistMyPageGetProfileImageApiProperties {
-    id?: string;
-}
+export interface IKaolistMyPageGetProfileImageApiProperties extends QueryType<{ id?: string }> {}
 
 export interface IKaolistMyPageSetNicknameApiProperties {
     nickname: string;

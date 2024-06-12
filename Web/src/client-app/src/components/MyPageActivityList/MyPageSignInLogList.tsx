@@ -5,8 +5,8 @@ import MyPageItemWithDate from "../mypage/MyPageItemWithDate";
 import LazyAngleDownIcon from "../../svgs/LazyAngleDownIcon";
 import LazyCircleMinusIcon from "../../svgs/LazyCircleMinusIcon";
 import MyPageDropdownHead from "../mypage/MyPageDropdownHead";
-import { IMyPageSignInLogResource } from "../../api/kaolistApi";
 import Dropdown from "../Dropdown";
+import { IMyPageSignInLogResource } from "../../api/models/IMyPageModels";
 
 function MyPageSignInLogList() {
     const { t } = useTranslation("MyPage");

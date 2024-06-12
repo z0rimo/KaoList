@@ -5,8 +5,8 @@ import MyPageItemWithDate from "../mypage/MyPageItemWithDate";
 import LazyAngleDownIcon from "../../svgs/LazyAngleDownIcon";
 import LazyCircleMinusIcon from "../../svgs/LazyCircleMinusIcon";
 import MyPageDropdownHead from "../mypage/MyPageDropdownHead";
-import { IMyPageSongSearchLogResource } from "../../api/kaolistApi";
 import Dropdown from "../Dropdown";
+import { IMyPageSongSearchLogResource } from "../../api/models/IMyPageModels";
 
 function MyPageSongSearchLogList() {
     const { t } = useTranslation("MyPage");

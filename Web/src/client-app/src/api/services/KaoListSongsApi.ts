@@ -1,12 +1,7 @@
 import { IKaolistSongsApi, IKaolistSongDetailApiOption, IKaolistSongRateApiOption, IKaolistSongGetRatingApiOption, ISongDetailResponse, ISongRateResponse, ISongGetRatingResponse } from "../models/ISongModels";
-import { SongRating } from "../enums/SongRating";
 import ApiServiceBase from "../base/ApiServiceBase";
-
-const kaoListApiEndPoint = {
-    songDetail: '/api/songs/detail',
-    songRate: 'api/songs/rate',
-    songGetRating: 'api/songs/getRating',
-}
+import kaoListApiEndPoint from "../KaoListApiEndPoint";
+import { SongRating } from "../../enums/SongRating";
 
 export class KaoListSongsApi extends ApiServiceBase implements IKaolistSongsApi {
     constructor(baseUrl: string) {
@@ -28,13 +23,16 @@ export class KaoListSongsApi extends ApiServiceBase implements IKaolistSongsApi 
         return this.getAsync(kaoListApiEndPoint.songDetail, query).then(item => item.json() as Promise<ISongDetailResponse>);
     };
 
-    songRate = (option?: IKaolistSongRateApiOption): Promise<ISongRateResponse> => {
+    songRate = async (option?: IKaolistSongRateApiOption): Promise<ISongRateResponse> => {
         const query = {
             rating: option?.rate !== undefined ? SongRating[option.rate] : SongRating.None,
             ids: option?.songId
         };
 
-        return this.putJsonAsync(kaoListApiEndPoint.songRate, query);
+        const response = await this.putJsonAsync(kaoListApiEndPoint.songRate, query);
+        return {
+            statusCode: response.status,
+        };
     };
 
     songGetRating = (option?: IKaolistSongGetRatingApiOption): Promise<ISongGetRatingResponse> => {
@@ -52,3 +50,5 @@ export class KaoListSongsApi extends ApiServiceBase implements IKaolistSongsApi 
         return this.getAsync(kaoListApiEndPoint.songGetRating, query).then(item => item.json() as Promise<ISongGetRatingResponse>);
     };
 }
+
+export default KaoListSongsApi;

@@ -1,39 +1,34 @@
-import { IKaolistMyPagesApi, IKaolistMyPageApiOption, IKaolistMyPageSetProfileImageApiProperties, IKaolistMyPageGetProfileImageApiProperties, IKaolistMyPageSetNicknameApiProperties, IMyPageProfileResponse, ISongSearchLogListResponse, ISignInLogListReseponse, IFollowedSongListResponse, IMyPageSetProfileImageResponse, IMyPageGetProfileImageResponse, IMyPageSetNicknameResponse } from "../models/IMyPageModels";
-import ApiServiceBase from "../base/ApiServiceBase";
+import kaoListApiEndPoint from "../KaoListApiEndPoint";
+import { ApiServiceBase } from "../base/ApiServiceBase";
+import {
+    IMyPageProfileResponse,
+    ISongSearchLogListResponse,
+    ISignInLogListReseponse,
+    IFollowedSongListResponse,
+    IMyPageSetProfileImageResponse,
+    IMyPageGetProfileImageResponse,
+    IMyPageSetNicknameResponse,
+    IKaolistMyPageApiOption,
+    IKaolistMyPageSetProfileImageApiProperties,
+    IKaolistMyPageGetProfileImageApiProperties,
+    IKaolistMyPageSetNicknameApiProperties,
+} from "../models/IMyPageModels";
 
-const kaoListApiEndPoint = {
-    myPageProfile: 'api/mypage/profile',
-    myPageSongSearchLogList: 'api/mypage/songSearchLogList',
-    myPageSignInLogList: 'api/mypage/signInLogList',
-    myPageFollowedSongList: 'api/mypage/followedSongList',
-    myPageSetProfileImage: 'api/mypage/setProfileImage',
-    myPageGetProfileImage: 'api/mypage/getProfileImage',
-    myPageSetNickname: 'api/mypage/setNickname'
-}
-
-export class KaoListMyPagesApi extends ApiServiceBase implements IKaolistMyPagesApi {
-    constructor(baseUrl: string) {
-        super(baseUrl);
-    }
-
+class KaoListMyPagesApi extends ApiServiceBase {
     myPageProfile = (option?: IKaolistMyPageApiOption): Promise<IMyPageProfileResponse> => {
-        const query = option;
-        return this.getAsync(kaoListApiEndPoint.myPageProfile, query).then(item => item.json() as Promise<IMyPageProfileResponse>);
+        return this.getAsync(kaoListApiEndPoint.myPageProfile, option).then(item => item.json() as Promise<IMyPageProfileResponse>);
     };
 
     myPageSongSearchLogList = (option?: IKaolistMyPageApiOption): Promise<ISongSearchLogListResponse> => {
-        const query = option;
-        return this.getAsync(kaoListApiEndPoint.myPageSongSearchLogList, query).then(item => item.json() as Promise<ISongSearchLogListResponse>);
+        return this.getAsync(kaoListApiEndPoint.myPageSongSearchLogList, option).then(item => item.json() as Promise<ISongSearchLogListResponse>);
     };
 
     myPageSignInLogList = (option?: IKaolistMyPageApiOption): Promise<ISignInLogListReseponse> => {
-        const query = option;
-        return this.getAsync(kaoListApiEndPoint.myPageSignInLogList, query).then(item => item.json() as Promise<ISignInLogListReseponse>);
+        return this.getAsync(kaoListApiEndPoint.myPageSignInLogList, option).then(item => item.json() as Promise<ISignInLogListReseponse>);
     };
 
     myPageFollowedSongList = (option?: IKaolistMyPageApiOption): Promise<IFollowedSongListResponse> => {
-        const query = option;
-        return this.getAsync(kaoListApiEndPoint.myPageFollowedSongList, query).then(item => item.json() as Promise<IFollowedSongListResponse>);
+        return this.getAsync(kaoListApiEndPoint.myPageFollowedSongList, option).then(item => item.json() as Promise<IFollowedSongListResponse>);
     };
 
     myPageSetProfileImage = (properties: IKaolistMyPageSetProfileImageApiProperties): Promise<IMyPageSetProfileImageResponse> => {
@@ -45,12 +40,11 @@ export class KaoListMyPagesApi extends ApiServiceBase implements IKaolistMyPages
     };
 
     myPageGetProfileImage = (properties?: IKaolistMyPageGetProfileImageApiProperties): Promise<IMyPageGetProfileImageResponse> => {
-        const query = properties;
-        return this.getAsync(kaoListApiEndPoint.myPageGetProfileImage, query).then(item => item.json() as Promise<IMyPageGetProfileImageResponse>);
+        return this.getAsync(kaoListApiEndPoint.myPageGetProfileImage, properties).then(item => item.json() as Promise<IMyPageGetProfileImageResponse>);
     };
 
     myPageSetNickname = (properties: IKaolistMyPageSetNicknameApiProperties): Promise<IMyPageSetNicknameResponse> => {
-        return this.postJsonAsync(kaoListApiEndPoint.myPageSetNickname, properties)
+        return this.postAsync(kaoListApiEndPoint.myPageSetNickname, properties)
             .then(response => {
                 if (response.ok) {
                     return response.json() as Promise<{ message: string }>;
@@ -60,3 +54,5 @@ export class KaoListMyPagesApi extends ApiServiceBase implements IKaolistMyPages
             });
     };
 }
+
+export default KaoListMyPagesApi;

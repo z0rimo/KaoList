@@ -1,4 +1,4 @@
-import { QueryType } from "./api/kaolistApi";
+import { QueryType } from "./api/base/ApiServiceBase";
 
 export const queryBuildHelper = <T extends object>(
     options?: T,

@@ -1,6 +1,6 @@
 import React from 'react';
 import RenderTable, { IRenderTableProps } from './components/RenderTable';
-import { ISongSnippet } from './api/kaolistApi';
+import { ISongSnippet } from './api/models/ISongModels';
 
 export interface ILikedChartItem extends ISongSnippet {
     id: string;
