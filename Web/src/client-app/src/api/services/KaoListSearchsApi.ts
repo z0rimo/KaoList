@@ -7,10 +7,6 @@ import {
 } from "../models/ISearchModels";
 
 export class KaoListSearchsApi extends ApiServiceBase implements IKaolistSearchsApi {
-    constructor(baseUrl: string) {
-        super(baseUrl);
-    }
-
     songSearchList = async (option?: IKaolistSearchListApiOption): Promise<ISearchListResponse> => {
         const specialHandler = (options: IKaolistSearchListApiOption) => {
             const { q, ...rest } = options;

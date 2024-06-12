@@ -8,10 +8,6 @@ import {
 } from "../models/IChartModels";
 
 export class KaoListChartsApi extends ApiServiceBase implements IKaolistChartsApi {
-    constructor(baseUrl: string) {
-        super(baseUrl);
-    }
-
     discoverChartList = async (option?: IKaolistChartsListApiOption): Promise<IDiscoverChartListResponse> => {
         const specialHandler = (options: IKaolistChartsListApiOption) => {
             const { date, ...rest } = options;

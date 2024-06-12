@@ -27,42 +27,37 @@ export abstract class ApiServiceBase {
     return this._cookieProvider;
   }
 
-  protected static getQueryValue = (v: QueryValueType) => {
+  protected static getQueryValue = (v: QueryValueType): string => {
     if (typeof v === "string") {
       return v;
     }
 
     if (v instanceof Date) {
-      return v.toJSON();
+      return v.toISOString();
     }
 
     return v.toString();
   }
 
-  protected static buildQuery(query: QueryType) {
-    let q = "";
-    Object.keys(query).forEach(key => {
-      const v = query[key];
-      if (v === undefined) {
-        return;
-      }
-
-      if (v instanceof Array) {
-        for (const el of v) {
-          q += `${key}=${this.getQueryValue(el)}&`
+  protected static buildQuery(query: QueryType): string {
+    const queryParams = new URLSearchParams();
+    Object.entries(query).forEach(([key, value]) => {
+      if (value !== undefined) {
+        if (Array.isArray(value)) {
+          value.forEach(val => queryParams.append(key, this.getQueryValue(val)));
+        } else {
+          queryParams.append(key, this.getQueryValue(value));
         }
-      } else {
-        q += `${key}=${this.getQueryValue(v)}&`
       }
     });
 
-    return q.slice(0, -1);
+    return queryParams.toString();
   }
 
-  protected getDefaultHeader = () => {
+  protected getDefaultHeader = (): { [key: string]: string } => {
     let headers: { [key: string]: string } = {}
 
-    let token = this.cookieProvider.getBanner();
+    let token = this._cookieProvider.getBanner();
     if (token !== null) {
       headers["Authorization"] = `Banner ${token}`;
     }
@@ -70,11 +65,11 @@ export abstract class ApiServiceBase {
     return headers;
   }
 
-  protected getAsync = (url: string, query?: QueryType, init?: RequestInit) => {
+  protected async getAsync(url: string, query?: QueryType, init?: RequestInit): Promise<Response> {
     let headers = this.getDefaultHeader();
     const fullUrl = this.buildUrl(url, query);
 
-    return fetch(fullUrl, {
+    const response = await fetch(fullUrl, {
       ...init,
       method: 'GET',
       headers: {
@@ -82,13 +77,19 @@ export abstract class ApiServiceBase {
         ...init?.headers
       }
     });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return response;
   }
 
-  protected postAsync = (url: string, data: any, query?: QueryType, init?: RequestInit) => {
+  protected async postAsync(url: string, data: any, query?: QueryType, init?: RequestInit): Promise<Response> {
     const fullUrl = this.buildUrl(url, query);
 
-    return fetch(fullUrl, {
-      body: data, // body data type must match "Content-Type" header
+    const response = await fetch(fullUrl, {
+      body: data,
       ...init,
       method: 'POST',
       headers: {
@@ -96,9 +97,15 @@ export abstract class ApiServiceBase {
         ...init?.headers
       }
     });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return response;
   }
 
-  protected postJsonAsync = (url: string, data: any, query?: QueryType, init?: RequestInit) => {
+  protected async postJsonAsync(url: string, data: any, query?: QueryType, init?: RequestInit): Promise<Response> {
     return this.postAsync(url, JSON.stringify(data), query, {
       ...init,
       headers: {
@@ -108,11 +115,11 @@ export abstract class ApiServiceBase {
     });
   }
 
-  protected putAsync = (url: string, data?: BodyInit | null | undefined, query?: QueryType, init?: RequestInit) => {
+  protected async putAsync(url: string, data?: BodyInit | null, query?: QueryType, init?: RequestInit): Promise<Response> {
     const fullUrl = this.buildUrl(url, query);
 
-    return fetch(fullUrl, {
-      body: data, // body data type must match "Content-Type" header
+    const response = await fetch(fullUrl, {
+      body: data,
       ...init,
       method: 'PUT',
       headers: {
@@ -120,9 +127,15 @@ export abstract class ApiServiceBase {
         ...init?.headers
       }
     });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return response;
   }
 
-  protected putJsonAsync = (url: string, data: any, query?: QueryType, init?: RequestInit) => {
+  protected async putJsonAsync(url: string, data: any, query?: QueryType, init?: RequestInit): Promise<Response> {
     return this.putAsync(url, JSON.stringify(data), query, {
       ...init,
       headers: {
@@ -132,11 +145,11 @@ export abstract class ApiServiceBase {
     });
   }
 
-  protected deleteAsync = (url: string, query?: QueryType, data?: any, init?: RequestInit) => {
+  protected async deleteAsync(url: string, query?: QueryType, data?: any, init?: RequestInit): Promise<Response> {
     const fullUrl = this.buildUrl(url, query);
 
-    return fetch(fullUrl, {
-      body: data, // body data type must match "Content-Type" header
+    const response = await fetch(fullUrl, {
+      body: data,
       ...init,
       method: 'DELETE',
       headers: {
@@ -144,9 +157,15 @@ export abstract class ApiServiceBase {
         ...init?.headers
       }
     });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return response;
   }
 
-  protected deleteJsonAsync = (url: string, query?: QueryType, data?: any, init?: RequestInit) => {
+  protected async deleteJsonAsync(url: string, query?: QueryType, data?: any, init?: RequestInit): Promise<Response> {
     return this.deleteAsync(url, query, JSON.stringify(data), {
       ...init,
       headers: {
@@ -158,7 +177,7 @@ export abstract class ApiServiceBase {
 
   protected buildUrl = (path: string, query?: QueryType): string => {
     let url = this.origin + path;
-    if (query !== undefined && Object.values(query).filter(query => query !== undefined).length > 0) {
+    if (query && Object.keys(query).length > 0) {
       url += `?${ApiServiceBase.buildQuery(query)}`;
     }
 

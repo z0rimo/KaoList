@@ -12,10 +12,6 @@ import {
 } from "../models/ISongModels";
 
 export class KaoListSongsApi extends ApiServiceBase implements IKaolistSongsApi {
-    constructor(baseUrl: string) {
-        super(baseUrl);
-    }
-
     songDetail = async (option?: IKaolistSongDetailApiOption): Promise<ISongDetailResponse> => {
         const specialHandler = (options: IKaolistSongDetailApiOption) => {
             const { id, ...rest } = options;

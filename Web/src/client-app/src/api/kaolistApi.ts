@@ -1,5 +1,6 @@
 import { IKaolistApi, IKaolistApiConstructorProps } from "./models/IKaoListApiModels";
 import KaoListChartsApi from "./services/KaoListChartsApi";
+import KaoListLogsApi from "./services/KaoListLogsApi";
 import KaoListMyPagesApi from "./services/KaoListMyPagesApi";
 import KaoListSearchsApi from "./services/KaoListSearchsApi";
 import KaoListSongsApi from "./services/KaoListSongsApi";
@@ -19,6 +20,7 @@ class KaoListApi implements IKaolistApi {
     private _searchs: KaoListSearchsApi;
     private _songs: KaoListSongsApi;
     private _myPages: KaoListMyPagesApi;
+    private _logs: KaoListLogsApi;
 
     constructor(props?: IKaolistApiConstructorProps) {
         this._baseUrl = props?.baseUrl ?? '';
@@ -27,6 +29,7 @@ class KaoListApi implements IKaolistApi {
         this._searchs = new KaoListSearchsApi(this._baseUrl);
         this._songs = new KaoListSongsApi(this._baseUrl);
         this._myPages = new KaoListMyPagesApi(this._baseUrl);
+        this._logs = new KaoListLogsApi(this._baseUrl);
     }
 
     get charts() {
@@ -43,6 +46,10 @@ class KaoListApi implements IKaolistApi {
 
     get mypages() {
         return this._myPages;
+    }
+
+    get logs() {
+        return this._logs;
     }
 }
 

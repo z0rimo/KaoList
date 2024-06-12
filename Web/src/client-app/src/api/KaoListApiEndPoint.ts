@@ -1,4 +1,6 @@
 const kaoListApiEndPoint = {
+  appLog: '/api/logs/applog',
+
   chartDiscover: '/api/charts/list/discover',
   chartLiked: 'api/charts/list/liked',
 
