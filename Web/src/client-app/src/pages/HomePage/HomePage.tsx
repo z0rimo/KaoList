@@ -16,7 +16,7 @@ function HomePage({
                 <div className="main-logo-wrapper">
                     <LazyLogo className="main-logo" />
                 </div>
-                <SongSearchbar />
+                <SongSearchbar className="song-searchbar" />
                 <ChartSection />
             </MainSection>
         </MainLayout>

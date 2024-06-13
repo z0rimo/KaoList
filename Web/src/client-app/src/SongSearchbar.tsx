@@ -30,8 +30,8 @@ function SongSearchbar(props: React.HTMLAttributes<HTMLDivElement>) {
 
     return (
         <Searchbar {...props}
-            className="song-searchbar"
-            value={q ?? ""}
+            className={props.className ?? ''}
+            value={q ?? ''}
             onSubmit={handleSubmit}
             onChange={handleChange}
             placeholder={t('Search Song') ?? "Search songs..."}

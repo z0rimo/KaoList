@@ -69,3 +69,34 @@
         margin: var(--search-button-margin);
     }
 }
+
+.searchbar.header-searchbar {
+    --searchbar-width: 260px;
+    --searchbar-height: 24px;
+    --searchbar-margin-right: 1rem;
+    --searchbar-border-radius: 5px;
+
+    --input-width: 230px;
+    --input-height: 26px;
+    --input-font-size: #{map.get($font-sizes, 9)};
+    --input-padding: 2px 0px 2px 8px;
+
+    --search-button-width: 30px;
+
+    width: var(--searchbar-width);
+    height: var(--searchbar-height);
+    box-shadow: var(--searchbar-box-shadow);
+    border-radius: var(--searchbar-border-radius);
+    margin-right: var(--searchbar-margin-right);
+
+    .input {
+        width: var(--input-width);
+        height: var(--input-height);
+        font-size: var(--input-font-size);
+        padding: var(--input-padding);
+    }
+
+    .search-button {
+        width: var(--search-button-width);
+    }
+}
