@@ -77,7 +77,7 @@
     --searchbar-border-radius: 5px;
 
     --input-width: 230px;
-    --input-height: 26px;
+    --input-height: 25px;
     --input-font-size: #{map.get($font-sizes, 9)};
     --input-padding: 2px 0px 2px 8px;
 
@@ -96,7 +96,8 @@
         padding: var(--input-padding);
     }
 
-    .search-button {
+    .search-button { 
         width: var(--search-button-width);
+        cursor: pointer;
     }
 }
