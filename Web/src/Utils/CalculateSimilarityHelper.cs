@@ -7,8 +7,8 @@ namespace CodeRabbits.KaoList.Web.Utils
     {
         public double CalculateSimilarity(string sourceTitle, string sourceArtist, string? sourceComposer, string? sourceLyricist, string targetTitle, string targetArtist, string? targetComposer, string? targetLyricist)
         {
-            var normalizedSourceTitleArtist = NormalizeTextHelper.NormalizeText($"{sourceArtist} {sourceTitle}");
-            var normalizedTargetTitleArtist = NormalizeTextHelper.NormalizeText($"{targetArtist} {targetTitle}");
+            var normalizedSourceTitleArtist = SongTitleNormalizeHelper.NormalizeSongTitle($"{sourceArtist} {sourceTitle}");
+            var normalizedTargetTitleArtist = SongTitleNormalizeHelper.NormalizeSongTitle($"{targetArtist} {targetTitle}");
 
             var jaroWinkler = new JaroWinkler();
             double titleArtistSimilarity = jaroWinkler.Similarity(normalizedSourceTitleArtist, normalizedTargetTitleArtist);

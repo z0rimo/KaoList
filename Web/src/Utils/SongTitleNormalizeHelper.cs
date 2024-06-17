@@ -1,9 +1,11 @@
 // Licensed to the CodeRabbits under one or more agreements.
 // The CodeRabbits licenses this file to you under the MIT license.
 
+using System.Text;
+
 namespace CodeRabbits.KaoList.Web.Utils
 {
-    public static class NormalizeTextHelper
+    public static class SongTitleNormalizeHelper
     {
         private static readonly Dictionary<string, string> Synonyms = new()
         {
@@ -13,7 +15,7 @@ namespace CodeRabbits.KaoList.Web.Utils
 
         private static readonly string[] TitleStopWords = new string[] { "드라마", "영화", "OST", "ost" };
 
-        public static string NormalizeText(string text)
+        public static string NormalizeSongTitle(string text)
         {
             text = text.ToLower()
                        .Replace(" ", "")
@@ -35,6 +37,24 @@ namespace CodeRabbits.KaoList.Web.Utils
             }
 
             return text;
+        }
+
+        public static string NormalizeQuery(string query)
+        {
+            var normalizedQuery = new StringBuilder();
+            foreach (var c in query)
+            {
+                if (c >= '가' && c <= '힣')
+                {
+                    normalizedQuery.Append(c);
+                }
+                else
+                {
+                    normalizedQuery.Append(char.ToLowerInvariant(c));
+                }
+            }
+
+            return normalizedQuery.ToString().Normalize(NormalizationForm.FormC);
         }
     }
 }
