@@ -7,6 +7,7 @@ using CodeRabbits.KaoList.Web.Models;
 using CodeRabbits.KaoList.Web.Models.Charts;
 using CodeRabbits.KaoList.Web.Models.Songs;
 using CodeRabbits.KaoList.Web.Models.Thumbnails;
+using CodeRabbits.KaoList.Web.Utils;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
