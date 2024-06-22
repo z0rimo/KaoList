@@ -7,6 +7,6 @@ namespace CodeRabbits.KaoList.Web.Services.Searches
 {
     public interface ISearchService
     {
-        Task<SearchListResponse> SearchAsync(IEnumerable<string> queries, int offset, int maxResults);
+        Task<SearchListResponse> SearchAsync(string query, int offset, int maxResults);
     }
 }

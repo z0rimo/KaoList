@@ -11,6 +11,6 @@ namespace CodeRabbits.KaoList.Web.Models.Searches
 
         public SearchSong? Id { get; set; } = default!;
 
-        public SongSnippet? Snippet { get; set; }
+        public SongSearchSnippet? Snippet { get; set; }
     }
 }

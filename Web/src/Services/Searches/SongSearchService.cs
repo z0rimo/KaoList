@@ -38,59 +38,40 @@ public class SongSearchService : ISearchService
         _httpContextAccessor = httpContextAccessor;
     }
 
-    private string NormalizeQuery(string query)
-    {
-        var normalizedQuery = new StringBuilder();
-        foreach (var c in query)
-        {
-            if (c >= '가' && c <= '힣')
-            {
-                normalizedQuery.Append(c);
-            }
-            else
-            {
-                normalizedQuery.Append(char.ToLowerInvariant(c));
-            }
-        }
-
-        return normalizedQuery.ToString().Normalize(NormalizationForm.FormC);
-    }
-
-    public async Task<SearchListResponse> SearchAsync(IEnumerable<string> queries, int offset, int maxResults)
+    public async Task<SearchListResponse> SearchAsync(string query, int offset, int maxResults)
     {
         var httpContext = _httpContextAccessor.HttpContext ?? throw new Exception("HttpContext is null");
         var token = httpContext.GetIdentityToken();
         var userId = _userManager.GetUserId(httpContext.User);
-        var normalizedQueries = queries.Select(NormalizeQuery).ToArray();
+
+        // 입력된 쿼리를 정규화
+        var normalizedQuery = SongTitleNormalizeHelper.NormalizeQuery(query);
 
         var results = new List<Instrumental>();
 
-        foreach (var query in normalizedQueries)
-        {
-            // 완전 일치
-            var exactMatches = await _context.Instrumental
-                .Where(inst => inst.NormalizedTitle == query)
-                .ToListAsync();
-            results.AddRange(exactMatches);
+        // 완전 일치
+        var exactMatches = await _context.Instrumental
+            .Where(inst => inst.NormalizedTitle == normalizedQuery)
+            .ToListAsync();
+        results.AddRange(exactMatches);
 
-            // 전방 일치
-            var prefixMatches = await _context.Instrumental
-                .Where(inst => inst.NormalizedTitle!.StartsWith(query) && inst.NormalizedTitle != query)
-                .ToListAsync();
-            results.AddRange(prefixMatches);
+        // 전방 일치
+        var prefixMatches = await _context.Instrumental
+            .Where(inst => inst.NormalizedTitle!.StartsWith(normalizedQuery) && inst.NormalizedTitle != normalizedQuery)
+            .ToListAsync();
+        results.AddRange(prefixMatches);
 
-            // 부분 일치
-            var containsMatches = await _context.Instrumental
-                .Where(inst => inst.NormalizedTitle!.Contains(query) && !inst.NormalizedTitle.StartsWith(query))
-                .ToListAsync();
-            results.AddRange(containsMatches);
+        // 부분 일치
+        var containsMatches = await _context.Instrumental
+            .Where(inst => inst.NormalizedTitle!.Contains(normalizedQuery) && !inst.NormalizedTitle.StartsWith(normalizedQuery))
+            .ToListAsync();
+        results.AddRange(containsMatches);
 
-            // 후방 일치
-            var suffixMatches = await _context.Instrumental
-                .Where(inst => inst.NormalizedTitle!.EndsWith(query) && !inst.NormalizedTitle.StartsWith(query) && !inst.NormalizedTitle.Contains(query))
-                .ToListAsync();
-            results.AddRange(suffixMatches);
-        }
+        // 후방 일치
+        var suffixMatches = await _context.Instrumental
+            .Where(inst => inst.NormalizedTitle!.EndsWith(normalizedQuery) && !inst.NormalizedTitle.StartsWith(normalizedQuery) && !inst.NormalizedTitle.Contains(normalizedQuery))
+            .ToListAsync();
+        results.AddRange(suffixMatches);
 
         results = results.Distinct().ToList();
         var totalResults = results.Count;
@@ -100,7 +81,7 @@ public class SongSearchService : ISearchService
             .Take(maxResults)
             .ToList();
 
-        var resources = new List<SearchResource>();
+        var resources = new List<SoungSearchResource>();
 
         foreach (var inst in instrumentals)
         {
@@ -110,6 +91,15 @@ public class SongSearchService : ISearchService
 
             foreach (var sing in sings)
             {
+                // 블라인드된 곡은 제외합니다.
+                var isBlinded = await _context.SingBlinds
+                    .AnyAsync(b => b.SingId == sing.Id && b.UserId == userId);
+
+                if (isBlinded)
+                {
+                    continue;
+                }
+
                 var singUsers = await _context.SingUsers
                     .Where(su => su.SingId == sing.Id)
                     .Join(_context.Users, su => su.UserId, user => user.Id, (su, user) => new { su, user.NickName })
@@ -123,36 +113,44 @@ public class SongSearchService : ISearchService
                     .Select(k => new { k.Provider, k.No })
                     .FirstOrDefaultAsync();
 
-                await _logService.CreateSongSearchLogAsync(string.Join(" ", queries), sing.Id, userId, token, inst.Title, artistName);
+                var isLiked = await _context.SingFollowers
+                    .AnyAsync(f => f.SingId == sing.Id && f.UserId == userId);
 
-                var resource = new SearchResource
+                var thumbnail = await _context.Sounds
+                    .Where(s => s.Id == inst.SoundId)
+                    .Select(s => new SongThumbnail
+                    {
+                        SoundId = s.Path,
+                        Width = 300,
+                        Height = 300
+                    })
+                    .FirstOrDefaultAsync() ?? new SongThumbnail();
+
+                await _logService.CreateSongSearchLogAsync(query, sing.Id, userId, token, inst.Title, artistName);
+
+                var resource = new SongSearchResource
                 {
                     Id = new SearchSong
                     {
                         Id = sing.Id
                     },
                     Etag = inst.ConcurrencyStamp,
-                    Snippet = new SongSnippet
+                    Snippet = new SongSearchSnippet
                     {
                         Created = sing.Created,
                         Title = inst.Title,
-                        SongUsers = singUsers.Select(su => new SongUser
+                        Artist = singUsers.Select(su => new SongUser
                         {
                             Id = su.su.UserId,
                             Nickname = su.NickName
                         }).ToList(),
-                        Composer = inst.Composer,
-                        Thumbnail = inst.SoundId == null ? null : new ThumbnailResource
-                        {
-                            Url = inst.SoundId,
-                            Width = 300,
-                            Height = 300
-                        },
-                        Karaoke = karaokeInfo == null ? null : new SongKaraokeItem
+                        Thumbnail = thumbnail,
+                        Karaokes = karaokeInfo == null ? null : new SongKaraokeItem
                         {
                             No = karaokeInfo.No,
                             ProviderName = karaokeInfo.Provider
-                        }
+                        },
+                        IsLiked = isLiked
                     }
                 };
 
@@ -164,7 +162,7 @@ public class SongSearchService : ISearchService
 
         return new SearchListResponse
         {
-            Etag = new Guid().ToString(),
+            Etag = Guid.NewGuid().ToString(),
             Items = resources.Distinct().ToList(),
             NextPageToken = nextPageToken,
             PrevPageToken = prevPageToken,

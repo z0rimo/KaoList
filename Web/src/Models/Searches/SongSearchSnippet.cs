@@ -13,11 +13,11 @@ namespace CodeRabbits.KaoList.Web.Models.Searches
 
         public virtual string? Title { get; set; } = default!;
 
-        public virtual string? ArtistName { get; set; } = default!;
+        public virtual SongUser? Artist { get; set; } = default!;
 
         public virtual DateTime? Created { get; set; } = default!;
 
-        public virtual SongThumbnail SongThumbnail { get; set; } = default!;
+        public virtual SongThumbnail Thumbnail { get; set; } = default!;
 
         public virtual IEnumerable<Karaoke>? Karaokes { get; set; } = default!;
 
