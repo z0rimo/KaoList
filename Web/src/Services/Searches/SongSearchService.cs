@@ -81,7 +81,7 @@ public class SongSearchService : ISearchService
             .Take(maxResults)
             .ToList();
 
-        var resources = new List<SoungSearchResource>();
+        var resources = new List<SongSearchResource>();
 
         foreach (var inst in instrumentals)
         {
@@ -91,7 +91,6 @@ public class SongSearchService : ISearchService
 
             foreach (var sing in sings)
             {
-                // 블라인드된 곡은 제외합니다.
                 var isBlinded = await _context.SingBlinds
                     .AnyAsync(b => b.SingId == sing.Id && b.UserId == userId);
 
