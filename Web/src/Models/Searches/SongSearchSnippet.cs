@@ -3,6 +3,7 @@
 
 using CodeRabbits.KaoList.Song;
 using CodeRabbits.KaoList.Web.Models.Songs;
+using CodeRabbits.KaoList.Web.Models.Thumbnails;
 
 namespace CodeRabbits.KaoList.Web.Models.Searches
 {
@@ -13,11 +14,11 @@ namespace CodeRabbits.KaoList.Web.Models.Searches
 
         public virtual string? Title { get; set; } = default!;
 
-        public virtual SongUser? Artist { get; set; } = default!;
+        public virtual IEnumerable<SongUser>? Artists { get; set; } = default!;
 
         public virtual DateTime? Created { get; set; } = default!;
 
-        public virtual SongThumbnail Thumbnail { get; set; } = default!;
+        public virtual ThumbnailResource Thumbnail { get; set; } = default!;
 
         public virtual IEnumerable<Karaoke>? Karaokes { get; set; } = default!;
 

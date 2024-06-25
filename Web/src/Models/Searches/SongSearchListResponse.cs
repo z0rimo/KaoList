@@ -3,9 +3,9 @@
 
 namespace CodeRabbits.KaoList.Web.Models.Searches
 {
-    public class SearchListResponse : KaoListPageResponse
+    public class SongSearchListResponse :KaoListPageResponse
     {
-        public override string Kind { get; set; } = "kaoList#searchListResponse";
+        public override string Kind { get; set; } = "kaoList#songSearchListResponse";
 
         public IEnumerable<SongSearchResource>? Items { get; set; }
     }

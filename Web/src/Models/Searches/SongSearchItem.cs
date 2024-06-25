@@ -3,7 +3,7 @@
 
 namespace CodeRabbits.KaoList.Web.Models.Searches
 {
-    public class SearchSong : KaoListResponse
+    public class SongSearchItem : KaoListResponse
     {
         public override string Kind { get; set; } = "kaoList#song";
 

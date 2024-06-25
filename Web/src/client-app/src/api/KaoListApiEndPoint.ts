@@ -12,7 +12,7 @@ const kaoListApiEndPoint = {
   myPageGetProfileImage: '/api/mypage/getProfileImage',
   myPageSetNickname: '/api/mypage/setNickname',
 
-  searchSong: '/api/search/list',
+  searchSong: '/api/search/songs',
 
   songDetail: '/api/songs/detail',
   songRate: 'api/songs/rate',

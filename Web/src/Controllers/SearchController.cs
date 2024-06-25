@@ -18,24 +18,24 @@ namespace CodeRabbits.KaoList.Web.Controllers
             _searchService = searchService;
         }
 
-        [HttpGet("list")]
+        [HttpGet("songs")]
         [Produces("application/json")]
-        [ProducesResponseType(typeof(SearchListResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(SongSearchListResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<SearchListResponse>> GetListAsync(
-            [FromQuery(Name = "q")] string[]? query,
+        public async Task<ActionResult<SongSearchListResponse>> GetSongListAsync(
+            [FromQuery(Name = "q")] string? query,
             [FromQuery(Name = "page")] int page = 1,
             int maxResults = 20
         )
         {
-            if (query is null || !query.Any())
+            if (string.IsNullOrWhiteSpace(query))
             {
                 return BadRequest("No query provided.");
             }
 
             var offset = (page - 1) * maxResults;
 
-            var searchResponse = await _searchService.SearchAsync(query, offset, maxResults);
+            var searchResponse = await _searchService.SongSearchAsync(query, offset, maxResults);
 
             return Ok(searchResponse);
         }

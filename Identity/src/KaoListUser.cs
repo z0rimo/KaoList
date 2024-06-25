@@ -15,7 +15,7 @@ public class KaoListUser : IdentityUser
 
 
     /// <summary>
-    /// This is a nick name with accents, uppercase and lowercase letters, katakana, width, and variations removed.    
+    /// This is a nick name with accents, uppercase and lowercase letters, katakana, width, and variations removed.
     /// </summary>
     public string? NormalizedNickName { get; set; }
 
