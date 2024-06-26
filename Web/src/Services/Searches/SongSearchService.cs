@@ -42,110 +42,74 @@ public class SongSearchService : ISearchService
 
         var normalizedQuery = SongTitleNormalizeHelper.NormalizeQuery(query);
 
-        var results = new List<Instrumental>();
+        var results = await (from inst in _context.Instrumental
+                             join sing in _context.Sings on inst.Id equals sing.InstrumentalId
+                             join su in _context.SingUsers on sing.Id equals su.SingId
+                             join user in _context.Users on su.UserId equals user.Id
+                             join k in _context.Karaokes on sing.Id equals k.SingId into karaokeGroup
+                             from kg in karaokeGroup.DefaultIfEmpty()
+                             join sf in _context.SingFollowers on new { sing.Id, UserId = userId } equals new { Id = sf.SingId, sf.UserId } into followerGroup
+                             from fg in followerGroup.DefaultIfEmpty()
+                             join s in _context.Sounds on inst.SoundId equals s.Id into soundGroup
+                             from sg in soundGroup.DefaultIfEmpty()
+                             where inst.NormalizedTitle == normalizedQuery
+                                || inst.NormalizedTitle!.StartsWith(normalizedQuery) && inst.NormalizedTitle != normalizedQuery
+                                || inst.NormalizedTitle!.Contains(normalizedQuery) && !inst.NormalizedTitle.StartsWith(normalizedQuery)
+                                || inst.NormalizedTitle!.EndsWith(normalizedQuery) && !inst.NormalizedTitle.StartsWith(normalizedQuery) && !inst.NormalizedTitle.Contains(normalizedQuery)
+                             select new
+                             {
+                                 Instrumental = inst,
+                                 Sing = sing,
+                                 User = user,
+                                 Karaoke = kg,
+                                 IsLiked = fg != null,
+                                 Sound = sg
+                             }).ToListAsync();
 
-        var exactMatches = await _context.Instrumental
-            .Where(inst => inst.NormalizedTitle == normalizedQuery)
-            .ToListAsync();
-        results.AddRange(exactMatches);
+        var totalResults = results.Select(r => r.Instrumental).Distinct().Count();
 
-        var prefixMatches = await _context.Instrumental
-            .Where(inst => inst.NormalizedTitle!.StartsWith(normalizedQuery) && inst.NormalizedTitle != normalizedQuery)
-            .ToListAsync();
-        results.AddRange(prefixMatches);
-
-        var containsMatches = await _context.Instrumental
-            .Where(inst => inst.NormalizedTitle!.Contains(normalizedQuery) && !inst.NormalizedTitle.StartsWith(normalizedQuery))
-            .ToListAsync();
-        results.AddRange(containsMatches);
-
-        var suffixMatches = await _context.Instrumental
-            .Where(inst => inst.NormalizedTitle!.EndsWith(normalizedQuery) && !inst.NormalizedTitle.StartsWith(normalizedQuery) && !inst.NormalizedTitle.Contains(normalizedQuery))
-            .ToListAsync();
-        results.AddRange(suffixMatches);
-
-        results = results.Distinct().ToList();
-        var totalResults = results.Count;
-
-        var instrumentals = results
-            .Skip(offset)
-            .Take(maxResults)
-            .ToList();
+        var paginatedResults = results.Skip(offset).Take(maxResults).ToList();
 
         var resources = new List<SongSearchResource>();
 
-        foreach (var inst in instrumentals)
+        foreach (var group in paginatedResults.GroupBy(r => r.Sing.Id))
         {
-            var sings = await _context.Sings
-                .Where(s => s.InstrumentalId == inst.Id)
-                .ToListAsync();
-
-            foreach (var sing in sings)
+            var first = group.First();
+            var artistNames = group.Select(g => new SongUser
             {
-                var isBlinded = await _context.SingBlinds
-                    .AnyAsync(b => b.SingId == sing.Id && b.UserId == userId);
+                Id = g.User.Id,
+                Nickname = g.User.NickName
+            }).ToList();
 
-                if (isBlinded)
+            var resource = new SongSearchResource
+            {
+                Id = new SongSearchItem
                 {
-                    continue;
-                }
-
-                var singUsers = await _context.SingUsers
-                    .Where(su => su.SingId == sing.Id)
-                    .Join(_context.Users, su => su.UserId, user => user.Id, (su, user) => new { su, user.NickName })
-                    .ToListAsync();
-
-                var artistNames = singUsers.Select(su => new SongUser
+                    Id = first.Sing.Id
+                },
+                Etag = first.Instrumental.ConcurrencyStamp,
+                Snippet = new SongSearchSnippet
                 {
-                    Id = su.su.UserId,
-                    Nickname = su.NickName
-                }).ToList();
-
-                var karaokeInfo = await _context.Karaokes
-                    .Where(k => k.SingId == sing.Id)
-                    .Select(k => new { k.Provider, k.No })
-                    .FirstOrDefaultAsync();
-
-                var isLiked = await _context.SingFollowers
-                    .AnyAsync(f => f.SingId == sing.Id && f.UserId == userId);
-
-                var thumbnail = await _context.Sounds
-                    .Where(s => s.Id == inst.SoundId)
-                    .Select(s => new ThumbnailResource
+                    SingId = first.Sing.Id,
+                    Created = first.Sing.Created,
+                    Title = first.Instrumental.Title,
+                    Artists = artistNames,
+                    Thumbnail = first.Sound == null ? null : new ThumbnailResource
                     {
-                        Url = s.Path,
+                        Url = first.Sound.Path,
                         Width = 480,
                         Height = 480
-                    })
-                    .FirstOrDefaultAsync() ?? new ThumbnailResource();
-
-                await _logService.CreateSongSearchLogAsync(query, sing.Id, userId, token, inst.Title, string.Join(", ", artistNames.Select(a => a.Nickname)));
-
-                var resource = new SongSearchResource
-                {
-                    Id = new SongSearchItem
-                    {
-                        Id = sing.Id
                     },
-                    Etag = inst.ConcurrencyStamp,
-                    Snippet = new SongSearchSnippet
+                    Karaokes = group.Where(g => g.Karaoke != null).Select(g => new Karaoke
                     {
-                        SingId = sing.Id,
-                        Created = sing.Created,
-                        Title = inst.Title,
-                        Artists = artistNames,
-                        Thumbnail = thumbnail,
-                        Karaokes = karaokeInfo == null ? null : new List<Karaoke> { new Karaoke
-                    {
-                        No = karaokeInfo.No,
-                        Provider = karaokeInfo.Provider
-                    }},
-                        IsLiked = isLiked
-                    }
-                };
+                        No = g.Karaoke.No,
+                        Provider = g.Karaoke.Provider
+                    }).ToList(),
+                    IsLiked = first.IsLiked
+                }
+            };
 
-                resources.Add(resource);
-            }
+            resources.Add(resource);
         }
 
         var (nextPageToken, prevPageToken) = PaginationHelper.CalculatePageTokens(offset, maxResults, totalResults);
@@ -153,7 +117,7 @@ public class SongSearchService : ISearchService
         return new SongSearchListResponse
         {
             Etag = Guid.NewGuid().ToString(),
-            Items = resources.Distinct().ToList(),
+            Items = resources,
             NextPageToken = nextPageToken,
             PrevPageToken = prevPageToken,
             PageInfo = new PageInfo
