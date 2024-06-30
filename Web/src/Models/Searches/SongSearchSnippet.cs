@@ -18,7 +18,7 @@ namespace CodeRabbits.KaoList.Web.Models.Searches
 
         public virtual DateTime? Created { get; set; } = default!;
 
-        public virtual ThumbnailResource Thumbnail { get; set; } = default!;
+        public virtual ThumbnailResource? Thumbnail { get; set; } = default!;
 
         public virtual IEnumerable<Karaoke>? Karaokes { get; set; } = default!;
 

@@ -48,22 +48,22 @@ public class SongSearchService : ISearchService
                              join user in _context.Users on su.UserId equals user.Id
                              join k in _context.Karaokes on sing.Id equals k.SingId into karaokeGroup
                              from kg in karaokeGroup.DefaultIfEmpty()
-                             join sf in _context.SingFollowers on new { sing.Id, UserId = userId } equals new { Id = sf.SingId, sf.UserId } into followerGroup
-                             from fg in followerGroup.DefaultIfEmpty()
                              join s in _context.Sounds on inst.SoundId equals s.Id into soundGroup
                              from sg in soundGroup.DefaultIfEmpty()
+                             join sf in _context.SingFollowers on new { sing.Id, UserId = userId } equals new { Id = sf.SingId, sf.UserId } into followerGroup
+                             from fg in followerGroup.DefaultIfEmpty()
                              where inst.NormalizedTitle == normalizedQuery
                                 || inst.NormalizedTitle!.StartsWith(normalizedQuery) && inst.NormalizedTitle != normalizedQuery
-                                || inst.NormalizedTitle!.Contains(normalizedQuery) && !inst.NormalizedTitle.StartsWith(normalizedQuery)
-                                || inst.NormalizedTitle!.EndsWith(normalizedQuery) && !inst.NormalizedTitle.StartsWith(normalizedQuery) && !inst.NormalizedTitle.Contains(normalizedQuery)
+                                || inst.NormalizedTitle!.EndsWith(normalizedQuery) && !inst.NormalizedTitle.StartsWith(normalizedQuery)
                              select new
                              {
                                  Instrumental = inst,
                                  Sing = sing,
                                  User = user,
                                  Karaoke = kg,
-                                 IsLiked = fg != null,
-                                 Sound = sg
+                                 Sound = sg,
+                                 IsLiked = fg != null
+
                              }).ToListAsync();
 
         var totalResults = results.Select(r => r.Instrumental).Distinct().Count();
