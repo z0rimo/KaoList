@@ -48,7 +48,7 @@ namespace CodeRabbits.KaoList.Web.Utils
                 {
                     normalizedQuery.Append(c);
                 }
-                else
+                else if (!char.IsWhiteSpace(c))
                 {
                     normalizedQuery.Append(char.ToLowerInvariant(c));
                 }
