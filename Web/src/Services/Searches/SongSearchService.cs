@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using CodeRabbits.KaoList.Song;
 using CodeRabbits.KaoList.Web.Utils;
+using System.Linq;
 
 namespace CodeRabbits.KaoList.Web.Services.Searches;
 
@@ -42,29 +43,46 @@ public class SongSearchService : ISearchService
 
         var normalizedQuery = SongTitleNormalizeHelper.NormalizeQuery(query);
 
-        var results = await (from inst in _context.Instrumental
-                             join sing in _context.Sings on inst.Id equals sing.InstrumentalId
-                             join su in _context.SingUsers on sing.Id equals su.SingId
-                             join user in _context.Users on su.UserId equals user.Id
-                             join k in _context.Karaokes on sing.Id equals k.SingId into karaokeGroup
-                             from kg in karaokeGroup.DefaultIfEmpty()
-                             join s in _context.Sounds on inst.SoundId equals s.Id into soundGroup
-                             from sg in soundGroup.DefaultIfEmpty()
-                             join sf in _context.SingFollowers on new { sing.Id, UserId = userId } equals new { Id = sf.SingId, sf.UserId } into followerGroup
-                             from fg in followerGroup.DefaultIfEmpty()
-                             where inst.NormalizedTitle == normalizedQuery
-                                || inst.NormalizedTitle!.StartsWith(normalizedQuery) && inst.NormalizedTitle != normalizedQuery
-                                || inst.NormalizedTitle!.EndsWith(normalizedQuery) && !inst.NormalizedTitle.StartsWith(normalizedQuery)
-                             select new
-                             {
-                                 Instrumental = inst,
-                                 Sing = sing,
-                                 User = user,
-                                 Karaoke = kg,
-                                 Sound = sg,
-                                 IsLiked = fg != null
+        // 데이터베이스에서 부분 일치 항목을 가져오기
+        var rawResults = await (from inst in _context.Instrumental
+                                join sing in _context.Sings on inst.Id equals sing.InstrumentalId
+                                join su in _context.SingUsers on sing.Id equals su.SingId
+                                join user in _context.Users on su.UserId equals user.Id
+                                join k in _context.Karaokes on sing.Id equals k.SingId into karaokeGroup
+                                from kg in karaokeGroup.DefaultIfEmpty()
+                                join s in _context.Sounds on inst.SoundId equals s.Id into soundGroup
+                                from sg in soundGroup.DefaultIfEmpty()
+                                join sf in _context.SingFollowers on new { sing.Id, UserId = userId } equals new { Id = sf.SingId, sf.UserId } into followerGroup
+                                from fg in followerGroup.DefaultIfEmpty()
+                                where inst.NormalizedTitle.Contains(normalizedQuery)
+                                select new
+                                {
+                                    Instrumental = inst,
+                                    Sing = sing,
+                                    User = user,
+                                    Karaoke = kg,
+                                    Sound = sg,
+                                    IsLiked = fg != null
+                                }).ToListAsync();
 
-                             }).ToListAsync();
+        // 메모리 내에서 일치 유형을 필터링 및 정렬
+        var results = rawResults
+            .Select(r => new
+            {
+                r.Instrumental,
+                r.Sing,
+                r.User,
+                r.Karaoke,
+                r.Sound,
+                r.IsLiked,
+                MatchType = r.Instrumental.NormalizedTitle == normalizedQuery ? 0
+                             : r.Instrumental.NormalizedTitle!.StartsWith(normalizedQuery) ? 1
+                             : r.Instrumental.NormalizedTitle!.EndsWith(normalizedQuery) ? 2
+                             : 3
+            })
+            .OrderBy(r => r.MatchType)
+            .ThenBy(r => r.Instrumental.Title)
+            .ToList();
 
         var totalResults = results.Select(r => r.Instrumental).Distinct().Count();
 
