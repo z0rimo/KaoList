@@ -22,7 +22,7 @@ function ChartSection({
     <div className="chart-region" {...rest}>
       <div className="main-chart-wrapper">
         <div className="chart-title">{t("New Song Update")}</div>
-        {/* <DiscoverChart
+        {<DiscoverChart
           className="discover-chart"
           maxResults={10}
           Table={Table}
@@ -37,7 +37,7 @@ function ChartSection({
               </tr>
             </thead>
           }
-        /> */}
+        />}
         <Link className="fs-8" to={RoutePath['discoverChart']}>{t('More Chart')}</Link>
       </div>
       <div className="main-chart-wrapper">
