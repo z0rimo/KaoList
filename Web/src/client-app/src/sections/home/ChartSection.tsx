@@ -42,7 +42,7 @@ function ChartSection({
       </div>
       <div className="main-chart-wrapper">
         <div className="chart-title">{t("Liked Song")}</div>
-        {/* <LikedChart
+        {<LikedChart
           className="liked-chart"
           maxResults={10}
           Table={Table}
@@ -58,7 +58,7 @@ function ChartSection({
               </tr>
             </thead>
           }
-        /> */}
+        />}
         <Link className="fs-8" to={RoutePath['likedChart']}>{t("More Chart")}</Link>
       </div>
     </div>
